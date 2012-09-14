@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet href="xml-stylesheet.atom.xslt" ?>
+
+<entry xmlns="http://www.w3.org/2005/Atom">
+   <title>xml-stylesheet processing instruction</title>
+   <content type="xhtml">
+      <div xmlns="http://www.w3.org/1999/xhtml">
+         <p>
+            You can use the <a href="http://www.w3.org/TR/xml-stylesheet/">
+               <code>xml-stylesheet</code>
+            </a> processing instruction for server side
+            transformations, as used on this page.
+         </p>
+      </div>
+   </content>
+</entry>

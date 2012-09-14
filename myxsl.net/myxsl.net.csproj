@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8A918123-1467-469E-9C78-6D37A8F911F3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>myxsl.net</RootNamespace>
+    <AssemblyName>myxsl.net</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlXml" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="api\SchematronInvoker.cs" />
+    <Compile Include="api\SchematronResultHandler.cs" />
+    <Compile Include="api\XPathDependencyAttribute.cs" />
+    <Compile Include="api\XQueryInvoker.cs" />
+    <Compile Include="api\XQueryResultHandler.cs" />
+    <Compile Include="api\XsltResultHandler.cs" />
+    <Compile Include="api\XsltInvoker.cs" />
+    <Compile Include="common\XPathSerializationMethods.cs" />
+    <Compile Include="common\XPathDependencyInfo.cs" />
+    <Compile Include="common\XPathVariableInfo.cs" />
+    <Compile Include="system\XmlSchemaConstructorFunctions.cs" />
+    <Compile Include="util\PseudoAttributeParser.cs" />
+    <Compile Include="util\UtilModule.cs" />
+    <Compile Include="validation\SchematronRuntimeOptions.cs" />
+    <Compile Include="validation\SchematronValidator.cs" />
+    <Compile Include="common\IXQueryProcessor.cs" />
+    <Compile Include="common\IXsltProcessor.cs" />
+    <Compile Include="common\ProcessorException.cs" />
+    <Compile Include="common\Processors.cs" />
+    <Compile Include="common\XmlParsingOptions.cs" />
+    <Compile Include="common\XPathSerializationOptions.cs" />
+    <Compile Include="common\XPathItemFactory.cs" />
+    <Compile Include="common\XPathModules.cs" />
+    <Compile Include="common\XQueryCompileOptions.cs" />
+    <Compile Include="common\XQueryExecutable.cs" />
+    <Compile Include="common\XQueryRuntimeOptions.cs" />
+    <Compile Include="common\XsltCompileOptions.cs" />
+    <Compile Include="common\XsltExecutable.cs" />
+    <Compile Include="common\XsltRuntimeOptions.cs" />
+    <Compile Include="configuration\web\CompilationElement.cs" />
+    <Compile Include="configuration\web\PagesElement.cs" />
+    <Compile Include="configuration\web\WebElement.cs" />
+    <Compile Include="configuration\XQueryElement.cs" />
+    <Compile Include="configuration\XsltElement.cs" />
+    <Compile Include="common\XPathFunctionInfo.cs" />
+    <Compile Include="common\XPathItemKind.cs" />
+    <Compile Include="common\XPathItemType.cs" />
+    <Compile Include="api\XPathModuleExportAttribute.cs" />
+    <Compile Include="common\XPathSequenceCardinality.cs" />
+    <Compile Include="common\XPathSequenceType.cs" />
+    <Compile Include="http\MediaTypes.cs" />
+    <Compile Include="http\XPathHttpBody.cs" />
+    <Compile Include="http\XPathHttpClient.cs" />
+    <Compile Include="http\XPathHttpMultipart.cs" />
+    <Compile Include="http\XPathHttpMultipartItem.cs" />
+    <Compile Include="http\XPathHttpRequest.cs" />
+    <Compile Include="http\XPathHttpResponse.cs" />
+    <Compile Include="mail\XPathMailAddress.cs" />
+    <Compile Include="mail\XPathMailBody.cs" />
+    <Compile Include="mail\XPathMailMessage.cs" />
+    <Compile Include="mail\XPathSmtpClient.cs" />
+    <Compile Include="mail\XPathSmtpError.cs" />
+    <Compile Include="mail\XPathSmtpSuccess.cs" />
+    <Compile Include="system\XPathFunctions.cs" />
+    <Compile Include="system\XPathMathFunctions.cs" />
+    <Compile Include="util\FormatInvariantExtensions.cs" />
+    <Compile Include="web\PreApplicationStartCode.cs" />
+    <Compile Include="util\StringExtensions.cs" />
+    <Compile Include="web.compilation\BindingExpressionContext.cs" />
+    <Compile Include="web.ui\OutputCachedPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="configuration\ResolverElementCollection.cs" />
+    <Compile Include="configuration\ResolverElement.cs" />
+    <Compile Include="configuration\LibraryConfigSection.cs" />
+    <Compile Include="configuration\ProcessorElementCollection.cs" />
+    <Compile Include="configuration\ProcessorElement.cs" />
+    <Compile Include="configuration\TypeLoader.cs" />
+    <Compile Include="configuration\web\ExpressionBuilderElement.cs" />
+    <Compile Include="configuration\web\ExpressionBuilderElementCollection.cs" />
+    <Compile Include="web\RequestModule.cs" />
+    <Compile Include="web\ResponseModule.cs" />
+    <Compile Include="util\SecurityModule.cs" />
+    <Compile Include="web\SessionModule.cs" />
+    <Compile Include="common\XPathModuleInfo.cs" />
+    <Compile Include="web.ui\PageHandlerFactory.cs" />
+    <Compile Include="web\WebUtilModule.cs" />
+    <Compile Include="validation\ValidationModule.cs" />
+    <Compile Include="web\XmlVirtualPathAwareUrlResolver.cs" />
+    <Compile Include="system\EmptyXPathNodeIterator.cs" />
+    <Compile Include="system\ExtensionObjectConvert.cs" />
+    <Compile Include="system\ExtensionObjectGenerator.cs" />
+    <Compile Include="system\SystemItemFactory.cs" />
+    <Compile Include="system\SystemXsltException.cs" />
+    <Compile Include="system\SystemXsltExecutable.cs" />
+    <Compile Include="system\SystemXsltProcessor.cs" />
+    <Compile Include="util\CLR.cs" />
+    <Compile Include="util\StreamUtil.cs" />
+    <Compile Include="util\TypeResolver.cs" />
+    <Compile Include="web.compilation\SessionExpressionBuilder.cs" />
+    <Compile Include="web.compilation\RequestExpressionBuilder.cs" />
+    <Compile Include="web.compilation\BindingExpressionBuilder.cs" />
+    <Compile Include="web.compilation\CodeExpressionBuilder.cs" />
+    <Compile Include="web.ui\BasePageParser.cs" />
+    <Compile Include="web.compilation\BindingExpressionInfo.cs" />
+    <Compile Include="web.ui\ParsedValue`1.cs" />
+    <Compile Include="util\WellKnownNamespaces.cs" />
+    <Compile Include="api\XmlDynamicResolver.cs" />
+    <Compile Include="web.ui\PageParameterInfo.cs" />
+    <Compile Include="web.compilation\BaseCodeDomTreeGenerator.cs" />
+    <Compile Include="web.compilation\SchematronValidatorCodeDomTreeGenerator.cs" />
+    <Compile Include="web.compilation\BaseBuildProvider.cs" />
+    <Compile Include="web.compilation\XsltPageBuildProvider.cs" />
+    <Compile Include="web.compilation\BasePageBuildProvider.cs" />
+    <Compile Include="web.compilation\BasePageCodeDomTreeGenerator.cs" />
+    <Compile Include="web.compilation\XQueryPageBuildProvider.cs" />
+    <Compile Include="web.compilation\XQueryPageCodeDomTreeGenerator.cs" />
+    <Compile Include="web.compilation\XsltPageCodeDomTreeGenerator.cs" />
+    <Compile Include="web.ui\BaseParser.cs" />
+    <Compile Include="web.ui\SchematronParser.cs" />
+    <Compile Include="web.ui\XsltPageParser.cs" />
+    <Compile Include="web.ui\XsltPageType.cs" />
+    <Compile Include="web.ui\BasePage.cs" />
+    <Compile Include="web.ui\XQueryPage.cs" />
+    <Compile Include="web.ui\XQueryPageParser.cs" />
+    <Compile Include="web.ui\XsltPage.cs" />
+    <Compile Include="web.compilation\SchematronValidatorBuildProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="validation\SchematronExtensions.cs" />
+    <Compile Include="validation\XsltSchematronValidator.cs" />
+    <Compile Include="api\XmlEmbeddedResourceResolver.cs" />
+    <Compile Include="util\XHtmlWriter.cs" />
+    <Compile Include="util\XmlWrappingWriter.cs" />
+    <Compile Include="api\XPathFunctionAttribute.cs" />
+    <Compile Include="api\XPathModuleAttribute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="validation\schematron\xslt2\iso_abstract_expand.xsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="validation\schematron\xslt2\iso_dsdl_include.xsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="validation\schematron\xslt2\iso_schematron_message_xslt2.xsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="validation\schematron\xslt2\iso_schematron_skeleton_for_saxon.xsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="validation\schematron\xslt2\iso_svrl_for_xslt2.xsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="validation\schematron\xslt2\readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="validation\schematron\xslt2\sch-messages-en.xhtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="validation\schematron\xslt1\iso_abstract_expand.xsl" />
+    <EmbeddedResource Include="validation\schematron\xslt1\iso_dsdl_include.xsl" />
+    <EmbeddedResource Include="validation\schematron\xslt1\iso_schematron_message.xsl" />
+    <EmbeddedResource Include="validation\schematron\xslt1\iso_schematron_skeleton_for_xslt1.xsl" />
+    <EmbeddedResource Include="validation\schematron\xslt1\iso_svrl_for_xslt1.xsl" />
+    <EmbeddedResource Include="validation\schematron\xslt1\readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="validation\schematron\xslt2\sch-messages-de.xhtml" />
+    <EmbeddedResource Include="validation\schematron\xslt2\sch-messages-fr.xhtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="validation\schematron\xslt2\sch-messages-cs.xhtml" />
+    <EmbeddedResource Include="validation\schematron\xslt2\sch-messages-nl.xhtml" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

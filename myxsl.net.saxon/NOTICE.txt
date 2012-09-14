@@ -1,0 +1,14 @@
+=========================================================================
+==  NOTICE file corresponding to the section 4 d of                    ==
+==  the Apache License, Version 2.0,                                   ==
+==  in this case for the myxsl.net.saxon distribution.                 ==
+=========================================================================
+
+myxsl.net.saxon
+Copyright 2009-2012 Max Toro Q.
+
+This product includes/uses software(s) developed by 'Saxonica Limited'
+  - Saxon-HE (http://saxon.sf.net/)
+
+Additional copyright notices and license terms applicable are
+present in the packages directory of this distribution.

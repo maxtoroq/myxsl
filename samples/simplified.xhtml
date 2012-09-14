@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?page processor="saxon" ?>
+<?output-cache duration="10" vary-by-param="none"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xsl:version="2.0">
+<head>
+   <title>Simplified Stylesheet</title>
+   <link type="text/css" rel="stylesheet" href="/Content/screen.css"/>
+</head>
+<body>
+   <div style="float: right">
+      <a href="/redir_src.xqy">View source code</a> -
+      <a href=".">Index</a>
+   </div>
+
+   <p>This page uses the <a href="http://www.w3.org/TR/xslt20/#simplified-stylesheet">simplified stylesheet syntax</a></p>
+   <p>
+      Processor: <xsl:value-of select="system-property('xsl:vendor')"/><br/>
+      Cached at: <xsl:value-of select="current-time()"/>
+   </p>
+</body>
+</html>

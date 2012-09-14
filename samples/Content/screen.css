@@ -1,0 +1,76 @@
+﻿/* Normalize
+-----------------------------------------------------------*/
+/* these elements should inherit their font-size */
+table, textarea, select, input, button, pre, code { font-size: 100%; }
+
+/* need to set the font-family on pre & code so moz and chrome can inherit font-size */
+pre, code { font-family: 'Courier New'; }
+
+/* form shouldn't have style by default (IE) */
+form { margin: 0; }
+
+/* normalize spacing (IE, moz, saf, ...) */
+h1, h2, h3, h4, h5, h6, p { margin-top: 1em; margin-bottom: 1em; }
+
+/* normalize font-size (IE) */
+h1 { font-size: 200%; }
+h2 { font-size: 150%; }
+
+/* no top margin for headings that are the first-child of div */
+div > h1:first-child, div > h2:first-child,
+div > h3:first-child, div > h4:first-child,
+div > h5:first-child, div > h6:first-child,
+div > ul:first-child
+ { margin-top: 0; }
+ 
+/* Reset
+-----------------------------------------------------------*/
+body { margin: auto 20px; font-size: 90%; color: #222; /*line-height: 145%;*/ }
+body, textarea, select, input, button { font-family: Arial, Helvetica, sans-serif; }
+pre { background-color: #dadada; padding: 0.5em; }
+p, ul { line-height: 130%; }
+
+h1, h2, h3, h4, h5, h6 { font-family: Calibri, Sans-Serif; }
+h1 { font-size: 180%; }
+h2 { font-size: 140%; border-bottom: dotted 1px #666; }
+h3 { font-size: 110%; }
+h4, h5, h6 { font-size: 100%; }
+
+ul { list-style-type: square; }
+
+a:link { color: #23778F; }
+a:visited { color: #23778F; }
+a:hover { color: #23778F; background-color: #c9dfe5; } 
+
+a[href^="http:"] {
+	padding-right: 13px;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAAFVBMVEVmmcwzmcyZzP8AZswAZv////////9E6giVAAAAB3RSTlP///////8AGksDRgAAADhJREFUGFcly0ESAEAEA0Ei6/9P3sEcVB8kmrwFyni0bOeyyDpy9JTLEaOhQq7Ongf5FeMhHS/4AVnsAZubxDVmAAAAAElFTkSuQmCC);
+	background-repeat: no-repeat;
+	background-attachment: scroll;
+	background-position: right center;
+}
+
+form .error { color: Red; }
+
+#rightcol { font-size: 90%; }
+#rightcol ul { list-style-type: none; }
+#rightcol ul { margin-left: 0; padding-left: 0; }
+#rightcol ul li { padding-left: 0; }
+
+/* Layout
+-----------------------------------------------------------*/
+/*body { width: 58em; margin: 1em auto; }*/
+
+#header {  }
+#logo { font-size: 250%; font-weight: bold; font-family: Calibri, Sans-Serif; }
+
+#logo .myxsl { color: #2b91af; }
+#logo .net { color: #99bdc8; }
+#logo .ab { color: Blue; }
+
+#content { width: 70%; padding-right: 20px; border-right: solid 1px #99bdc8; }
+
+#rightcol { position: absolute; top: 3.5em; margin-left: 71%; width: 26%;
+    padding-top: 1em; }
+
+/*#footer { border-top: solid 1px #7AC8DE; font-size: 90%; margin-top: 1em; }*/
