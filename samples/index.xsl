@@ -121,12 +121,12 @@
 
       <h2 id="source">Source code</h2>
       <p>
-         Visit <a href="http://sourceforge.net/projects/myxsl-net/">the project page</a>.
+         Visit <a href="https://github.com/maxtoroq/myxsl.net">the project page</a>.
       </p>
 
       <h2 id="feedback">Feedback</h2>
       <p>
-         Visit <a href="http://sourceforge.net/projects/myxsl-net/forums">the project forums</a> for feedback, support and discussion.
+         Visit <a href="http://sourceforge.net/p/myxsl-net/discussion/">the project forums</a> for feedback, support and discussion.
       </p>
 
       <h2>Resources</h2>
