@@ -37,18 +37,21 @@ namespace myxsl.net.common {
 
                Type type = ClrType;
 
-               _Kind = XPathItemKind.AnyItem;
+               var kindTemp = XPathItemKind.AnyItem;
 
                if (type.IsPrimitive
                   || type.IsEnum
                   || type == typeof(string)) {
-                  _Kind = XPathItemKind.Atomic;
+                  
+                  kindTemp = XPathItemKind.Atomic;
                
                } else {
 
                   if (typeof(IXPathNavigable).IsAssignableFrom(type))
-                     _Kind = XPathItemKind.AnyNode;
+                     kindTemp = XPathItemKind.AnyNode;
                }
+
+               _Kind = kindTemp;
             }
             return _Kind.Value;
          }

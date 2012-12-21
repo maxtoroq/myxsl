@@ -25,28 +25,29 @@ namespace myxsl.net.common {
 
       readonly Type _ClrType;
       readonly XPathItemType _ItemType;
-
+      
+      bool _IsEmptySequence;
       bool? _ClrTypeIsEnumerable;
       bool? _ClrTypeIsNullableValueType;
       XPathSequenceCardinality? _Cardinality;
 
       public Type ClrType { get { return _ClrType; } }
 
-      public XPathItemType ItemType {
-         get { return _ItemType; } 
-      }
+      public XPathItemType ItemType { get { return _ItemType; } }
 
       public XPathSequenceCardinality Cardinality { 
          get {
             if (_Cardinality == null) {
-               _Cardinality = XPathSequenceCardinality.ZeroOrOne;
+               var cardinalityTemp = XPathSequenceCardinality.ZeroOrOne;
 
                if (ClrTypeIsEnumerable) {
-                  _Cardinality = XPathSequenceCardinality.ZeroOrMore;
+                  cardinalityTemp = XPathSequenceCardinality.ZeroOrMore;
                
                } else if (!ClrTypeIsNullableValueType && ClrType.IsValueType) {
-                  _Cardinality = XPathSequenceCardinality.One;
+                  cardinalityTemp = XPathSequenceCardinality.One;
                }
+
+               _Cardinality = cardinalityTemp;
             }
             return _Cardinality.Value;
          }
@@ -74,7 +75,7 @@ namespace myxsl.net.common {
          }
       }
 
-      public bool IsEmptySequence { get; private set; }
+      public bool IsEmptySequence { get { return _IsEmptySequence; } }
 
       internal XPathSequenceType(Type clrType, string lexicalSequenceType, IDictionary<string, string> namespacesInScope) {
 
@@ -118,7 +119,7 @@ namespace myxsl.net.common {
             && lexicalItemType == null
             && clrType == typeof(void)) {
 
-            this.IsEmptySequence = true;
+            this._IsEmptySequence = true;
          }
 
          this._ItemType = new XPathItemType(clrItemType, lexicalItemType, namespacesInScope);
@@ -132,7 +133,7 @@ namespace myxsl.net.common {
             return;
 
          if (lexicalSequenceType == "empty-sequence()") {
-            this.IsEmptySequence = true;
+            this._IsEmptySequence = true;
             return;
          }
 

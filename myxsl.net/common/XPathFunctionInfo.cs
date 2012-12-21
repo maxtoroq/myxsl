@@ -24,15 +24,17 @@ namespace myxsl.net.common {
    
    public sealed class XPathFunctionInfo {
 
-      XPathFunctionAttribute functionAttr;
+      readonly MethodInfo _Method;
+      readonly XPathModuleInfo _Module;
+      readonly XPathFunctionAttribute functionAttr;
 
       string _Name;
       bool? _HasSideEffects;
       XPathSequenceType _ReturnType;
       ReadOnlyCollection<XPathVariableInfo> _Parameters;
 
-      public MethodInfo Method { get; private set; }
-      public XPathModuleInfo Module { get; private set; }
+      public MethodInfo Method { get { return _Method; } }
+      public XPathModuleInfo Module { get { return _Module; } }
 
       public string Name {
          get {
@@ -114,8 +116,8 @@ namespace myxsl.net.common {
          if (method.GetParameters().Any(p => p.IsOut)) throw new ArgumentException("Methods with out parmeters cannot be used as module functions.", "method");
          if (module == null) throw new ArgumentNullException("module");
 
-         this.Method = method;
-         this.Module = module;
+         this._Method = method;
+         this._Module = module;
 
          if (this.Module.HasModuleAttribute) {
             this.functionAttr = Attribute.GetCustomAttribute(this.Method, typeof(XPathFunctionAttribute))

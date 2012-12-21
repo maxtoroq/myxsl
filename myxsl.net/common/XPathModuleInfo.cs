@@ -25,14 +25,16 @@ namespace myxsl.net.common {
    [DebuggerDisplay("{Namespace}")]
    public sealed class XPathModuleInfo {
 
-      XPathModuleAttribute moduleAttr;
+      readonly Type _Type;
+      readonly XPathModuleAttribute moduleAttr;
+
       string _Namespace;
       Dictionary<string, string> _NamespaceBindings;
       ReadOnlyCollection<XPathFunctionInfo> _Functions;
       ReadOnlyCollection<XPathDependencyInfo> _Dependencies;
       string _PredeclarePrefix;
 
-      public Type Type { get; private set; }
+      public Type Type { get { return _Type; } }
 
       public bool TypeIsStatic { 
          get { return Type.IsAbstract && Type.IsSealed; } 
@@ -52,14 +54,14 @@ namespace myxsl.net.common {
       public Dictionary<string, string> NamespaceBindings {
          get {
             if (_NamespaceBindings == null) {
-               _NamespaceBindings = new Dictionary<string, string> { 
+               var bindingsTemp = new Dictionary<string, string> { 
                   { "xs", WellKnownNamespaces.XMLSchema }
                };
 
                if (moduleAttr != null) {
 
-                  if (moduleAttr.Prefix.HasValue()) 
-                     _NamespaceBindings.Add(moduleAttr.Prefix, Namespace);
+                  if (moduleAttr.Prefix.HasValue())
+                     bindingsTemp.Add(moduleAttr.Prefix, Namespace);
 
                   string[] nsBindings = moduleAttr.GetNamespaceBindings();
 
@@ -78,10 +80,10 @@ namespace myxsl.net.common {
                            );
                         }
 
-                        if (_NamespaceBindings.ContainsKey(prefix)) {
+                        if (bindingsTemp.ContainsKey(prefix)) {
                            throw new InvalidOperationException(
                               "The {0} prefix is already bound to the {1} namespace ({2})."
-                                 .FormatInvariant(prefix, _NamespaceBindings[prefix], Type.FullName)
+                                 .FormatInvariant(prefix, bindingsTemp[prefix], Type.FullName)
                            );
                         }
 
@@ -94,10 +96,12 @@ namespace myxsl.net.common {
                            );
                         }
 
-                        _NamespaceBindings.Add(prefix, ns);
+                        bindingsTemp.Add(prefix, ns);
                      }
                   }
                }
+
+               _NamespaceBindings = bindingsTemp;
             }
             return _NamespaceBindings;
          }
@@ -115,12 +119,12 @@ namespace myxsl.net.common {
                else
                   methods = methods.Where(m => !m.ContainsGenericParameters && m.GetParameters().All(p => !p.IsOut));
 
-               _Functions = new ReadOnlyCollection<XPathFunctionInfo>(
+               var functionsTemp = new ReadOnlyCollection<XPathFunctionInfo>(
                   methods.Select(m => new XPathFunctionInfo(m, this)).ToArray()
                );
 
                var firstBadOverload =
-                  (from f in _Functions
+                  (from f in functionsTemp
                    group f by f.Name into grp
                    let distinctOverloadsByParamLength = grp.Select(f => f.Parameters.Count).Distinct().Count()
                    let hasOverloadsWithSameParamLength = distinctOverloadsByParamLength != grp.Count()
@@ -151,6 +155,8 @@ namespace myxsl.net.common {
                      );
                   }*/
                }
+
+               _Functions = functionsTemp;
             }
             return _Functions;
          }
@@ -200,7 +206,7 @@ namespace myxsl.net.common {
 
       internal XPathModuleInfo(Type type) {
          
-         this.Type = type;
+         this._Type = type;
          this.moduleAttr = Attribute.GetCustomAttribute(this.Type, typeof(XPathModuleAttribute)) 
             as XPathModuleAttribute;
       }
