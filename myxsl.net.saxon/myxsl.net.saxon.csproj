@@ -53,6 +53,12 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="extensions\exslt.common\NodeSet.cs" />
+    <Compile Include="extensions\saxon\Index.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="extensions\saxon\Serialize.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="extensions\w3c.xpath.math\Index.cs" />
     <Compile Include="FormatInvariantExtensions.cs" />
     <Compile Include="IntegratedExtensionFunctionGenerator.cs" />
