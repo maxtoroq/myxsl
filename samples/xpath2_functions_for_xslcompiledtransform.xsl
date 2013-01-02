@@ -177,6 +177,19 @@
       <head>
          <xsl:value-of select="fn:head(document('')/*/@*)"/>
       </head>
+      <serialize>
+         <xsl:variable name="items-rtf">
+            <a>1</a>
+            <xsl:text>text</xsl:text>
+            <b>2</b>
+         </xsl:variable>
+         <xsl:variable name="serialization-parameters-rtf">
+            <output:serialization-parameters xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+               <output:method value="text" />
+            </output:serialization-parameters>
+         </xsl:variable>
+         <xsl:value-of select="fn:serialize(exsl:node-set($items-rtf)/node(), exsl:node-set($serialization-parameters-rtf))"/>
+      </serialize>
       <tail>
          <xsl:value-of select="fn:tail(document('')/*/@*)"/>
       </tail>

@@ -132,7 +132,7 @@ namespace myxsl.net.web.ui {
 
          if (str != null) {
             try {
-               val = bool.Parse(str);
+               val = Boolean.Parse(str);
             } catch {
                throw CreateParseException("The '{0}' attribute must be set to 'true' or 'false'.", name);
             }

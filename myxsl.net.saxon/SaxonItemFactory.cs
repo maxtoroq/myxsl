@@ -112,28 +112,28 @@ namespace myxsl.net.saxon {
          return this.defaultDocBuilder.Build(reader);
       }
 
-      public override void Serialize(XPathItem item, Stream output, XPathSerializationOptions options) {
+      public override void Serialize(IEnumerable<XPathItem> items, Stream output, XPathSerializationOptions options) {
 
          options = options ?? new XPathSerializationOptions();
 
          Serializer serializer = CreateSerializer(options);
          serializer.SetOutputStream(output);
 
-         Serialize(item, serializer);
+         Serialize(items, serializer);
       }
 
-      public override void Serialize(XPathItem item, TextWriter output, XPathSerializationOptions options) {
+      public override void Serialize(IEnumerable<XPathItem> items, TextWriter output, XPathSerializationOptions options) {
 
          options = options ?? new XPathSerializationOptions();
 
          Serializer serializer = CreateSerializer(options);
          serializer.SetOutputWriter(output);
 
-         Serialize(item, serializer);
+         Serialize(items, serializer);
       }
 
-      void Serialize(XPathItem item, Serializer serializer) {
-         this.processor.WriteXdmValue(item.ToXdmItem(this), serializer);
+      void Serialize(IEnumerable<XPathItem> items, Serializer serializer) {
+         this.processor.WriteXdmValue(items.ToXdmValue(this), serializer);
       }
 
       [CLSCompliant(false)]

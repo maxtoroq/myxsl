@@ -16,13 +16,16 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
+using System.Xml.Serialization;
 using System.Xml.XPath;
 using System.Xml.Xsl;
+using myxsl.net.common;
 
 namespace myxsl.net.system {
 
@@ -190,6 +193,36 @@ namespace myxsl.net.system {
 
       protected double round_half_to_even(double arg, int precision) {
          return Math.Round(arg, precision, MidpointRounding.ToEven);
+      }
+
+      public string serialize(XPathNodeIterator iter) {
+         return serialize(iter, null);
+      }
+
+      public string serialize(XPathNodeIterator iter, XPathNodeIterator parameters) {
+
+         var itemFactory = new SystemItemFactory();
+
+         XPathSerializationOptions options = null;
+
+         if (parameters != null
+            && parameters.Count == 1) {
+
+            options = new XPathSerializationOptions();
+            ((IXmlSerializable)options).ReadXml(parameters.Cast<XPathNavigator>().First().ReadSubtree());
+         }
+
+         using (var writer = new StringWriter()) {
+            
+            IEnumerable<XPathItem> items = iter.Cast<XPathItem>();
+
+            if (options == null)
+               itemFactory.Serialize(items, writer);
+            else
+               itemFactory.Serialize(items, writer, options);
+            
+            return writer.ToString();
+         }
       }
 
       protected string string_join(XPathNodeIterator iter) {

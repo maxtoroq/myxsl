@@ -16,6 +16,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
@@ -227,26 +229,27 @@ namespace myxsl.net.common {
          Serialize(item, output, null);
       }
 
-      public virtual void Serialize(XPathItem item, Stream output, XPathSerializationOptions options) {
-
-         options = options ?? new XPathSerializationOptions();
-
-         XmlWriter writer = XmlWriter.Create(output, (XmlWriterSettings)options);
-
-         if (options.Method == XPathSerializationMethods.XHtml)
-            writer = new XHtmlWriter(writer);
-
-         Serialize(item, writer);
-
-         // NOTE: don't close writer if Serialize fails
-         writer.Close();
+      public void Serialize(XPathItem item, Stream output, XPathSerializationOptions options) {
+         Serialize(new XPathItem[1] { item }, output, options);
       }
 
       public void Serialize(XPathItem item, TextWriter output) {
          Serialize(item, output, null);
       }
 
-      public virtual void Serialize(XPathItem item, TextWriter output, XPathSerializationOptions options) {
+      public void Serialize(XPathItem item, TextWriter output, XPathSerializationOptions options) {
+         Serialize(new XPathItem[1] { item }, output, options);
+      }
+
+      public void Serialize(XPathItem item, XmlWriter output) {
+         Serialize(new XPathItem[1] { item }, output);
+      }
+
+      public void Serialize(IEnumerable<XPathItem> items, Stream output) {
+         Serialize(items, output, null);
+      }
+
+      public virtual void Serialize(IEnumerable<XPathItem> items, Stream output, XPathSerializationOptions options) {
 
          options = options ?? new XPathSerializationOptions();
 
@@ -255,26 +258,94 @@ namespace myxsl.net.common {
          if (options.Method == XPathSerializationMethods.XHtml)
             writer = new XHtmlWriter(writer);
 
-         Serialize(item, writer);
+         Serialize(items, writer);
 
          // NOTE: don't close writer if Serialize fails
          writer.Close();
       }
 
-      public void Serialize(XPathItem item, XmlWriter output) {
+      public void Serialize(IEnumerable<XPathItem> items, TextWriter output) {
+         Serialize(items, output, null);
+      }
 
-         if (item == null) throw new ArgumentNullException("item");
+      public virtual void Serialize(IEnumerable<XPathItem> items, TextWriter output, XPathSerializationOptions options) {
 
-         XPathNavigator node;
+         options = options ?? new XPathSerializationOptions();
 
-         if (item.IsNode) {
-            node = (XPathNavigator)item;
-         } else {
-            node = CreateNodeReadOnly(new StringReader(item.Value), new XmlParsingOptions { ConformanceLevel = ConformanceLevel.Fragment })
-               .CreateNavigator();
+         XmlWriter writer = XmlWriter.Create(output, (XmlWriterSettings)options);
+
+         if (options.Method == XPathSerializationMethods.XHtml)
+            writer = new XHtmlWriter(writer);
+
+         Serialize(items, writer);
+
+         // NOTE: don't close writer if Serialize fails
+         writer.Close();
+      }
+
+      public void Serialize(IEnumerable<XPathItem> items, XmlWriter output) {
+
+         items = items ?? Enumerable.Empty<XPathItem>();
+
+         IEnumerator<XPathItem> enumerator = items.GetEnumerator();
+
+         XPathItem lastItem = null;
+         StringBuilder textBuffer = null;
+
+         while (enumerator.MoveNext()) {
+
+            XPathItem item = enumerator.Current;
+
+            if (item == null) continue;
+
+            if (item.IsNode) {
+
+               XPathNavigator node = (XPathNavigator)item;
+
+               switch (node.NodeType) {
+                  case XPathNodeType.SignificantWhitespace:
+                  case XPathNodeType.Text:
+                  case XPathNodeType.Whitespace:
+
+                     if (textBuffer == null)
+                        textBuffer = new StringBuilder();
+
+                     textBuffer.Append(node.Value);
+                     break;
+
+                  default:
+
+                     if (textBuffer != null) {
+                        output.WriteString(textBuffer.ToString());
+                        
+                        textBuffer = null;
+                     }
+
+                     node.WriteSubtree(output);
+                     break;
+               }
+
+            } else {
+
+               if (textBuffer == null)
+                  textBuffer = new StringBuilder();
+
+               if (!lastItem.IsNode)
+                  textBuffer.Append(" ");
+
+               textBuffer.Append(item.Value);
+            }
+
+            lastItem = item;
          }
 
-         node.WriteSubtree(output);
+         if (lastItem == null) {
+            // Empty sequence, write empty string
+            output.WriteString("");
+         
+         } else if (textBuffer != null) {
+            output.WriteString(textBuffer.ToString());            
+         }
       }
    }
 }

@@ -48,8 +48,6 @@ namespace myxsl.net.web.ui {
          set { _EnableSessionState = value; }
       }
 
-      
-
       public bool ValidateRequest {
          get {
             if (_ValidateRequest == null) {

@@ -18,10 +18,15 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Reflection;
+using System.Xml.Serialization;
+using System.Xml.XPath;
 
 namespace myxsl.net.common {
    
-   public class XPathSerializationOptions {
+   public class XPathSerializationOptions : IXmlSerializable {
+
+      const string W3CSerializationNamespace = "http://www.w3.org/2010/xslt-xquery-serialization";
+      const string W3CSerializationPrefix = "output";
 
       static readonly Action<XmlWriterSettings, XmlOutputMethod> setOutputMethod;
       static readonly Action<XmlWriterSettings, string> setDocTypePublic;
@@ -119,5 +124,173 @@ namespace myxsl.net.common {
          
          CopyTo(this, settings); 
       }
+
+      #region IXmlSerializable Members
+
+      System.Xml.Schema.XmlSchema IXmlSerializable.GetSchema() {
+         throw new NotImplementedException();
+      }
+
+      void IXmlSerializable.ReadXml(XmlReader reader) {
+
+         int initialDepth = reader.Depth;
+
+         while (reader.Read()) {
+
+            if (reader.NodeType != XmlNodeType.Element
+               || reader.Depth == initialDepth)
+               continue;
+
+            if (reader.Depth > initialDepth + 1) {
+               reader.Skip();
+               continue;
+            }
+
+            ReadOption(reader);
+         }
+      }
+
+      void ReadOption(XmlReader reader) {
+
+         switch (reader.NamespaceURI) {
+            case W3CSerializationNamespace:
+               
+               switch (reader.LocalName) {
+                  case "byte-order-mark":
+                     this.ByteOrderMark = ParseYesOrNo(reader.GetAttribute("value"), reader.LocalName);
+                     break;
+
+                  case "doctype-public":
+                     this.DocTypePublic = reader.GetAttribute("value");
+                     break;
+
+                  case "doctype-system":
+                     this.DocTypeSystem = reader.GetAttribute("value");
+                     break;
+                  
+                  case "encoding":
+                     this.Encoding = Encoding.GetEncoding(reader.GetAttribute("value"));
+                     break;
+
+                  case "indent":
+                     this.Indent = ParseYesOrNo(reader.GetAttribute("value"), reader.LocalName);
+                     break;
+
+                  case "media-type":
+                     this.MediaType = reader.GetAttribute("value");
+                     break;
+
+                  case "method":
+                     this.Method = ParseQName(reader.GetAttribute("value"), reader);
+                     break;
+
+                  case "omit-xml-declaration":
+                     this.OmitXmlDeclaration = ParseYesOrNo(reader.GetAttribute("value"), reader.LocalName);
+                     break;
+
+                  default:
+                     break;
+               }
+
+               break;
+
+            default:
+               break;
+         }
+      }
+
+      static XmlQualifiedName ParseQName(string lexicalQName, XmlReader reader) {
+
+         string[] parts = lexicalQName.Split(':');
+
+         if (parts.Length == 1)
+            return new XmlQualifiedName(parts[0]);
+
+         string prefix = parts[0];
+         string ns = reader.LookupNamespace(prefix);
+
+         return new XmlQualifiedName(parts[1], ns);
+      }
+
+      static bool ParseYesOrNo(string value, string name) {
+
+         switch ((value ?? "").Trim()) {
+            case "yes":
+               return true;
+            case "no":
+               return false;
+            default:
+               throw new ArgumentException("{0} must be one of the following values: 'yes' or 'no'.".FormatInvariant(name));
+         }
+      }
+
+      void IXmlSerializable.WriteXml(XmlWriter writer) {
+         
+         writer.WriteStartElement(W3CSerializationPrefix, "serialization-parameters", W3CSerializationNamespace);
+
+         if (this.ByteOrderMark.HasValue) 
+            WriteOption("byte-order-mark", SerializeYesOrNo(this.ByteOrderMark.Value), writer);
+
+         if (this.DocTypePublic != null)
+            WriteOption("doctype-public", this.DocTypePublic, writer);
+
+         if (this.DocTypeSystem != null)
+            WriteOption("doctype-system", this.DocTypeSystem, writer);
+
+         if (this.Encoding != null)
+            WriteOption("encoding", this.Encoding.WebName, writer);
+
+         if (this.Indent.HasValue) 
+            WriteOption("indent", SerializeYesOrNo(this.Indent.Value), writer);
+
+         if (this.MediaType != null)
+            WriteOption("media-type", this.MediaType, writer);
+
+         if (this.Method != null) {
+            
+            writer.WriteStartElement(W3CSerializationPrefix, "method", W3CSerializationNamespace);
+
+            string value;
+
+            if (this.Method.Namespace.HasValue()) {
+
+               string prefix = "method";
+
+               writer.WriteAttributeString("xmlns", prefix, null, this.Method.Namespace);
+
+               value = String.Concat(prefix, ":", this.Method.Name);
+            
+            } else {
+
+               value = this.Method.Name;
+            }
+
+            writer.WriteElementString("value", value);
+            
+            writer.WriteEndElement();
+         }
+
+         if (this.OmitXmlDeclaration.HasValue) 
+            WriteOption("omit-xml-declaration", SerializeYesOrNo(this.OmitXmlDeclaration.Value), writer);
+
+         writer.WriteEndElement();
+      }
+
+      static void WriteOption(string name, string value, XmlWriter writer) {
+
+         writer.WriteStartElement(W3CSerializationPrefix, name, W3CSerializationNamespace);
+         writer.WriteElementString("value", value);
+         writer.WriteEndElement();
+      }
+
+      static string SerializeYesOrNo(bool value) {
+
+         if (value)
+            return "yes";
+
+         return "no";
+      }
+
+      #endregion
    }
 }
