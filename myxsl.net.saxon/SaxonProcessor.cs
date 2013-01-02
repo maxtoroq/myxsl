@@ -49,7 +49,7 @@ namespace myxsl.net.saxon {
       static void RegisterExtensionFunctions(Processor processor, SaxonItemFactory itemFactory) {
 
          ExtensionFunctionDefinition[] precompiledFunctions =
-            new ExtensionFunctionDefinition[] { new ExsltNodeSet() }
+            new ExtensionFunctionDefinition[] { new extensions.exslt.common.NodeSet() }
             .Concat(extensions.w3c.xpath.math.Index.GetFunctions())
             .ToArray();
 

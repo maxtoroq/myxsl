@@ -17,9 +17,9 @@ using System.Collections.Generic;
 using System.Text;
 using Saxon.Api;
 
-namespace myxsl.net.saxon {
+namespace myxsl.net.saxon.extensions.exslt.common {
    
-   sealed class ExsltNodeSet : ExtensionFunctionDefinition {
+   sealed class NodeSet : ExtensionFunctionDefinition {
 
       readonly QName _FunctionName = new QName("http://exslt.org/common", "node-set");
       

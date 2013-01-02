@@ -52,9 +52,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="extensions\exslt.common\NodeSet.cs" />
+    <Compile Include="extensions\w3c.xpath.math\Index.cs" />
     <Compile Include="FormatInvariantExtensions.cs" />
     <Compile Include="IntegratedExtensionFunctionGenerator.cs" />
-    <Compile Include="ExsltNodeSet.cs" />
     <Compile Include="SaxonAtomicValueWrapper.cs" />
     <Compile Include="SaxonException.cs" />
     <Compile Include="SaxonExtensions.cs" />
@@ -66,7 +67,6 @@
     <Compile Include="SaxonXsltExecutable.cs" />
     <Compile Include="SaxonNodeNavigator.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="XPathMath.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\myxsl.net\myxsl.net.csproj">
@@ -77,6 +77,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
