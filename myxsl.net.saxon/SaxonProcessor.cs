@@ -50,7 +50,7 @@ namespace myxsl.net.saxon {
 
          ExtensionFunctionDefinition[] precompiledFunctions =
             new ExtensionFunctionDefinition[] { new ExsltNodeSet() }
-            .Concat(new XPathMath())
+            .Concat(extensions.w3c.xpath.math.Index.GetFunctions())
             .ToArray();
 
          bool[] funcAvailable = FunctionsAvailable(precompiledFunctions.Select(d => d.FunctionName).ToArray(), processor, itemFactory);

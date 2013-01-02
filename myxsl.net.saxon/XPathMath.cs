@@ -13,46 +13,40 @@
 // limitations under the License.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Saxon.Api;
 
-namespace myxsl.net.saxon {
+namespace myxsl.net.saxon.extensions.w3c.xpath.math {
    
-   sealed class XPathMath : IEnumerable<ExtensionFunctionDefinition> {
+   static class Index {
       
       public const string Namespace = "http://www.w3.org/2005/xpath-functions/math";
 
-      public IEnumerator<ExtensionFunctionDefinition> GetEnumerator() {
-         yield return new XPathMathAcos();
-         yield return new XPathMathAsin();
-         yield return new XPathMathAtan();
-         yield return new XPathMathCos();
-         yield return new XPathMathExp();
-         yield return new XPathMathExp10();
-         yield return new XPathMathLog();
-         yield return new XPathMathLog10();
-         yield return new XPathMathPI();
-         yield return new XPathMathPow();
-         yield return new XPathMathSin();
-         yield return new XPathMathSqrt();
-         yield return new XPathMathTan();
-      }
-
-      IEnumerator IEnumerable.GetEnumerator() {
-         return GetEnumerator();
+      public static IEnumerable<ExtensionFunctionDefinition> GetFunctions() {
+         yield return new Acos();
+         yield return new Asin();
+         yield return new Atan();
+         yield return new Cos();
+         yield return new Exp();
+         yield return new Exp10();
+         yield return new Log();
+         yield return new Log10();
+         yield return new PI();
+         yield return new Pow();
+         yield return new Sin();
+         yield return new Sqrt();
+         yield return new Tan();
       }
    }
 
-   sealed class XPathMathAcos : ExtensionFunctionDefinition {
+   sealed class Acos : ExtensionFunctionDefinition {
 
       readonly XdmSequenceType[] _ArgumentTypes = new[] {
          new XdmSequenceType(XdmAtomicType.BuiltInAtomicType(QName.XS_DOUBLE), '?')
       };
 
-      readonly QName _FunctionName = new QName(XPathMath.Namespace, "acos");
+      readonly QName _FunctionName = new QName(Index.Namespace, "acos");
 
       public override XdmSequenceType[] ArgumentTypes {
          get { return _ArgumentTypes; }
@@ -92,13 +86,13 @@ namespace myxsl.net.saxon {
       }
    }
 
-   sealed class XPathMathAsin : ExtensionFunctionDefinition {
+   sealed class Asin : ExtensionFunctionDefinition {
 
       readonly XdmSequenceType[] _ArgumentTypes = new[] {
          new XdmSequenceType(XdmAtomicType.BuiltInAtomicType(QName.XS_DOUBLE), '?')
       };
 
-      readonly QName _FunctionName = new QName(XPathMath.Namespace, "asin");
+      readonly QName _FunctionName = new QName(Index.Namespace, "asin");
 
       public override XdmSequenceType[] ArgumentTypes {
          get { return _ArgumentTypes; }
@@ -138,13 +132,13 @@ namespace myxsl.net.saxon {
       }
    }
 
-   sealed class XPathMathAtan : ExtensionFunctionDefinition {
+   sealed class Atan : ExtensionFunctionDefinition {
 
       readonly XdmSequenceType[] _ArgumentTypes = new[] {
          new XdmSequenceType(XdmAtomicType.BuiltInAtomicType(QName.XS_DOUBLE), '?')
       };
 
-      readonly QName _FunctionName = new QName(XPathMath.Namespace, "atan");
+      readonly QName _FunctionName = new QName(Index.Namespace, "atan");
 
       public override XdmSequenceType[] ArgumentTypes {
          get { return _ArgumentTypes; }
@@ -184,13 +178,13 @@ namespace myxsl.net.saxon {
       }
    }
 
-   sealed class XPathMathCos : ExtensionFunctionDefinition {
+   sealed class Cos : ExtensionFunctionDefinition {
 
       readonly XdmSequenceType[] _ArgumentTypes = new[] {
          new XdmSequenceType(XdmAtomicType.BuiltInAtomicType(QName.XS_DOUBLE), '?')
       };
 
-      readonly QName _FunctionName = new QName(XPathMath.Namespace, "cos");
+      readonly QName _FunctionName = new QName(Index.Namespace, "cos");
 
       public override XdmSequenceType[] ArgumentTypes {
          get { return _ArgumentTypes; }
@@ -230,13 +224,13 @@ namespace myxsl.net.saxon {
       }
    }
 
-   sealed class XPathMathExp : ExtensionFunctionDefinition {
+   sealed class Exp : ExtensionFunctionDefinition {
 
       readonly XdmSequenceType[] _ArgumentTypes = new[] {
          new XdmSequenceType(XdmAtomicType.BuiltInAtomicType(QName.XS_DOUBLE), '?')
       };
 
-      readonly QName _FunctionName = new QName(XPathMath.Namespace, "exp");
+      readonly QName _FunctionName = new QName(Index.Namespace, "exp");
 
       public override XdmSequenceType[] ArgumentTypes {
          get { return _ArgumentTypes; }
@@ -276,13 +270,13 @@ namespace myxsl.net.saxon {
       }
    }
 
-   sealed class XPathMathExp10 : ExtensionFunctionDefinition {
+   sealed class Exp10 : ExtensionFunctionDefinition {
 
       readonly XdmSequenceType[] _ArgumentTypes = new[] {
          new XdmSequenceType(XdmAtomicType.BuiltInAtomicType(QName.XS_DOUBLE), '?')
       };
 
-      readonly QName _FunctionName = new QName(XPathMath.Namespace, "exp10");
+      readonly QName _FunctionName = new QName(Index.Namespace, "exp10");
 
       public override XdmSequenceType[] ArgumentTypes {
          get { return _ArgumentTypes; }
@@ -322,13 +316,13 @@ namespace myxsl.net.saxon {
       }
    }
 
-   sealed class XPathMathLog : ExtensionFunctionDefinition {
+   sealed class Log : ExtensionFunctionDefinition {
 
       readonly XdmSequenceType[] _ArgumentTypes = new[] {
          new XdmSequenceType(XdmAtomicType.BuiltInAtomicType(QName.XS_DOUBLE), '?')
       };
 
-      readonly QName _FunctionName = new QName(XPathMath.Namespace, "log");
+      readonly QName _FunctionName = new QName(Index.Namespace, "log");
 
       public override XdmSequenceType[] ArgumentTypes {
          get { return _ArgumentTypes; }
@@ -368,13 +362,13 @@ namespace myxsl.net.saxon {
       }
    }
 
-   sealed class XPathMathLog10 : ExtensionFunctionDefinition {
+   sealed class Log10 : ExtensionFunctionDefinition {
 
       readonly XdmSequenceType[] _ArgumentTypes = new[] {
          new XdmSequenceType(XdmAtomicType.BuiltInAtomicType(QName.XS_DOUBLE), '?')
       };
 
-      readonly QName _FunctionName = new QName(XPathMath.Namespace, "log10");
+      readonly QName _FunctionName = new QName(Index.Namespace, "log10");
 
       public override XdmSequenceType[] ArgumentTypes {
          get { return _ArgumentTypes; }
@@ -414,11 +408,11 @@ namespace myxsl.net.saxon {
       }
    }
 
-   sealed class XPathMathPI : ExtensionFunctionDefinition {
+   sealed class PI : ExtensionFunctionDefinition {
 
       readonly XdmSequenceType[] _ArgumentTypes = new XdmSequenceType[0];
 
-      readonly QName _FunctionName = new QName(XPathMath.Namespace, "pi");
+      readonly QName _FunctionName = new QName(Index.Namespace, "pi");
 
       public override XdmSequenceType[] ArgumentTypes {
          get { return _ArgumentTypes; }
@@ -452,14 +446,14 @@ namespace myxsl.net.saxon {
       }
    }
 
-   sealed class XPathMathPow : ExtensionFunctionDefinition {
+   sealed class Pow : ExtensionFunctionDefinition {
 
       readonly XdmSequenceType[] _ArgumentTypes = new[] {
          new XdmSequenceType(XdmAtomicType.BuiltInAtomicType(QName.XS_DOUBLE), '?'),
          new XdmSequenceType(XdmAtomicType.BuiltInAtomicType(QName.XS_DOUBLE), ' ')
       };
 
-      readonly QName _FunctionName = new QName(XPathMath.Namespace, "pow");
+      readonly QName _FunctionName = new QName(Index.Namespace, "pow");
 
       public override XdmSequenceType[] ArgumentTypes {
          get { return _ArgumentTypes; }
@@ -500,13 +494,13 @@ namespace myxsl.net.saxon {
       }
    }
 
-   sealed class XPathMathSin : ExtensionFunctionDefinition {
+   sealed class Sin : ExtensionFunctionDefinition {
 
       readonly XdmSequenceType[] _ArgumentTypes = new[] {
          new XdmSequenceType(XdmAtomicType.BuiltInAtomicType(QName.XS_DOUBLE), '?')
       };
 
-      readonly QName _FunctionName = new QName(XPathMath.Namespace, "sin");
+      readonly QName _FunctionName = new QName(Index.Namespace, "sin");
 
       public override XdmSequenceType[] ArgumentTypes {
          get { return _ArgumentTypes; }
@@ -546,13 +540,13 @@ namespace myxsl.net.saxon {
       }
    }
 
-   sealed class XPathMathSqrt : ExtensionFunctionDefinition {
+   sealed class Sqrt : ExtensionFunctionDefinition {
 
       readonly XdmSequenceType[] _ArgumentTypes = new[] {
          new XdmSequenceType(XdmAtomicType.BuiltInAtomicType(QName.XS_DOUBLE), '?')
       };
 
-      readonly QName _FunctionName = new QName(XPathMath.Namespace, "sqrt");
+      readonly QName _FunctionName = new QName(Index.Namespace, "sqrt");
 
       public override XdmSequenceType[] ArgumentTypes {
          get { return _ArgumentTypes; }
@@ -592,13 +586,13 @@ namespace myxsl.net.saxon {
       }
    }
 
-   sealed class XPathMathTan : ExtensionFunctionDefinition {
+   sealed class Tan : ExtensionFunctionDefinition {
 
       readonly XdmSequenceType[] _ArgumentTypes = new[] {
          new XdmSequenceType(XdmAtomicType.BuiltInAtomicType(QName.XS_DOUBLE), '?')
       };
 
-      readonly QName _FunctionName = new QName(XPathMath.Namespace, "tan");
+      readonly QName _FunctionName = new QName(Index.Namespace, "tan");
 
       public override XdmSequenceType[] ArgumentTypes {
          get { return _ArgumentTypes; }
