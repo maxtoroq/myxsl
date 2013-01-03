@@ -95,10 +95,10 @@
             <h3>Functions</h3>
             <ul>
                <li>
-                  <a href="/xpath2_functions_for_xslcompiledtransform.xsl">XPath 2.0 functions for XslCompiledTransform</a>
+                  <a href="/xslcompiledtransform/extensions/">XslCompiledTransform Extensions</a>
                </li>
                <li>
-                  <a href="/xpath3_functions_for_saxon-he.xsl">XPath 3.0 functions for Saxon-HE</a>
+                  <a href="/saxon/extensions/">Saxon Extensions</a>
                </li>
                <xsl:for-each select="$function-library/*/module">
                   <xsl:sort select="@namespace"/>
