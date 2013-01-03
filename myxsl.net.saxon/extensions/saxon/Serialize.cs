@@ -74,7 +74,7 @@ namespace myxsl.net.saxon.extensions.saxon {
 
             var options = new XPathSerializationOptions();
 
-            XdmItem arg2;
+            XdmItem arg2 = null;
 
             if (arguments.Length > 1 
                && (arg2 = arguments[1].AsItems().SingleOrDefault()) != null) {
@@ -88,14 +88,17 @@ namespace myxsl.net.saxon.extensions.saxon {
                      : new QName(methodLexical, (XdmNode)context.ContextItem);
 
                   options.Method = method.ToXmlQualifiedName();
-
-               } else {
-                  // TODO: xsl:output
-                  throw new NotImplementedException();
                }
             }
 
             Serializer serializer = this.itemFactory.CreateSerializer(options);
+
+            if (arg2 != null
+               && !arg2.IsAtomic()) {
+
+               foreach (XdmNode attr in ((IXdmEnumerator)((XdmNode)arg2).EnumerateAxis(XdmAxis.Attribute)).AsNodes()) 
+                  serializer.SetOutputProperty(attr.NodeName, attr.StringValue);
+            }
 
             using (var writer = new StringWriter()) {
 
