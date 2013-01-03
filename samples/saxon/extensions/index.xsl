@@ -14,6 +14,9 @@
       <p>The following are extension functions specifically targeted to the Saxon-HE processor.</p>
       <ul>
          <li>
+            <a href="exslt.xsl">EXSLT</a>
+         </li>
+         <li>
             <a href="saxon.xsl">Saxon Extensions</a>
          </li>
          <li>

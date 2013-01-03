@@ -277,7 +277,7 @@
       <xsl:param name="sampleVar"/>
 
       <h2 id="{translate(name(), ':', '-')}">
-         <a href="http://www.w3.org/TR/xpath-functions-30/#func-{translate(name(), ':', '-')}">
+         <a>
             <xsl:attribute name="href">
                <xsl:choose>
                   <xsl:when test="namespace-uri() = 'http://www.w3.org/2001/XMLSchema'">
