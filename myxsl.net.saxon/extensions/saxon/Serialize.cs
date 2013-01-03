@@ -74,9 +74,10 @@ namespace myxsl.net.saxon.extensions.saxon {
 
             var options = new XPathSerializationOptions();
 
-            XdmItem arg2 = arguments[1].AsItems().SingleOrDefault();
+            XdmItem arg2;
 
-            if (arg2 != null) {
+            if (arguments.Length > 1 
+               && (arg2 = arguments[1].AsItems().SingleOrDefault()) != null) {
 
                if (arg2.IsAtomic()) {
 
