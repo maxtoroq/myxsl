@@ -99,6 +99,12 @@
       <fn:one-or-more>
          <xsl:value-of select="fn:one-or-more(document('')/*/@*)"/>
       </fn:one-or-more>
+      <fn:parse-xml>
+         <xsl:value-of select="count(fn:parse-xml('&lt;a>&lt;b/>&lt;b/>&lt;/a>')/a/b)"/>
+      </fn:parse-xml>
+      <fn:parse-xml-fragment>
+         <xsl:value-of select="count(fn:parse-xml-fragment('&lt;b/>&lt;b/>')/b)"/>
+      </fn:parse-xml-fragment>
       <fn:replace>
          <xsl:value-of select="fn:replace('abracadabra', 'bra', '*')"/>
       </fn:replace>

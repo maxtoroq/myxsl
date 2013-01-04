@@ -162,6 +162,33 @@ namespace myxsl.net.system {
          return iter;
       }
 
+      protected object parse_xml(XPathNodeIterator arg) {
+         return parse_xml_impl(arg, fragment: false);
+      }
+
+      protected object parse_xml_fragment(XPathNodeIterator arg) {
+         return parse_xml_impl(arg, fragment: true);
+      }
+
+      static object parse_xml_impl(XPathNodeIterator arg, bool fragment) {
+
+         if (ExtensionObjectConvert.IsEmpty(arg))
+            return ExtensionObjectConvert.EmptyIterator;
+
+         arg.MoveNext();
+
+         var parseOptions = new XmlParsingOptions { 
+            ConformanceLevel = (fragment) ? 
+               ConformanceLevel.Fragment
+               : ConformanceLevel.Document
+         };
+
+         var itemFactory = new SystemItemFactory();
+
+         using (var reader = new StringReader(arg.Current.Value)) 
+            return ExtensionObjectConvert.ToInput(itemFactory.CreateNodeReadOnly(reader, parseOptions));
+      }
+
       public string replace(string input, string pattern, string replacement) {
          return replace(input, pattern, replacement, null);
       }
