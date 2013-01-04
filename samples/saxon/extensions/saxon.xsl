@@ -11,6 +11,9 @@
    <xsl:import href="~/layout.xslt"/>
 
    <xsl:variable name="samples-saxon" xmlns="">
+      <saxon:parse>
+         <xsl:value-of select="count(saxon:parse('&lt;a>&lt;b/>&lt;b/>&lt;/a>')/a/b)"/>
+      </saxon:parse>
       <saxon:serialize>
          <xsl:variable name="a" as="element()">
             <foo xmlns="">Hello there!</foo>

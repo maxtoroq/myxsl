@@ -26,6 +26,7 @@ namespace myxsl.net.saxon.extensions.saxon {
       public const string Namespace = "http://saxon.sf.net/";
 
       public static IEnumerable<ExtensionFunctionDefinition> GetFunctions(SaxonItemFactory itemFactory) {
+         yield return new Parse(itemFactory);
          yield return new Serialize(itemFactory);
       }
    }
