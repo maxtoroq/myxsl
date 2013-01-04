@@ -5,12 +5,11 @@
    xmlns="http://www.w3.org/1999/xhtml"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:fn="http://www.w3.org/2005/xpath-functions"
-   xmlns:util="http://myxsl.net/ns/util"
    xmlns:code="http://myxsl.net/ns/code">
 
    <xsl:import href="layout.xslt"/>
 
-   <xsl:param name="function-library" as="document(element(library))" code:bind="new FunctionLibrary()" />
+   <xsl:param name="function-library" as="document(element(library))" code:bind="FunctionLibrary.Instance" />
 
    <xsl:variable name="title" select="'Build dynamic websites with XSLT'"/>
    <xsl:variable name="title-mode" select="'append'"/>

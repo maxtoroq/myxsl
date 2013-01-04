@@ -7,7 +7,11 @@ using System.Xml;
 using System.Xml.Serialization;
 using myxsl.net.common;
 
-public class FunctionLibrary : IXmlSerializable {
+public sealed class FunctionLibrary : IXmlSerializable {
+
+   public static readonly FunctionLibrary Instance = new FunctionLibrary();
+
+   private FunctionLibrary() { }
 
    public System.Xml.Schema.XmlSchema GetSchema() {
       throw new NotImplementedException();

@@ -12,7 +12,7 @@
    <xsl:import href="layout.xslt"/>
 
    <xsl:param name="moduleNs" select="concat('http:/', request:path-info())" as="xs:string"/>
-   <xsl:param name="function-library" as="document(element(library))" code:bind="new FunctionLibrary()" />
+   <xsl:param name="function-library" as="document(element(library))" code:bind="FunctionLibrary.Instance" />
 
    <xsl:template name="html-head">
       <style>
