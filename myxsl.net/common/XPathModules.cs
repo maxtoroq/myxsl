@@ -39,7 +39,7 @@ namespace myxsl.net.common {
                         new XPathModuleInfo(typeof(web.SessionModule)) { Predeclare = true },
                         new XPathModuleInfo(typeof(web.WebUtilModule)),
                         new XPathModuleInfo(typeof(util.SecurityModule)) { Predeclare = true },
-                        new XPathModuleInfo(typeof(util.UtilModule)),
+                        new XPathModuleInfo(typeof(configuration.ConfigurationModule)),
                         new XPathModuleInfo(typeof(validation.ValidationModule)) { Predeclare = true },
                         new XPathModuleInfo(typeof(http.XPathHttpClient)),
                         new XPathModuleInfo(typeof(mail.XPathSmtpClient))

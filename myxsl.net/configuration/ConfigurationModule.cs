@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Max Toro Q.
+﻿// Copyright 2013 Max Toro Q.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,10 +19,10 @@ using System.Text;
 using System.Configuration;
 using System.Web;
 
-namespace myxsl.net.util {
+namespace myxsl.net.configuration {
 
-   [XPathModule("util", "http://myxsl.net/ns/util")]
-   public static class UtilModule {
+   [XPathModule("config", "http://myxsl.net/ns/configuration")]
+   public static class ConfigurationModule {
 
       [XPathFunction("app-settings", "xs:string*", "xs:string")]
       public static string[] AppSettings(string name) {

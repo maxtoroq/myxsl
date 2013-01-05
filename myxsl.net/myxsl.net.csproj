@@ -60,7 +60,7 @@
     <Compile Include="common\XPathVariableInfo.cs" />
     <Compile Include="system\XmlSchemaConstructorFunctions.cs" />
     <Compile Include="util\PseudoAttributeParser.cs" />
-    <Compile Include="util\UtilModule.cs" />
+    <Compile Include="configuration\ConfigurationModule.cs" />
     <Compile Include="validation\SchematronRuntimeOptions.cs" />
     <Compile Include="validation\SchematronValidator.cs" />
     <Compile Include="common\IXQueryProcessor.cs" />
