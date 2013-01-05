@@ -124,7 +124,7 @@ namespace myxsl.net {
                            break;
                      }
 
-                     // TODO: Saxon bug, calls Read and ignores current node
+                     // Saxon calls Read and ignores current node
                      //schemaDoc = processor.ItemFactory.CreateNodeReadOnly(schemaReader);
                      schemaDoc = new system.SystemItemFactory().CreateNodeReadOnly(schemaReader);
                   }
