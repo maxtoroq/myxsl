@@ -24,7 +24,7 @@ using System.Xml.XPath;
 using myxsl.net.web;
 using myxsl.net.common;
 
-namespace myxsl.net.http {
+namespace myxsl.net.net.http {
 
    [XPathModule(Prefix, Namespace)]
    public sealed class XPathHttpClient {

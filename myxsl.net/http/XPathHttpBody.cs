@@ -22,7 +22,7 @@ using System.Xml.Schema;
 using System.Xml.XPath;
 using myxsl.net.common;
 
-namespace myxsl.net.http {
+namespace myxsl.net.net.http {
 
    sealed class XPathHttpBody {
 

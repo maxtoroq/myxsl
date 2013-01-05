@@ -21,7 +21,7 @@ using System.Xml;
 using System.Xml.XPath;
 using System.Xml.Serialization;
 
-namespace myxsl.net.http {
+namespace myxsl.net.net.http {
    
    sealed class XPathHttpResponse : IXmlSerializable {
 
