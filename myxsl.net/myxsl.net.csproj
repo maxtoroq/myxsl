@@ -58,6 +58,12 @@
     <Compile Include="common\XPathSerializationMethods.cs" />
     <Compile Include="common\XPathDependencyInfo.cs" />
     <Compile Include="common\XPathVariableInfo.cs" />
+    <Compile Include="net.mail\XPathMailAddress.cs" />
+    <Compile Include="net.mail\XPathMailBody.cs" />
+    <Compile Include="net.mail\XPathMailMessage.cs" />
+    <Compile Include="net.mail\XPathSmtpClient.cs" />
+    <Compile Include="net.mail\XPathSmtpError.cs" />
+    <Compile Include="net.mail\XPathSmtpSuccess.cs" />
     <Compile Include="security\SecurityModule.cs" />
     <Compile Include="system\XmlSchemaConstructorFunctions.cs" />
     <Compile Include="util\PseudoAttributeParser.cs" />
@@ -96,12 +102,6 @@
     <Compile Include="http\XPathHttpMultipartItem.cs" />
     <Compile Include="http\XPathHttpRequest.cs" />
     <Compile Include="http\XPathHttpResponse.cs" />
-    <Compile Include="mail\XPathMailAddress.cs" />
-    <Compile Include="mail\XPathMailBody.cs" />
-    <Compile Include="mail\XPathMailMessage.cs" />
-    <Compile Include="mail\XPathSmtpClient.cs" />
-    <Compile Include="mail\XPathSmtpError.cs" />
-    <Compile Include="mail\XPathSmtpSuccess.cs" />
     <Compile Include="system\XPathFunctions.cs" />
     <Compile Include="system\XPathMathFunctions.cs" />
     <Compile Include="util\FormatInvariantExtensions.cs" />
