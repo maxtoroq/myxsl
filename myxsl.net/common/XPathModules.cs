@@ -42,7 +42,7 @@ namespace myxsl.net.common {
                         new XPathModuleInfo(typeof(configuration.ConfigurationModule)),
                         new XPathModuleInfo(typeof(validation.ValidationModule)) { Predeclare = true },
                         new XPathModuleInfo(typeof(http.XPathHttpClient)),
-                        new XPathModuleInfo(typeof(mail.XPathSmtpClient))
+                        new XPathModuleInfo(typeof(net.mail.XPathSmtpClient))
                      };
 
                      IList<Assembly> assemblies = (HostingEnvironment.IsHosted) ?

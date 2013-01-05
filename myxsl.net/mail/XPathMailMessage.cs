@@ -20,7 +20,7 @@ using System.Net.Mail;
 using System.Xml.XPath;
 using myxsl.net.common;
 
-namespace myxsl.net.mail {
+namespace myxsl.net.net.mail {
 
    sealed class XPathMailMessage {
 

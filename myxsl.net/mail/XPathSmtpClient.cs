@@ -20,12 +20,12 @@ using myxsl.net.web;
 using myxsl.net.common;
 using System.Xml.Serialization;
 
-namespace myxsl.net.mail {
+namespace myxsl.net.net.mail {
 
    [XPathModule(Prefix, Namespace)]
    public sealed class XPathSmtpClient {
       
-      internal const string Namespace = "http://myxsl.net/ns/mail";
+      internal const string Namespace = "http://myxsl.net/ns/net/mail";
       internal const string Prefix = "mail";
 
       [XPathDependency]

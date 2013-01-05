@@ -20,7 +20,7 @@ using System.Net.Mail;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace myxsl.net.mail {
+namespace myxsl.net.net.mail {
    
    sealed class XPathSmtpError : IXmlSerializable {
 
