@@ -42,23 +42,23 @@
                   </xsl:with-param>
                </xsl:call-template>
             </title>
-            <link rel="stylesheet" href="/Content/screen.css?v20100108"/>
+            <link rel="stylesheet" href="/Content/screen.css?v2013"/>
             <xsl:call-template name="html-head"/>
          </head>
          <body>
             <xsl:if test="not(request:is-local())">
-               <script src="/Content/ga.js" type="text/javascript"></script>
+               <script src="/Content/ga.js"></script>
             </xsl:if>
-            <div id="header">
-               <span id="logo">
+            <div id="lo-header">
+               <span id="lo-logo">
                   <span class="myxsl">myxsl</span>
                   <span class="net">.net</span>
                </span>
             </div>
-            <div id="content">
+            <div id="lo-content">
                <xsl:copy-of select="$content"/>
             </div>
-            <div id="rightcol">
+            <div id="lo-rightcol">
                <ul>
                   <li>
                      <a href="/">Index</a>
@@ -82,7 +82,7 @@
                   </li>
                </ul>
             </div>
-            <div id="footer">
+            <div id="lo-footer">
                <xsl:call-template name="footer"/>
             </div>
          </body>

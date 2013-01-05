@@ -11,8 +11,7 @@
 
    <xsl:import href="layout.xslt"/>
 
-   <xsl:param name="moduleNs" select="concat('http:/', request:path-info())" as="xs:string"/>
-   <xsl:param name="function-library" as="document(element(library))" code:bind="FunctionLibrary.Instance" />
+   <xsl:param name="functionLibrary" as="document(element(library))" code:bind="FunctionLibrary.Instance" />
 
    <xsl:template name="html-head">
       <style>
@@ -24,21 +23,47 @@
 
    <xsl:template name="content">
 
-      <xsl:variable name="module" select="$function-library/*/module[@namespace=$moduleNs]" as="element(module)?"/>
+      <xsl:variable name="pathInfo" select="request:path-info()"/>
 
       <xsl:choose>
-         <xsl:when test="$module">
-            <xsl:apply-templates select="$module"/>
+         <xsl:when test="$pathInfo">
+            <xsl:variable name="moduleNs" select="concat('http:/', $pathInfo)" as="xs:string"/>
+            <xsl:variable name="module" select="$functionLibrary/*/module[@namespace=$moduleNs]" as="element(module)?"/>
+
+            <xsl:choose>
+               <xsl:when test="$module">
+                  <xsl:apply-templates select="$module"/>
+               </xsl:when>
+               <xsl:otherwise>
+                  <xsl:value-of select="response:set-status(404)"/>
+                  <h1>
+                     Module <xsl:value-of select="$moduleNs"/> not found.
+                  </h1>
+               </xsl:otherwise>
+            </xsl:choose>
+
          </xsl:when>
          <xsl:otherwise>
-            <xsl:value-of select="response:set-status(404)"/>
-            <h1>Module <xsl:value-of select="$moduleNs"/> not found.</h1>
+            <xsl:apply-templates select="$functionLibrary/*"/>
          </xsl:otherwise>
       </xsl:choose>
 
-      <!--<textarea>
-         <xsl:copy-of select="$function-library"/>
-      </textarea>-->
+   </xsl:template>
+
+   <xsl:template match="library">
+
+      <h1>Function Library</h1>
+
+      <ul>
+         <xsl:for-each select="module">
+            <xsl:sort select="@namespace"/>
+            <li>
+               <a href="{concat('/modules.xsl/', substring-after(@namespace, 'http://'))}">
+                  <xsl:value-of select="@namespace"/>
+               </a>
+            </li>
+         </xsl:for-each>
+      </ul>
 
    </xsl:template>
 
@@ -46,12 +71,12 @@
       <xsl:variable name="module" select="."/>
 
       <h1>
-         <!--Function Library:--> <xsl:value-of select="@namespace"/>
+         <xsl:value-of select="@namespace"/>
       </h1>
 
       <h2>Namespace Bindings</h2>
       <ul>
-         <xsl:for-each select="fn:in-scope-prefixes($module)">
+         <xsl:for-each select="fn:in-scope-prefixes(.)">
             <xsl:if test=". != 'xml'">
                <li>
                   <xsl:value-of select="."/>

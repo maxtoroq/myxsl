@@ -102,14 +102,8 @@
                <xsl:for-each select="$function-library/*/module">
                   <xsl:sort select="@namespace"/>
 
-                  <xsl:variable name="scheme" select="substring-before(@namespace, ':')"/>
-                  <xsl:variable name="schemeAndDelimiter"/>
-
                   <li>
-                     <a>
-                        <xsl:attribute name="href">
-                           <xsl:value-of select="concat('/modules.xsl/', substring-after(@namespace, 'http://'))"/>
-                        </xsl:attribute>
+                     <a href="{concat('/modules.xsl/', substring-after(@namespace, 'http://'))}">
                         <xsl:value-of select="@namespace"/>
                      </a>
                   </li>
