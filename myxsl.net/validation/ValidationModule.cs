@@ -18,7 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
-using myxsl.net.util;
+using myxsl.net.common;
 
 namespace myxsl.net.validation {
 
