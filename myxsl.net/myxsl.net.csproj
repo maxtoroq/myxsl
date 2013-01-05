@@ -55,6 +55,7 @@
     <Compile Include="api\XQueryResultHandler.cs" />
     <Compile Include="api\XsltResultHandler.cs" />
     <Compile Include="api\XsltInvoker.cs" />
+    <Compile Include="common\TypeResolver.cs" />
     <Compile Include="common\XPathSerializationMethods.cs" />
     <Compile Include="common\XPathDependencyInfo.cs" />
     <Compile Include="common\XPathVariableInfo.cs" />
@@ -139,7 +140,6 @@
     <Compile Include="system\SystemXsltProcessor.cs" />
     <Compile Include="util\CLR.cs" />
     <Compile Include="util\StreamUtil.cs" />
-    <Compile Include="util\TypeResolver.cs" />
     <Compile Include="web.compilation\SessionExpressionBuilder.cs" />
     <Compile Include="web.compilation\RequestExpressionBuilder.cs" />
     <Compile Include="web.compilation\BindingExpressionBuilder.cs" />
