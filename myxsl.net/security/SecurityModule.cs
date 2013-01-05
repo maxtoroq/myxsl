@@ -20,7 +20,7 @@ using System.Text;
 using System.Threading;
 using System.Web;
 
-namespace myxsl.net.util {
+namespace myxsl.net.security {
    
    [XPathModule("security", "http://myxsl.net/ns/security")]
    public static class SecurityModule {
