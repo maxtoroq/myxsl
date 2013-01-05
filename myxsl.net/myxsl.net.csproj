@@ -48,13 +48,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="api\SchematronInvoker.cs" />
-    <Compile Include="api\SchematronResultHandler.cs" />
-    <Compile Include="api\XPathDependencyAttribute.cs" />
-    <Compile Include="api\XQueryInvoker.cs" />
-    <Compile Include="api\XQueryResultHandler.cs" />
-    <Compile Include="api\XsltResultHandler.cs" />
-    <Compile Include="api\XsltInvoker.cs" />
     <Compile Include="common\TypeResolver.cs" />
     <Compile Include="common\XPathSerializationMethods.cs" />
     <Compile Include="common\XPathDependencyInfo.cs" />
@@ -72,6 +65,8 @@
     <Compile Include="net.mail\XPathSmtpClient.cs" />
     <Compile Include="net.mail\XPathSmtpError.cs" />
     <Compile Include="net.mail\XPathSmtpSuccess.cs" />
+    <Compile Include="SchematronInvoker.cs" />
+    <Compile Include="SchematronResultHandler.cs" />
     <Compile Include="security\SecurityModule.cs" />
     <Compile Include="system\XmlSchemaConstructorFunctions.cs" />
     <Compile Include="util\PseudoAttributeParser.cs" />
@@ -100,7 +95,6 @@
     <Compile Include="common\XPathFunctionInfo.cs" />
     <Compile Include="common\XPathItemKind.cs" />
     <Compile Include="common\XPathItemType.cs" />
-    <Compile Include="api\XPathModuleExportAttribute.cs" />
     <Compile Include="common\XPathSequenceCardinality.cs" />
     <Compile Include="common\XPathSequenceType.cs" />
     <Compile Include="system\XPathFunctions.cs" />
@@ -112,6 +106,16 @@
     <Compile Include="web.ui\OutputCachedPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="XmlDynamicResolver.cs" />
+    <Compile Include="XmlEmbeddedResourceResolver.cs" />
+    <Compile Include="XPathDependencyAttribute.cs" />
+    <Compile Include="XPathFunctionAttribute.cs" />
+    <Compile Include="XPathModuleAttribute.cs" />
+    <Compile Include="XPathModuleExportAttribute.cs" />
+    <Compile Include="XQueryInvoker.cs" />
+    <Compile Include="XQueryResultHandler.cs" />
+    <Compile Include="XsltInvoker.cs" />
+    <Compile Include="XsltResultHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -148,7 +152,6 @@
     <Compile Include="web.compilation\BindingExpressionInfo.cs" />
     <Compile Include="web.ui\ParsedValue`1.cs" />
     <Compile Include="util\WellKnownNamespaces.cs" />
-    <Compile Include="api\XmlDynamicResolver.cs" />
     <Compile Include="web.ui\PageParameterInfo.cs" />
     <Compile Include="web.compilation\BaseCodeDomTreeGenerator.cs" />
     <Compile Include="web.compilation\SchematronValidatorCodeDomTreeGenerator.cs" />
@@ -172,11 +175,8 @@
     </Compile>
     <Compile Include="validation\SchematronExtensions.cs" />
     <Compile Include="validation\XsltSchematronValidator.cs" />
-    <Compile Include="api\XmlEmbeddedResourceResolver.cs" />
     <Compile Include="util\XHtmlWriter.cs" />
     <Compile Include="util\XmlWrappingWriter.cs" />
-    <Compile Include="api\XPathFunctionAttribute.cs" />
-    <Compile Include="api\XPathModuleAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="validation\schematron\xslt2\iso_abstract_expand.xsl" />
