@@ -58,6 +58,7 @@
     <Compile Include="common\XPathSerializationMethods.cs" />
     <Compile Include="common\XPathDependencyInfo.cs" />
     <Compile Include="common\XPathVariableInfo.cs" />
+    <Compile Include="security\SecurityModule.cs" />
     <Compile Include="system\XmlSchemaConstructorFunctions.cs" />
     <Compile Include="util\PseudoAttributeParser.cs" />
     <Compile Include="configuration\ConfigurationModule.cs" />
@@ -123,7 +124,6 @@
     <Compile Include="configuration\web\ExpressionBuilderElementCollection.cs" />
     <Compile Include="web\RequestModule.cs" />
     <Compile Include="web\ResponseModule.cs" />
-    <Compile Include="util\SecurityModule.cs" />
     <Compile Include="web\SessionModule.cs" />
     <Compile Include="common\XPathModuleInfo.cs" />
     <Compile Include="web.ui\PageHandlerFactory.cs" />
