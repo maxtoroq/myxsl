@@ -99,6 +99,9 @@
       <fn:one-or-more>
          <xsl:value-of select="fn:one-or-more(document('')/*/@*)"/>
       </fn:one-or-more>
+      <fn:path>
+         <xsl:value-of select="fn:path(document('')/*/@version)"/>
+      </fn:path>
       <fn:parse-xml>
          <xsl:value-of select="count(fn:parse-xml('&lt;a>&lt;b/>&lt;b/>&lt;/a>')/a/b)"/>
       </fn:parse-xml>

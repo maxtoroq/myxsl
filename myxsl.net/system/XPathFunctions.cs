@@ -189,6 +189,130 @@ namespace myxsl.net.system {
             return ExtensionObjectConvert.ToInput(itemFactory.CreateNodeReadOnly(reader, parseOptions));
       }
 
+      public object path(XPathNodeIterator arg) {
+
+         if (ExtensionObjectConvert.IsEmpty(arg))
+            return ExtensionObjectConvert.EmptyIterator;
+
+         arg.MoveNext();
+
+         var reverseBuffer = new List<string>();
+
+         XPathNavigator clone = arg.Current.Clone();
+
+         path_impl(clone, reverseBuffer);
+
+         if (reverseBuffer.Count == 1)
+            return reverseBuffer[0];
+
+         // replace document-node path expr with empty string
+         // so join operation doesn't create //
+         if (reverseBuffer[reverseBuffer.Count - 1] == "/")
+            reverseBuffer[reverseBuffer.Count - 1] = "";
+
+         return String.Join("/", Enumerable.Reverse(reverseBuffer));
+      }
+
+      static void path_impl(XPathNavigator node, List<string> reverseBuffer) {
+
+         switch (node.NodeType) {
+            case XPathNodeType.Attribute:
+
+               if (node.NamespaceURI.HasValue()) {
+                  reverseBuffer.Add(String.Concat("@\"", node.NamespaceURI, "\":", node.LocalName));
+
+               } else {
+                  reverseBuffer.Add("@" + node.LocalName);
+               }
+
+               break;
+
+            case XPathNodeType.Comment: {
+
+                  int position = 1;
+
+                  while (node.MoveToPrevious()) {
+                     if (node.NodeType == XPathNodeType.Comment) 
+                        position++;
+                  }
+
+                  reverseBuffer.Add(String.Concat("comment()[", position.ToStringInvariant(), "]"));
+               }
+               break;
+
+            case XPathNodeType.Element: {
+
+                  string currentLocalName = node.LocalName;
+                  string currentNamespace = node.NamespaceURI;
+                  int position = 1;
+
+                  while (node.MoveToPrevious()) {
+                     if (node.NodeType == XPathNodeType.Element
+                        && node.LocalName == currentLocalName
+                        && node.NamespaceURI == currentNamespace) {
+
+                        position++;
+                     }
+                  }
+
+                  reverseBuffer.Add(String.Concat("\"", currentNamespace, "\":", currentLocalName, "[", position.ToStringInvariant(), "]"));
+               }
+               break;
+
+            case XPathNodeType.Namespace:
+
+               if (node.LocalName.HasValue()) {
+                  reverseBuffer.Add("namespace::" + node.Prefix);
+               
+               } else {
+                  reverseBuffer.Add("namespace::*[\"http://www.w3.org/2005/xpath-functions\":local-name()=\"\"]");
+               }
+
+               break;
+            
+            case XPathNodeType.ProcessingInstruction: {
+
+                  string currentLocal = node.LocalName;
+                  int position = 1;
+
+                  while (node.MoveToPrevious()) {
+                     if (node.NodeType == XPathNodeType.ProcessingInstruction
+                        && node.LocalName == currentLocal) {
+
+                        position++;
+                     }
+                  }
+
+                  reverseBuffer.Add(String.Concat("processing-instruction(", currentLocal, ")[", position.ToStringInvariant(), "]"));
+               }
+               break;
+            
+            case XPathNodeType.Root:
+               reverseBuffer.Add("/");
+               break;
+
+            case XPathNodeType.SignificantWhitespace:
+            case XPathNodeType.Text:
+            case XPathNodeType.Whitespace: {
+
+                  int position = 1;
+
+                  while (node.MoveToPrevious()) {
+                     if (node.NodeType == XPathNodeType.Text) {
+
+                        position++;
+                     }
+                  }
+
+                  reverseBuffer.Add(String.Concat("text()[", position.ToStringInvariant(), "]"));
+               }
+               break;
+         }
+
+         if (node.MoveToParent())
+            path_impl(node, reverseBuffer);
+      }
+
       public string replace(string input, string pattern, string replacement) {
          return replace(input, pattern, replacement, null);
       }
