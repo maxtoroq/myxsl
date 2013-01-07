@@ -311,30 +311,35 @@ namespace myxsl.net.saxon {
          return false;
       }
 
-      static bool NamespaceScopeOk(XdmNode node, XPathNamespaceScope namespaceScope) {
+      static bool NamespaceScopeOk(XdmNode nsNode, XPathNamespaceScope namespaceScope) {
          
          switch (namespaceScope) {
             case XPathNamespaceScope.All:
                return true;
 
             case XPathNamespaceScope.ExcludeXml:
-               return (node.NodeName.LocalName != "xml");
+               return (nsNode.NodeName.LocalName != "xml");
 
             case XPathNamespaceScope.Local:
-               if (node.NodeName.LocalName == "xml")
+               
+               if (nsNode.NodeName != null
+                  && nsNode.NodeName.LocalName == "xml") {
+                  
                   return false;
-               else {
-                  XdmNode parent = node.Parent;
 
-                  if (parent != null) {
-                     IEnumerator parentScope = parent.EnumerateAxis(XdmAxis.Namespace);
+               } else {
+                  
+                  XdmNode parentNode = nsNode.Parent;
+
+                  if (parentNode != null) {
+                     IEnumerator parentScope = parentNode.EnumerateAxis(XdmAxis.Namespace);
 
                      while (parentScope.MoveNext()) {
-                        XdmNode pNode = (XdmNode)parentScope.Current;
+                        XdmNode pNsNode = (XdmNode)parentScope.Current;
 
-                        if (node.StringValue == pNode.StringValue)
+                        if (nsNode.StringValue == pNsNode.StringValue)
                            return false;
-                     } 
+                     }
                   }
 
                   return true;
