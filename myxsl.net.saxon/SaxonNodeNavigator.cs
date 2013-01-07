@@ -23,7 +23,7 @@ namespace myxsl.net.saxon {
    sealed class SaxonNodeNavigator : XPathNavigator {
 
       XdmNode currentNode;
-      IEnumerator currentSequence;
+      IEnumerator _currentSequence;
 
       XmlNameTable _NameTable;
 
@@ -37,13 +37,12 @@ namespace myxsl.net.saxon {
 
       public override string Name {
          get {
-            if (currentNode.NodeName == null)
-               return "";
-            
-            if (!String.IsNullOrEmpty(currentNode.NodeName.Prefix))
-               return String.Concat(currentNode.NodeName.Prefix, ":", currentNode.NodeName.LocalName);
+            string prefix = Prefix, local = LocalName;
 
-            return currentNode.NodeName.LocalName ?? ""; 
+            if (!String.IsNullOrEmpty(prefix))
+               return String.Concat(prefix, ":", local);
+
+            return local; 
          }
       }
 
@@ -58,10 +57,14 @@ namespace myxsl.net.saxon {
 
       public override string Prefix {
          get {
-            if (currentNode.NodeName == null)
-               return null;
-
-            return currentNode.NodeName.Prefix; 
+            switch (NodeType) {
+               case XPathNodeType.Attribute:
+               case XPathNodeType.Element:
+                  return currentNode.NodeName.Prefix ?? ""; 
+               
+               default:
+                  return "";
+            }
          }
       }
 
@@ -77,10 +80,7 @@ namespace myxsl.net.saxon {
 
                // XdmNode.NodeKind returns None for namespace nodes
                case XmlNodeType.None:
-                  if (currentSequence != null) 
-                     return XPathNodeType.Namespace;
-                  else 
-                     return XPathNodeType.All;
+                  return XPathNodeType.Namespace;
 
                case XmlNodeType.Text:
                case XmlNodeType.CDATA:
@@ -90,6 +90,7 @@ namespace myxsl.net.saxon {
                   return XPathNodeType.Comment;
                
                case XmlNodeType.Document:
+               case XmlNodeType.DocumentFragment:
                   return XPathNodeType.Root;
 
                case XmlNodeType.Element:
@@ -105,13 +106,6 @@ namespace myxsl.net.saxon {
                case XmlNodeType.Whitespace:
                   return XPathNodeType.Whitespace;
 
-               case XmlNodeType.DocumentType:
-               case XmlNodeType.XmlDeclaration:
-               case XmlNodeType.DocumentFragment:
-               case XmlNodeType.EndEntity:
-               case XmlNodeType.Entity:
-               case XmlNodeType.EntityReference:
-               case XmlNodeType.Notation:
                default:
                   return XPathNodeType.All;
             }
@@ -154,7 +148,44 @@ namespace myxsl.net.saxon {
             if (NodeType != XPathNodeType.Element)
                return false;
 
-            return currentNode.EnumerateAxis(XdmAxis.Child).MoveNext();
+            return !currentNode.EnumerateAxis(XdmAxis.Child).MoveNext();
+         }
+      }
+
+      private IEnumerator currentSequence {
+         get {
+            if (_currentSequence == null) {
+
+               switch (NodeType) {
+                  case XPathNodeType.Attribute:
+
+                     IEnumerator attrIter = currentNode.Parent.EnumerateAxis(XdmAxis.Attribute);
+                     
+                     while (attrIter.MoveNext() && !attrIter.Current.Equals(currentNode)) ;
+
+                     _currentSequence = attrIter;
+
+                     break;
+
+                  case XPathNodeType.Namespace:
+
+                     IEnumerator nsIter = currentNode.Parent.EnumerateAxis(XdmAxis.Namespace);
+
+                     while (nsIter.MoveNext() && !nsIter.Current.Equals(currentNode)) ;
+
+                     _currentSequence = nsIter;
+
+                     break;
+                  
+                  default:
+                     _currentSequence = currentNode.EnumerateAxis(XdmAxis.FollowingSibling);
+                     break;
+               }
+            }
+            return _currentSequence;
+         }
+         set {
+            _currentSequence = value;
          }
       }
 
@@ -163,6 +194,41 @@ namespace myxsl.net.saxon {
          if (node == null) throw new ArgumentNullException("node");
 
          this.currentNode = node;
+      }
+
+      bool MoveTo(XdmAxis axis) {
+
+         IEnumerator en = this.currentNode.EnumerateAxis(axis);
+
+         if (en.MoveNext()) {
+            this.currentNode = (XdmNode)en.Current;
+
+            switch (axis) {
+               case XdmAxis.Attribute:
+               case XdmAxis.Child:
+               case XdmAxis.Namespace:
+                  this.currentSequence = en;
+                  break;
+
+               default:
+                  this.currentSequence = null;
+                  break;
+            }
+
+            return true;
+         }
+
+         return false;
+      }
+
+      bool MoveToNextInCurrentSequence() {
+
+         if (this.currentSequence.MoveNext()) {
+            this.currentNode = (XdmNode)this.currentSequence.Current;
+            return true;
+         }
+
+         return false;
       }
 
       public override XPathNavigator Clone() {
@@ -175,20 +241,10 @@ namespace myxsl.net.saxon {
 
       public override bool MoveToFirstChild() {
 
-         switch (this.currentNode.NodeKind) {
-            case XmlNodeType.Document:
-            case XmlNodeType.DocumentFragment:
-            case XmlNodeType.Element:
-
-               IEnumerator en = this.currentNode.EnumerateAxis(XdmAxis.Child);
-
-               if (en.MoveNext()) {
-                  this.currentNode = (XdmNode)en.Current;
-                  this.currentSequence = en;
-                  return true;
-               }
-
-               break;
+         switch (this.NodeType) {
+            case XPathNodeType.Root:
+            case XPathNodeType.Element:
+               return MoveTo(XdmAxis.Child);
          }
 
          return false;
@@ -196,81 +252,51 @@ namespace myxsl.net.saxon {
 
       public override bool MoveToNext() {
 
-         if (this.currentNode.NodeKind == XmlNodeType.Attribute)
+         XPathNodeType nodeType = this.NodeType;
+
+         if (nodeType == XPathNodeType.Attribute
+            || nodeType == XPathNodeType.Namespace) {
             return false;
-
-         if (this.currentSequence == null)
-            this.currentSequence = this.currentNode.EnumerateAxis(XdmAxis.FollowingSibling);
-
-         if (this.currentSequence.MoveNext()) {
-            this.currentNode = (XdmNode)this.currentSequence.Current;
-            return true;
          }
 
-         return false;
+         return MoveToNextInCurrentSequence();
       }
 
       public override bool MoveToPrevious() {
 
-         if (this.currentNode.NodeKind == XmlNodeType.Attribute)
+         XPathNodeType nodeType = this.NodeType;
+
+         if (nodeType == XPathNodeType.Attribute
+            || nodeType == XPathNodeType.Namespace) {
             return false;
-
-         IEnumerator en = this.currentNode.EnumerateAxis(XdmAxis.PrecedingSibling);
-
-         if (en.MoveNext()) {
-            this.currentNode = (XdmNode)en.Current;
-            this.currentSequence = null;
-            return true;
          }
 
-         return false;
+         return MoveTo(XdmAxis.PrecedingSibling);
       }
 
       public override bool MoveToParent() {
-
-         IEnumerator en = this.currentNode.EnumerateAxis(XdmAxis.Parent);
-
-         if (en.MoveNext()) {
-            this.currentNode = (XdmNode)en.Current;
-            this.currentSequence = null;
-            return true;
-         }
-
-         return false;
+         return MoveTo(XdmAxis.Parent);
       }
 
       public override bool MoveToFirstAttribute() {
 
-         if (this.currentNode.NodeKind != XmlNodeType.Element)
+         if (this.NodeType != XPathNodeType.Element)
             return false;
 
-         IEnumerator en = this.currentNode.EnumerateAxis(XdmAxis.Attribute);
-
-         if (en.MoveNext()) {
-            this.currentNode = (XdmNode)en.Current;
-            this.currentSequence = en;
-            return true;
-         }
-
-         return false;
+         return MoveTo(XdmAxis.Attribute);
       }
 
       public override bool MoveToNextAttribute() {
 
-         if (this.currentNode.NodeKind != XmlNodeType.Attribute)
+         if (this.NodeType != XPathNodeType.Attribute)
             return false;
 
-         if (this.currentSequence.MoveNext()) {
-            this.currentNode = (XdmNode)this.currentSequence.Current;
-            return true;
-         }
-
-         return false;
+         return MoveToNextInCurrentSequence();
       }
 
       public override bool MoveToFirstNamespace(XPathNamespaceScope namespaceScope) {
 
-         if (this.currentNode.NodeKind != XmlNodeType.Element)
+         if (this.NodeType != XPathNodeType.Element)
             return false;
 
          IEnumerator en = this.currentNode.EnumerateAxis(XdmAxis.Namespace);
@@ -291,8 +317,7 @@ namespace myxsl.net.saxon {
 
       public override bool MoveToNextNamespace(XPathNamespaceScope namespaceScope) {
 
-         // XdmNode.NodeKind returns None for namespace nodes
-         if (this.currentNode.NodeKind != XmlNodeType.None)
+         if (this.NodeType != XPathNodeType.Namespace)
             return false;
 
          while (this.currentSequence.MoveNext()) {
@@ -304,9 +329,6 @@ namespace myxsl.net.saxon {
             this.currentNode = node;
             return true;
          }
-
-         // NOTE: if false the position of the XdmNavigator is changed,
-         // which goes against the spec.
 
          return false;
       }
@@ -326,24 +348,22 @@ namespace myxsl.net.saxon {
                   && nsNode.NodeName.LocalName == "xml") {
                   
                   return false;
-
-               } else {
-                  
-                  XdmNode parentNode = nsNode.Parent;
-
-                  if (parentNode != null) {
-                     IEnumerator parentScope = parentNode.EnumerateAxis(XdmAxis.Namespace);
-
-                     while (parentScope.MoveNext()) {
-                        XdmNode pNsNode = (XdmNode)parentScope.Current;
-
-                        if (nsNode.StringValue == pNsNode.StringValue)
-                           return false;
-                     }
-                  }
-
-                  return true;
                }
+                  
+               XdmNode parentNode = nsNode.Parent.Parent;
+
+               if (parentNode != null) {
+                  IEnumerator parentScope = parentNode.EnumerateAxis(XdmAxis.Namespace);
+
+                  while (parentScope.MoveNext()) {
+                     XdmNode pNsNode = (XdmNode)parentScope.Current;
+
+                     if (nsNode.StringValue == pNsNode.StringValue)
+                        return false;
+                  }
+               }
+
+               return true;
 
             default:
                throw new ArgumentOutOfRangeException("namespaceScope");
@@ -354,7 +374,7 @@ namespace myxsl.net.saxon {
 
          SaxonNodeNavigator navigator = other as SaxonNodeNavigator;
 
-         if ((navigator != null) && navigator.currentNode.Equals(this.currentNode)) {
+         if ((navigator != null) && navigator.currentNode.Root.Equals(this.currentNode.Root)) {
             this.currentNode = navigator.currentNode;
             this.currentSequence = null;
             return true;
