@@ -23,14 +23,17 @@ using System.Xml.XPath;
 using myxsl.net.common;
 using myxsl.net.validation;
 using myxsl.net.web.ui;
-using CacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.net.validation.SchematronValidator>>;
+using PrecompiledCache = System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.net.validation.SchematronValidator>;
+using UriCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.net.validation.SchematronValidator>>;
+using InlineCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Int32, myxsl.net.validation.SchematronValidator>>;
 
 namespace myxsl.net {
 
    public class SchematronInvoker {
 
-      static readonly CacheByProcessor cacheByProc = new CacheByProcessor();
-      static readonly ConcurrentDictionary<Uri, SchematronValidator> cachePrecompiled = new ConcurrentDictionary<Uri, SchematronValidator>();
+      static readonly Lazy<PrecompiledCache> precompiledCache = new Lazy<PrecompiledCache>(() => new PrecompiledCache(), isThreadSafe: true);
+      static readonly Lazy<UriCacheByProcessor> uriCacheByProc = new Lazy<UriCacheByProcessor>(() => new UriCacheByProcessor(), isThreadSafe: true);
+      static readonly Lazy<InlineCacheByProcessor> inlineCache = new Lazy<InlineCacheByProcessor>(() => new InlineCacheByProcessor(), isThreadSafe: true);
 
       readonly SchematronValidator validator;
       readonly XmlResolver resolver;
@@ -76,7 +79,7 @@ namespace myxsl.net {
 
          if (schemaUri.Scheme == TypeResolver.UriSchemeClitype) {
 
-            validator = cachePrecompiled.GetOrAdd(schemaUri, u => {
+            validator = precompiledCache.Value.GetOrAdd(schemaUri, u => {
 
                Type schemaType = TypeResolver.ResolveUri(schemaUri);
 
@@ -134,7 +137,7 @@ namespace myxsl.net {
                processor = Processors.Xslt.DefaultProcessor;
 
             ConcurrentDictionary<Uri, SchematronValidator> cache =
-               cacheByProc.GetOrAdd(processor, p => new ConcurrentDictionary<Uri, SchematronValidator>());
+               uriCacheByProc.Value.GetOrAdd(processor, p => new ConcurrentDictionary<Uri, SchematronValidator>());
 
             validator = cache.GetOrAdd(schemaUri, u => {
 
@@ -151,6 +154,36 @@ namespace myxsl.net {
                return processor.CreateSchematronValidator(schemaDoc);
             });
          }
+
+         return new SchematronInvoker(validator, resolver);
+      }
+
+      public static SchematronInvoker With(IXPathNavigable schema) {
+         return With(schema, (IXsltProcessor)null, Assembly.GetCallingAssembly());
+      }
+
+      public static SchematronInvoker With(IXPathNavigable schema, string processor) {
+         return With(schema, Processors.Xslt[processor], Assembly.GetCallingAssembly());
+      }
+
+      public static SchematronInvoker With(IXPathNavigable schema, IXsltProcessor processor) {
+         return With(schema, processor, Assembly.GetCallingAssembly());
+      }
+
+      static SchematronInvoker With(IXPathNavigable schema, IXsltProcessor processor, Assembly callingAssembly) {
+
+         if (schema == null) throw new ArgumentNullException("schema");
+
+         if (processor == null)
+            processor = Processors.Xslt.DefaultProcessor;
+
+         int hashCode = XPathNavigatorEqualityComparer.Instance.GetHashCode(schema.CreateNavigator());
+
+         ConcurrentDictionary<int, SchematronValidator> cache = 
+            inlineCache.Value.GetOrAdd(processor, p => new ConcurrentDictionary<int, SchematronValidator>());
+
+         SchematronValidator validator = cache.GetOrAdd(hashCode, i => processor.CreateSchematronValidator(schema));
+         var resolver = new XmlDynamicResolver(callingAssembly);
 
          return new SchematronInvoker(validator, resolver);
       }

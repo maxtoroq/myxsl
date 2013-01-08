@@ -71,6 +71,7 @@
     <Compile Include="system\XmlSchemaConstructorFunctions.cs" />
     <Compile Include="util\PseudoAttributeParser.cs" />
     <Compile Include="configuration\ConfigurationModule.cs" />
+    <Compile Include="util\XPathNavigatorEqualityComparer.cs" />
     <Compile Include="validation\SchematronRuntimeOptions.cs" />
     <Compile Include="validation\SchematronValidator.cs" />
     <Compile Include="common\IXQueryProcessor.cs" />
