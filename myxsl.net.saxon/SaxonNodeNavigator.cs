@@ -340,7 +340,9 @@ namespace myxsl.net.saxon {
                return true;
 
             case XPathNamespaceScope.ExcludeXml:
-               return (nsNode.NodeName.LocalName != "xml");
+               
+               return nsNode.NodeName == null
+                  || nsNode.NodeName.LocalName != "xml";
 
             case XPathNamespaceScope.Local:
                
@@ -358,8 +360,11 @@ namespace myxsl.net.saxon {
                   while (parentScope.MoveNext()) {
                      XdmNode pNsNode = (XdmNode)parentScope.Current;
 
-                     if (nsNode.StringValue == pNsNode.StringValue)
+                     if (nsNode.NodeName == pNsNode.NodeName
+                        && nsNode.StringValue == pNsNode.StringValue) {
+                        
                         return false;
+                     }
                   }
                }
 
