@@ -35,10 +35,10 @@ namespace myxsl.net.net.http {
       public static Func<TextReader, IXPathNavigable> HtmlParser { get; set; }
 
       [XPathDependency]
-      public XPathItemFactory ItemFactory { private get; set; }
+      public XPathItemFactory ItemFactory { get; set; }
       
       [XPathDependency]
-      public XmlResolver Resolver { private get; set; }
+      public XmlResolver Resolver { get; set; }
 
       [XPathFunction("send-request", "item()+", "element(" + Prefix + ":request)?", HasSideEffects = true)]
       public XPathItem[] SendRequest(XPathNavigator request) {

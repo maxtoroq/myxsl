@@ -29,7 +29,7 @@ namespace myxsl.net.net.mail {
       internal const string Prefix = "mail";
 
       [XPathDependency]
-      public XPathItemFactory ItemFactory { private get; set; }
+      public XPathItemFactory ItemFactory { get; set; }
 
       [XPathFunction("send", "element()", "element(" + Prefix + ":message)", HasSideEffects = true)]
       public IXmlSerializable Send(XPathNavigator message) {
