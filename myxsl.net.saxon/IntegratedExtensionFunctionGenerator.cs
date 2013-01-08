@@ -164,9 +164,9 @@ namespace myxsl.net.saxon {
 
          CodeExpression thisRef = new CodeThisReferenceExpression();
 
-         var itemFactoryField = new CodeMemberField { 
-            Name = "_itemFactory",
-            Type = new CodeTypeReference(typeof(SaxonItemFactory))
+         var processorField = new CodeMemberField { 
+            Name = "_processor",
+            Type = new CodeTypeReference(typeof(SaxonProcessor))
          };
 
          var funcNameField = new CodeMemberField {
@@ -237,19 +237,19 @@ namespace myxsl.net.saxon {
             Attributes = MemberAttributes.Public,
             BaseTypes = { typeof(ExtensionFunctionDefinition) },
             Members = { 
-               itemFactoryField,
+               processorField,
                funcNameField,
                argTypesField,
                resultTypesField,
                new CodeConstructor {
                   Attributes = MemberAttributes.Public,
                   Parameters = {
-                     new CodeParameterDeclarationExpression(itemFactoryField.Type, "itemFactory")
+                     new CodeParameterDeclarationExpression(processorField.Type, "processor")
                   },
                   Statements = {
                      new CodeAssignStatement(
-                        new CodeFieldReferenceExpression(thisRef, itemFactoryField.Name),
-                        new CodeVariableReferenceExpression("itemFactory")
+                        new CodeFieldReferenceExpression(thisRef, processorField.Name),
+                        new CodeVariableReferenceExpression("processor")
                      )
                   }
                },
@@ -315,20 +315,20 @@ namespace myxsl.net.saxon {
                new CodeTypeReference(typeof(ExtensionFunctionCall)) 
             },
             Members = { 
-               itemFactoryField,
+               processorField,
                new CodeConstructor {
                   Attributes = MemberAttributes.Public,
                   Parameters = {
-                     new CodeParameterDeclarationExpression(itemFactoryField.Type, "itemFactory")
+                     new CodeParameterDeclarationExpression(processorField.Type, "processor")
                   },
                   Statements = {
                      new CodeAssignStatement(
-                        new CodeFieldReferenceExpression(thisRef, itemFactoryField.Name),
-                        new CodeVariableReferenceExpression("itemFactory")
+                        new CodeFieldReferenceExpression(thisRef, processorField.Name),
+                        new CodeVariableReferenceExpression("processor")
                      )
                   }
                },
-               GenerateCallMethod(functions, minArgs, maxArgs, new CodeFieldReferenceExpression(thisRef, itemFactoryField.Name), out initializeMethod)
+               GenerateCallMethod(functions, minArgs, maxArgs, new CodeFieldReferenceExpression(thisRef, processorField.Name), out initializeMethod)
             }
          };
 
@@ -344,7 +344,7 @@ namespace myxsl.net.saxon {
                   new CodeMethodReturnStatement(
                      new CodeObjectCreateExpression(
                         callClass.Name,
-                        new CodeFieldReferenceExpression(thisRef, itemFactoryField.Name)
+                        new CodeFieldReferenceExpression(thisRef, processorField.Name)
                      )
                   )
                }
@@ -382,7 +382,7 @@ namespace myxsl.net.saxon {
          return method;
       }
       
-      CodeMemberMethod GenerateCallMethod(XPathFunctionInfo[] functions, int minArgs, int maxArgs, CodeExpression itemFactoryRef, out CodeMemberMethod initializeMethod) {
+      CodeMemberMethod GenerateCallMethod(XPathFunctionInfo[] functions, int minArgs, int maxArgs, CodeExpression processorRef, out CodeMemberMethod initializeMethod) {
 
          initializeMethod = null;
 
@@ -420,7 +420,7 @@ namespace myxsl.net.saxon {
             moduleRef = new CodeVariableReferenceExpression(moduleVar.Name);
 
             if (module.Dependencies.Count > 0) {
-               initializeMethod = GenerateInitialize(module, itemFactoryRef);
+               initializeMethod = GenerateInitialize(module, processorRef);
 
                callMethod.Statements.Add(new CodeMethodInvokeExpression {
                   Method = new CodeMethodReferenceExpression(new CodeThisReferenceExpression(), initializeMethod.Name),
@@ -480,7 +480,7 @@ namespace myxsl.net.saxon {
 
                if (!fn.ReturnType.IsEmptySequence) {
 
-                  returnExpr = TransformOutput(functionInvoke, fn.ReturnType, itemFactoryRef);
+                  returnExpr = TransformOutput(functionInvoke, fn.ReturnType, processorRef);
 
                } else {
 
@@ -502,7 +502,7 @@ namespace myxsl.net.saxon {
          return callMethod;
       }
 
-      CodeMemberMethod GenerateInitialize(XPathModuleInfo module, CodeExpression itemFactoryRef) {
+      CodeMemberMethod GenerateInitialize(XPathModuleInfo module, CodeExpression processorRef) {
 
          var initializeMethod = new CodeMemberMethod {
             Name = "Initialize",
@@ -518,8 +518,13 @@ namespace myxsl.net.saxon {
 
             CodeExpression expr = null;
 
-            if (dependency.Type == typeof(XPathItemFactory)) {
-               expr = itemFactoryRef;
+            if (dependency.Type == typeof(IXsltProcessor)
+               || dependency.Type == typeof(IXQueryProcessor)) {
+
+               expr = processorRef;
+            
+            } else if (dependency.Type == typeof(XPathItemFactory)) {
+               expr = GetItemFactoryReference(processorRef);
             
             } else if (dependency.Type == typeof(XmlResolver)) {
                expr = new CodeObjectCreateExpression(typeof(XmlDynamicResolver));
@@ -634,7 +639,9 @@ namespace myxsl.net.saxon {
          }
       }
 
-      static CodeExpression TransformOutput(CodeExpression functionResultRef, XPathSequenceType sequenceType, CodeExpression itemFactoryRef) {
+      static CodeExpression TransformOutput(CodeExpression functionResultRef, XPathSequenceType sequenceType, CodeExpression processorRef) {
+
+         CodeExpression itemFactoryRef = GetItemFactoryReference(processorRef);
 
          CodeExpression expr = new CodeMethodInvokeExpression {
             Method = new CodeMethodReferenceExpression {
@@ -888,6 +895,14 @@ namespace myxsl.net.saxon {
             default:
                return typeof(string);
          }
+      }
+
+      static CodeExpression GetItemFactoryReference(CodeExpression processorRef) {
+
+         return new CodePropertyReferenceExpression {
+            PropertyName = "ItemFactory",
+            TargetObject = processorRef
+         };
       }
    }
 }

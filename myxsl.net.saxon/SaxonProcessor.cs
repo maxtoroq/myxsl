@@ -46,7 +46,7 @@ namespace myxsl.net.saxon {
          RegisterExtensionFunctions(processor, _ItemFactory);
       }
 
-      static void RegisterExtensionFunctions(Processor processor, SaxonItemFactory itemFactory) {
+      void RegisterExtensionFunctions(Processor processor, SaxonItemFactory itemFactory) {
 
          ExtensionFunctionDefinition[] precompiledFunctions =
             new ExtensionFunctionDefinition[] { new extensions.exslt.common.NodeSet() }
@@ -67,9 +67,13 @@ namespace myxsl.net.saxon {
 
          foreach (Type t in fnGen.Generate(XPathModules.Modules)) {
 
-            var ctor = t.GetConstructors().First();
-            var args = ctor.GetParameters().Select(p => p.ParameterType.IsAssignableFrom(itemFactoryType) ? 
-               (object)itemFactory : null).ToArray();
+            ConstructorInfo ctor = t.GetConstructors().First();
+            
+            object[] args = ctor.GetParameters().Select(p => 
+               p.ParameterType.IsAssignableFrom(typeof(SaxonProcessor)) ? (object)this 
+               : p.ParameterType.IsAssignableFrom(itemFactoryType) ? (object)itemFactory 
+               : null
+            ).ToArray();
 
             var def = (ExtensionFunctionDefinition)ctor.Invoke(args);
 

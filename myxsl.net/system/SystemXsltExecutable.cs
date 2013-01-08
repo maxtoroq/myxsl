@@ -236,6 +236,11 @@ namespace myxsl.net.system {
                   continue;
                }
 
+               if (dependency.Type == typeof(IXsltProcessor)) {
+                  args[i] = this.Processor;
+                  continue;
+               }
+
                args[i] = dependency.Type.IsValueType ?
                   Activator.CreateInstance(dependency.Type)
                   : null;
