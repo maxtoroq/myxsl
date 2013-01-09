@@ -29,6 +29,8 @@ namespace myxsl.net.validation {
          if (schemaDoc == null) throw new ArgumentNullException("schemaDoc");
          if (output == null) throw new ArgumentNullException("output");
 
+         // TODO: check if it works when schemaDoc is element(sch:schema) instead of the usual document-node(element(sch:schema))
+
          XPathNavigator nav = schemaDoc.CreateNavigator();
 
          if (nav.NodeType == XPathNodeType.Root)
