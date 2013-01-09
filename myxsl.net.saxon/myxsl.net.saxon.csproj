@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="BugHandler.cs" />
     <Compile Include="extensions\exslt.common\NodeSet.cs" />
     <Compile Include="extensions\saxon\Index.cs">
       <SubType>Code</SubType>

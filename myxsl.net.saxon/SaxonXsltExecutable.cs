@@ -104,8 +104,14 @@ namespace myxsl.net.saxon {
          if (options.InitialMode != null)
             transformer.InitialMode = new QName(options.InitialMode);
 
-         if (options.InitialContextNode != null) 
-            transformer.InitialContextNode = options.InitialContextNode.ToXdmNode(this.Processor.ItemFactory);
+         if (options.InitialContextNode != null) {
+
+            XdmNode node = options.InitialContextNode.ToXdmNode(this.Processor.ItemFactory);
+
+            BugHandler.ThrowIfBug1675(node);
+
+            transformer.InitialContextNode = node;
+         }
 
          foreach (var pair in options.Parameters) {
             
