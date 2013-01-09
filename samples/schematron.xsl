@@ -40,8 +40,77 @@
       </xsl:param>
       <xsl:param name="view-report" select="boolean((request:form('view-report'), '')[1])" as="xs:boolean" />
 
+      <xsl:variable name="schema" as="item()">
+         <!-- Can provide schema as inline node or URI (pre-compiled in App_Code) -->
+         <!--<xsl:sequence select="'clitype:AppRules.contact'"/>-->
+
+         <!-- Saxon 9.4.0.6 requires a document-node(), see https://saxonica.plan.io/issues/1675 -->
+         <xsl:document>
+            <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
+   
+               <pattern>
+                  <title>Grammar check</title>
+                  <rule context="/">
+                     <assert test="count((*,*/(name|email|comments))) ge 4">
+                        Missing content.
+                     </assert>
+                  </rule>
+               </pattern>
+
+               <pattern id="name-length" is-a="string-length">
+                  <param name="el" value="name"/>
+                  <param name="max-chars" value="20"/>
+                  <param name="required" value="true()"/>
+               </pattern>
+
+               <pattern id="email-length" is-a="string-length">
+                  <param name="el" value="email"/>
+                  <param name="max-chars" value="50"/>
+                  <param name="required" value="true()"/>
+               </pattern>
+
+               <pattern id="email-syntax">
+                  <rule context="email[string-length() gt 0]">
+                     <assert test="matches(string(), '\w+([-+.'']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*')">
+                        The e-mail is invalid.
+                     </assert>
+                  </rule>
+               </pattern>
+
+               <pattern id="subject-length" is-a="string-length">
+                  <param name="el" value="subject"/>
+                  <param name="max-chars" value="20"/>
+               </pattern>
+
+               <pattern id="comments-length" is-a="string-length">
+                  <param name="el" value="comments"/>
+                  <param name="max-chars" value="1000"/>
+                  <param name="required" value="true()"/>
+               </pattern>
+
+               <pattern id="string-length" abstract="true">
+                  <title>Validates input length.</title>
+      
+                  <rule context="$el">
+                     <let name="len" value="string-length()" />
+                     <let name="required" value="false()"/>
+
+                     <assert test="not($required) or $len > 0">
+                        You must enter your <name/>.
+                     </assert>
+                     <assert test="$len le $max-chars">
+                        Maximum characters allowed: <value-of select="$max-chars" />
+                        (current: <value-of select="$len" />).
+                     </assert>
+                  </rule>
+               </pattern>
+   
+            </schema>
+         </xsl:document>
+      </xsl:variable>
+
       <xsl:variable name="report">
-         <xsl:sequence select="validation:validate-with-schematron('clitype:AppRules.contact', $data)"/>
+         <xsl:sequence select="validation:schematron-report($data, $schema)"/>
       </xsl:variable>
 
       <xsl:choose>
@@ -71,11 +140,11 @@
          an XML document built using values from the form below.
       </p>
       <p>
-         <a href="/redir_src.xqy?/App_Code/rules/contact.sch" target="_blank">Click here</a> to see the schema source.<br/>
+         The schema can be provided <a href="/redir_src.xqy?/schematron.xsl#L43" target="_blank">inline</a> or as a URI that identifies a <a href="/redir_src.xqy?/App_Code/rules/contact.sch" target="_blank">pre-compiled schema</a> in App_Code.
       </p>
       <p>
          Using Rick Jelliffe's implementation of <a href="http://www.schematron.com">ISO Schematron</a>, the
-         above schema is coverted to an XSLT validator, which is executed by the same processor used to render
+         schema is coverted to an XSLT validator, which is executed by the same processor used to render
          this page.
       </p>
       <form id="form1" method="post">

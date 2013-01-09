@@ -23,22 +23,25 @@ using myxsl.net.common;
 namespace myxsl.net.validation {
 
    [XPathModule("validation", "http://myxsl.net/ns/validation", SvrlPrefix, WellKnownNamespaces.SVRL)]
-   public static class ValidationModule {
+   public class ValidationModule {
 
       const string SvrlPrefix = "svrl";
 
-      [XPathFunction("validate-with-schematron", "document-node(element(" + SvrlPrefix + ":schematron-output))", "xs:string", "node()")]
-      public static XPathNavigator ValidateWithSchematron(string schemaUri, XPathNavigator source) {
-         return ValidateWithSchematron(schemaUri, source, null);
+      [XPathDependency]
+      public IXsltProcessor Processor { get; set; }
+
+      [XPathFunction("schematron-report", "document-node(element(" + SvrlPrefix + ":schematron-output))", "node()", "item()")]
+      public XPathNavigator SchematronReport(XPathNavigator source, XPathItem schema) {
+         return SchematronReport(source, schema, null);
       }
 
-      [XPathFunction("validate-with-schematron", "document-node(element(" + SvrlPrefix + ":schematron-output))", "xs:string", "node()", "xs:string?")]
-      public static XPathNavigator ValidateWithSchematron(string schemaUri, XPathNavigator source, string phase) {
-         return ValidateWithSchematron(schemaUri, source, phase, null);
+      [XPathFunction("schematron-report", "document-node(element(" + SvrlPrefix + ":schematron-output))", "node()", "item()", "xs:string?")]
+      public XPathNavigator SchematronReport(XPathNavigator source, XPathItem schema, string phase) {
+         return SchematronReport(source, schema, phase, null);
       }
 
-      [XPathFunction("validate-with-schematron", "document-node(element(" + SvrlPrefix + ":schematron-output))", "xs:string", "node()", "xs:string?", "node()*")]
-      public static XPathNavigator ValidateWithSchematron(string schemaUri, XPathNavigator source, string phase, IEnumerable<XPathNavigator> parameters) {
+      [XPathFunction("schematron-report", "document-node(element(" + SvrlPrefix + ":schematron-output))", "node()", "item()", "xs:string?", "node()*")]
+      public XPathNavigator SchematronReport(XPathNavigator source, XPathItem schema, string phase, IEnumerable<XPathNavigator> parameters) {
 
          var options = new SchematronRuntimeOptions { 
             Instance = source,
@@ -50,7 +53,20 @@ namespace myxsl.net.validation {
                options.Parameters.Add(new XmlQualifiedName(n.Name, n.NamespaceURI), n.TypedValue);
          }
 
-         return SchematronInvoker.With(schemaUri)
+         SchematronInvoker invoker;
+         
+         if (schema.IsNode) { 
+
+            if (this.Processor == null)
+               throw new InvalidOperationException("Processor cannot be null");
+
+            invoker = SchematronInvoker.With((XPathNavigator)schema, this.Processor);
+
+         } else {
+            invoker = SchematronInvoker.With(schema.Value);
+         }
+
+         return invoker
             .Validate(options)
             .ToDocument()
             .CreateNavigator();
