@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?page processor="saxon" accept-verbs="GET,HEAD,POST" request:bind-initial-template="http-method" ?>
+<?page processor="saxon" accept-verbs="GET,HEAD,POST" ?>
 
 <xsl:stylesheet version="2.0" exclude-result-prefixes="#all"
    xmlns="http://www.w3.org/1999/xhtml"
@@ -10,131 +10,128 @@
    xmlns:response="http://myxsl.net/ns/web/response"
    xmlns:validation="http://myxsl.net/ns/validation">
 
-   <xsl:import href="layout.xslt"/>
+   <xsl:import href="~/layout.xslt"/>
 
    <xsl:output name="report" method="xml" indent="yes"/>
 
-   <xsl:template name="HEAD">
-      <xsl:call-template name="GET"/>
-   </xsl:template>
-
-   <xsl:template name="GET">
-      <xsl:param name="contact-xml" as="document-node()?"/>
-      <xsl:param name="contact-svrl" as="document-node()?"/>
-
-      <xsl:call-template name="layout">
-         <xsl:with-param name="instance" select="$contact-xml/*" tunnel="yes"/>
-         <xsl:with-param name="report" select="$contact-svrl/*" tunnel="yes"/>
-      </xsl:call-template>
-   </xsl:template>
-
-   <xsl:template name="POST">
-      <xsl:param name="data">
-         <xsl:element name="data" namespace="">
-            <xsl:for-each select="'name', 'email', 'subject', 'comments'">
-               <xsl:element name="{.}" namespace="">
-                  <xsl:sequence select="request:form(.)"/>
-               </xsl:element>
-            </xsl:for-each>
-         </xsl:element>
-      </xsl:param>
-      <xsl:param name="view-report" select="boolean((request:form('view-report'), '')[1])" as="xs:boolean" />
-
-      <xsl:variable name="schema" as="item()">
-         <!-- Can provide schema as inline node or URI (pre-compiled in App_Code) -->
-         <!--<xsl:sequence select="'clitype:AppRules.contact'"/>-->
-
-         <!-- Saxon 9.4.0.6 requires a document-node(), see https://saxonica.plan.io/issues/1675 -->
-         <xsl:document>
-            <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
-   
-               <pattern>
-                  <title>Grammar check</title>
-                  <rule context="/">
-                     <assert test="count((*,*/(name|email|comments))) ge 4">
-                        Missing content.
-                     </assert>
-                  </rule>
-               </pattern>
-
-               <pattern id="name-length" is-a="string-length">
-                  <param name="el" value="name"/>
-                  <param name="max-chars" value="20"/>
-                  <param name="required" value="true()"/>
-               </pattern>
-
-               <pattern id="email-length" is-a="string-length">
-                  <param name="el" value="email"/>
-                  <param name="max-chars" value="50"/>
-                  <param name="required" value="true()"/>
-               </pattern>
-
-               <pattern id="email-syntax">
-                  <rule context="email[string-length() gt 0]">
-                     <assert test="matches(string(), '\w+([-+.'']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*')">
-                        The e-mail is invalid.
-                     </assert>
-                  </rule>
-               </pattern>
-
-               <pattern id="subject-length" is-a="string-length">
-                  <param name="el" value="subject"/>
-                  <param name="max-chars" value="20"/>
-               </pattern>
-
-               <pattern id="comments-length" is-a="string-length">
-                  <param name="el" value="comments"/>
-                  <param name="max-chars" value="1000"/>
-                  <param name="required" value="true()"/>
-               </pattern>
-
-               <pattern id="string-length" abstract="true">
-                  <title>Validates input length.</title>
-      
-                  <rule context="$el">
-                     <let name="len" value="string-length()" />
-                     <let name="required" value="false()"/>
-
-                     <assert test="not($required) or $len > 0">
-                        You must enter your <name/>.
-                     </assert>
-                     <assert test="$len le $max-chars">
-                        Maximum characters allowed: <value-of select="$max-chars" />
-                        (current: <value-of select="$len" />).
-                     </assert>
-                  </rule>
-               </pattern>
-   
-            </schema>
-         </xsl:document>
-      </xsl:variable>
-
-      <xsl:variable name="report">
-         <xsl:sequence select="validation:schematron-report($data, $schema)"/>
-      </xsl:variable>
+   <xsl:template name="main">
 
       <xsl:choose>
-         <xsl:when test="$view-report">
-            <xsl:sequence select="response:set-content-type('application/xml')"/>
-            <xsl:result-document format="report">
-               <xsl:copy-of select="$report"/>
-            </xsl:result-document>
+         <xsl:when test="request:http-method() = 'POST'">
+
+            <xsl:variable name="data">
+               <xsl:element name="data" namespace="">
+                  <xsl:for-each select="'name', 'email', 'subject', 'comments'">
+                     <xsl:element name="{.}" namespace="">
+                        <xsl:sequence select="request:form(.)"/>
+                     </xsl:element>
+                  </xsl:for-each>
+               </xsl:element>
+            </xsl:variable>
+
+            <xsl:variable name="view-report" select="boolean((request:form('view-report'), '')[1])" as="xs:boolean" />
+
+            <xsl:variable name="schema" as="item()">
+               <!-- Can provide schema as inline node or URI (pre-compiled in App_Code) -->
+               <!--<xsl:sequence select="'clitype:AppRules.contact'"/>-->
+
+               <!-- Saxon 9.4.0.6 requires a document-node(), see https://saxonica.plan.io/issues/1675 -->
+               <xsl:document>
+                  <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
+
+                     <pattern>
+                        <title>Grammar check</title>
+                        <rule context="/">
+                           <assert test="count((*,*/(name|email|comments))) ge 4">
+                              Missing content.
+                           </assert>
+                        </rule>
+                     </pattern>
+
+                     <pattern id="name-length" is-a="string-length">
+                        <param name="el" value="name"/>
+                        <param name="max-chars" value="20"/>
+                        <param name="required" value="true()"/>
+                     </pattern>
+
+                     <pattern id="email-length" is-a="string-length">
+                        <param name="el" value="email"/>
+                        <param name="max-chars" value="50"/>
+                        <param name="required" value="true()"/>
+                     </pattern>
+
+                     <pattern id="email-syntax">
+                        <rule context="email[string-length() gt 0]">
+                           <assert test="matches(string(), '\w+([-+.'']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*')">
+                              The e-mail is invalid.
+                           </assert>
+                        </rule>
+                     </pattern>
+
+                     <pattern id="subject-length" is-a="string-length">
+                        <param name="el" value="subject"/>
+                        <param name="max-chars" value="20"/>
+                     </pattern>
+
+                     <pattern id="comments-length" is-a="string-length">
+                        <param name="el" value="comments"/>
+                        <param name="max-chars" value="1000"/>
+                        <param name="required" value="true()"/>
+                     </pattern>
+
+                     <pattern id="string-length" abstract="true">
+                        <title>Validates input length.</title>
+
+                        <rule context="$el">
+                           <let name="len" value="string-length()" />
+                           <let name="required" value="false()"/>
+
+                           <assert test="not($required) or $len > 0">
+                              You must enter your <name/>.
+                           </assert>
+                           <assert test="$len le $max-chars">
+                              Maximum characters allowed: <value-of select="$max-chars" />
+                              (current: <value-of select="$len" />).
+                           </assert>
+                        </rule>
+                     </pattern>
+
+                  </schema>
+               </xsl:document>
+            </xsl:variable>
+
+            <xsl:variable name="report">
+               <xsl:sequence select="validation:schematron-report($data, $schema)"/>
+            </xsl:variable>
+
+            <xsl:choose>
+               <xsl:when test="$view-report">
+                  <xsl:sequence select="response:set-content-type('application/xml')"/>
+                  <xsl:result-document format="report">
+                     <xsl:copy-of select="$report"/>
+                  </xsl:result-document>
+               </xsl:when>
+               <xsl:otherwise>
+                  <xsl:call-template name="layout">
+                     <xsl:with-param name="instance" select="$data/*" tunnel="yes"/>
+                     <xsl:with-param name="report" select="$report/*" tunnel="yes"/>
+                  </xsl:call-template>
+               </xsl:otherwise>
+            </xsl:choose>
+
          </xsl:when>
          <xsl:otherwise>
-            <xsl:call-template name="GET">
-               <xsl:with-param name="contact-xml" select="$data"/>
-               <xsl:with-param name="contact-svrl" select="$report"/>
-            </xsl:call-template>
+            <xsl:call-template name="layout"/>
          </xsl:otherwise>
       </xsl:choose>
 
    </xsl:template>
 
    <xsl:template name="content">
-      <xsl:param name="instance" tunnel="yes"/>
-      <xsl:param name="report" tunnel="yes"/>
+      <xsl:param name="instance" select="()" tunnel="yes"/>
+      <xsl:param name="report" select="()" tunnel="yes"/>
       
-      <h1>Schematron Validation</h1>
+      <h1>Schematron Validation: XSLT 2.0</h1>
       <p>
          This is an example on how to use a Schematron schema to validate
          an XML document built using values from the form below.
