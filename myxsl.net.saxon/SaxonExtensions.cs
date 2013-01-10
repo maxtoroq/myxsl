@@ -15,6 +15,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -117,9 +118,11 @@ namespace myxsl.net.saxon {
          return new XdmValue(value);
       }
 
+      /// <summary>
+      /// This method is used by generated integrated extension functions.
+      /// </summary>
+      [EditorBrowsable(EditorBrowsableState.Never)]
       public static T? SingleOrNull<T>(IEnumerable<T> source) where T : struct {
-
-         // This method is used by generated integrated extension functions
 
          int count = source.Count();
 
