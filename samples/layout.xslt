@@ -20,9 +20,9 @@
    </xsl:template>
    
    <xsl:template name="layout">
-      <xsl:variable name="content">
+      <xsl:param name="content">
          <xsl:call-template name="content"/>
-      </xsl:variable>
+      </xsl:param>
       
       <html xmlns="http://www.w3.org/1999/xhtml">
          <head>

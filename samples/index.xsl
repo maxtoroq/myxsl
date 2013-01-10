@@ -81,7 +81,7 @@
             <h3>Other XML standards</h3>
             <ul>
                <li>
-                  <a href="/schematron.xsl">Schematron</a>
+                  <a href="/schematron/">Schematron</a>
                </li>
                <li>
                   <a href="/xml-stylesheet.atom">
