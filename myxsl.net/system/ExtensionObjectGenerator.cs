@@ -383,8 +383,8 @@ namespace myxsl.net.system {
                argExpr = new CodeMethodInvokeExpression {
                   Method = new CodeMethodReferenceExpression {
                      MethodName = (paramTypeInfo.ItemType.Kind == XPathItemKind.AnyItem) ?
-                        "ToItems"
-                        : "ToNodes",
+                        "ToXPathItems"
+                        : "ToXPathNavigators",
                      TargetObject = convertTypeExpr
                   },
                   Parameters = { varExpr }

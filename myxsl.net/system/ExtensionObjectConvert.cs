@@ -203,7 +203,7 @@ namespace myxsl.net.system {
          return ToInput(
             ((IEnumerable)value).Cast<object>()
                .Where(o => !IsEmpty(o))
-               .Select(o => ToItem(ToInput(o)))
+               .Select(o => ToXPathItem(ToInput(o)))
          );
       }
 
@@ -271,7 +271,7 @@ namespace myxsl.net.system {
          if (count == 1)
             return ToInputOrEmpty(objects.First());
          
-         return ToInputOrEmpty(objects.Where(o => !IsEmpty(o)).Select(o => ToItem(o)));
+         return ToInputOrEmpty(objects.Where(o => !IsEmpty(o)).Select(o => ToXPathItem(o)));
       }
 
       public static object ToInputOrEmpty(IEnumerable<XPathItem> value) {
@@ -378,7 +378,7 @@ namespace myxsl.net.system {
          return value;
       }
 
-      public static XPathItem ToItem(object value) {
+      public static XPathItem ToXPathItem(object value) {
 
          if (value == null) throw new ArgumentNullException("value");
 
@@ -386,49 +386,49 @@ namespace myxsl.net.system {
 
          switch (Type.GetTypeCode(type)) {
             case TypeCode.Boolean:
-               return ToItem((Boolean)value);
+               return ToXPathItem((Boolean)value);
                
             case TypeCode.Byte:
-               return ToItem((Byte)value);
+               return ToXPathItem((Byte)value);
                
             case TypeCode.Char:
-               return ToItem((Char)value);
+               return ToXPathItem((Char)value);
                
             case TypeCode.DateTime:
-               return ToItem((DateTime)value);
+               return ToXPathItem((DateTime)value);
                
             case TypeCode.Decimal:
-               return ToItem((Decimal)value);
+               return ToXPathItem((Decimal)value);
                
             case TypeCode.Double:
-               return ToItem((Double)value);
+               return ToXPathItem((Double)value);
                
             case TypeCode.Int16:
-               return ToItem((Int16)value);
+               return ToXPathItem((Int16)value);
                
             case TypeCode.Int32:
-               return ToItem((Int32)value);
+               return ToXPathItem((Int32)value);
                
             case TypeCode.Int64:
-               return ToItem((Int64)value);
+               return ToXPathItem((Int64)value);
             
             case TypeCode.SByte:
-               return ToItem((SByte)value);
+               return ToXPathItem((SByte)value);
                
             case TypeCode.Single:
-               return ToItem((Single)value);
+               return ToXPathItem((Single)value);
                
             case TypeCode.String:
-               return ToItem((String)value);
+               return ToXPathItem((String)value);
 
             case TypeCode.UInt16:
-               return ToItem((UInt16)value);
+               return ToXPathItem((UInt16)value);
                
             case TypeCode.UInt32:
-               return ToItem((UInt32)value);
+               return ToXPathItem((UInt32)value);
                
             case TypeCode.UInt64:
-               return ToItem((UInt64)value);
+               return ToXPathItem((UInt64)value);
 
             case TypeCode.DBNull:
             case TypeCode.Empty:
@@ -447,74 +447,83 @@ namespace myxsl.net.system {
                if (navigable != null)
                   return navigable.CreateNavigator();
 
+               XPathNodeIterator nodeIter = value as XPathNodeIterator;
+
+               if (nodeIter != null)
+                  return ToXPathItem(nodeIter);
+
                return ToNode(value);
          }
       }
 
-      public static XPathItem ToItem(Boolean value) {
+      public static XPathItem ToXPathItem(Boolean value) {
          return SystemItemFactory.CreateBoolean(value);
       }
 
-      public static XPathItem ToItem(Int16 value) {
+      public static XPathItem ToXPathItem(Int16 value) {
          return SystemItemFactory.CreateDouble((Double)value);
       }
 
-      public static XPathItem ToItem(Int32 value) {
+      public static XPathItem ToXPathItem(Int32 value) {
          return SystemItemFactory.CreateDouble((Double)value);
       }
 
-      public static XPathItem ToItem(Int64 value) {
+      public static XPathItem ToXPathItem(Int64 value) {
          return SystemItemFactory.CreateDouble((Double)value);
       }
 
-      public static XPathItem ToItem(Byte value) {
+      public static XPathItem ToXPathItem(Byte value) {
          return SystemItemFactory.CreateDouble((Double)value);
       }
 
-      public static XPathItem ToItem(SByte value) {
+      public static XPathItem ToXPathItem(SByte value) {
          return SystemItemFactory.CreateDouble((Double)value);
       }
 
-      public static XPathItem ToItem(UInt16 value) {
+      public static XPathItem ToXPathItem(UInt16 value) {
          return SystemItemFactory.CreateDouble((Double)value);
       }
 
-      public static XPathItem ToItem(UInt32 value) {
+      public static XPathItem ToXPathItem(UInt32 value) {
          return SystemItemFactory.CreateDouble((Double)value);
       }
 
-      public static XPathItem ToItem(UInt64 value) {
+      public static XPathItem ToXPathItem(UInt64 value) {
          return SystemItemFactory.CreateDouble((Double)value);
       }
 
-      public static XPathItem ToItem(Decimal value) {
+      public static XPathItem ToXPathItem(Decimal value) {
          return SystemItemFactory.CreateDouble((Double)value);
       }
 
-      public static XPathItem ToItem(Single value) {
+      public static XPathItem ToXPathItem(Single value) {
          return SystemItemFactory.CreateDouble((Double)value);
       }
 
-      public static XPathItem ToItem(Double value) {
+      public static XPathItem ToXPathItem(Double value) {
          return SystemItemFactory.CreateDouble(value);
       }
 
-      public static XPathItem ToItem(DateTime value) {
+      public static XPathItem ToXPathItem(DateTime value) {
          return SystemItemFactory.CreateDateTime(value);
       }
 
-      public static XPathItem ToItem(Char value) {
+      public static XPathItem ToXPathItem(Char value) {
          return SystemItemFactory.CreateString(value.ToString());
       }
 
-      public static XPathItem ToItem(String value) {
+      public static XPathItem ToXPathItem(String value) {
 
          if (value == null) throw new ArgumentNullException("value");
 
          return SystemItemFactory.CreateString(value);
       }
 
-      public static IEnumerable<XPathItem> ToItems(XPathNodeIterator value) {
+      public static XPathItem ToXPathItem(XPathNodeIterator value) {
+         return ToXPathNavigator(value);
+      }
+
+      public static IEnumerable<XPathItem> ToXPathItems(XPathNodeIterator value) {
 
          if (value == null)
             return Enumerable.Empty<XPathItem>();
@@ -522,7 +531,17 @@ namespace myxsl.net.system {
          return value.Cast<XPathItem>();
       }
 
-      public static IEnumerable<XPathNavigator> ToNodes(XPathNodeIterator value) {
+      public static XPathNavigator ToXPathNavigator(XPathNodeIterator value) {
+
+         if (IsEmpty(value))
+            return null;
+
+         value.MoveNext();
+
+         return value.Current;
+      }
+
+      public static IEnumerable<XPathNavigator> ToXPathNavigators(XPathNodeIterator value) {
 
          if (value == null)
             return Enumerable.Empty<XPathNavigator>();
@@ -548,16 +567,6 @@ namespace myxsl.net.system {
          value.MoveNext();
 
          return (T)value.Current.ValueAs(typeof(T));
-      }
-
-      public static XPathNavigator ToXPathNavigator(XPathNodeIterator value) {
-
-         if (IsEmpty(value))
-            return null;
-
-         value.MoveNext();
-
-         return value.Current;
       }
    }
 }
