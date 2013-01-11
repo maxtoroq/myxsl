@@ -139,7 +139,7 @@
          an XML document built using values from the form below.
       </p>
       <p>
-         The schema can be provided <a href="/redir_src.xqy?/schematron.xsl#L43" target="_blank">inline</a> or as a URI that identifies a <a href="/redir_src.xqy?/App_Code/rules/contact.sch" target="_blank">pre-compiled schema</a> in App_Code.
+         The schema can be provided <a href="/redir_src.xqy?{request:file-path()}#L42" target="_blank">inline</a> or as a URI that identifies a <a href="/redir_src.xqy?/App_Code/rules/contact.sch" target="_blank">pre-compiled schema</a> in App_Code.
       </p>
       <p>
          Using Rick Jelliffe's implementation of <a href="http://www.schematron.com">ISO Schematron</a>, the
