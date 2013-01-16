@@ -46,6 +46,15 @@
          </xsl:variable>
          <xsl:value-of select="fn:string-join(fn:distinct-values(exsl:node-set($numbers-rtf)/*), ', ')" />
       </fn:distinct-values>
+      <fn:deep-equals>
+         <xsl:variable name="attendees-rtf">
+            <name last='Parker' first='Peter'/>
+            <name last='Barker' first='Bob'/>
+            <name last='Parker' first='Peter'/>
+         </xsl:variable>
+         <xsl:variable name="attendees" select="exsl:node-set($attendees-rtf)"/>
+         <xsl:value-of select="fn:deep-equals($attendees/name[1], $attendees/name[3])"/>
+      </fn:deep-equals>
       <fn:empty>
          <xsl:value-of select="fn:empty(document('')/foo)"/>
       </fn:empty>
@@ -308,7 +317,7 @@
          <xsl:variable name="sampleCode" select="document('')/*/xsl:variable[@name=$sampleVar]/*[name()=name(current())]"/>
 
          <code>
-            <xsl:value-of select="$sampleCode/*/@select"/>
+            <xsl:value-of select="$sampleCode/xsl:value-of/@select"/>
          </code>
 
          <xsl:value-of select="concat(' returns ', string())"/>

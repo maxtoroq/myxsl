@@ -61,6 +61,40 @@ namespace myxsl.net.system {
          return XmlConvert.ToString(DateTime.Now, XmlSchemaConstructorFunctions.TimeFormat);
       }
 
+      protected bool deep_equals(object arg1, object arg2) {
+
+         if (arg1 == null)
+            return arg2 == null;
+
+         if (arg2 == null)
+            return false;
+
+         var iter1 = arg1 as XPathNodeIterator;
+         var iter2 = arg2 as XPathNodeIterator;
+
+         if (iter1 != null) {
+            
+            if (iter2 == null)
+               return false;
+
+            if (iter1.Count != iter2.Count)
+               return false;
+
+            while (iter1.MoveNext() && iter2.MoveNext()) {
+
+               if (!XPathNavigatorEqualityComparer.Instance.Equals(iter1.Current, iter2.Current)) 
+                  return false;
+            }
+
+            return true;
+         }
+
+         if (iter2 != null)
+            return false;
+
+         return arg1.Equals(arg2);
+      }
+
       protected XPathNavigator[] distinct_values(XPathNodeIterator iter) {
 
          XPathNavigator[] nodes = iter.Cast<XPathNavigator>().ToArray();
