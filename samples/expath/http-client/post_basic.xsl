@@ -14,7 +14,7 @@
    <xsl:param name="override-media-type" select="'application/xml'" as="xs:string" request:bind="query"/>
 
    <xsl:variable name="request" as="element()">
-      <http:request method="POST" href="{concat(request:url('SchemeAndServer'), '/schematron.xsl')}" 
+      <http:request method="POST" href="{concat(request:url('SchemeAndServer'), '/schematron/xslt2.xsl')}" 
          override-media-type="{$override-media-type}">
          <http:body media-type="application/x-www-form-urlencoded" method="text">
             <xsl:text>view-report=1&amp;email=foo</xsl:text>

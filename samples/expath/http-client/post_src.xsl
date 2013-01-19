@@ -11,7 +11,7 @@
    <xsl:output method="xml" indent="yes"/>
 
    <xsl:variable name="request" as="element()">
-      <http:request method="POST" href="{concat(request:url('SchemeAndServer'), '/schematron.xsl')}" 
+      <http:request method="POST" href="{concat(request:url('SchemeAndServer'), '/schematron/xslt2.xsl')}" 
          override-media-type="application/xml">
          <http:body src="src_input.txt" media-type="application/x-www-form-urlencoded"/>
       </http:request>
