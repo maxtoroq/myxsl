@@ -63,7 +63,7 @@ namespace myxsl.net.validation {
             invoker = SchematronInvoker.With((XPathNavigator)schema, this.Processor);
 
          } else {
-            invoker = SchematronInvoker.With(schema.Value);
+            invoker = SchematronInvoker.With(schemaUri: schema.Value);
          }
 
          return invoker

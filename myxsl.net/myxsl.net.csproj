@@ -155,7 +155,6 @@
     <Compile Include="util\WellKnownNamespaces.cs" />
     <Compile Include="web.ui\PageParameterInfo.cs" />
     <Compile Include="web.compilation\BaseCodeDomTreeGenerator.cs" />
-    <Compile Include="web.compilation\SchematronValidatorCodeDomTreeGenerator.cs" />
     <Compile Include="web.compilation\BaseBuildProvider.cs" />
     <Compile Include="web.compilation\XsltPageBuildProvider.cs" />
     <Compile Include="web.compilation\BasePageBuildProvider.cs" />
@@ -171,9 +170,6 @@
     <Compile Include="web.ui\XQueryPage.cs" />
     <Compile Include="web.ui\XQueryPageParser.cs" />
     <Compile Include="web.ui\XsltPage.cs" />
-    <Compile Include="web.compilation\SchematronValidatorBuildProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="validation\SchematronExtensions.cs" />
     <Compile Include="validation\XsltSchematronValidator.cs" />
     <Compile Include="util\XHtmlWriter.cs" />

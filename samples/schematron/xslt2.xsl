@@ -32,8 +32,7 @@
             <xsl:variable name="view-report" select="boolean((request:form('view-report'), '')[1])" as="xs:boolean" />
 
             <xsl:variable name="schema" as="item()">
-               <!-- Can provide schema as inline node or URI (pre-compiled in App_Code) -->
-               <!--<xsl:sequence select="'clitype:AppRules.contact'"/>-->
+               <!-- Can provide schema as inline node or URI -->
 
                <!-- Saxon 9.4.0.6 requires a document-node(), see https://saxonica.plan.io/issues/1675 -->
                <xsl:document>
@@ -135,7 +134,7 @@
          an XML document built using values from the form below.
       </p>
       <p>
-         The schema can be provided <a href="/redir_src.xqy?{request:file-path()}#L34" target="_blank">inline</a> or as a URI that identifies a <a href="/redir_src.xqy?/App_Code/rules/contact.sch" target="_blank">pre-compiled schema</a> in App_Code.
+         The schema can be provided <a href="/redir_src.xqy?{request:file-path()}#L34" target="_blank">inline</a> or as a URI.
       </p>
       <p>
          Using Rick Jelliffe's implementation of <a href="http://www.schematron.com">ISO Schematron</a>, the

@@ -14,7 +14,6 @@
 
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Web.Routing;
@@ -22,17 +21,14 @@ using System.Xml;
 using System.Xml.XPath;
 using myxsl.net.common;
 using myxsl.net.validation;
-using myxsl.net.web.ui;
-using PrecompiledCache = System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.net.validation.SchematronValidator>;
-using UriCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.net.validation.SchematronValidator>>;
 using InlineCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Int32, myxsl.net.validation.SchematronValidator>>;
+using UriCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.net.validation.SchematronValidator>>;
 
 namespace myxsl.net {
 
    public class SchematronInvoker {
 
-      static readonly Lazy<PrecompiledCache> precompiledCache = new Lazy<PrecompiledCache>(() => new PrecompiledCache(), isThreadSafe: true);
-      static readonly Lazy<UriCacheByProcessor> uriCacheByProc = new Lazy<UriCacheByProcessor>(() => new UriCacheByProcessor(), isThreadSafe: true);
+      static readonly Lazy<UriCacheByProcessor> uriCache = new Lazy<UriCacheByProcessor>(() => new UriCacheByProcessor(), isThreadSafe: true);
       static readonly Lazy<InlineCacheByProcessor> inlineCache = new Lazy<InlineCacheByProcessor>(() => new InlineCacheByProcessor(), isThreadSafe: true);
 
       readonly SchematronValidator validator;
@@ -75,85 +71,24 @@ namespace myxsl.net {
          if (!schemaUri.IsAbsoluteUri)
             schemaUri = resolver.ResolveUri(null, schemaUri.OriginalString);
 
-         SchematronValidator validator = null;
+         if (processor == null) 
+            processor = Processors.Xslt.DefaultProcessor;
 
-         if (schemaUri.Scheme == TypeResolver.UriSchemeClitype) {
+         ConcurrentDictionary<Uri, SchematronValidator> cache =
+            uriCache.Value.GetOrAdd(processor, p => new ConcurrentDictionary<Uri, SchematronValidator>());
 
-            validator = precompiledCache.Value.GetOrAdd(schemaUri, u => {
+         SchematronValidator validator = cache.GetOrAdd(schemaUri, u => {
 
-               Type schemaType = TypeResolver.ResolveUri(schemaUri);
+            using (var schemaSource = (Stream)resolver.GetEntity(schemaUri, null, typeof(Stream))) {
 
-               if (schemaType == null)
-                  throw new ArgumentException("Could not found schema type {0}.".FormatInvariant(schemaUri), "u");
+               IXPathNavigable schemaDoc = processor.ItemFactory.CreateNodeReadOnly(schemaSource, new XmlParsingOptions {
+                  BaseUri = schemaUri,
+                  XmlResolver = resolver
+               });
 
-               if (!typeof(SchematronValidator).IsAssignableFrom(schemaType))
-                  throw new ArgumentException("The type must be derived from {0}.".FormatInvariant(typeof(SchematronValidator).FullName), "u");
-
-               return (SchematronValidator)Activator.CreateInstance(schemaType);
-            });
-         }
-
-         if (validator == null) {
-
-            IXPathNavigable schemaDoc = null;
-
-            if (processor == null) {
-
-               using (var schemaSource = (Stream)resolver.GetEntity(schemaUri, null, typeof(Stream))) {
-                  using (var schemaReader = XmlReader.Create(schemaSource, new XmlReaderSettings { 
-                     DtdProcessing = DtdProcessing.Ignore, 
-                     IgnoreComments = true, 
-                     IgnoreWhitespace = true,
-                     XmlResolver = resolver }, schemaUri.AbsoluteUri)) {
-
-                     while (schemaReader.Read()) {
-
-                        if (processor == null
-                           && schemaReader.NodeType == XmlNodeType.ProcessingInstruction
-                           && schemaReader.Name == SchematronParser.validator.it) {
-
-                           IDictionary<string, string> attribs = PseudoAttributeParser.GetAttributes(schemaReader.Value);
-
-                           string procKey = SchematronParser.validator.processor;
-
-                           if (attribs.ContainsKey(procKey))
-                              processor = Processors.Xslt[attribs[procKey]];
-
-                           continue;
-                        }
-
-                        if (schemaReader.NodeType == XmlNodeType.Element)
-                           break;
-                     }
-
-                     // Saxon calls Read and ignores current node
-                     //schemaDoc = processor.ItemFactory.CreateNodeReadOnly(schemaReader);
-                     schemaDoc = new system.SystemItemFactory().CreateNodeReadOnly(schemaReader);
-                  }
-               }
-            }
-
-            if (processor == null)
-               processor = Processors.Xslt.DefaultProcessor;
-
-            ConcurrentDictionary<Uri, SchematronValidator> cache =
-               uriCacheByProc.Value.GetOrAdd(processor, p => new ConcurrentDictionary<Uri, SchematronValidator>());
-
-            validator = cache.GetOrAdd(schemaUri, u => {
-
-               if (schemaDoc == null) {
-                  using (var schemaSource = (Stream)resolver.GetEntity(schemaUri, null, typeof(Stream))) {
-
-                     schemaDoc = processor.ItemFactory.CreateNodeReadOnly(schemaSource, new XmlParsingOptions {
-                        BaseUri = schemaUri,
-                        XmlResolver = resolver
-                     });
-                  }
-               }
-               
                return processor.CreateSchematronValidator(schemaDoc);
-            });
-         }
+            }
+         });
 
          return new SchematronInvoker(validator, resolver);
       }

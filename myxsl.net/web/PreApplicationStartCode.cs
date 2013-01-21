@@ -31,7 +31,6 @@ namespace myxsl.net.web {
             startWasCalled = true;
             BuildProvider.RegisterBuildProvider(".xsl", typeof(XsltPageBuildProvider));
             BuildProvider.RegisterBuildProvider(".xqy", typeof(XQueryPageBuildProvider));
-            BuildProvider.RegisterBuildProvider(".sch", typeof(SchematronValidatorBuildProvider));
          }
       }
    }
