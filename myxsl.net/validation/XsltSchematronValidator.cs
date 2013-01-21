@@ -21,7 +21,7 @@ using myxsl.net.common;
 
 namespace myxsl.net.validation {
 
-   public class XsltSchematronValidator : SchematronValidator {
+   class XsltSchematronValidator : SchematronValidator {
 
       readonly XsltExecutable executable;
 
