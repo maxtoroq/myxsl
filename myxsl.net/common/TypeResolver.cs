@@ -21,7 +21,7 @@ using System.Web.Compilation;
 
 namespace myxsl.net.common {
 
-   public static class TypeResolver {
+   static class TypeResolver {
 
       public static readonly string UriSchemeClitype = "clitype";
 
