@@ -23,13 +23,15 @@ using System.Xml.Serialization;
 using System.Xml.XPath;
 using myxsl.net.web.ui;
 using myxsl.net.common;
-using CacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.net.common.XsltExecutable>>;
+using UriCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.net.common.XsltExecutable>>;
+using InlineCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Int32, myxsl.net.common.XsltExecutable>>;
 
 namespace myxsl.net {
    
    public class XsltInvoker {
 
-      static readonly CacheByProcessor cacheByProc = new CacheByProcessor();
+      static readonly UriCacheByProcessor uriCache = new UriCacheByProcessor();
+      static readonly InlineCacheByProcessor inlineCache = new InlineCacheByProcessor();
 
       readonly XsltExecutable executable;
       readonly XmlResolver resolver;
@@ -77,7 +79,7 @@ namespace myxsl.net {
             processor = Processors.Xslt.DefaultProcessor;
 
          ConcurrentDictionary<Uri, XsltExecutable> cache = 
-            cacheByProc.GetOrAdd(processor, p => new ConcurrentDictionary<Uri, XsltExecutable>());
+            uriCache.GetOrAdd(processor, p => new ConcurrentDictionary<Uri, XsltExecutable>());
 
          XsltExecutable executable = cache.GetOrAdd(stylesheetUri, u => {
 
@@ -107,6 +109,41 @@ namespace myxsl.net {
          });
 
          return new XsltInvoker(executable, resolver);
+      }
+
+      public static XsltInvoker With(IXPathNavigable stylesheet) {
+         return With(stylesheet, (IXsltProcessor)null, Assembly.GetCallingAssembly());
+      }
+
+      public static XsltInvoker With(IXPathNavigable stylesheet, string processor) {
+         return With(stylesheet, Processors.Xslt[processor], Assembly.GetCallingAssembly());
+      }
+
+      public static XsltInvoker With(IXPathNavigable stylesheet, IXsltProcessor processor) {
+         return With(stylesheet, processor, Assembly.GetCallingAssembly());
+      }
+
+      static XsltInvoker With(IXPathNavigable stylesheet, IXsltProcessor processor, Assembly callingAssembly) {
+
+         if (stylesheet == null) throw new ArgumentNullException("stylesheet");
+
+         var resolver = new XmlDynamicResolver(callingAssembly);
+
+         if (processor == null)
+            processor = Processors.Xslt.DefaultProcessor;
+
+         int hashCode = XPathNavigatorEqualityComparer.Instance.GetHashCode(stylesheet.CreateNavigator());
+
+         ConcurrentDictionary<int, XsltExecutable> cache =
+            inlineCache.GetOrAdd(processor, p => new ConcurrentDictionary<int, XsltExecutable>());
+
+         XsltExecutable exec = cache.GetOrAdd(hashCode, i => 
+            processor.Compile(stylesheet, new XsltCompileOptions {
+               XmlResolver = resolver
+            })
+         );
+
+         return new XsltInvoker(exec, resolver);
       }
 
       private XsltInvoker(XsltExecutable executable, XmlResolver resolver) {
