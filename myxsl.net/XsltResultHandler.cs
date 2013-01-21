@@ -37,6 +37,10 @@ namespace myxsl.net {
          this.defaultSerialization = options.Serialization;
       }
 
+      public IXPathNavigable Result() {
+         return this.executable.Run(this.options);
+      }
+
       public T Into<T>() {
          return (T)Into(typeof(T));
       }
@@ -45,7 +49,7 @@ namespace myxsl.net {
 
          XmlSerializer serializer = XPathItemFactory.GetSerializer(outputType);
 
-         IXPathNavigable outputDoc = this.executable.Run(this.options);
+         IXPathNavigable outputDoc = Result();
 
          return serializer.Deserialize(outputDoc.CreateNavigator().ReadSubtree());
       }
