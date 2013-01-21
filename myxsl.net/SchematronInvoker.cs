@@ -21,15 +21,15 @@ using System.Xml;
 using System.Xml.XPath;
 using myxsl.net.common;
 using myxsl.net.validation;
-using InlineCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Int32, myxsl.net.validation.SchematronValidator>>;
 using UriCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.net.validation.SchematronValidator>>;
+using InlineCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Int32, myxsl.net.validation.SchematronValidator>>;
 
 namespace myxsl.net {
 
    public class SchematronInvoker {
 
-      static readonly Lazy<UriCacheByProcessor> uriCache = new Lazy<UriCacheByProcessor>(() => new UriCacheByProcessor(), isThreadSafe: true);
-      static readonly Lazy<InlineCacheByProcessor> inlineCache = new Lazy<InlineCacheByProcessor>(() => new InlineCacheByProcessor(), isThreadSafe: true);
+      static readonly UriCacheByProcessor uriCache = new UriCacheByProcessor();
+      static readonly InlineCacheByProcessor inlineCache = new InlineCacheByProcessor();
 
       readonly SchematronValidator validator;
       readonly XmlResolver resolver;
@@ -75,7 +75,7 @@ namespace myxsl.net {
             processor = Processors.Xslt.DefaultProcessor;
 
          ConcurrentDictionary<Uri, SchematronValidator> cache =
-            uriCache.Value.GetOrAdd(processor, p => new ConcurrentDictionary<Uri, SchematronValidator>());
+            uriCache.GetOrAdd(processor, p => new ConcurrentDictionary<Uri, SchematronValidator>());
 
          SchematronValidator validator = cache.GetOrAdd(schemaUri, u => {
 
@@ -115,7 +115,7 @@ namespace myxsl.net {
          int hashCode = XPathNavigatorEqualityComparer.Instance.GetHashCode(schema.CreateNavigator());
 
          ConcurrentDictionary<int, SchematronValidator> cache = 
-            inlineCache.Value.GetOrAdd(processor, p => new ConcurrentDictionary<int, SchematronValidator>());
+            inlineCache.GetOrAdd(processor, p => new ConcurrentDictionary<int, SchematronValidator>());
 
          SchematronValidator validator = cache.GetOrAdd(hashCode, i => processor.CreateSchematronValidator(schema));
          var resolver = new XmlDynamicResolver(callingAssembly);
