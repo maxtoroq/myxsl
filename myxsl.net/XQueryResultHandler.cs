@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.XPath;
 using myxsl.net.common;
 
 namespace myxsl.net {
@@ -33,6 +34,10 @@ namespace myxsl.net {
          this.executable = executable;
          this.options = options;
          this.defaultSerialization = options.Serialization;
+      }
+
+      public IEnumerable<XPathItem> Result() {
+         return this.executable.Run(this.options);
       }
 
       public void To(Stream output) {
