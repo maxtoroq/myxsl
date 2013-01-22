@@ -132,11 +132,11 @@ namespace myxsl.net {
          return Query(doc, parameters);
       }
 
-      public XQueryResultHandler Query(IXPathNavigable input) {
+      public XQueryResultHandler Query(XPathItem input) {
          return Query(input, null);
       }
 
-      public XQueryResultHandler Query(IXPathNavigable input, object parameters) {
+      public XQueryResultHandler Query(XPathItem input, object parameters) {
 
          if (input == null) throw new ArgumentNullException("input");
 
