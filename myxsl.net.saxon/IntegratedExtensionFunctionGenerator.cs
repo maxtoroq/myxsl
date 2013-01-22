@@ -567,11 +567,11 @@ namespace myxsl.net.saxon {
          StringBuilder itemExpr = new StringBuilder("x");
 
          if (isAtomic) {
-
+            
             itemExpr.Append(".Value");
 
             QName atomicSchemaType = GetAtomicSchemaType(sequenceType.ItemType);
-
+            
             Type expectedType = sequenceType.ItemType.ClrType;
             Type actualType = (atomicSchemaType.Uri == XMLSchemaNamespace) ?
                SaxonAtomicMapping(atomicSchemaType.LocalName)
@@ -583,10 +583,18 @@ namespace myxsl.net.saxon {
                itemExpr.Insert(0, "({0})".FormatInvariant(expectedTypeName));
             
             } else {
-               // TODO: Handle special cases, e.g. QName -> XmlQualifiedName
 
-               itemExpr.Insert(0, "({0}){1}.ChangeType(".FormatInvariant(expectedTypeName, typeof(Convert).FullName));
-               itemExpr.AppendFormatInvariant(", typeof({0}))", expectedTypeName);
+               if (actualType == typeof(QName)
+                  && expectedType == typeof(XmlQualifiedName)) {
+
+                  itemExpr.Insert(0, "(({0})".FormatInvariant(GetCSharpFullName(actualType)));
+                  itemExpr.Append(").ToXmlQualifiedName()");
+
+               } else {
+
+                  itemExpr.Insert(0, "({0}){1}.ChangeType(".FormatInvariant(expectedTypeName, typeof(Convert).FullName));
+                  itemExpr.AppendFormatInvariant(", typeof({0}))", expectedTypeName);
+               }
             }
 
          } else if (isNode) {
