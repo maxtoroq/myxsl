@@ -116,6 +116,7 @@
     <Compile Include="XQueryInvoker.cs" />
     <Compile Include="XQueryResultHandler.cs" />
     <Compile Include="XsltInvoker.cs" />
+    <Compile Include="XsltModule.cs" />
     <Compile Include="XsltResultHandler.cs" />
   </ItemGroup>
   <ItemGroup>
