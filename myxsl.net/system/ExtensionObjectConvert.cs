@@ -16,6 +16,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using System.Xml.XPath;
 using System.Xml.Xsl.Runtime;
 
@@ -567,6 +568,23 @@ namespace myxsl.net.system {
          value.MoveNext();
 
          return (T)value.Current.ValueAs(typeof(T));
+      }
+
+      public static XmlQualifiedName ToXmlQualifiedName(string value) {
+
+         if (value == null) throw new ArgumentNullException("value");
+
+         return new XmlQualifiedName(value);
+      }
+
+      public static XmlQualifiedName ToXmlQualifiedName(XPathNodeIterator value) {
+
+         if (IsEmpty(value))
+            return null;
+
+         value.MoveNext();
+
+         return ToXmlQualifiedName(value.Current.Value);
       }
    }
 }
