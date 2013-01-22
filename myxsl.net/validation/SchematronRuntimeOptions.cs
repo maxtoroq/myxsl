@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
@@ -26,7 +25,6 @@ namespace myxsl.net.validation {
    public class SchematronRuntimeOptions {
 
       readonly IDictionary<XmlQualifiedName, object> _Parameters = new Dictionary<XmlQualifiedName, object>();
-      Assembly callingAssembly = Assembly.GetCallingAssembly();
       XmlResolver _InputXmlResolver;
 
       public IXPathNavigable Instance { get; set; }
@@ -37,15 +35,12 @@ namespace myxsl.net.validation {
 
       public XmlResolver InputXmlResolver {
          get {
-            if (_InputXmlResolver == null
-               && callingAssembly != null) {
-               InputXmlResolver = new XmlDynamicResolver(callingAssembly);
-            }
+            if (_InputXmlResolver == null) 
+               InputXmlResolver = new XmlDynamicResolver();
             return _InputXmlResolver;
          }
          set {
             _InputXmlResolver = value;
-            callingAssembly = null;
          }
       }
 

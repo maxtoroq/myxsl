@@ -17,13 +17,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using System.Reflection;
 
 namespace myxsl.net.common {
    
    public class XmlParsingOptions {
 
-      Assembly callingAssembly = Assembly.GetCallingAssembly();
       XmlResolver _XmlResolver;
 
       public Uri BaseUri { get; set; }
@@ -34,15 +32,12 @@ namespace myxsl.net.common {
 
       public XmlResolver XmlResolver {
          get {
-            if (_XmlResolver == null
-               && callingAssembly != null) {
-               XmlResolver = new XmlDynamicResolver(callingAssembly);
-            }
+            if (_XmlResolver == null) 
+               XmlResolver = new XmlDynamicResolver();
             return _XmlResolver;
          }
          set {
             _XmlResolver = value;
-            callingAssembly = null;
          }
       }
 

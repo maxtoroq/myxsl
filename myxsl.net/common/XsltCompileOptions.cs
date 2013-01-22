@@ -14,28 +14,23 @@
 
 using System;
 using System.Xml;
-using System.Reflection;
 
 namespace myxsl.net.common {
 
    public class XsltCompileOptions {
 
-      Assembly callingAssembly = Assembly.GetCallingAssembly();
       XmlResolver _XmlResolver;
 
       public Uri BaseUri { get; set; }
 
       public XmlResolver XmlResolver {
          get {
-            if (_XmlResolver == null
-               && callingAssembly != null) {
-               XmlResolver = new XmlDynamicResolver(callingAssembly);
-            }
+            if (_XmlResolver == null) 
+               XmlResolver = new XmlDynamicResolver();
             return _XmlResolver;
          }
          set {
             _XmlResolver = value;
-            callingAssembly = null;
          }
       }
    }

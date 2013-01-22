@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Xml;
 using System.Xml.XPath;
 
@@ -24,7 +23,6 @@ namespace myxsl.net.common {
    public class XQueryRuntimeOptions {
 
       readonly IDictionary<XmlQualifiedName, object> _ExternalVariables = new Dictionary<XmlQualifiedName, object>();
-      Assembly callingAssembly = Assembly.GetCallingAssembly();
       XmlResolver _InputXmlResolver;
 
       XPathSerializationOptions _Serialization;
@@ -34,15 +32,12 @@ namespace myxsl.net.common {
 
       public XmlResolver InputXmlResolver {
          get {
-            if (_InputXmlResolver == null
-               && callingAssembly != null) {
-               InputXmlResolver = new XmlDynamicResolver(callingAssembly);
-            }
+            if (_InputXmlResolver == null) 
+               InputXmlResolver = new XmlDynamicResolver();
             return _InputXmlResolver;
          }
          set {
             _InputXmlResolver = value;
-            callingAssembly = null;
          }
       }
 
