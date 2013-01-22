@@ -16,15 +16,12 @@ using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Reflection;
-using System.Web.Compilation;
 using System.Web.Routing;
 using System.Xml;
-using System.Xml.Serialization;
 using System.Xml.XPath;
-using myxsl.net.web.ui;
 using myxsl.net.common;
-using UriCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.net.common.XsltExecutable>>;
 using InlineCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Int32, myxsl.net.common.XsltExecutable>>;
+using UriCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.net.common.XsltExecutable>>;
 
 namespace myxsl.net {
    
@@ -70,10 +67,8 @@ namespace myxsl.net {
 
          var resolver = new XmlDynamicResolver(callingAssembly);
          
-         string originalUri = stylesheetUri.OriginalString;
-
          if (!stylesheetUri.IsAbsoluteUri)
-            stylesheetUri = resolver.ResolveUri(null, originalUri);
+            stylesheetUri = resolver.ResolveUri(null, stylesheetUri.OriginalString);
 
          if (processor == null)
             processor = Processors.Xslt.DefaultProcessor;
@@ -83,29 +78,12 @@ namespace myxsl.net {
 
          XsltExecutable executable = cache.GetOrAdd(stylesheetUri, u => {
 
-            XsltExecutable exec = null;
-
-            if (originalUri[0] == '~') {
-               XsltPage page = BuildManager.CreateInstanceFromVirtualPath(originalUri, typeof(object)) as XsltPage;
-
-               if (page != null
-                  && processor.GetType() == page.Executable.Processor.GetType()) {
-                  
-                  exec = page.Executable;
-               }
+            using (var stylesheetSource = (Stream)resolver.GetEntity(stylesheetUri, null, typeof(Stream))) {
+               return processor.Compile(stylesheetSource, new XsltCompileOptions {
+                  BaseUri = stylesheetUri,
+                  XmlResolver = resolver
+               });
             }
-
-            if (exec == null) {
-
-               using (var stylesheetSource = (Stream)resolver.GetEntity(stylesheetUri, null, typeof(Stream))) {
-                  exec = processor.Compile(stylesheetSource, new XsltCompileOptions {
-                     BaseUri = stylesheetUri,
-                     XmlResolver = resolver
-                  });
-               }
-            }
-
-            return exec;
          });
 
          return new XsltInvoker(executable, resolver);

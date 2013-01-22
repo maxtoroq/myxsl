@@ -16,12 +16,9 @@ using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Reflection;
-using System.Web.Compilation;
 using System.Web.Routing;
 using System.Xml;
-using System.Xml.Serialization;
 using System.Xml.XPath;
-using myxsl.net.web.ui;
 using myxsl.net.common;
 using CacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXQueryProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.net.common.XQueryExecutable>>;
 
@@ -68,10 +65,8 @@ namespace myxsl.net {
 
          var resolver = new XmlDynamicResolver(callingAssembly);
          
-         string originalUri = queryUri.OriginalString;
-
          if (!queryUri.IsAbsoluteUri)
-            queryUri = resolver.ResolveUri(null, originalUri);
+            queryUri = resolver.ResolveUri(null, queryUri.OriginalString);
 
          if (processor == null)
             processor = Processors.XQuery.DefaultProcessor;
@@ -81,29 +76,12 @@ namespace myxsl.net {
 
          XQueryExecutable executable = cache.GetOrAdd(queryUri, u => {
 
-            XQueryExecutable exec = null;
-
-            if (originalUri[0] == '~') {
-               XQueryPage page = BuildManager.CreateInstanceFromVirtualPath(originalUri, typeof(object)) as XQueryPage;
-
-               if (page != null
-                  && processor.GetType() == page.Executable.Processor.GetType()) {
-                  
-                  exec = page.Executable;
-               }
+            using (var stylesheetSource = (Stream)resolver.GetEntity(queryUri, null, typeof(Stream))) {
+               return processor.Compile(stylesheetSource, new XQueryCompileOptions {
+                  BaseUri = queryUri,
+                  XmlResolver = resolver
+               });
             }
-
-            if (exec == null) {
-
-               using (var stylesheetSource = (Stream)resolver.GetEntity(queryUri, null, typeof(Stream))) {
-                  exec = processor.Compile(stylesheetSource, new XQueryCompileOptions {
-                     BaseUri = queryUri,
-                     XmlResolver = resolver
-                  });
-               }
-            }
-
-            return exec;
          });
 
          return new XQueryInvoker(executable, resolver);

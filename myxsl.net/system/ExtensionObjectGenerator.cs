@@ -376,62 +376,62 @@ namespace myxsl.net.system {
 
          CodeExpression argExpr = varExpr;
 
-         if (!paramTypeInfo.ClrType.IsAssignableFrom(varType)) {
+         if (paramTypeInfo.ClrType.IsAssignableFrom(varType)) 
+            return argExpr;
 
-            if (paramTypeInfo.ClrTypeIsEnumerable) {
+         if (paramTypeInfo.ClrTypeIsEnumerable) {
+
+            argExpr = new CodeMethodInvokeExpression {
+               Method = new CodeMethodReferenceExpression {
+                  MethodName = (paramTypeInfo.ItemType.Kind == XPathItemKind.AnyItem) ?
+                     "ToXPathItems"
+                     : "ToXPathNavigators",
+                  TargetObject = convertTypeExpr
+               },
+               Parameters = { varExpr }
+            };
+
+         } else {
+
+            MethodInfo convertMethod = typeof(ExtensionObjectConvert)
+               .GetMethod("To" + paramTypeInfo.ClrType.Name, BindingFlags.Public | BindingFlags.Static, null, new[] { varType }, null);
+
+            if (convertMethod != null) {
 
                argExpr = new CodeMethodInvokeExpression {
                   Method = new CodeMethodReferenceExpression {
-                     MethodName = (paramTypeInfo.ItemType.Kind == XPathItemKind.AnyItem) ?
-                        "ToXPathItems"
-                        : "ToXPathNavigators",
-                     TargetObject = convertTypeExpr
+                     MethodName = convertMethod.Name,
+                     TargetObject = convertTypeExpr,
+                  },
+                  Parameters = { varExpr }
+               };
+
+            }  else if (paramTypeInfo.ClrTypeIsNullableValueType) {
+
+               argExpr = new CodeMethodInvokeExpression {
+                  Method = new CodeMethodReferenceExpression {
+                     MethodName = "ToNullableValueType",
+                     TargetObject = convertTypeExpr,
+                     TypeArguments = { new CodeTypeReference(paramTypeInfo.ItemType.ClrType) }
                   },
                   Parameters = { varExpr }
                };
 
             } else {
 
-               MethodInfo convertMethod = typeof(ExtensionObjectConvert)
-                  .GetMethod("To" + paramTypeInfo.ClrType.Name, BindingFlags.Public | BindingFlags.Static, null, new[] { varType }, null);
-
-               if (convertMethod != null) {
-
-                  argExpr = new CodeMethodInvokeExpression {
+               argExpr = new CodeCastExpression {
+                  TargetType = new CodeTypeReference(paramTypeInfo.ClrType),
+                  Expression = new CodeMethodInvokeExpression {
                      Method = new CodeMethodReferenceExpression {
-                        MethodName = convertMethod.Name,
-                        TargetObject = convertTypeExpr,
+                        MethodName = "ChangeType",
+                        TargetObject = new CodeTypeReferenceExpression(typeof(Convert)),
                      },
-                     Parameters = { varExpr }
-                  };
-
-               }  else if (paramTypeInfo.ClrTypeIsNullableValueType) {
-
-                  argExpr = new CodeMethodInvokeExpression {
-                     Method = new CodeMethodReferenceExpression {
-                        MethodName = "ToNullableValueType",
-                        TargetObject = convertTypeExpr,
-                        TypeArguments = { new CodeTypeReference(paramTypeInfo.ItemType.ClrType) }
-                     },
-                     Parameters = { varExpr }
-                  };
-
-               } else {
-
-                  argExpr = new CodeCastExpression {
-                     TargetType = new CodeTypeReference(paramTypeInfo.ClrType),
-                     Expression = new CodeMethodInvokeExpression {
-                        Method = new CodeMethodReferenceExpression {
-                           MethodName = "ChangeType",
-                           TargetObject = new CodeTypeReferenceExpression(typeof(Convert)),
-                        },
-                        Parameters = { varExpr, new CodeTypeOfExpression(paramTypeInfo.ClrType) }
-                     }
-                  };
-               }
+                     Parameters = { varExpr, new CodeTypeOfExpression(paramTypeInfo.ClrType) }
+                  }
+               };
             }
          }
-
+         
          return argExpr;
       }
 
