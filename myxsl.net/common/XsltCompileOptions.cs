@@ -33,5 +33,11 @@ namespace myxsl.net.common {
             _XmlResolver = value;
          }
       }
+
+      public XsltCompileOptions() { }
+
+      public XsltCompileOptions(Uri baseUri) {
+         this.BaseUri = baseUri;
+      }
    }
 }

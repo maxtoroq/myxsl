@@ -52,8 +52,5 @@ namespace myxsl.net.common {
          }
          set { _Serialization = value; } 
       }
-
-      // TODO:
-      public XsltRuntimeOptions() { }
    }
 }

@@ -169,7 +169,15 @@ namespace myxsl.net.system {
          }
 
          XsltArgumentList args = GetArguments(options);
+         
          XmlResolver resolver = options.InputXmlResolver;
+         XmlDynamicResolver dynamicResolver = resolver as XmlDynamicResolver;
+
+         if (dynamicResolver != null
+            && dynamicResolver.DefaultBaseUri == null) {
+            
+            dynamicResolver.DefaultBaseUri = this.StaticBaseUri;
+         }
 
          try {
             if (CLR.IsMono) 

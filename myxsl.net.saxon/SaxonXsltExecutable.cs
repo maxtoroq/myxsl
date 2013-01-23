@@ -82,8 +82,18 @@ namespace myxsl.net.saxon {
          XsltTransformer transformer = executable.Load();
          transformer.RecoveryPolicy = RecoveryPolicy.DoNotRecover;
 
-         if (options.InputXmlResolver != null)
+         if (options.InputXmlResolver != null) {
+
+            XmlDynamicResolver dynamicResolver = options.InputXmlResolver as XmlDynamicResolver;
+
+            if (dynamicResolver != null
+               && dynamicResolver.DefaultBaseUri == null) {
+
+               dynamicResolver.DefaultBaseUri = this.StaticBaseUri;
+            }
+
             transformer.InputXmlResolver = options.InputXmlResolver;
+         }
 
          // XsltTransformer.BaseOutputUri doesn't accept null
          if (options.BaseOutputUri != null)

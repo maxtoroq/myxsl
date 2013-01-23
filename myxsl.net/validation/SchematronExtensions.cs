@@ -51,9 +51,7 @@ namespace myxsl.net.validation {
             Path = String.Concat(assembly.GetName().Name, "/validation/schematron/", xsltVersion, "/")
          }.Uri;
 
-         var compileOptions = new XsltCompileOptions { 
-            BaseUri = baseUri
-         };
+         var compileOptions = new XsltCompileOptions(baseUri);
 
          string[] stages = { "iso_dsdl_include.xsl", "iso_abstract_expand.xsl", String.Concat("iso_svrl_for_", xsltVersion, ".xsl") };
 
@@ -67,8 +65,9 @@ namespace myxsl.net.validation {
 
                XsltExecutable executable = processor.Compile(stageDoc, compileOptions);
 
-               var runtimeOptions = new XsltRuntimeOptions {
-                  InitialContextNode = input
+               var runtimeOptions = new XsltRuntimeOptions { 
+                  InitialContextNode = input,
+                  InputXmlResolver = compileOptions.XmlResolver
                };
 
                if (i < stages.Length - 1) {

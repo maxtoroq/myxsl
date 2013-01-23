@@ -31,7 +31,7 @@ namespace myxsl.net.saxon {
       public new SaxonProcessor Processor { get { return _Processor; } }
       protected override IXQueryProcessor XQueryProcessor { get { return this.Processor; } }
 
-      public override Uri StaticBaseUri { get { return this._StaticBaseUri; } }
+      public override Uri StaticBaseUri { get { return _StaticBaseUri; } }
 
       internal SaxonXQueryExecutable(Saxon.Api.XQueryExecutable executable, SaxonProcessor processor, Uri staticBaseUri) {
          
@@ -107,8 +107,17 @@ namespace myxsl.net.saxon {
          
          XQueryEvaluator eval = this.executable.Load();
 
-         if (options.InputXmlResolver != null)
+         if (options.InputXmlResolver != null) {
             eval.InputXmlResolver = options.InputXmlResolver;
+
+            XmlDynamicResolver dynamicResolver = options.InputXmlResolver as XmlDynamicResolver;
+
+            if (dynamicResolver != null
+               && dynamicResolver.DefaultBaseUri == null) {
+
+               dynamicResolver.DefaultBaseUri = this.StaticBaseUri;
+            }
+         }
 
          if (options.ContextItem != null) 
             eval.ContextItem = options.ContextItem.ToXdmItem(this.Processor.ItemFactory);

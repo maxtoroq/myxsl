@@ -37,7 +37,13 @@ namespace myxsl.net {
       public XmlDynamicResolver()
          : this(Assembly.GetCallingAssembly()) { }
 
-      public XmlDynamicResolver(Assembly callingAssembly) {
+      public XmlDynamicResolver(Uri defaultBaseUri)
+         : this(Assembly.GetCallingAssembly()) {
+
+         this.DefaultBaseUri = defaultBaseUri;
+      }
+
+      internal XmlDynamicResolver(Assembly callingAssembly) {
 
          this.resolvers = new Dictionary<string, XmlResolver>();
          this.callingAssembly = callingAssembly;

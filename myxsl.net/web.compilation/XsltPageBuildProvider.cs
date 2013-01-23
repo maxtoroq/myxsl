@@ -39,7 +39,7 @@ namespace myxsl.net.web.compilation {
          using (Stream source = OpenStream(pageParser.XsltVirtualPath)) {
 
             try {
-               proc.Compile(source, new XsltCompileOptions { BaseUri = pageParser.XsltPhysicalUri });
+               proc.Compile(source, new XsltCompileOptions(baseUri: pageParser.XsltPhysicalUri));
             } catch (ProcessorException ex) {
                throw CreateCompileException(ex);
             }

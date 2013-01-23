@@ -306,8 +306,6 @@ namespace myxsl.net.saxon {
             });
          }
 
-         CodeMemberMethod initializeMethod;
-
          var callClass = new CodeTypeDeclaration {
             Name = defClass.Name + "Call",
             Attributes = MemberAttributes.Assembly,
@@ -327,13 +325,54 @@ namespace myxsl.net.saxon {
                         new CodeVariableReferenceExpression("processor")
                      )
                   }
-               },
-               GenerateCallMethod(functions, minArgs, maxArgs, new CodeFieldReferenceExpression(thisRef, processorField.Name), out initializeMethod)
+               }
             }
          };
 
-         if (initializeMethod != null) 
+         CodeMemberMethod initializeMethod = null;
+
+         if (!module.TypeIsStatic
+            && module.Dependencies.Count > 0) {
+
+            CodeExpression staticBaseUriExpr = null;
+
+            if (module.Dependencies.Any(d => d.Type == typeof(XmlResolver))) {
+
+               var staticBaseUriField = new CodeMemberField { 
+                  Name = "_staticBaseUri",
+                  Type = new CodeTypeReference(typeof(Uri))
+               };
+
+               callClass.Members.Add(staticBaseUriField);
+
+               var staticContextParam = new CodeParameterDeclarationExpression(typeof(StaticContext), "context");
+
+               staticBaseUriExpr = new CodeFieldReferenceExpression(thisRef, staticBaseUriField.Name);
+
+               callClass.Members.Add(new CodeMemberMethod {
+                  Name = "SupplyStaticContext",
+                  Attributes = MemberAttributes.Public | MemberAttributes.Override,
+                  Parameters = {
+                     staticContextParam
+                  },
+                  Statements = { 
+                     new CodeAssignStatement {
+                        Left = staticBaseUriExpr,
+                        Right = new CodePropertyReferenceExpression {
+                           PropertyName = "BaseUri",
+                           TargetObject = new CodeVariableReferenceExpression(staticContextParam.Name)
+                        }
+                     }
+                  }
+               });
+            }
+
+            initializeMethod = GenerateInitialize(module, new CodeFieldReferenceExpression(thisRef, processorField.Name), staticBaseUriExpr);
+            
             callClass.Members.Add(initializeMethod);
+         }
+
+         callClass.Members.Add(GenerateCallMethod(functions, minArgs, maxArgs, new CodeFieldReferenceExpression(thisRef, processorField.Name), initializeMethod));
 
          defClass.Members.Add(
             new CodeMemberMethod {
@@ -382,9 +421,7 @@ namespace myxsl.net.saxon {
          return method;
       }
       
-      CodeMemberMethod GenerateCallMethod(XPathFunctionInfo[] functions, int minArgs, int maxArgs, CodeExpression processorRef, out CodeMemberMethod initializeMethod) {
-
-         initializeMethod = null;
+      CodeMemberMethod GenerateCallMethod(XPathFunctionInfo[] functions, int minArgs, int maxArgs, CodeExpression processorRef, CodeMemberMethod initializeMethod) {
 
          XPathFunctionInfo mostParameters = functions.OrderByDescending(f => f.Parameters.Count).First();
          XPathModuleInfo module = mostParameters.Module;
@@ -419,8 +456,7 @@ namespace myxsl.net.saxon {
 
             moduleRef = new CodeVariableReferenceExpression(moduleVar.Name);
 
-            if (module.Dependencies.Count > 0) {
-               initializeMethod = GenerateInitialize(module, processorRef);
+            if (initializeMethod != null) {
 
                callMethod.Statements.Add(new CodeMethodInvokeExpression {
                   Method = new CodeMethodReferenceExpression(new CodeThisReferenceExpression(), initializeMethod.Name),
@@ -502,8 +538,8 @@ namespace myxsl.net.saxon {
          return callMethod;
       }
 
-      CodeMemberMethod GenerateInitialize(XPathModuleInfo module, CodeExpression processorRef) {
-
+      CodeMemberMethod GenerateInitialize(XPathModuleInfo module, CodeExpression processorRef, CodeExpression staticBaseUriExpr) {
+         
          var initializeMethod = new CodeMemberMethod {
             Name = "Initialize",
             Attributes = MemberAttributes.Private | MemberAttributes.Final,
@@ -527,7 +563,7 @@ namespace myxsl.net.saxon {
                expr = GetItemFactoryReference(processorRef);
             
             } else if (dependency.Type == typeof(XmlResolver)) {
-               expr = new CodeObjectCreateExpression(typeof(XmlDynamicResolver));
+               expr = new CodeObjectCreateExpression(typeof(XmlDynamicResolver), staticBaseUriExpr);
             }
 
             if (expr != null) {
