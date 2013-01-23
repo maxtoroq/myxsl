@@ -31,7 +31,7 @@ namespace myxsl.net {
       static readonly InlineCacheByProcessor inlineCache = new InlineCacheByProcessor();
 
       readonly XsltExecutable executable;
-      readonly XmlResolver resolver;
+      readonly Assembly withCallingAssembly;
 
       public static XsltInvoker With(string stylesheetUri) {
          return With(stylesheetUri, (IXsltProcessor)null, Assembly.GetCallingAssembly());
@@ -86,7 +86,7 @@ namespace myxsl.net {
             }
          });
 
-         return new XsltInvoker(executable, resolver);
+         return new XsltInvoker(executable, callingAssembly);
       }
 
       public static XsltInvoker With(IXPathNavigable stylesheet) {
@@ -121,13 +121,13 @@ namespace myxsl.net {
             })
          );
 
-         return new XsltInvoker(exec, resolver);
+         return new XsltInvoker(exec, callingAssembly);
       }
 
-      private XsltInvoker(XsltExecutable executable, XmlResolver resolver) {
+      private XsltInvoker(XsltExecutable executable, Assembly withCallingAssembly) {
          
          this.executable = executable;
-         this.resolver = resolver;
+         this.withCallingAssembly = withCallingAssembly;
       }
 
       public XsltResultHandler Transform(Stream input) {
@@ -137,9 +137,7 @@ namespace myxsl.net {
       public XsltResultHandler Transform(Stream input, object parameters) {
 
          IXPathNavigable doc = this.executable.Processor.ItemFactory
-            .CreateNodeReadOnly(input, new XmlParsingOptions {
-               XmlResolver = this.resolver
-            });
+            .CreateNodeReadOnly(input);
 
          return Transform(doc, parameters);
       }
@@ -151,9 +149,7 @@ namespace myxsl.net {
       public XsltResultHandler Transform(TextReader input, object parameters) {
 
          IXPathNavigable doc = this.executable.Processor.ItemFactory
-            .CreateNodeReadOnly(input, new XmlParsingOptions { 
-               XmlResolver = this.resolver
-            });
+            .CreateNodeReadOnly(input);
 
          return Transform(doc, parameters);
       }
@@ -179,8 +175,7 @@ namespace myxsl.net {
 
          var options = new XsltRuntimeOptions { 
             InitialContextNode = input,
-            InputXmlResolver = this.resolver,
-            BaseOutputUri = this.executable.StaticBaseUri
+            InputXmlResolver = new XmlDynamicResolver(this.withCallingAssembly)
          };
 
          if (parameters != null) {

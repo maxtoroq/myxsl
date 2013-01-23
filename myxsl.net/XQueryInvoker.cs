@@ -29,7 +29,7 @@ namespace myxsl.net {
       static readonly CacheByProcessor cacheByProc = new CacheByProcessor();
       
       readonly XQueryExecutable executable;
-      readonly XmlResolver resolver;
+      readonly Assembly withCallingAssembly;
 
       public static XQueryInvoker With(string queryUri) {
          return With(queryUri, (IXQueryProcessor)null, Assembly.GetCallingAssembly());
@@ -84,13 +84,13 @@ namespace myxsl.net {
             }
          });
 
-         return new XQueryInvoker(executable, resolver);
+         return new XQueryInvoker(executable, callingAssembly);
       }
 
-      private XQueryInvoker(XQueryExecutable executable, XmlResolver resolver) {
+      private XQueryInvoker(XQueryExecutable executable, Assembly withCallingAssembly) {
          
          this.executable = executable;
-         this.resolver = resolver;
+         this.withCallingAssembly = withCallingAssembly;
       }
 
       public XQueryResultHandler Query(Stream input) {
@@ -100,9 +100,7 @@ namespace myxsl.net {
       public XQueryResultHandler Query(Stream input, object parameters) {
 
          IXPathNavigable doc = this.executable.Processor.ItemFactory
-            .CreateNodeReadOnly(input, new XmlParsingOptions {
-               XmlResolver = this.resolver
-            });
+            .CreateNodeReadOnly(input);
 
          return Query(doc, parameters);
       }
@@ -114,9 +112,7 @@ namespace myxsl.net {
       public XQueryResultHandler Query(TextReader input, object parameters) {
 
          IXPathNavigable doc = this.executable.Processor.ItemFactory
-            .CreateNodeReadOnly(input, new XmlParsingOptions {
-               XmlResolver = this.resolver
-            });
+            .CreateNodeReadOnly(input);
 
          return Query(doc, parameters);
       }
@@ -140,9 +136,9 @@ namespace myxsl.net {
 
          if (input == null) throw new ArgumentNullException("input");
 
-         var options = new XQueryRuntimeOptions {
+         var options = new XQueryRuntimeOptions { 
             ContextItem = input,
-            InputXmlResolver = this.resolver
+            InputXmlResolver = new XmlDynamicResolver(this.withCallingAssembly)
          };
 
          if (parameters != null) {
