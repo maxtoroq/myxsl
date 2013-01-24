@@ -38,7 +38,7 @@ namespace myxsl.net {
       }
 
       public static XsltInvoker With(string stylesheetUri, string processor) {
-         return With(stylesheetUri, Processors.Xslt[processor], Assembly.GetCallingAssembly());
+         return With(stylesheetUri, (processor != null) ? Processors.Xslt[processor] : null, Assembly.GetCallingAssembly());
       }
 
       public static XsltInvoker With(string stylesheetUri, IXsltProcessor processor) {
@@ -54,7 +54,7 @@ namespace myxsl.net {
       }
 
       public static XsltInvoker With(Uri stylesheetUri, string processor) {
-         return With(stylesheetUri, Processors.Xslt[processor], Assembly.GetCallingAssembly());
+         return With(stylesheetUri, (processor != null) ? Processors.Xslt[processor] : null, Assembly.GetCallingAssembly());
       }
 
       public static XsltInvoker With(Uri stylesheetUri, IXsltProcessor processor) {
@@ -94,7 +94,7 @@ namespace myxsl.net {
       }
 
       public static XsltInvoker With(IXPathNavigable stylesheet, string processor) {
-         return With(stylesheet, Processors.Xslt[processor], Assembly.GetCallingAssembly());
+         return With(stylesheet, (processor != null) ? Processors.Xslt[processor] : null, Assembly.GetCallingAssembly());
       }
 
       public static XsltInvoker With(IXPathNavigable stylesheet, IXsltProcessor processor) {
@@ -103,25 +103,41 @@ namespace myxsl.net {
 
       static XsltInvoker With(IXPathNavigable stylesheet, IXsltProcessor processor, Assembly callingAssembly) {
 
-         if (stylesheet == null) throw new ArgumentNullException("stylesheet");
+         int hashCode;
 
-         var resolver = new XmlDynamicResolver(callingAssembly);
+         return With(stylesheet, processor, callingAssembly, out hashCode);
+      }
+
+      internal static XsltInvoker With(IXPathNavigable stylesheet, IXsltProcessor processor, Assembly callingAssembly, out int hashCode) {
+
+         if (stylesheet == null) throw new ArgumentNullException("stylesheet");
 
          if (processor == null)
             processor = Processors.Xslt.DefaultProcessor;
 
-         int hashCode = XPathNavigatorEqualityComparer.Instance.GetHashCode(stylesheet.CreateNavigator());
+         hashCode = XPathNavigatorEqualityComparer.Instance.GetHashCode(stylesheet.CreateNavigator());
 
          ConcurrentDictionary<int, XsltExecutable> cache =
             inlineCache.GetOrAdd(processor, p => new ConcurrentDictionary<int, XsltExecutable>());
 
-         XsltExecutable exec = cache.GetOrAdd(hashCode, i => 
-            processor.Compile(stylesheet, new XsltCompileOptions {
+         XsltExecutable exec = cache.GetOrAdd(hashCode, i => {
+
+            var resolver = new XmlDynamicResolver(callingAssembly);
+
+            return processor.Compile(stylesheet, new XsltCompileOptions {
                XmlResolver = resolver
-            })
-         );
+            });
+         });
 
          return new XsltInvoker(exec, callingAssembly);
+      }
+
+      internal static XsltInvoker With(int stylesheetHashCode, IXsltProcessor processor) {
+
+         if (processor == null)
+            processor = Processors.Xslt.DefaultProcessor;
+
+         return new XsltInvoker(inlineCache[processor][stylesheetHashCode], null);
       }
 
       private XsltInvoker(XsltExecutable executable, Assembly withCallingAssembly) {

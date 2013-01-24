@@ -36,7 +36,7 @@ namespace myxsl.net {
       }
 
       public static XQueryInvoker With(string queryUri, string processor) {
-         return With(queryUri, Processors.XQuery[processor], Assembly.GetCallingAssembly());
+         return With(queryUri, (processor != null) ? Processors.XQuery[processor] : null, Assembly.GetCallingAssembly());
       }
 
       public static XQueryInvoker With(string queryUri, IXQueryProcessor processor) {
@@ -52,7 +52,7 @@ namespace myxsl.net {
       }
 
       public static XQueryInvoker With(Uri queryUri, string processor) {
-         return With(queryUri, Processors.XQuery[processor], Assembly.GetCallingAssembly());
+         return With(queryUri, (processor != null) ? Processors.XQuery[processor] : null, Assembly.GetCallingAssembly());
       }
 
       public static XQueryInvoker With(Uri queryUri, IXQueryProcessor processor) {
