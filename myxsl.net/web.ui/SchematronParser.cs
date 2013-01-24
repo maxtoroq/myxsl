@@ -80,7 +80,7 @@ namespace myxsl.net.web.ui {
 
          if (processor != null) {
 
-            if (!Processors.Xslt.Names.Contains(processor))
+            if (!Processors.Xslt.Exists(processor))
                throw CreateParseException("The processor '{0}' is not registered.", processor);
 
             this.ProcessorName = processor;

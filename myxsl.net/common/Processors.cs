@@ -118,10 +118,10 @@ namespace myxsl.net.common {
 
       public TProc this[string name] {
          get {
-            if (!names.Contains(name)) 
-               return null;
-            else 
-               return (TProc)Processors.GetInstance(name);
+            if (!Exists(name)) 
+               throw new ArgumentException("The processor '{0}' is not registered.".FormatInvariant(name), "name");
+            
+            return (TProc)Processors.GetInstance(name);
          }
       }
 
@@ -134,6 +134,10 @@ namespace myxsl.net.common {
          );
 
          this._DefaultProcessorName = @default;
+      }
+
+      public bool Exists(string name) {
+         return this.Names.Contains(name);
       }
    }
 }
