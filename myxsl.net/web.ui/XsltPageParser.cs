@@ -353,25 +353,31 @@ namespace myxsl.net.web.ui {
          }
       }
 
-      protected OutputCacheParameters ParseOutputCachePI() {
+      protected IDictionary<string, object> ParseOutputCachePI() {
 
          XPathNavigator nav = this.Navigator;
 
          IDictionary<string, string> attribs = GetAttributes(nav.Value);
 
-         var parameters = new OutputCacheParameters();
+         var parameters = new Dictionary<string, object>();
 
          // location
          object location = GetEnumAttribute(attribs, output_cache.location, typeof(OutputCacheLocation));
+         OutputCacheLocation loc = default(OutputCacheLocation);
 
-         if (location != null)
-            parameters.Location = (OutputCacheLocation)location;
+         if (location != null) {
+            loc = (OutputCacheLocation)location;
+            parameters["Location"] = loc;
+         }
 
          // cache-profile
-         parameters.CacheProfile = GetNonEmptyAttribute(attribs, output_cache.cache_profile);
+         string cacheProfile = GetNonEmptyAttribute(attribs, output_cache.cache_profile);
 
-         bool otherParamsRequired = parameters.Location != OutputCacheLocation.None 
-            && String.IsNullOrEmpty(parameters.CacheProfile);
+         if (cacheProfile != null)
+            parameters["CacheProfile"] = cacheProfile;
+
+         bool otherParamsRequired = loc != OutputCacheLocation.None
+            && cacheProfile == null;
 
          // duration
          string durationStr = GetNonEmptyAttribute(attribs, output_cache.duration);
@@ -385,7 +391,7 @@ namespace myxsl.net.web.ui {
             if (!int.TryParse(durationStr, out duration) || duration <= 0)
                throw CreateParseException("The '{0}' attribute must be set to a positive integer value.", output_cache.duration);
             else
-               parameters.Duration = duration; 
+               parameters["Duration"] = duration; 
          }
 
          // vary-by-param
@@ -395,7 +401,7 @@ namespace myxsl.net.web.ui {
             EnsureNonNull(varyByParam, output_cache.it, output_cache.vary_by_param);
 
          if (varyByParam != null) {
-            parameters.VaryByParam = String.Equals(varyByParam, "none", StringComparison.OrdinalIgnoreCase) ?
+            parameters["VaryByParam"] = String.Equals(varyByParam, "none", StringComparison.OrdinalIgnoreCase) ?
                null : varyByParam; 
          }
 
@@ -403,16 +409,25 @@ namespace myxsl.net.web.ui {
          bool noStore = default(bool);
 
          if (GetBooleanAttribute(attribs, output_cache.no_store, ref noStore))
-            parameters.NoStore = noStore;
+            parameters["NoStore"] = noStore;
 
          // vary-by-header
-         parameters.VaryByHeader = GetNonEmptyAttribute(attribs, output_cache.vary_by_header);
+         string varyByHeader = GetNonEmptyAttribute(attribs, output_cache.vary_by_header);
+
+         if (varyByHeader != null)
+            parameters["VaryByHeader"] = varyByHeader;
 
          // vary-by-custom
-         parameters.VaryByCustom = GetNonEmptyAttribute(attribs, output_cache.vary_by_custom);
+         string varyByCustom = GetNonEmptyAttribute(attribs, output_cache.vary_by_custom);
+
+         if (varyByCustom != null)
+            parameters["VaryByCustom"] = varyByCustom;
 
          // vary-by-content-encodings
-         parameters.VaryByContentEncoding = GetNonEmptyAttribute(attribs, output_cache.vary_by_content_encodings);
+         string varyByContentEncoding = GetNonEmptyAttribute(attribs, output_cache.vary_by_content_encodings);
+
+         if (varyByContentEncoding != null)
+            parameters["VaryByContentEncoding"] = varyByContentEncoding;
 
          return parameters;
       }

@@ -153,71 +153,45 @@ namespace myxsl.net.web.compilation {
             CodeFieldReferenceExpression outputCacheFieldRef =
                new CodeFieldReferenceExpression(this.PageTypeReferenceExpression, outputCacheField.Name);
 
-            statements.AddRange(new[] {
+            statements.Add(
                new CodeAssignStatement {
                   Left = outputCacheFieldRef,
                   Right = new CodeObjectCreateExpression(typeof(System.Web.UI.OutputCacheParameters))
-               },
-               new CodeAssignStatement {
-                  Left = new CodePropertyReferenceExpression {
-                     TargetObject = outputCacheFieldRef,
-                     PropertyName = "CacheProfile"
-                  },
-                  Right = new CodePrimitiveExpression(this.parser.OutputCache.CacheProfile)
-               },
-               new CodeAssignStatement {
-                  Left = new CodePropertyReferenceExpression {
-                     TargetObject = outputCacheFieldRef,
-                     PropertyName = "Duration"
-                  },
-                  Right = new CodePrimitiveExpression(this.parser.OutputCache.Duration)
-               },
-               new CodeAssignStatement {
-                  Left = new CodePropertyReferenceExpression {
-                     TargetObject = outputCacheFieldRef,
-                     PropertyName = "Location"
-                  },
-                  Right = new CodePropertyReferenceExpression { 
-                     TargetObject = new CodeTypeReferenceExpression(typeof(System.Web.UI.OutputCacheLocation)),
-                     PropertyName = this.parser.OutputCache.Location.ToString()
-                  }
-               },
-               new CodeAssignStatement {
-                  Left = new CodePropertyReferenceExpression {
-                     TargetObject = outputCacheFieldRef,
-                     PropertyName = "NoStore"
-                  },
-                  Right = new CodePrimitiveExpression(this.parser.OutputCache.NoStore)
-               },
-               new CodeAssignStatement {
-                  Left = new CodePropertyReferenceExpression {
-                     TargetObject = outputCacheFieldRef,
-                     PropertyName = "VaryByContentEncoding"
-                  },
-                  Right = new CodePrimitiveExpression(this.parser.OutputCache.VaryByContentEncoding)
-               },
-               new CodeAssignStatement {
-                  Left = new CodePropertyReferenceExpression {
-                     TargetObject = outputCacheFieldRef,
-                     PropertyName = "VaryByCustom"
-                  },
-                  Right = new CodePrimitiveExpression(this.parser.OutputCache.VaryByCustom)
-               },
-               new CodeAssignStatement {
-                  Left = new CodePropertyReferenceExpression {
-                     TargetObject = outputCacheFieldRef,
-                     PropertyName = "VaryByHeader"
-                  },
-                  Right = new CodePrimitiveExpression(this.parser.OutputCache.VaryByHeader)
-               },
-               new CodeAssignStatement {
-                  Left = new CodePropertyReferenceExpression {
-                     TargetObject = outputCacheFieldRef,
-                     PropertyName = "VaryByParam"
-                  },
-                  Right = new CodePrimitiveExpression(this.parser.OutputCache.VaryByParam)
                }
-            });
+            );
+
+            foreach (var pair in this.parser.OutputCache) {
+
+               switch (pair.Key) {
+
+                  case "Location":
+                     statements.Add(
+                        new CodeAssignStatement {
+                           Left = new CodePropertyReferenceExpression {
+                              TargetObject = outputCacheFieldRef,
+                              PropertyName = pair.Key
+                           },
+                           Right = new CodePropertyReferenceExpression { 
+                              TargetObject = new CodeTypeReferenceExpression(typeof(System.Web.UI.OutputCacheLocation)),
+                              PropertyName = pair.Value.ToString()
+                           }
+                        }
+                     );
+                     break;
+
+                  default:
+                     statements.Add(
+                        new CodeAssignStatement {
+                           Left = new CodePropertyReferenceExpression {
+                              TargetObject = outputCacheFieldRef,
+                              PropertyName = pair.Key
+                           },
+                           Right = new CodePrimitiveExpression(pair.Value)
+                        }
+                     );
+                     break;
+               }
+            }
          }
       }
 

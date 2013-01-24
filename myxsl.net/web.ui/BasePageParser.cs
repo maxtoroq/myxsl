@@ -35,7 +35,7 @@ namespace myxsl.net.web.ui {
       IList<ParsedValue<string>> _Namespaces;
 
       public string ContentType { get; set; }
-      public OutputCacheParameters OutputCache { get; set; }
+      public IDictionary<string, object> OutputCache { get; set; }
 
       public PagesEnableSessionState EnableSessionState {
          get {
