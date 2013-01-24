@@ -14,30 +14,80 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 using System.Xml.XPath;
 using myxsl.net.common;
 
 namespace myxsl.net {
 
-   [XPathModule("xslt", "http://myxsl.net/ns/xslt")]
+   [XPathModule("xslt", Namespace)]
    public class XsltModule {
 
-      [XPathDependency]
-      public IXsltProcessor Processor { get; set; }
+      const string Namespace = "http://myxsl.net/ns/xslt";
 
-      [XPathFunction("compile", "xs:integer", "item()")]
-      public int Compile(XPathItem stylesheet) {
+      [XPathDependency]
+      public XPathItemFactory ItemFactory { get; set; }
+
+      [XPathDependency]
+      public XmlResolver Resolver { get; set; }
+
+      [XPathDependency]
+      public IXsltProcessor CurrentXsltProcessor { get; set; }
+
+      [XPathFunction("compile", "item()", "item()")]
+      public XPathItem Compile(XPathItem stylesheet) {
          return Compile(stylesheet, null);
       }
 
-      [XPathFunction("compile", "xs:integer", "item()", "xs:string?")]
-      public int Compile(XPathItem stylesheet, string processor) { 
-         
-         // TODO:
-         throw new NotImplementedException();
+      [XPathFunction("compile", "item()", "item()", "xs:string?")]
+      public XPathItem Compile(XPathItem stylesheet, string processor) {
+
+         CompiledStylesheetReference reference;
+
+         if (stylesheet.IsNode) {
+
+            IXsltProcessor proc = (processor != null) ?
+               Processors.Xslt[processor]
+               : this.CurrentXsltProcessor ?? Processors.Xslt.DefaultProcessor;
+            
+            int hashCode;
+
+            XsltInvoker.With((XPathNavigator)stylesheet, proc, null, out hashCode);
+            
+            if (processor == null)
+               return this.ItemFactory.CreateAtomicValue(hashCode, XmlTypeCode.Integer);
+
+            reference = new CompiledStylesheetReference {
+               HashCode = hashCode,
+               Processor = processor
+            };
+
+         } else {
+
+            Uri stylesheetUri = StylesheetAsUri(stylesheet);
+
+            if (processor == null
+               || processor == Processors.Xslt.DefaultProcessorName) {
+
+               return this.ItemFactory.CreateAtomicValue(stylesheetUri.ToString(), XmlTypeCode.String);
+            }
+
+            XsltInvoker.With(stylesheetUri, processor);
+
+            reference = new CompiledStylesheetReference { 
+               Uri = stylesheetUri.ToString(),
+               Processor = processor
+            };
+         }
+
+         return this.ItemFactory
+            .CreateDocument(reference)
+            .CreateNavigator();
       }
 
       [XPathFunction("apply-templates", "document-node()", "item()", "node()")]
@@ -101,22 +151,85 @@ namespace myxsl.net {
 
          XsltInvoker invoker;
 
+         IXsltProcessor currentOrDefaultProc = this.CurrentXsltProcessor ?? Processors.Xslt.DefaultProcessor;
+
          if (stylesheet.IsNode) {
 
-            if (this.Processor == null)
-               throw new InvalidOperationException("Processor cannot be null");
+            XPathNavigator node = ((XPathNavigator)stylesheet).Clone();
 
-            invoker = XsltInvoker.With((XPathNavigator)stylesheet, this.Processor);
+            if (node.NodeType != XPathNodeType.Element) 
+               node.MoveToChild(XPathNodeType.Element);
+
+            if (node.NodeType != XPathNodeType.Element)
+               throw new ArgumentException("stylesheet must be either a document or element node.", "stylesheet");
+
+            if (node.NamespaceURI == Namespace) {
+
+               XmlSerializer serializer = XPathItemFactory.GetSerializer(typeof(CompiledStylesheetReference));
+
+               var reference = (CompiledStylesheetReference)serializer.Deserialize(node.ReadSubtree());
+
+               IXsltProcessor specifiedProcessor = (reference.Processor != null) ?
+                  Processors.Xslt[reference.Processor]
+                  : null;
+
+               invoker = (reference.HashCode > 0) ? 
+                  XsltInvoker.With(reference.HashCode, specifiedProcessor ?? currentOrDefaultProc)
+                  : XsltInvoker.With(reference.Uri, specifiedProcessor);
+
+            } else {
+               invoker = XsltInvoker.With((XPathNavigator)stylesheet, currentOrDefaultProc);
+            }
 
          } else {
 
-            invoker = XsltInvoker.With(stylesheetUri: stylesheet.Value);
+            object value = stylesheet.TypedValue;
+
+            if (value.GetType().IsPrimitive) {
+
+               int hashCode = Convert.ToInt32(value, CultureInfo.InvariantCulture);
+
+               invoker = XsltInvoker.With(hashCode, currentOrDefaultProc);
+            
+            } else {
+
+               Uri stylesheetUri = StylesheetAsUri(stylesheet);
+               
+               invoker = XsltInvoker.With(stylesheetUri);
+            }
          }
 
-         return invoker
-            .Transform(options)
+         return invoker.Transform(options)
             .Result()
             .CreateNavigator();
+      }
+
+      Uri StylesheetAsUri(XPathItem stylesheet) {
+
+         Uri stylesheetUri = stylesheet.TypedValue as Uri;
+
+         if (stylesheetUri == null){
+
+            if (this.Resolver == null)
+               throw new InvalidOperationException("Resolver cannot be null.");
+
+            stylesheetUri = this.Resolver.ResolveUri(null, stylesheet.Value);
+         }
+
+         return stylesheetUri;
+      }
+
+      [XmlRoot(Namespace = Namespace)]
+      public class CompiledStylesheetReference {
+
+         [XmlAttribute]
+         public string Processor;
+
+         [XmlAttribute]
+         public string Uri;
+
+         [XmlAttribute]
+         public int HashCode;
       }
    }
 }
