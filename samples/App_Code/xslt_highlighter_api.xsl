@@ -47,6 +47,7 @@
                               <xsl:element name="xsl:output">
                                  <xsl:attribute name="indent" select="'yes'"/>
                                  <xsl:attribute name="omit-xml-declaration" select="'yes'"/>
+                                 <xsl:attribute name="saxon:indent-spaces" namespace="http://saxon.sf.net/" select="2"/>
                               </xsl:element>
                            </xsl:variable>
 
