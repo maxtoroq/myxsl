@@ -90,43 +90,43 @@ namespace myxsl.net {
             .CreateNavigator();
       }
 
-      [XPathFunction("apply-templates", "document-node()", "item()", "node()")]
-      public XPathNavigator ApplyTemplates(XPathItem stylesheet, XPathNavigator input) {
-         return ApplyTemplates(stylesheet, input, null);
+      [XPathFunction("transform", "document-node()", "item()", "node()")]
+      public XPathNavigator Transform(XPathItem stylesheet, XPathNavigator input) {
+         return Transform(stylesheet, input, null);
       }
 
-      [XPathFunction("apply-templates", "document-node()", "item()", "node()", "node()*")]
-      public XPathNavigator ApplyTemplates(XPathItem stylesheet, XPathNavigator input, IEnumerable<XPathNavigator> parameters) {
-         return ApplyTemplates(stylesheet, input, parameters, null);
+      [XPathFunction("transform", "document-node()", "item()", "node()", "node()*")]
+      public XPathNavigator Transform(XPathItem stylesheet, XPathNavigator input, IEnumerable<XPathNavigator> parameters) {
+         return Transform(stylesheet, input, parameters, null);
       }
 
-      [XPathFunction("apply-templates", "document-node()", "item()", "node()", "node()*", "xs:QName?")]
-      public XPathNavigator ApplyTemplates(XPathItem stylesheet, XPathNavigator input, IEnumerable<XPathNavigator> parameters, XmlQualifiedName mode) {
+      [XPathFunction("transform", "document-node()", "item()", "node()", "node()*", "item()?")]
+      public XPathNavigator Transform(XPathItem stylesheet, XPathNavigator input, IEnumerable<XPathNavigator> parameters, XPathItem mode) {
 
          XsltRuntimeOptions options = GetRuntimeOptions(input, parameters, null, mode);
 
          return ExecuteStylesheet(stylesheet, options);
       }
 
-      [XPathFunction("call-template", "document-node()", "item()", "xs:QName")]
-      public XPathNavigator CallTemplate(XPathItem stylesheet, XmlQualifiedName initialTemplate) {
-         return CallTemplate(stylesheet, initialTemplate, null);
+      [XPathFunction("transform-starting-at", "document-node()", "item()", "item()")]
+      public XPathNavigator TransformStartingAt(XPathItem stylesheet, XPathItem initialTemplate) {
+         return TransformStartingAt(stylesheet, initialTemplate, null);
       }
 
-      [XPathFunction("call-template", "document-node()", "item()", "xs:QName", "node()?")]
-      public XPathNavigator CallTemplate(XPathItem stylesheet, XmlQualifiedName initialTemplate, XPathNavigator input) {
-         return CallTemplate(stylesheet, initialTemplate, input, null);
+      [XPathFunction("transform-starting-at", "document-node()", "item()", "item()", "node()?")]
+      public XPathNavigator TransformStartingAt(XPathItem stylesheet, XPathItem initialTemplate, XPathNavigator input) {
+         return TransformStartingAt(stylesheet, initialTemplate, input, null);
       }
 
-      [XPathFunction("call-template", "document-node()", "item()", "xs:QName", "node()?", "node()*")]
-      public XPathNavigator CallTemplate(XPathItem stylesheet, XmlQualifiedName initialTemplate, XPathNavigator input, IEnumerable<XPathNavigator> parameters) {
+      [XPathFunction("transform-starting-at", "document-node()", "item()", "item()", "node()?", "node()*")]
+      public XPathNavigator TransformStartingAt(XPathItem stylesheet, XPathItem initialTemplate, XPathNavigator input, IEnumerable<XPathNavigator> parameters) {
 
          XsltRuntimeOptions options = GetRuntimeOptions(input, parameters, initialTemplate, null);
 
          return ExecuteStylesheet(stylesheet, options);
       }
 
-      XsltRuntimeOptions GetRuntimeOptions(XPathNavigator input, IEnumerable<XPathNavigator> parameters, XmlQualifiedName initialTemplate, XmlQualifiedName mode) {
+      XsltRuntimeOptions GetRuntimeOptions(XPathNavigator input, IEnumerable<XPathNavigator> parameters, XPathItem initialTemplate, XPathItem mode) {
 
          var options = new XsltRuntimeOptions();
 
@@ -138,11 +138,21 @@ namespace myxsl.net {
                options.Parameters.Add(new XmlQualifiedName(n.Name, n.NamespaceURI), n.TypedValue);
          }
 
-         if (initialTemplate != null)
-            options.InitialTemplate = initialTemplate;
+         if (initialTemplate != null) {
 
-         if (mode != null) 
-            options.InitialMode = mode;
+            XmlQualifiedName it = initialTemplate.TypedValue as XmlQualifiedName
+               ?? new XmlQualifiedName(initialTemplate.Value);
+
+            options.InitialTemplate = it;
+         }
+
+         if (mode != null) {
+
+            XmlQualifiedName m = mode.TypedValue as XmlQualifiedName
+               ?? new XmlQualifiedName(mode.Value);
+
+            options.InitialMode = m;
+         }
 
          return options;
       }
