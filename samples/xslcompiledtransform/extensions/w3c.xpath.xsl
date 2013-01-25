@@ -1,15 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?page processor="system"?>
+<?output-cache cache-profile="library" ?>
 
-<xsl:stylesheet version="1.0" exclude-result-prefixes="exsl fn xs math"
+<xsl:stylesheet version="1.0" exclude-result-prefixes="exsl fn xs math app"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
    xmlns:fn="http://www.w3.org/2005/xpath-functions"
    xmlns:math="http://www.w3.org/2005/xpath-functions/math"
    xmlns:exsl="http://exslt.org/common"
+   xmlns:app="http://myxsl.net/"
    xmlns="http://www.w3.org/1999/xhtml">
    
    <xsl:import href="~/layout.xslt"/>
+   <xsl:import href="~/App_Code/xslt_highlighter_api.xsl"/>
 
    <xsl:variable name="samples-xpath-rtf" xmlns="">
       <fn:abs>
@@ -274,12 +277,21 @@
 
       <h2>Function Index</h2>
       <ul>
-         <xsl:for-each select="$samples-xpath/*">
-            <li>
-               <a href="#{translate(name(), ':', '-')}">
-                  <xsl:value-of select="name()"/>
-               </a>
-            </li>
+         <xsl:for-each select="fn:tokenize('abcdefghijklmnopqrstuvwxyz', '')">
+            <xsl:sort select="."/>
+            <xsl:if test="string()">
+               <xsl:variable name="s" select="$samples-xpath/*[starts-with(local-name(), current())]"/>
+               <xsl:if test="$s">
+                  <li>
+                     <xsl:for-each select="$s">
+                        <a href="#{translate(name(), ':', '-')}">
+                           <xsl:value-of select="name()"/>
+                        </a>
+                        <xsl:text>&#160;&#160;</xsl:text>
+                     </xsl:for-each>
+                  </li>
+               </xsl:if>
+            </xsl:if>
          </xsl:for-each>
       </ul>
 
@@ -294,33 +306,38 @@
    <xsl:template name="function">
       <xsl:param name="sampleVar"/>
 
-      <h2 id="{translate(name(), ':', '-')}">
-         <a>
-            <xsl:attribute name="href">
-               <xsl:choose>
-                  <xsl:when test="namespace-uri() = 'http://www.w3.org/2001/XMLSchema'">
-                     <xsl:value-of select="concat('http://www.w3.org/TR/xmlschema-2/#', local-name())"/>
-                  </xsl:when>
-                  <xsl:otherwise>
-                     <xsl:text>http://www.w3.org/TR/xpath-functions-30/#func-</xsl:text>
-                     <xsl:if test="namespace-uri() = 'http://www.w3.org/2005/xpath-functions/math'">
-                        <xsl:text>math-</xsl:text>
-                     </xsl:if>
-                     <xsl:value-of select="local-name()"/>
-                  </xsl:otherwise>
-               </xsl:choose>
-            </xsl:attribute>
-            <xsl:value-of select="name()"/>
-         </a>
-      </h2>
-      <div>
-         <xsl:variable name="sampleCode" select="document('')/*/xsl:variable[@name=$sampleVar]/*[name()=name(current())]"/>
+      <div class="function-doc">
+         <h2 id="{translate(name(), ':', '-')}">
+            <a>
+               <xsl:attribute name="href">
+                  <xsl:choose>
+                     <xsl:when test="namespace-uri() = 'http://www.w3.org/2001/XMLSchema'">
+                        <xsl:value-of select="concat('http://www.w3.org/TR/xmlschema-2/#', local-name())"/>
+                     </xsl:when>
+                     <xsl:otherwise>
+                        <xsl:text>http://www.w3.org/TR/xpath-functions-30/#func-</xsl:text>
+                        <xsl:if test="namespace-uri() = 'http://www.w3.org/2005/xpath-functions/math'">
+                           <xsl:text>math-</xsl:text>
+                        </xsl:if>
+                        <xsl:value-of select="local-name()"/>
+                     </xsl:otherwise>
+                  </xsl:choose>
+               </xsl:attribute>
+               <xsl:value-of select="name()"/>
+            </a>
+            <a href="#" class="top">↑ top</a>
+         </h2>
+         <div class="sample-code">
+            <xsl:variable name="sampleCode" select="document('')/*/xsl:variable[@name=$sampleVar]/*[name()=name(current())]"/>
 
-         <code>
-            <xsl:value-of select="$sampleCode/xsl:value-of/@select"/>
-         </code>
+            <xsl:call-template name="app:highlight-xslt">
+               <xsl:with-param name="items" select="$sampleCode/*"/>
+            </xsl:call-template>
 
-         <xsl:value-of select="concat(' returns ', string())"/>
+            <xsl:if test="string()">
+               <xsl:value-of select="concat(' returns ', string())"/>
+            </xsl:if>
+         </div>
       </div>
    </xsl:template>
 

@@ -43,6 +43,7 @@
                </xsl:call-template>
             </title>
             <link rel="stylesheet" href="/Content/screen.css?v2013"/>
+            <link rel="stylesheet" href="/Content/vs-light.css"/>
             <xsl:call-template name="html-head"/>
          </head>
          <body>

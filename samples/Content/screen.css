@@ -1,4 +1,4 @@
-﻿/* Normalize
+﻿/* #region Normalize
 -----------------------------------------------------------*/
 /* these elements should inherit their font-size */
 table, textarea, select, input, button, pre, code { font-size: 100%; }
@@ -22,12 +22,15 @@ div > h3:first-child, div > h4:first-child,
 div > h5:first-child, div > h6:first-child,
 div > ul:first-child
  { margin-top: 0; }
+
+/*#endregion*/
+
  
-/* Reset
+/*#region Reset
 -----------------------------------------------------------*/
 body { margin: auto 20px; font-size: 90%; color: #222; /*line-height: 145%;*/ }
 body, textarea, select, input, button { font-family: Arial, Helvetica, sans-serif; }
-pre { background-color: #dadada; padding: 0.5em; }
+pre { background-color: #EBEBEB; padding: 0.5em; font-size: 95%; }
 p, ul { line-height: 130%; }
 
 h1, h2, h3, h4, h5, h6 { font-family: Calibri, Sans-Serif; }
@@ -57,7 +60,10 @@ form .error { color: Red; }
 #lo-rightcol ul { margin-left: 0; padding-left: 0; }
 #lo-rightcol ul li { padding-left: 0; }
 
-/* Layout
+/*#endregion*/
+
+
+/*#region Layout
 -----------------------------------------------------------*/
 /*body { width: 58em; margin: 1em auto; }*/
 
@@ -74,3 +80,17 @@ form .error { color: Red; }
     padding-top: 1em; }
 
 /*#lo-footer { border-top: solid 1px #7AC8DE; font-size: 90%; margin-top: 1em; }*/
+
+/*#endregion*/
+
+
+.function-doc {
+   margin-bottom: 1em;
+}
+
+.function-doc a.top {
+   float: right;
+   text-decoration: none;
+   font-size: 60%;
+   color: gray;
+}

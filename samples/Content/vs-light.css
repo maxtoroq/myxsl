@@ -1,0 +1,74 @@
+﻿
+/* solorized colors */
+span.base03 {
+color: #002b36;
+}
+span.base02 {
+color: #073642;
+}
+
+/* hover-effect [start] */
+span.base03, span.ww:not(:hover), span.txt:not(:hover), span.cm:not(:hover), span.pi:not(:hover)  {
+
+}
+span.ww {
+background-color: #fdf6e3;
+}
+/* hover-effect [end] */
+
+span.base01, span.eq-equ, span.z, span.sc, span.scx, span.ec, span.es, span.ez, span.atneq {
+color: #0000ff;
+}
+span.base00 {
+color: #657b83;
+}
+span.base0, span.txt {
+color: #000;
+}
+span.cd {
+   color: #808080;
+}
+span.base1, span.av, span.vname, span.fname, span.tname, span.tcall, span.href {
+color:#0000ff;
+}
+span.literal {
+   color: #b81414;
+}
+
+span.base2 {
+    color: #eee8d5;
+}
+span.base3 {
+    color: #fdf6e3;
+}
+span.yellow, span.op, span.type-op, span.if, span.higher, span.step {
+    color: blue;
+}
+span.orange, span.type, span.node-type {
+    color: #f86800;
+}
+span.red {
+    color: #dc322f;
+}
+span.magenta, span.external {
+    color: #d33682;
+}
+span.violet, span.type-name, span.unclosed, span.en, span.cl {
+    color: #b81414;
+}
+span.blue, span.enxsl, span.clxsl, span.enx {
+    color: #2a9dcc;
+}
+span.cyan, span.atn, span.dt {
+    color: #fd0000;
+}
+span.pi {
+   color: #b81414;
+}
+
+span.green, span.cm, span.comment {
+    color: #008000;
+}
+a.solar {
+    text-decoration:none;
+}

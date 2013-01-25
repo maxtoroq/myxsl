@@ -1,14 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?page processor="saxon"?>
+<?output-cache cache-profile="library" ?>
 
 <xsl:stylesheet version="2.0" exclude-result-prefixes="#all"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
    xmlns:math="http://www.w3.org/2005/xpath-functions/math"
    xmlns:exsl="http://exslt.org/common"
+   xmlns:app="http://myxsl.net/"
    xmlns="http://www.w3.org/1999/xhtml">
 
    <xsl:import href="~/layout.xslt"/>
+   <xsl:import href="~/App_Code/xslt_highlighter_api.xsl"/>
 
    <xsl:variable name="samples" xmlns="">
       <exsl:node-set>
@@ -53,19 +56,23 @@
    <xsl:template name="function">
       <xsl:param name="sampleVar" as="xs:string"/>
 
-      <h2 id="{replace(name(), ':', '-')}">
-         <a href="http://www.exslt.org/exsl/functions/{local-name()}/index.html">
-            <xsl:value-of select="name()"/>
-         </a>
-      </h2>
-      <div>
-         <xsl:variable name="sampleCode" select="document('')/*/xsl:variable[@name=$sampleVar]/*[local-name()=local-name(current())]" as="element()"/>
+      <div class="function-doc">
+         <h2 id="{replace(name(), ':', '-')}">
+            <a href="http://www.exslt.org/exsl/functions/{local-name()}/index.html">
+               <xsl:value-of select="name()"/>
+            </a>
+         </h2>
+         <div class="sample-code">
+            <xsl:variable name="sampleCode" select="document('')/*/xsl:variable[@name=$sampleVar]/*[local-name()=local-name(current())]" as="element()"/>
 
-         <code>
-            <xsl:value-of select="$sampleCode/*/@select"/>
-         </code>
-         
-         <xsl:value-of select="concat(' returns ', string())"/>
+            <xsl:call-template name="app:highlight-xslt">
+               <xsl:with-param name="items" select="$sampleCode/*"/>
+            </xsl:call-template>
+
+            <xsl:if test="string()">
+               <xsl:value-of select="concat(' returns ', string())"/>
+            </xsl:if>
+         </div>
       </div>
    </xsl:template>
 
