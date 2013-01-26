@@ -61,7 +61,7 @@ namespace myxsl.net.system {
          return XmlConvert.ToString(DateTime.Now, XmlSchemaConstructorFunctions.TimeFormat);
       }
 
-      protected bool deep_equals(object arg1, object arg2) {
+      protected bool deep_equal(object arg1, object arg2) {
 
          if (arg1 == null)
             return arg2 == null;
