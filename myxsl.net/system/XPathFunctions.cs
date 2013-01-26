@@ -61,6 +61,19 @@ namespace myxsl.net.system {
          return XmlConvert.ToString(DateTime.Now, XmlSchemaConstructorFunctions.TimeFormat);
       }
 
+      protected object document_uri(XPathNodeIterator iter) {
+
+         XPathNavigator node;
+
+         if (ExtensionObjectConvert.IsEmpty(iter)
+            || !iter.MoveNext()
+            || (node = iter.Current).NodeType != XPathNodeType.Root) {
+            return ExtensionObjectConvert.EmptyIterator;
+         }
+
+         return node.BaseURI;
+      }
+
       protected bool deep_equal(object arg1, object arg2) {
 
          if (arg1 == null)

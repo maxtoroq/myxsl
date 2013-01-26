@@ -58,6 +58,9 @@
          <xsl:variable name="attendees" select="exsl:node-set($attendees-rtf)"/>
          <xsl:value-of select="fn:deep-equal($attendees/name[1], $attendees/name[3])"/>
       </fn:deep-equal>
+      <fn:document-uri>
+         <xsl:value-of select="fn:document-uri(document(''))"/>
+      </fn:document-uri>
       <fn:empty>
          <xsl:value-of select="fn:empty(document('')/foo)"/>
       </fn:empty>
