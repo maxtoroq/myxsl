@@ -290,8 +290,10 @@
                <xsl:if test="$s">
                   <li>
                      <xsl:for-each select="$s">
+                        <xsl:sort select="local-name()"/>
+
                         <a href="#{translate(name(), ':', '-')}">
-                           <xsl:value-of select="name()"/>
+                           <xsl:value-of select="local-name()"/>
                         </a>
                         <xsl:text>&#160;&#160;</xsl:text>
                      </xsl:for-each>
