@@ -22,6 +22,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 using System.Xml.XPath;
 using System.Xml.Xsl;
@@ -187,6 +188,22 @@ namespace myxsl.net.system {
 
       public object min(XPathNodeIterator iter) {
          return iter.Cast<XPathNavigator>().Min(n => n.TypedValue);
+      }
+
+      public object nilled(XPathNodeIterator iter) {
+
+         XPathNavigator node;
+
+         if (ExtensionObjectConvert.IsEmpty(iter)
+            || !iter.MoveNext()
+            || (node = iter.Current).NodeType != XPathNodeType.Element) {
+            return ExtensionObjectConvert.EmptyIterator;
+         }
+
+         IXmlSchemaInfo schemaInfo = node.SchemaInfo;
+
+         return schemaInfo != null
+            && schemaInfo.IsNil;
       }
 
       protected object namespace_uri_for_prefix(XPathNodeIterator prefix, XPathNavigator element) {

@@ -111,6 +111,9 @@
       <fn:namespace-uri-for-prefix>
          <xsl:value-of select="fn:namespace-uri-for-prefix('xsl', document('')/*)" />
       </fn:namespace-uri-for-prefix>
+      <fn:nilled>
+         <xsl:value-of select="fn:nilled(document('')/*)"/>
+      </fn:nilled>
       <fn:one-or-more>
          <xsl:value-of select="fn:one-or-more(document('')/*/@*)"/>
       </fn:one-or-more>
