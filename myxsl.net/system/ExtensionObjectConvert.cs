@@ -37,7 +37,12 @@ namespace myxsl.net.system {
       public static readonly XPathNodeIterator EmptyIterator = new EmptyXPathNodeIterator();
 
       public static bool IsEmpty(object value) {
-         return value == null || Object.ReferenceEquals(EmptyIterator, value);
+
+         XPathNodeIterator iter;
+
+         return value == null
+            || ((iter = value as XPathNodeIterator) != null 
+               && IsEmpty(iter));
       }
 
       public static bool IsEmpty(XPathNodeIterator value) {
