@@ -75,6 +75,7 @@ form .error { color: Red; }
 #lo-logo .ab { color: Blue; }
 
 #lo-content { width: 70%; padding-right: 20px; border-right: solid 1px #99bdc8; }
+#lo-breadcrumbs { font-family: Verdana; font-size: 75%; }
 
 #lo-rightcol { position: absolute; top: 3.5em; margin-left: 71%; width: 26%;
     padding-top: 1em; }

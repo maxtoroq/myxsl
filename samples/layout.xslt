@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xsl:stylesheet version="2.1" exclude-result-prefixes="html xs exsl request" 
-   xmlns="http://www.w3.org/1999/xhtml"
+<xsl:stylesheet version="2.1" exclude-result-prefixes="fn xs exsl html request" 
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-   xmlns:html="http://www.w3.org/1999/xhtml"
+   xmlns:fn="http://www.w3.org/2005/xpath-functions"
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
    xmlns:exsl="http://exslt.org/common"
-   xmlns:request="http://myxsl.net/ns/web/request">
+   xmlns:html="http://www.w3.org/1999/xhtml"
+   xmlns:request="http://myxsl.net/ns/web/request"
+   xmlns="http://www.w3.org/1999/xhtml">
 
    <xsl:variable name="title" as="xs:string?"/>
    <xsl:variable name="title-mode" select="'prepend'"/>
@@ -57,6 +58,7 @@
                </span>
             </div>
             <div id="lo-content">
+               <xsl:call-template name="breadcrumbs"/>
                <xsl:copy-of select="$content"/>
             </div>
             <div id="lo-rightcol">
@@ -113,6 +115,51 @@
 
    <xsl:template name="html-head"/>
    <xsl:template name="footer"/>
+
+   <xsl:template name="breadcrumbs">
+
+      <xsl:variable name="pathInfo" select="request:path-info()"/>
+
+      <xsl:variable name="path" as="xs:string">
+         <xsl:choose>
+            <xsl:when test="$pathInfo">
+               <xsl:value-of select="request:file-path()"/>
+            </xsl:when>
+            <xsl:otherwise>
+               <xsl:value-of select="request:path()"/>
+            </xsl:otherwise>
+         </xsl:choose>
+      </xsl:variable>
+
+      <xsl:variable name="parts" select="fn:tokenize($path, '/')[string()]"/>
+      
+      <xsl:if test="count($parts)">
+         <div id="lo-breadcrumbs">
+            <a href="/">home</a>
+            <xsl:for-each select="$parts">
+               <xsl:text> › </xsl:text>
+               <xsl:variable name="pos" select="position()"/>
+
+               <a>
+                  <xsl:attribute name="href">
+                     <xsl:text>/</xsl:text>
+                     <xsl:value-of select="fn:string-join($parts[position() &lt;= $pos], '/')"/>
+                     <xsl:if test="not(fn:matches(., '\.(xsl|xqy|atom|xhtml)$', 'i'))">/</xsl:if>
+                     <xsl:value-of select="request:url('Query,KeepDelimiter')"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="."/>
+               </a>
+            </xsl:for-each>
+            <xsl:if test="$pathInfo">
+               <xsl:text> › </xsl:text>
+               <a href="{request:path()}">
+                  <xsl:value-of select="substring($pathInfo, 2)"/>
+               </a>
+            </xsl:if>
+         </div>
+      </xsl:if>
+
+   </xsl:template>
    
 </xsl:stylesheet>
 

@@ -68,13 +68,20 @@
 
       <h2>Function Index</h2>
       <ul>
-         <xsl:for-each select="$samples-xpath3/*">
+         <xsl:for-each-group select="$samples-xpath3/*" group-by="substring(local-name(), 1, 1)">
+            <xsl:sort select="current-grouping-key()"/>
+
             <li>
-               <a href="#{replace(name(), ':', '-')}">
-                  <xsl:value-of select="name()"/>
-               </a>
+               <xsl:for-each select="current-group()">
+                  <xsl:sort select="local-name()"/>
+                  
+                  <a href="#{replace(name(), ':', '-')}">
+                     <xsl:value-of select="local-name()"/>
+                  </a>
+                  <xsl:text>&#160;&#160;</xsl:text>
+               </xsl:for-each>
             </li>
-         </xsl:for-each>
+         </xsl:for-each-group>
       </ul>
 
       <xsl:for-each select="$samples-xpath3/*">

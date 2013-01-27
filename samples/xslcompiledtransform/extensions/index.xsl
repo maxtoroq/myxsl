@@ -15,6 +15,9 @@
          <li>
             <a href="w3c.xpath.xsl">XPath 2.0 and 3.0 Functions</a>
          </li>
+         <li>
+            <a href="w3c.xmlschema.xsl">Constructor functions for XML Schema built-in atomic types</a>
+         </li>
       </ul>
    </xsl:template>
 

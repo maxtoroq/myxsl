@@ -42,7 +42,7 @@
          <xsl:for-each select="$samples-saxon/*">
             <li>
                <a href="#{replace(name(), ':', '-')}">
-                  <xsl:value-of select="name()"/>
+                  <xsl:value-of select="local-name()"/>
                </a>
             </li>
          </xsl:for-each>

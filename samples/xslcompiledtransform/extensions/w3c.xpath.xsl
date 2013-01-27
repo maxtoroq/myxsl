@@ -14,7 +14,7 @@
    <xsl:import href="~/layout.xslt"/>
    <xsl:import href="~/App_Code/xslt_highlighter_api.xsl"/>
 
-   <xsl:variable name="samples-xpath-rtf" xmlns="">
+   <xsl:variable name="samples-rtf" xmlns="">
       <fn:abs>
          <xsl:value-of select="fn:abs(-5)" />
       </fn:abs>
@@ -229,36 +229,9 @@
       <math:tan>
          <xsl:value-of select="math:tan(.5)"/>
       </math:tan>
-      <xs:boolean>
-         <xsl:value-of select="xs:boolean('0')"/>
-      </xs:boolean>
-      <xs:date>
-         <xsl:value-of select="xs:date('2002-10-10-05:00')"/>
-      </xs:date>
-      <xs:dateTime>
-         <xsl:value-of select="xs:dateTime('2002-10-10T12:00:00-05:00')"/>
-      </xs:dateTime>
-      <xs:decimal>
-         <xsl:value-of select="xs:decimal('2.10')"/>
-      </xs:decimal>
-      <xs:double>
-         <xsl:value-of select="xs:double('-INF')"/>
-      </xs:double>
-      <xs:duration>
-         <xsl:value-of select="xs:duration('P1347Y')"/>
-      </xs:duration>
-      <xs:float>
-         <xsl:value-of select="xs:float('INF')"/>
-      </xs:float>
-      <xs:string>
-         <xsl:value-of select="xs:string('a')"/>
-      </xs:string>
-      <xs:time>
-         <xsl:value-of select="xs:time('13:20:00-05:00')"/>
-      </xs:time>
    </xsl:variable>
 
-   <xsl:variable name="samples-xpath" select="exsl:node-set($samples-xpath-rtf)"/>
+   <xsl:variable name="samples" select="exsl:node-set($samples-rtf)"/>
 
    <xsl:template name="content">
       
@@ -276,9 +249,6 @@
          <li>
             math = <strong>http://www.w3.org/2005/xpath-functions/math</strong>
          </li>
-         <li>
-            xs = <strong>http://www.w3.org/2001/XMLSchema</strong>
-         </li>
       </ul>
 
       <h2>Function Index</h2>
@@ -286,7 +256,7 @@
          <xsl:for-each select="fn:tokenize('abcdefghijklmnopqrstuvwxyz', '')">
             <xsl:sort select="."/>
             <xsl:if test="string()">
-               <xsl:variable name="s" select="$samples-xpath/*[starts-with(local-name(), current())]"/>
+               <xsl:variable name="s" select="$samples/*[starts-with(local-name(), current())]"/>
                <xsl:if test="$s">
                   <li>
                      <xsl:for-each select="$s">
@@ -303,11 +273,18 @@
          </xsl:for-each>
       </ul>
 
-      <xsl:for-each select="$samples-xpath/*">
+      <xsl:for-each select="$samples/*">
          <xsl:call-template name="function">
-            <xsl:with-param name="sampleVar" select="'samples-xpath-rtf'"/>
+            <xsl:with-param name="sampleVar" select="'samples-rtf'"/>
          </xsl:call-template>
       </xsl:for-each>
+
+      <h2>See Also</h2>
+      <ul>
+         <li>
+            <a href="w3c.xmlschema.xsl">Constructor functions for XML Schema built-in atomic types for XslCompiledTransform</a>
+         </li>
+      </ul>
 
    </xsl:template>
 
@@ -318,18 +295,11 @@
          <h2 id="{translate(name(), ':', '-')}">
             <a>
                <xsl:attribute name="href">
-                  <xsl:choose>
-                     <xsl:when test="namespace-uri() = 'http://www.w3.org/2001/XMLSchema'">
-                        <xsl:value-of select="concat('http://www.w3.org/TR/xmlschema-2/#', local-name())"/>
-                     </xsl:when>
-                     <xsl:otherwise>
-                        <xsl:text>http://www.w3.org/TR/xpath-functions-30/#func-</xsl:text>
-                        <xsl:if test="namespace-uri() = 'http://www.w3.org/2005/xpath-functions/math'">
-                           <xsl:text>math-</xsl:text>
-                        </xsl:if>
-                        <xsl:value-of select="local-name()"/>
-                     </xsl:otherwise>
-                  </xsl:choose>
+                  <xsl:text>http://www.w3.org/TR/xpath-functions-30/#func-</xsl:text>
+                  <xsl:if test="namespace-uri() = 'http://www.w3.org/2005/xpath-functions/math'">
+                     <xsl:text>math-</xsl:text>
+                  </xsl:if>
+                  <xsl:value-of select="local-name()"/>
                </xsl:attribute>
                <xsl:value-of select="name()"/>
             </a>

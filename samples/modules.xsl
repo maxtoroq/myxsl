@@ -100,19 +100,29 @@
       <h2>Function Index</h2>
 
       <ul>
-         <xsl:for-each select="fn:distinct-values(function/@name)">
+         <xsl:for-each select="fn:tokenize('abcdefghijklmnopqrstuvwxyz', '')">
             <xsl:sort select="."/>
-            <li>
-               <a href="#{substring-after(., ':')}">
-                  <xsl:value-of select="."/>
-               </a>
-            </li>
+            <xsl:if test="string()">
+               <xsl:variable name="s" select="$module/function[starts-with(substring-after(@name, ':'), current())]"/>
+               <xsl:if test="$s">
+                  <li>
+                     <xsl:for-each select="fn:distinct-values($s/@name)">
+                        <xsl:sort select="."/>
+
+                        <a href="#{substring-after(., ':')}">
+                           <xsl:value-of select="substring-after(., ':')"/>
+                        </a>
+                        <xsl:text>&#160;&#160;</xsl:text>
+                     </xsl:for-each>
+                  </li>
+               </xsl:if>
+            </xsl:if>
          </xsl:for-each>
       </ul>
 
       <xsl:variable name="functions" select="function"/>
 
-      <xsl:for-each select="fn:distinct-values(function/@name)">
+      <xsl:for-each select="fn:distinct-values($functions/@name)">
          <xsl:sort select="."/>
          <xsl:call-template name="function">
             <xsl:with-param name="overloads" select="$functions[@name=current()]"/>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?page processor="system" accept-verbs="GET,HEAD,POST" ?>
 
-<xsl:stylesheet version="2.0" exclude-result-prefixes="#all"
+<xsl:stylesheet version="1.0" exclude-result-prefixes="fn xs exsl svrl request response validation"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:fn="http://www.w3.org/2005/xpath-functions"
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -37,7 +37,7 @@
             </xsl:variable>
 
             <xsl:variable name="data" select="exsl:node-set($data-rtf)"/>
-            <xsl:variable name="view-report" select="boolean(request:form('view-report'))" as="xs:boolean" />
+            <xsl:variable name="view-report" select="boolean(request:form('view-report'))"/>
 
             <xsl:variable name="schema-rtf">
                <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt1">
