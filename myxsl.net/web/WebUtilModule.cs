@@ -21,8 +21,8 @@ using System.Web;
 
 namespace myxsl.net.web {
 
-   [XPathModule("webutil", "http://myxsl.net/ns/web/util")]
-   public static class WebUtilModule {
+   [XPathModule("web", "http://myxsl.net/ns/web")]
+   public static class WebModule {
 
       [XPathFunction("absolute-path", "xs:string", "xs:string")]
       public static string AbsolutePath(string appRelativePath) {

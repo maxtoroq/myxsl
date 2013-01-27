@@ -81,7 +81,7 @@ namespace myxsl.net.web {
 
       [XPathFunction("resolve-url", "xs:string", "xs:string")]
       public static string ResolveUrl(string relativeUrl) {
-         return WebUtilModule.AbsolutePath(WebUtilModule.CombinePath(FilePath(), relativeUrl));
+         return WebModule.AbsolutePath(WebModule.CombinePath(FilePath(), relativeUrl));
       }
 
       [XPathFunction("referrer-url", "xs:string?")]
