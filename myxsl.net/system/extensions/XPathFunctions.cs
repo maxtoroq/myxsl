@@ -28,7 +28,7 @@ using System.Xml.XPath;
 using System.Xml.Xsl;
 using myxsl.net.common;
 
-namespace myxsl.net.system {
+namespace myxsl.net.system.extensions {
 
    public class XPathFunctions {
 

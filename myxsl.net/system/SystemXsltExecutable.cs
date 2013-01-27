@@ -52,15 +52,15 @@ namespace myxsl.net.system {
                      _ExtensionObjects = new Dictionary<string, Tuple<XPathModuleInfo, Type>>();
 
                      string[] xpathNs = {
-                        XPathFunctions.Namespace,
-                        XPathMathFunctions.Namespace,
-                        XmlSchemaConstructorFunctions.Namespace
+                        extensions.XPathFunctions.Namespace,
+                        extensions.XPathMathFunctions.Namespace,
+                        extensions.XmlSchemaConstructorFunctions.Namespace
                      };
 
                      Type[] xpathExtObj = ExtensionObjectGenerator.RenameMethodsIfNecessary(new[] {
-                        typeof(XPathFunctions),
-                        typeof(XPathMathFunctions),
-                        typeof(XmlSchemaConstructorFunctions)
+                        typeof(extensions.XPathFunctions),
+                        typeof(extensions.XPathMathFunctions),
+                        typeof(extensions.XmlSchemaConstructorFunctions)
                      }).ToArray();
                      
                      for (int i = 0; i < xpathNs.Length; i++) 

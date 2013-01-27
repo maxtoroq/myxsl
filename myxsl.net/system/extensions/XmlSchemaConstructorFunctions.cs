@@ -21,7 +21,7 @@ using System.Xml;
 using System.Xml.XPath;
 using System.Xml.Xsl.Runtime;
 
-namespace myxsl.net.system {
+namespace myxsl.net.system.extensions {
    
    public class XmlSchemaConstructorFunctions {
 
