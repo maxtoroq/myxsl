@@ -56,21 +56,6 @@ namespace myxsl.net.web {
          return UriToString(Context.Request.Url, components, format);
       }
 
-      [XPathFunction("app-relative-path", "xs:string")]
-      [Description("The application relative path of the current HTTP request.")]
-      public static string AppRelativePath() {
-
-         HttpRequest request = Context.Request;
-
-         return VirtualPathUtility.ToAppRelative(request.FilePath) + request.PathInfo;
-      }
-
-      [XPathFunction("app-relative-file-path", "xs:string")]
-      [Description("The application relative path of the current HTTP request, without the pathinfo part.")]
-      public static string AppRelativeFilePath() {
-         return VirtualPathUtility.ToAppRelative(Context.Request.FilePath);
-      }
-
       [XPathFunction("path-info", "xs:string")]
       [Description("The pathinfo part of the current HTTP request URL.")]
       public static string PathInfo() {
