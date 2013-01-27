@@ -79,7 +79,14 @@ namespace myxsl.net.web {
 
       [XPathFunction("path", "xs:string")]
       public static string Path() {
-         return Context.Request.Path;
+
+         string rawUrl = Context.Request.RawUrl;
+         int index = rawUrl.IndexOf('?');
+
+         if (index > -1)
+            rawUrl = rawUrl.Substring(0, index);
+
+         return rawUrl;
       }
 
       [XPathFunction("file-path", "xs:string")]
