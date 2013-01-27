@@ -107,6 +107,7 @@
     <Compile Include="web.ui\OutputCachedPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="web\WebModule.cs" />
     <Compile Include="XmlDynamicResolver.cs" />
     <Compile Include="XmlEmbeddedResourceResolver.cs" />
     <Compile Include="XPathDependencyAttribute.cs" />
@@ -134,7 +135,6 @@
     <Compile Include="web\SessionModule.cs" />
     <Compile Include="common\XPathModuleInfo.cs" />
     <Compile Include="web.ui\PageHandlerFactory.cs" />
-    <Compile Include="web\WebUtilModule.cs" />
     <Compile Include="validation\ValidationModule.cs" />
     <Compile Include="web\XmlVirtualPathAwareUrlResolver.cs" />
     <Compile Include="system\EmptyXPathNodeIterator.cs" />
