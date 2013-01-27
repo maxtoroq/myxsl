@@ -68,7 +68,9 @@
     <Compile Include="SchematronInvoker.cs" />
     <Compile Include="SchematronResultHandler.cs" />
     <Compile Include="security\SecurityModule.cs" />
-    <Compile Include="system\XmlSchemaConstructorFunctions.cs" />
+    <Compile Include="system\extensions\XmlSchemaConstructorFunctions.cs" />
+    <Compile Include="system\extensions\XPathFunctions.cs" />
+    <Compile Include="system\extensions\XPathMathFunctions.cs" />
     <Compile Include="util\PseudoAttributeParser.cs" />
     <Compile Include="configuration\ConfigurationModule.cs" />
     <Compile Include="util\XPathNavigatorEqualityComparer.cs" />
@@ -98,8 +100,6 @@
     <Compile Include="common\XPathItemType.cs" />
     <Compile Include="common\XPathSequenceCardinality.cs" />
     <Compile Include="common\XPathSequenceType.cs" />
-    <Compile Include="system\XPathFunctions.cs" />
-    <Compile Include="system\XPathMathFunctions.cs" />
     <Compile Include="util\FormatInvariantExtensions.cs" />
     <Compile Include="web\PreApplicationStartCode.cs" />
     <Compile Include="util\StringExtensions.cs" />
