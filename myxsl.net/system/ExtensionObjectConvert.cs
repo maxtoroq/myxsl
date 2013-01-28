@@ -555,14 +555,48 @@ namespace myxsl.net.system {
          return value.Cast<XPathNavigator>();
       }
 
+      public static string ToString(object value) {
+
+         if (value == null)
+            return null;
+
+         string str = value as string;
+
+         if (str != null)
+            return str;
+
+         XPathNodeIterator iter = value as XPathNodeIterator;
+
+         if (iter != null) 
+            return ToString(iter);
+
+         return value.ToString();
+      }
+
       public static string ToString(XPathNodeIterator value) {
 
          if (IsEmpty(value))
             return null;
 
          value.MoveNext();
-
+         
          return value.Current.Value;
+      }
+
+      public static Nullable<T> ToNullableValueType<T>(object value) where T : struct {
+
+         if (value == null)
+            return null;
+
+         if (value is T)
+            return (T)value;
+
+         XPathNodeIterator iter = value as XPathNodeIterator;
+
+         if (iter != null) 
+            return ToNullableValueType<T>(iter);
+
+         throw new ArgumentException("value must be an instance of {0}.".FormatInvariant(typeof(T).FullName), "value");
       }
 
       public static Nullable<T> ToNullableValueType<T>(XPathNodeIterator value) where T : struct {
@@ -575,9 +609,31 @@ namespace myxsl.net.system {
          return (T)value.Current.ValueAs(typeof(T));
       }
 
+      public static Nullable<Double> ToNullableDouble(object value) {
+
+         if (value == null)
+            return null;
+
+         if (value is double) 
+            return (double)value;
+
+         XPathNodeIterator iter = value as XPathNodeIterator;
+
+         if (iter != null) {
+
+            if (ExtensionObjectConvert.IsEmpty(iter))
+               return null;
+
+            return iter.Cast<XPathNavigator>().First().ValueAsDouble;
+         } 
+
+         return XmlConvert.ToDouble(value.ToString());
+      }
+
       public static XmlQualifiedName ToXmlQualifiedName(string value) {
 
-         if (value == null) throw new ArgumentNullException("value");
+         if (value == null)
+            return null;
 
          return new XmlQualifiedName(value);
       }

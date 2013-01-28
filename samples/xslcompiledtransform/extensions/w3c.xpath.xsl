@@ -115,7 +115,7 @@
          <xsl:value-of select="fn:nilled(document('')/*)"/>
       </fn:nilled>
       <fn:one-or-more>
-         <xsl:value-of select="fn:one-or-more(document('')/*/@*)"/>
+         <xsl:value-of select="fn:string-join(fn:one-or-more(document('')/*/@*), ', ')"/>
       </fn:one-or-more>
       <fn:path>
          <xsl:value-of select="fn:path(document('')/*/@version)"/>
@@ -132,14 +132,14 @@
       <fn:resolve-uri>
          <xsl:value-of select="fn:resolve-uri('/foo', 'http://example.com/bar')"/>
       </fn:resolve-uri>
-      <fn:reverse>
+      <!--<fn:reverse>
          <xsl:variable name="numbers-rtf">
             <num>1</num>
             <num>15</num>
             <num>48</num>
          </xsl:variable>
          <xsl:value-of select="fn:reverse(exsl:node-set($numbers-rtf)/*)" />
-      </fn:reverse>
+      </fn:reverse>-->
       <fn:root>
          <xsl:variable name="numbers-rtf">
             <num>1</num>
@@ -274,6 +274,8 @@
       </ul>
 
       <xsl:for-each select="$samples/*">
+         <xsl:sort select="local-name()"/>
+
          <xsl:call-template name="function">
             <xsl:with-param name="sampleVar" select="'samples-rtf'"/>
          </xsl:call-template>

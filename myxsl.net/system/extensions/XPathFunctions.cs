@@ -34,35 +34,76 @@ namespace myxsl.net.system.extensions {
 
       internal const string Namespace = "http://www.w3.org/2005/xpath-functions";
 
-      public double abs(double arg) {
-         return Math.Abs(arg);
+      public object abs(object arg) {
+         // fn:abs($arg as numeric?) as numeric?
+
+         double? value = ExtensionObjectConvert.ToNullableDouble(arg);
+
+         if (value == null)
+            return ExtensionObjectConvert.EmptyIterator;
+
+         return Math.Abs(value.Value);
       }
 
-      public double avg(XPathNavigator[] args) {
-         return args.Average(n => n.ValueAsDouble);
+      public object avg(object args) {
+         // fn:avg($arg as xs:anyAtomicType*) as xs:anyAtomicType?
+
+         XPathNodeIterator iter = args as XPathNodeIterator;
+
+         if (iter == null) {
+            // if not iterator then it's a single item, return unchanged
+            return args;
+         }
+
+         if (ExtensionObjectConvert.IsEmpty(iter))
+            return ExtensionObjectConvert.EmptyIterator;
+
+         return iter.Cast<XPathNavigator>().Select(n => n.ValueAsDouble).Average();
       }
 
-      protected string base_uri(XPathNavigator arg) {
-         return arg.BaseURI;
+      protected object base_uri(XPathNodeIterator arg) {
+         // fn:base-uri($arg as node()?) as xs:anyURI?
+
+         XPathNavigator node = ExtensionObjectConvert.ToXPathNavigator(arg);
+
+         if (node == null)
+            return ExtensionObjectConvert.EmptyIterator;
+
+         return node.BaseURI;
       }
 
-      public int compare(string arg1, string arg2) {
-         return String.Compare(arg1, arg2);
+      public object compare(object comparand1, object comparand2) {
+         // fn:compare($comparand1 as xs:string?, $comparand2 as xs:string?) as xs:integer?
+
+         string first = ExtensionObjectConvert.ToString(comparand1);
+         string second = ExtensionObjectConvert.ToString(comparand2);
+
+         if (first == null
+            || second == null) {
+            
+            return ExtensionObjectConvert.EmptyIterator;
+         }
+
+         return String.Compare(first, second);
       }
 
       protected string current_date() {
+         // fn:current-date() as xs:date
          return XmlConvert.ToString(DateTime.Today, XmlSchemaConstructorFunctions.DateFormat);
       }
 
       protected string current_dateTime() {
+         // fn:current-dateTime() as xs:dateTimeStamp
          return XmlConvert.ToString(DateTime.Now, XmlSchemaConstructorFunctions.DateTimeFormat);
       }
 
       protected string current_time() {
+         // fn:current-time() as xs:time
          return XmlConvert.ToString(DateTime.Now, XmlSchemaConstructorFunctions.TimeFormat);
       }
 
       protected object document_uri(XPathNodeIterator iter) {
+         // fn:document-uri($arg as node()?) as xs:anyURI?
 
          XPathNavigator node;
 
@@ -110,28 +151,42 @@ namespace myxsl.net.system.extensions {
       }
 
       protected XPathNavigator[] distinct_values(XPathNodeIterator iter) {
+         // fn:distinct-values($arg as xs:anyAtomicType*) as xs:anyAtomicType*
 
          XPathNavigator[] nodes = iter.Cast<XPathNavigator>().ToArray();
          var distinct = new Dictionary<object, XPathNavigator>();
 
          foreach (object item in nodes.Select(n => n.TypedValue).Distinct()) {
             if (!distinct.ContainsKey(item))
-               distinct.Add(item, nodes.First(n => n.TypedValue == item));
+               distinct.Add(item, nodes.First(n => n.TypedValue.Equals(item)));
          }
 
          return distinct.Values.ToArray();
       }
 
-      public bool empty(XPathNodeIterator iter) {
-         return iter.Count == 0;
+      public bool empty(object arg) {
+         // fn:empty($arg as item()*) as xs:boolean
+         return ExtensionObjectConvert.IsEmpty(arg);
       }
 
-      protected string encode_for_uri(string arg) {
-         return Uri.EscapeDataString(arg);
+      protected string encode_for_uri(object arg) {
+         // fn:encode-for-uri($uri-part as xs:string?) as xs:string
+
+         string value = ExtensionObjectConvert.ToString(arg);
+
+         if (value == null)
+            return "";
+
+         return Uri.EscapeDataString(value);
       }
 
-      protected bool ends_with(string arg1, string arg2) {
-         return arg1.EndsWith(arg2);
+      protected bool ends_with(object arg1, object arg2) {
+         // fn:ends-with($arg1 as xs:string?, $arg2 as xs:string?) as xs:boolean
+
+         string first = ExtensionObjectConvert.ToString(arg1) ?? "";
+         string second = ExtensionObjectConvert.ToString(arg2) ?? "";
+
+         return first.EndsWith(second);
       }
 
       public void error() {
@@ -146,57 +201,130 @@ namespace myxsl.net.system.extensions {
          throw new XsltException("Error signalled by application call on fn:error(). Code: '{0}'. Description: '{1}'.".FormatInvariant(code, description));
       }
 
-      protected XPathNavigator exactly_one(XPathNodeIterator iter) {
+      protected object exactly_one(object arg) {
+         // fn:exactly-one($arg as item()*) as item()
+
+         XPathNodeIterator iter = arg as XPathNodeIterator;
+
+         if (iter == null) {
+            // if not iterator then it's a single item, return unchanged
+            return arg;
+         }
 
          if (iter.Count == 0 || iter.Count > 1)
             throw new XsltException("fn:exactly-one called with a sequence containing zero or more than one item.");
 
-         return iter.Cast<XPathNavigator>().Single();
+         return iter;
       }
 
-      public bool exists(XPathNodeIterator iter) {
+      public bool exists(object arg) {
+         // fn:exists($arg as item()*) as xs:boolean
+
+         XPathNodeIterator iter = arg as XPathNodeIterator;
+
+         if (iter == null) {
+            // if not iterator then it's a single item
+            return true;
+         }
+
          return iter.Count > 0;
       }
 
-      protected bool has_children(XPathNavigator arg) {
-         return arg.HasChildren;
+      protected bool has_children(XPathNodeIterator arg) {
+         //fn:has-children($node as node()?) as xs:boolean
+
+         XPathNavigator node = ExtensionObjectConvert.ToXPathNavigator(arg);
+
+         if (node == null)
+            return false;
+
+         return node.HasChildren;
       }
 
-      public XPathNavigator head(XPathNodeIterator iter) { 
-         return iter.Cast<XPathNavigator>().First();
+      public object head(object arg) {
+         // fn:head($arg as item()*) as item()?
+
+         XPathNodeIterator iter = arg as XPathNodeIterator;
+
+         if (iter == null) {
+            // if not iterator then it's a single item
+            return arg;
+         }
+
+         if (ExtensionObjectConvert.IsEmpty(iter))
+            return ExtensionObjectConvert.EmptyIterator;
+
+         return ExtensionObjectConvert.ToXPathNavigator(iter);
       }
 
       protected object in_scope_prefixes(XPathNavigator element) {
+         // fn:in-scope-prefixes($element as element()) as xs:string*
          return ExtensionObjectConvert.ToInputOrEmpty(element.GetNamespacesInScope(XmlNamespaceScope.All).Keys);
       }
 
-      protected string lower_case(string arg) {
-         return arg.ToLower();
+      protected string lower_case(object arg) {
+         // fn:lower-case($arg as xs:string?) as xs:string
+
+         string str = ExtensionObjectConvert.ToString(arg);
+
+         if (str == null)
+            return "";
+
+         return str.ToLower();
       }
 
-      public bool matches(string input, string pattern) {
-         return Regex.IsMatch(input, pattern);
+      public bool matches(object input, string pattern) {
+         return matches(input, pattern, "");
       }
 
-      public bool matches(string input, string pattern, string flags) {
-         return Regex.IsMatch(input, pattern, ParseFlags(flags));
+      public bool matches(object input, string pattern, string flags) {
+         // fn:matches($input	as xs:string?, $pattern as xs:string, $flags as xs:string) as xs:boolean
+
+         string inputStr = ExtensionObjectConvert.ToString(input) ?? "";
+
+         return Regex.IsMatch(inputStr, pattern, ParseFlags(flags));
       }
 
-      public object max(XPathNodeIterator iter) {
+      public object max(object arg) {
+         // fn:max($arg as xs:anyAtomicType*) as xs:anyAtomicType?
+
+         XPathNodeIterator iter = arg as XPathNodeIterator;
+
+         if (iter == null) {
+            // if not iterator then it's a single item, return unchanged
+            return arg;
+         }
+
+         if (ExtensionObjectConvert.IsEmpty(iter))
+            return ExtensionObjectConvert.EmptyIterator;
+
          return iter.Cast<XPathNavigator>().Max(n => n.TypedValue);
       }
 
-      public object min(XPathNodeIterator iter) {
+      public object min(object arg) {
+         // fn:min($arg as xs:anyAtomicType*) as xs:anyAtomicType?
+
+         XPathNodeIterator iter = arg as XPathNodeIterator;
+
+         if (iter == null) {
+            // if not iterator then it's a single item, return unchanged
+            return arg;
+         }
+
+         if (ExtensionObjectConvert.IsEmpty(iter))
+            return ExtensionObjectConvert.EmptyIterator;
+
          return iter.Cast<XPathNavigator>().Min(n => n.TypedValue);
       }
 
       public object nilled(XPathNodeIterator iter) {
+         // fn:nilled($arg as node()?) as xs:boolean?
 
-         XPathNavigator node;
+         XPathNavigator node = ExtensionObjectConvert.ToXPathNavigator(iter);
 
-         if (ExtensionObjectConvert.IsEmpty(iter)
-            || !iter.MoveNext()
-            || (node = iter.Current).NodeType != XPathNodeType.Element) {
+         if (node == null
+            || node.NodeType != XPathNodeType.Element) {
+
             return ExtensionObjectConvert.EmptyIterator;
          }
 
@@ -206,11 +334,12 @@ namespace myxsl.net.system.extensions {
             && schemaInfo.IsNil;
       }
 
-      protected object namespace_uri_for_prefix(XPathNodeIterator prefix, XPathNavigator element) {
+      protected object namespace_uri_for_prefix(object prefix, XPathNavigator element) {
+         // fn:namespace-uri-for-prefix($prefix as xs:string?, $element as element()) as xs:anyURI?
 
          IDictionary<string, string> namespaces = element.GetNamespacesInScope(XmlNamespaceScope.All);
 
-         string p = (prefix.MoveNext()) ? prefix.Current.Value : "";
+         string p = ExtensionObjectConvert.ToString(prefix) ?? "";
 
          if (!namespaces.ContainsKey(p))
             return ExtensionObjectConvert.EmptyIterator;
@@ -218,28 +347,38 @@ namespace myxsl.net.system.extensions {
          return namespaces[p];
       }
 
-      protected XPathNodeIterator one_or_more(XPathNodeIterator iter) {
-         
+      protected object one_or_more(object arg) {
+         // fn:one-or-more($arg as item()*) as item()+
+
+         XPathNodeIterator iter = arg as XPathNodeIterator;
+
+         if (iter == null) {
+            // if not iterator then it's a single item
+            return arg;
+         }
+
          if (iter.Count == 0)
             throw new XsltException("fn:one-or-more called with a sequence containing no items.");
 
          return iter;
       }
 
-      protected object parse_xml(XPathNodeIterator arg) {
+      protected object parse_xml(object arg) {
+         // fn:parse-xml($arg as xs:string?) as document-node(element(*))?
          return parse_xml_impl(arg, fragment: false);
       }
 
-      protected object parse_xml_fragment(XPathNodeIterator arg) {
+      protected object parse_xml_fragment(object arg) {
+         // fn:parse-xml-fragment($arg as xs:string?) as document-node()?
          return parse_xml_impl(arg, fragment: true);
       }
 
-      static object parse_xml_impl(XPathNodeIterator arg, bool fragment) {
+      static object parse_xml_impl(object arg, bool fragment) {
 
-         if (ExtensionObjectConvert.IsEmpty(arg))
+         string str = ExtensionObjectConvert.ToString(arg);
+
+         if (str == null)
             return ExtensionObjectConvert.EmptyIterator;
-
-         arg.MoveNext();
 
          var parseOptions = new XmlParsingOptions { 
             ConformanceLevel = (fragment) ? 
@@ -249,20 +388,21 @@ namespace myxsl.net.system.extensions {
 
          var itemFactory = new SystemItemFactory();
 
-         using (var reader = new StringReader(arg.Current.Value)) 
+         using (var reader = new StringReader(str)) 
             return ExtensionObjectConvert.ToInput(itemFactory.CreateNodeReadOnly(reader, parseOptions));
       }
 
       public object path(XPathNodeIterator arg) {
+         // fn:path($arg as node()?) as xs:string?
 
-         if (ExtensionObjectConvert.IsEmpty(arg))
+         XPathNavigator node = ExtensionObjectConvert.ToXPathNavigator(arg);
+
+         if (node == null)
             return ExtensionObjectConvert.EmptyIterator;
-
-         arg.MoveNext();
 
          var reverseBuffer = new List<string>();
 
-         XPathNavigator clone = arg.Current.Clone();
+         XPathNavigator clone = node.Clone();
 
          path_impl(clone, reverseBuffer);
 
@@ -378,43 +518,89 @@ namespace myxsl.net.system.extensions {
       }
 
       public string replace(string input, string pattern, string replacement) {
-         return replace(input, pattern, replacement, null);
+         return replace(input, pattern, replacement, "");
       }
 
-      public string replace(string input, string pattern, string replacement, string flags) {
-         return Regex.Replace(input, pattern, replacement, ParseFlags(flags));
+      public string replace(object input, string pattern, string replacement, string flags) {
+         // fn:replace($input as xs:string?, $pattern as xs:string, $replacement as xs:string, $flags as xs:string) as xs:string
+
+         string inputStr = ExtensionObjectConvert.ToString(input) ?? "";
+
+         return Regex.Replace(inputStr, pattern, replacement, ParseFlags(flags));
       }
 
-      protected string resolve_uri(string relativeUri, string baseUri) {
-         return new Uri(new Uri(baseUri, UriKind.Absolute), relativeUri).ToString();
+      protected object resolve_uri(object relativeUri, string baseUri) {
+         // fn:resolve-uri($relative as xs:string?, $base as xs:string) as xs:anyURI?
+
+         string relativeUriStr = ExtensionObjectConvert.ToString(relativeUri);
+
+         if (relativeUriStr == null)
+            return ExtensionObjectConvert.EmptyIterator;
+
+         return new Uri(new Uri(baseUri, UriKind.Absolute), relativeUriStr).ToString();
       }
 
-      public XPathNavigator[] reverse(XPathNodeIterator iter) {
+      private object reverse(object arg) {
+         // fn:reverse($arg as item()*) as item()*
+
+         // TODO: XslCompiledTransform seems to reorder node-sets in document order
+
+         XPathNodeIterator iter = arg as XPathNodeIterator;
+
+         if (iter == null) {
+            // if not iterator then it's a single item
+            return arg;
+         }
+
+         if (ExtensionObjectConvert.IsEmpty(iter))
+            return ExtensionObjectConvert.EmptyIterator;
+
          return iter.Cast<XPathNavigator>().Reverse().ToArray();
       }
 
-      public XPathNavigator root(XPathNavigator arg) {
+      public object root(XPathNodeIterator arg) {
+         // fn:root($arg as node()?) as node()?
 
-         var nav = arg.Clone();
+         XPathNavigator node = ExtensionObjectConvert.ToXPathNavigator(arg);
 
-         nav.MoveToRoot();
+         if (node == null)
+            return ExtensionObjectConvert.EmptyIterator;
 
-         return nav;
+         XPathNavigator clone = node.Clone();
+
+         clone.MoveToRoot();
+
+         return clone;
       }
 
-      protected double round_half_to_even(double arg) {
-         return Math.Round(arg, MidpointRounding.ToEven);
+      protected object round_half_to_even(object arg) {
+         // fn:round-half-to-even($arg as numeric?) as numeric?
+
+         double? value = ExtensionObjectConvert.ToNullableDouble(arg);
+
+         if (value == null)
+            return ExtensionObjectConvert.EmptyIterator;
+
+         return Math.Round(value.Value, MidpointRounding.ToEven);
       }
 
-      protected double round_half_to_even(double arg, int precision) {
-         return Math.Round(arg, precision, MidpointRounding.ToEven);
+      protected object round_half_to_even(object arg, int precision) {
+         // fn:round-half-to-even($arg as numeric?, $precision as xs:integer) as numeric?
+
+         double? value = ExtensionObjectConvert.ToNullableDouble(arg);
+
+         if (value == null)
+            return ExtensionObjectConvert.EmptyIterator;
+
+         return Math.Round(value.Value, precision, MidpointRounding.ToEven);
       }
 
-      public string serialize(XPathNodeIterator iter) {
-         return serialize(iter, null);
+      public string serialize(XPathNodeIterator arg) {
+         return serialize(arg, null);
       }
 
-      public string serialize(XPathNodeIterator iter, XPathNodeIterator parameters) {
+      public string serialize(XPathNodeIterator arg, XPathNodeIterator parameters) {
+         // fn:serialize($arg	as item()*, $params as element(output:serialization-parameters)?) as xs:string
 
          var itemFactory = new SystemItemFactory();
 
@@ -429,7 +615,7 @@ namespace myxsl.net.system.extensions {
 
          using (var writer = new StringWriter()) {
             
-            IEnumerable<XPathItem> items = iter.Cast<XPathItem>();
+            IEnumerable<XPathItem> items = arg.Cast<XPathItem>();
 
             if (options == null)
                itemFactory.Serialize(items, writer);
@@ -440,69 +626,98 @@ namespace myxsl.net.system.extensions {
          }
       }
 
-      protected string string_join(XPathNodeIterator iter) {
-         return string_join(iter, "");
+      protected string string_join(object arg) {
+         return string_join(arg, "");
       }
 
-      protected string string_join(XPathNodeIterator iter, string separator) {
+      protected string string_join(object arg, string separator) {
+         // fn:string-join($arg1 as xs:string*, $arg2 as xs:string) as xs:string
+
+         XPathNodeIterator iter = arg as XPathNodeIterator;
+
+         if (iter == null) {
+            // if not iterator then it's a single item
+            return arg.ToString();
+         }
+
+         if (ExtensionObjectConvert.IsEmpty(iter))
+            return "";
+
          return String.Join(separator, iter.Cast<XPathNavigator>().Select(n => n.Value));
       }
 
-      public XPathNavigator[] subsequence(XPathNodeIterator iter, int startingLoc) {
-         return iter.Cast<XPathNavigator>().Skip(startingLoc).ToArray();
+      public XPathNavigator[] subsequence(XPathNodeIterator sourceSeq, int startingLoc) {
+         // fn:subsequence($sourceSeq as item()*, $startingLoc as xs:double) as item()*
+
+         return sourceSeq.Cast<XPathNavigator>().Skip(startingLoc).ToArray();
       }
 
-      public XPathNavigator[] subsequence(XPathNodeIterator iter, int startingLoc, int length) {
-         return iter.Cast<XPathNavigator>().Skip(startingLoc).Take(length).ToArray();
+      public XPathNavigator[] subsequence(XPathNodeIterator sourceSeq, int startingLoc, int length) {
+         // fn:subsequence($sourceSeq as item()*, $startingLoc as xs:double, $length as xs:double) as item()*
+
+         return sourceSeq.Cast<XPathNavigator>().Skip(startingLoc).Take(length).ToArray();
       }
 
       public XPathNavigator[] tail(XPathNodeIterator iter) {
+         // fn:tail($arg as item()*) as item()*
+
          return iter.Cast<XPathNavigator>().Skip(1).ToArray();
       }
 
-      public object tokenize(XPathNodeIterator iter, string pattern) {
-         return tokenize(iter, pattern, null);
+      public object tokenize(object input, string pattern) {
+         return tokenize(input, pattern, "");
       }
 
-      public object tokenize(XPathNodeIterator iter, string pattern, string flags) {
+      public object tokenize(object input, string pattern, string flags) {
+         // fn:tokenize($input as xs:string?, $pattern as xs:string, $flags as xs:string) as xs:string*
 
-         if (ExtensionObjectConvert.IsEmpty(iter))
+         string inputStr = ExtensionObjectConvert.ToString(input);
+
+         if (!inputStr.HasValue())
             return ExtensionObjectConvert.EmptyIterator;
 
-         iter.MoveNext();
-
-         string input = iter.Current.Value;
-
-         if (String.IsNullOrEmpty(input))
-            return ExtensionObjectConvert.EmptyIterator;
-
-         return ExtensionObjectConvert.ToInput(Regex.Split(input, pattern, ParseFlags(flags)));
+         return ExtensionObjectConvert.ToInput(Regex.Split(inputStr, pattern, ParseFlags(flags)));
       }
 
-      public XPathNodeIterator trace(XPathNodeIterator iter, string label) {
-         
-         Trace.WriteLine(string_join(iter, " "), label);
+      public object trace(object value, string label) {
+         // fn:trace($value as item()*, $label as xs:string) as item()*
 
-         return iter;
+         Trace.WriteLine(string_join(value, " "), label);
+
+         return value;
       }
 
-      protected string upper_case(string arg) {
-         return arg.ToUpper();
+      protected string upper_case(object arg) {
+         // fn:upper-case($arg as xs:string?) as xs:string
+
+         string str = ExtensionObjectConvert.ToString(arg);
+
+         if (str == null)
+            return "";
+
+         return str.ToUpper();
       }
 
-      protected XPathNodeIterator zero_or_one(XPathNodeIterator iter) {
+      protected object zero_or_one(object arg) {
+         // fn:zero-or-one($arg as item()*) as item()?
 
-         if (iter.Count > 1)
+         XPathNodeIterator iter = arg as XPathNodeIterator;
+
+         if (iter == null) {
+            // if not iterator then it's a single item
+
+         } else if (iter.Count > 1) {
             throw new XsltException("fn:zero-or-one called with a sequence containing more than one item.");
+         }
 
-         return iter;
+         return arg;
       }
 
       RegexOptions ParseFlags(string flags) {
 
          RegexOptions options = RegexOptions.None;
 
-         if (flags == null)
+         if (!flags.HasValue())
             return options;
 
          char[] flagChars = flags.ToCharArray();

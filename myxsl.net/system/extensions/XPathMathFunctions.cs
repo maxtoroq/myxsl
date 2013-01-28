@@ -23,56 +23,141 @@ namespace myxsl.net.system.extensions {
 
       internal const string Namespace = "http://www.w3.org/2005/xpath-functions/math";
 
-      public double acos(double arg) {
-         return Math.Acos(arg);
+      public object acos(object arg) {
+         // math:acos($arg as xs:double?) as xs:double?
+
+         double? value = ExtensionObjectConvert.ToNullableDouble(arg);
+
+         if (value == null)
+            return ExtensionObjectConvert.EmptyIterator;
+
+         return Math.Acos(value.Value);
       }
 
-      public double asin(double arg) {
-         return Math.Asin(arg);
+      public object asin(object arg) {
+         // math:asin($arg as xs:double?) as xs:double?
+
+         double? value = ExtensionObjectConvert.ToNullableDouble(arg);
+
+         if (value == null)
+            return ExtensionObjectConvert.EmptyIterator;
+
+         return Math.Asin(value.Value);
       }
 
-      public double atan(double arg) {
-         return Math.Atan(arg);
+      public object atan(object arg) {
+         // math:atan($arg as xs:double?) as xs:double?
+
+         double? value = ExtensionObjectConvert.ToNullableDouble(arg);
+
+         if (value == null)
+            return ExtensionObjectConvert.EmptyIterator;
+
+         return Math.Atan(value.Value);
       }
 
-      public double cos(double arg) {
-         return Math.Cos(arg);
+      public object cos(object arg) {
+         // math:cos($θ as xs:double?) as xs:double?
+
+         double? value = ExtensionObjectConvert.ToNullableDouble(arg);
+
+         if (value == null)
+            return ExtensionObjectConvert.EmptyIterator;
+
+         return Math.Cos(value.Value);
       }
 
-      public double exp(double arg) {
-         return Math.Exp(arg);
+      public object exp(object arg) {
+         // math:exp($arg as xs:double?) as xs:double?
+
+         double? value = ExtensionObjectConvert.ToNullableDouble(arg);
+
+         if (value == null)
+            return ExtensionObjectConvert.EmptyIterator;
+
+         return Math.Exp(value.Value);
       }
 
-      public double exp10(double arg) {
-         return Math.Pow(10, arg);
+      public object exp10(object arg) {
+         // math:exp10($arg as xs:double?) as xs:double?
+
+         double? value = ExtensionObjectConvert.ToNullableDouble(arg);
+
+         if (value == null)
+            return ExtensionObjectConvert.EmptyIterator;
+
+         return Math.Pow(10, value.Value);
       }
 
-      public double log(double arg) {
-         return Math.Log(arg);
+      public object log(object arg) {
+         // math:log($arg as xs:double?) as xs:double?
+
+         double? value = ExtensionObjectConvert.ToNullableDouble(arg);
+
+         if (value == null)
+            return ExtensionObjectConvert.EmptyIterator;
+
+         return Math.Log(value.Value);
       }
 
-      public double log10(double arg) {
-         return Math.Log10(arg);
+      public object log10(object arg) {
+         // math:log10($arg as xs:double?) as xs:double?
+
+         double? value = ExtensionObjectConvert.ToNullableDouble(arg);
+
+         if (value == null)
+            return ExtensionObjectConvert.EmptyIterator;
+
+         return Math.Log10(value.Value);
       }
 
       public double pi() {
+         // math:pi() as xs:double
          return Math.PI;
       }
 
-      public double pow(double arg1, double arg2) {
-         return Math.Pow(arg1, arg2);
+      public object pow(object x, double y) {
+         // math:pow($x as xs:double?, $y as numeric) as xs:double?
+
+         double? xVal = ExtensionObjectConvert.ToNullableDouble(x);
+
+         if (xVal == null)
+            return ExtensionObjectConvert.EmptyIterator;
+
+         return Math.Pow(xVal.Value, y);
       }
 
-      public double sin(double arg) {
-         return Math.Sin(arg);
+      public object sin(object arg) {
+         // math:sin($θ as xs:double?) as xs:double?
+
+         double? value = ExtensionObjectConvert.ToNullableDouble(arg);
+
+         if (value == null)
+            return ExtensionObjectConvert.EmptyIterator;
+
+         return Math.Sin(value.Value);
       }
 
-      public double sqrt(double arg) {
-         return Math.Sqrt(arg);
+      public object sqrt(object arg) {
+         // math:sqrt($arg as xs:double?) as xs:double?
+
+         double? value = ExtensionObjectConvert.ToNullableDouble(arg);
+
+         if (value == null)
+            return ExtensionObjectConvert.EmptyIterator;
+
+         return Math.Sqrt(value.Value);
       }
 
-      public double tan(double arg) {
-         return Math.Tan(arg);
+      public object tan(object arg) {
+         // math:tan($θ as xs:double?) as xs:double?
+
+         double? value = ExtensionObjectConvert.ToNullableDouble(arg);
+
+         if (value == null)
+            return ExtensionObjectConvert.EmptyIterator;
+
+         return Math.Tan(value.Value);
       }
    }
 }
