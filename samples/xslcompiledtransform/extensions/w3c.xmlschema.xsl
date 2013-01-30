@@ -103,11 +103,10 @@
 
       <div class="function-doc">
          <h2 id="{translate(name(), ':', '-')}">
-            <a href="http://www.w3.org/TR/xmlschema-2/#{local-name()}">
-               <xsl:value-of select="name()"/>
-            </a>
+            <xsl:value-of select="name()"/>
             <a href="#" class="top">↑ top</a>
          </h2>
+         <h3>Examples</h3>
          <div class="sample-code">
             <xsl:variable name="sampleCode" select="document('')/*/xsl:variable[@name=$sampleVar]/*[name()=name(current())]"/>
 
@@ -119,6 +118,12 @@
                <xsl:value-of select="concat(' returns ', string())"/>
             </xsl:if>
          </div>
+         <h3>See also</h3>
+         <ul>
+            <li>
+               <a href="http://www.w3.org/TR/xmlschema-2/#{local-name()}">XML Schema Part 2: Datatypes</a>
+            </li>
+         </ul>
       </div>
    </xsl:template>
 

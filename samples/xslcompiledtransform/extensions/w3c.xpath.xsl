@@ -295,18 +295,10 @@
 
       <div class="function-doc">
          <h2 id="{translate(name(), ':', '-')}">
-            <a>
-               <xsl:attribute name="href">
-                  <xsl:text>http://www.w3.org/TR/xpath-functions-30/#func-</xsl:text>
-                  <xsl:if test="namespace-uri() = 'http://www.w3.org/2005/xpath-functions/math'">
-                     <xsl:text>math-</xsl:text>
-                  </xsl:if>
-                  <xsl:value-of select="local-name()"/>
-               </xsl:attribute>
-               <xsl:value-of select="name()"/>
-            </a>
+            <xsl:value-of select="name()"/>
             <a href="#" class="top">↑ top</a>
          </h2>
+         <h3>Examples</h3>
          <div class="sample-code">
             <xsl:variable name="sampleCode" select="document('')/*/xsl:variable[@name=$sampleVar]/*[name()=name(current())]"/>
 
@@ -318,6 +310,21 @@
                <xsl:value-of select="concat(' returns ', string())"/>
             </xsl:if>
          </div>
+         <h3>See also</h3>
+         <ul>
+            <li>
+               <a>
+                  <xsl:attribute name="href">
+                     <xsl:text>http://www.w3.org/TR/xpath-functions-30/#func-</xsl:text>
+                     <xsl:if test="namespace-uri() = 'http://www.w3.org/2005/xpath-functions/math'">
+                        <xsl:text>math-</xsl:text>
+                     </xsl:if>
+                     <xsl:value-of select="local-name()"/>
+                  </xsl:attribute>
+                  <xsl:text>XPath 3.0 Functions and Operators</xsl:text>
+               </a>
+            </li>
+         </ul>
       </div>
    </xsl:template>
 

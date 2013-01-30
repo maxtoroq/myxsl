@@ -9,9 +9,6 @@ pre, code { font-family: 'Courier New'; }
 /* form shouldn't have style by default (IE) */
 form { margin: 0; }
 
-/* normalize spacing (IE, moz, saf, ...) */
-h1, h2, h3, h4, h5, h6, p { margin-top: 1em; margin-bottom: 1em; }
-
 /* normalize font-size (IE) */
 h1 { font-size: 200%; }
 h2 { font-size: 150%; }
@@ -33,12 +30,7 @@ body, textarea, select, input, button { font-family: Arial, Helvetica, sans-seri
 pre { background-color: #EBEBEB; padding: 0.5em; font-size: 95%; }
 p, ul { line-height: 130%; }
 
-h1, h2, h3, h4, h5, h6 { font-family: Calibri, Sans-Serif; }
-h1 { font-size: 180%; }
-h2 { font-size: 140%; border-bottom: dotted 1px #666; }
-h3 { font-size: 110%; }
-h4, h5, h6 { font-size: 100%; }
-
+h1, h2, h3, h4, h5, h6 { font-family: Calibri, Sans-Serif; color: #333; }
 ul { list-style-type: square; }
 
 a:link { color: #23778F; }
@@ -74,8 +66,12 @@ form .error { color: Red; }
 #lo-logo .net { color: #99bdc8; }
 #lo-logo .ab { color: Blue; }
 
-#lo-content { width: 70%; padding-right: 20px; border-right: solid 1px #99bdc8; }
+#lo-content { width: 70%; padding-right: 20px; border-right: solid 1px #dadada; }
 #lo-breadcrumbs { font-family: Verdana; font-size: 75%; }
+
+#lo-breadcrumbs a {
+   text-decoration: none;
+}
 
 #lo-rightcol { position: absolute; top: 3.5em; margin-left: 71%; width: 26%;
     padding-top: 1em; }
@@ -84,14 +80,25 @@ form .error { color: Red; }
 
 /*#endregion*/
 
+pre.xquery code.function { font-weight: bold; }
+pre.xquery code.kwrd { color: blue; }
+pre.xquery code.var { color: #07A; }
 
 .function-doc {
-   margin-bottom: 1em;
+   margin-bottom: 1.5em;
 }
 
 .function-doc a.top {
    float: right;
    text-decoration: none;
-   font-size: 60%;
-   color: gray;
+   font-size: 55%;
+   font-weight: normal;
+}
+
+.function-doc .summary,
+.function-doc .signature,
+.function-doc .remarks,
+.function-doc .sample-code,
+.function-doc .section-body { 
+   margin-left: 2em;
 }

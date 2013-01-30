@@ -61,10 +61,9 @@
 
       <div class="function-doc">
          <h2 id="{replace(name(), ':', '-')}">
-            <a href="http://www.saxonica.com/documentation/extensions/functions/{local-name()}.xml">
-               <xsl:value-of select="name()"/>
-            </a>
+            <xsl:value-of select="name()"/>
          </h2>
+         <h3>Examples</h3>
          <div class="sample-code">
             <xsl:variable name="sampleCode" select="document('')/*/xsl:variable[@name=$sampleVar]/*[local-name()=local-name(current())]" as="element()"/>
 
@@ -76,6 +75,12 @@
                <xsl:value-of select="concat(' returns ', string())"/>
             </xsl:if>
          </div>
+         <h3>See also</h3>
+         <ul>
+            <li>
+               <a href="http://www.saxonica.com/documentation/extensions/functions/{local-name()}.xml">Saxon extension functions</a>
+            </li>
+         </ul>
       </div>
    </xsl:template>
 

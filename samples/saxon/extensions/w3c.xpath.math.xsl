@@ -97,11 +97,10 @@
 
       <div class="function-doc">
          <h2 id="{replace(name(), ':', '-')}">
-            <a href="http://www.w3.org/TR/xpath-functions-30/#func-{replace(name(), ':', '-')}">
-               <xsl:value-of select="name()"/>
-            </a>
+            <xsl:value-of select="name()"/>
             <a href="#" class="top">↑ top</a>
          </h2>
+         <h3>Examples</h3>
          <div class="sample-code">
             <xsl:variable name="sampleCode" select="document('')/*/xsl:variable[@name=$sampleVar]/*[local-name()=local-name(current())]" as="element()"/>
 
@@ -113,6 +112,12 @@
                <xsl:value-of select="concat(' returns ', string())"/>
             </xsl:if>
          </div>
+         <h3>See also</h3>
+         <ul>
+            <li>
+               <a href="http://www.w3.org/TR/xpath-functions-30/#func-{replace(name(), ':', '-')}">XPath 3.0 Functions and Operators</a>
+            </li>
+         </ul>
       </div>
    </xsl:template>
 

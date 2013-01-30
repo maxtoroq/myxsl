@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet version="2.1" exclude-result-prefixes="exsl xs fn request response code"
+<xsl:stylesheet version="2.1" exclude-result-prefixes="exsl xs fn request response code doc"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:exsl="http://exslt.org/common"
    xmlns:fn="http://www.w3.org/2005/xpath-functions"
@@ -7,29 +7,37 @@
    xmlns:request="http://myxsl.net/ns/web/request"
    xmlns:response="http://myxsl.net/ns/web/response"
    xmlns:code="http://myxsl.net/ns/code"
+   xmlns:doc="http://myxsl.net/doc-html"
    xmlns="http://www.w3.org/1999/xhtml">
 
-   <xsl:import href="layout.xslt"/>
+   <xsl:import href="~/layout.xslt"/>
+   <xsl:import href="~/App_Code/doc-html.xsl"/>
 
    <xsl:param name="functionLibrary" as="document(element(library))" code:bind="FunctionLibrary.Instance" />
+   <xsl:param name="documentation" select="document('~/Bin/myxsl.net.xml')" as="document(element(doc))"/>
 
-   <xsl:template name="html-head">
-      <style>
-         pre.xquery code.function { font-weight: bold; }
-         pre.xquery code.kwrd { color: blue; }
-         pre.xquery code.var { color: #07A; }
-      </style>
+   <xsl:param name="pathInfo" select="request:path-info()"/>
+   
+   <xsl:variable name="moduleNs" select="concat('http:/', $pathInfo)" as="xs:string"/>
+   <xsl:variable name="module" select="$functionLibrary/*/module[@namespace=$moduleNs]" as="element(module)?"/>
+   <xsl:variable name="doc:module" select="$module"/>
+
+   <xsl:template match="/" name="main">
+      <xsl:choose>
+         <xsl:when test="request:query('xml') = '1'">
+            <xsl:value-of select="response:set-content-type('application/xml')"/>
+            <xsl:copy-of select="$functionLibrary"/>
+         </xsl:when>
+         <xsl:otherwise>
+            <xsl:apply-imports/>
+         </xsl:otherwise>
+      </xsl:choose>
    </xsl:template>
 
    <xsl:template name="content">
 
-      <xsl:variable name="pathInfo" select="request:path-info()"/>
-
       <xsl:choose>
          <xsl:when test="$pathInfo">
-            <xsl:variable name="moduleNs" select="concat('http:/', $pathInfo)" as="xs:string"/>
-            <xsl:variable name="module" select="$functionLibrary/*/module[@namespace=$moduleNs]" as="element(module)?"/>
-
             <xsl:choose>
                <xsl:when test="$module">
                   <xsl:apply-templates select="$module"/>
@@ -41,7 +49,6 @@
                   </h1>
                </xsl:otherwise>
             </xsl:choose>
-
          </xsl:when>
          <xsl:otherwise>
             <xsl:apply-templates select="$functionLibrary/*"/>
@@ -73,6 +80,10 @@
       <h1>
          <xsl:value-of select="@namespace"/>
       </h1>
+
+      <xsl:variable name="moduleDoc" select="$documentation/*/members/member[@name=$module/@cref]"/>
+
+      <xsl:apply-templates select="$moduleDoc/summary" mode="doc:html"/>
 
       <h2>Namespace Bindings</h2>
       <ul>
@@ -143,58 +154,87 @@
          </xsl:for-each>
       </xsl:variable>
 
-      <h2 id="{substring-after($first/@name, ':')}">
-         <xsl:value-of select="$first/@name"/>
-      </h2>
+      <div class="function-doc">
 
-      <!--<h3>Signature</h3>-->
-      <xsl:for-each select="$overloads">
-         <xsl:sort select="count(param)"/>
-         <pre class="xquery">
+         <h2 id="{substring-after($first/@name, ':')}">
+            <xsl:value-of select="$first/@name"/>
+            <a href="#" class="top">↑ top</a>
+         </h2>
+
+         <xsl:variable name="functionDoc" select="$documentation/*/members/member[@name=$overloads[last()]/@cref]"/>
+
+         <xsl:if test="$functionDoc/summary">
+            <h3>Summary</h3>
+            <xsl:apply-templates select="$functionDoc/summary" mode="doc:html"/>
+         </xsl:if>
+
+         <h3>
+            <xsl:text>Signature</xsl:text>
+            <xsl:if test="count($overloads) > 1">s</xsl:if>
+         </h3>
+
+         <xsl:for-each select="$overloads">
+            <xsl:sort select="count(param)"/>
+         
+            <pre class="xquery signature">
             
-            <xsl:variable name="paramCount" select="count(param)"/>
+               <xsl:variable name="paramCount" select="count(param)"/>
 
-            <!--<xsl:if test="position() > 1">
-               <xsl:text>&#160;&#xa;&#160;&#xa;</xsl:text>
-            </xsl:if>-->
-            <code class="function">
-               <xsl:value-of select="$first/@name"/>
-            </code>
-            <xsl:text>(</xsl:text>
-            <xsl:for-each select="param">
-               <xsl:if test="$paramCount > 1">
-                  <xsl:text>&#160;&#xa;   </xsl:text>
-               </xsl:if>
-               <code class="var">
-                  <xsl:value-of select="concat('$', @name)"/>
+               <!--<xsl:if test="position() > 1">
+                  <xsl:text>&#160;&#xa;&#160;&#xa;</xsl:text>
+               </xsl:if>-->
+               <code class="function">
+                  <xsl:value-of select="$first/@name"/>
                </code>
-               <xsl:text>&#160;</xsl:text>
+               <xsl:text>(</xsl:text>
+               <xsl:for-each select="param">
+                  <xsl:if test="$paramCount > 1">
+                     <xsl:text>&#160;&#xa;   </xsl:text>
+                  </xsl:if>
+                  <code class="var">
+                     <xsl:value-of select="concat('$', @name)"/>
+                  </code>
+                  <xsl:text>&#160;</xsl:text>
+                  <code class="kwrd">as</code>
+                  <xsl:value-of select="concat(' ', @as)"/>
+                  <xsl:if test="position() != last()">, </xsl:if>
+               </xsl:for-each>
+               <xsl:if test="$paramCount > 1">&#160;&#xa;</xsl:if>
+               <xsl:text>) </xsl:text>
                <code class="kwrd">as</code>
                <xsl:value-of select="concat(' ', @as)"/>
-               <xsl:if test="position() != last()">, </xsl:if>
-            </xsl:for-each>
-            <xsl:if test="$paramCount > 1">&#160;&#xa;</xsl:if>
-            <xsl:text>) </xsl:text>
-            <code class="kwrd">as</code>
-            <xsl:value-of select="concat(' ', @as)"/>
-         </pre>
-         <xsl:if test="@description">
-            <p>
-               <xsl:value-of select="@description"/>
-            </p>
-         </xsl:if>
-      </xsl:for-each>
+            </pre>
+         </xsl:for-each>
 
-      <xsl:choose>
-         <xsl:when test="$first/../@namespace = 'http://expath.org/ns/http-client'">
-            <a href="/expath/http-client">See examples</a>
-         </xsl:when>
-         <xsl:when test="
-            $first/../@namespace = 'http://myxsl.net/ns/validation'
-            and substring-after($first/@name, ':') = 'validate-with-schematron'">
-            <a href="/schematron.xsl">See examples</a>
-         </xsl:when>
-      </xsl:choose>
+         <xsl:if test="$functionDoc/remarks">
+            <h3>Remarks</h3>
+            <xsl:apply-templates select="$functionDoc/remarks" mode="doc:html"/>
+         </xsl:if>
+
+         <xsl:choose>
+            <xsl:when test="$first/../@namespace = 'http://expath.org/ns/http-client'">
+               <h3>See also</h3>
+               <ul>
+                  <li>
+                     <a href="http://expath.org/spec/http-client">HTTP Client Module</a>
+                  </li>
+                  <li>
+                     <a href="/expath/http-client">Live examples</a>
+                  </li>
+               </ul>
+            </xsl:when>
+            <xsl:when test="
+               $first/../@namespace = 'http://myxsl.net/ns/validation'
+               and substring-after($first/@name, ':') = 'validate-with-schematron'">
+               <h3>See also</h3>
+               <ul>
+                  <li>
+                     <a href="/schematron/">Live examples</a>
+                  </li>
+               </ul>
+            </xsl:when>
+         </xsl:choose>
+      </div>
 
    </xsl:template>
 

@@ -62,11 +62,6 @@
                <xsl:copy-of select="$content"/>
             </div>
             <div id="lo-rightcol">
-               <ul>
-                  <li>
-                     <a href="/">Index</a>
-                  </li>
-               </ul>
                <h3>About this page</h3>
                <ul>
                   <li>
@@ -139,15 +134,23 @@
             <xsl:for-each select="$parts">
                <xsl:text> › </xsl:text>
                <xsl:variable name="pos" select="position()"/>
-
+               <xsl:variable name="isFile" select="fn:matches(., '\.(xsl|xqy|atom|xhtml)$', 'i')"/>
+               
                <a>
                   <xsl:attribute name="href">
                      <xsl:text>/</xsl:text>
                      <xsl:value-of select="fn:string-join($parts[position() &lt;= $pos], '/')"/>
-                     <xsl:if test="not(fn:matches(., '\.(xsl|xqy|atom|xhtml)$', 'i'))">/</xsl:if>
+                     <xsl:if test="not($isFile)">/</xsl:if>
                      <xsl:value-of select="request:url('Query,KeepDelimiter')"/>
                   </xsl:attribute>
-                  <xsl:value-of select="."/>
+                  <xsl:choose>
+                     <xsl:when test="$isFile">
+                        <xsl:value-of select="fn:string-join(fn:tokenize(., '\.')[position() &lt; last()], '.')"/>
+                     </xsl:when>
+                     <xsl:otherwise>
+                        <xsl:value-of select="."/>
+                     </xsl:otherwise>
+                  </xsl:choose>
                </a>
             </xsl:for-each>
             <xsl:if test="$pathInfo">

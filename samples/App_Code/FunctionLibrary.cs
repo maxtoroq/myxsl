@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Web;
 using System.Xml;
 using System.Xml.Serialization;
@@ -37,6 +39,7 @@ public sealed class FunctionLibrary : IXmlSerializable {
 
          writer.WriteStartElement("module");
          writer.WriteAttributeString("namespace", module.Namespace);
+         writer.WriteAttributeString("cref", CRef(module.Type));
 
          if (module.Predeclare) 
             writer.WriteAttributeString("predeclaredPrefix", modulePrefix); 
@@ -53,11 +56,7 @@ public sealed class FunctionLibrary : IXmlSerializable {
             writer.WriteAttributeString("name", modulePrefix + ":" + function.Name);
             writer.WriteAttributeString("as", function.ReturnType.ToString());
             writer.WriteAttributeString("hasSideEffects", XmlConvert.ToString(function.HasSideEffects));
-
-            var descr = (DescriptionAttribute)Attribute.GetCustomAttribute(function.Method, typeof(DescriptionAttribute));
-
-            if (descr != null)
-               writer.WriteAttributeString("description", descr.Description);
+            writer.WriteAttributeString("cref", CRef(function.Method));
 
             foreach (XPathVariableInfo param in function.Parameters) {
 
@@ -75,5 +74,45 @@ public sealed class FunctionLibrary : IXmlSerializable {
       }
 
       writer.WriteEndElement(); // library
+   }
+
+   string CRef(Type type) {
+      return "T:" + type.FullName;
+   }
+
+   string CRef(MethodInfo method) {
+
+      var crefBuilder = new StringBuilder();
+      crefBuilder.AppendFormat("M:{0}.{1}", method.ReflectedType.FullName, method.Name);
+
+      ParameterInfo[] parameters = method.GetParameters();
+      string[] paramNames = parameters.Select(p => CRefId(p.ParameterType)).ToArray();
+
+      if (paramNames.Length > 0) {
+         crefBuilder.Append("(");
+         crefBuilder.Append(String.Join(",", paramNames));
+         crefBuilder.Append(")");
+      }
+
+      return crefBuilder.ToString();
+   }
+
+   string CRefId(Type type) {
+
+      var sb = new StringBuilder();
+      sb.Append(type.Namespace);
+      sb.Append(".");
+      sb.Append(type.IsGenericType ? type.Name.Substring(0, type.Name.IndexOf('`')) : type.Name);
+
+      if (type.IsGenericType) {
+         sb.Append("{");
+
+         foreach (var typeParam in type.GetGenericArguments()) 
+            sb.Append(CRefId(typeParam));
+
+         sb.Append("}");
+      }
+
+      return sb.ToString();
    }
 }
