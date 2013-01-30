@@ -38,8 +38,6 @@ namespace myxsl.net.web {
       /// <summary>
       /// This member supports the myxsl.net infrastructure and is not intended to be used directly from your code.
       /// </summary>
-      /// <param name="name"></param>
-      /// <returns></returns>
       public static object GetAndRemove(string name) {
 
          object val = Get(name);

@@ -40,8 +40,10 @@ namespace myxsl.net.web {
          return VirtualPathUtility.AppendTrailingSlash(Context.Request.ApplicationPath);
       }
 
+      /// <summary>
+      /// The absolute URL of the current HTTP request.
+      /// </summary>
       [XPathFunction("url", "xs:string")]
-      [Description("The absolute URL of the current HTTP request.")]
       public static string Url() {
          return Url(null);
       }
@@ -56,8 +58,10 @@ namespace myxsl.net.web {
          return UriToString(Context.Request.Url, components, format);
       }
 
+      /// <summary>
+      /// The pathinfo part of the current HTTP request URL.
+      /// </summary>
       [XPathFunction("path-info", "xs:string")]
-      [Description("The pathinfo part of the current HTTP request URL.")]
       public static string PathInfo() {
          return Context.Request.PathInfo;
       }
@@ -84,8 +88,10 @@ namespace myxsl.net.web {
          return WebModule.AbsolutePath(WebModule.CombinePath(FilePath(), relativeUrl));
       }
 
+      /// <summary>
+      /// The referrer URL of the current HTTP request.
+      /// </summary>
       [XPathFunction("referrer-url", "xs:string?")]
-      [Description("The referrer URL of the current HTTP request.")]
       public static string ReferrerUrl() {
          return ReferrerUrl(null);
       }
@@ -116,14 +122,18 @@ namespace myxsl.net.web {
          return Context.Request.QueryString.ToString();
       }
 
+      /// <summary>
+      /// The values of the querystring parameters of the current HTTP request, that match the provided name.
+      /// </summary>
       [XPathFunction("query", "xs:string*", "xs:string?")]
-      [Description("The values of the querystring parameters of the current HTTP request, that match the provided name.")]
       public static string[] Query(string name) {
          return Context.Request.QueryString.GetValues(name);
       }
 
+      /// <summary>
+      /// The names of the querystring parameters of the current HTTP request.
+      /// </summary>
       [XPathFunction("query-names", "xs:string*")]
-      [Description("The names of the querystring parameters of the current HTTP request.")]
       public static string[] QueryNames() {
          return Context.Request.QueryString.AllKeys;
       }
@@ -133,20 +143,26 @@ namespace myxsl.net.web {
          return Context.Request.Form.ToString();
       }
 
+      /// <summary>
+      /// The values of the form parameters of the current HTTP request, that match the provided name.
+      /// </summary>
       [XPathFunction("form", "xs:string*", "xs:string")]
-      [Description("The values of the form parameters of the current HTTP request, that match the provided name.")]
       public static string[] Form(string name) {
          return Context.Request.Form.GetValues(name);
       }
 
+      /// <summary>
+      /// The names of the form parameters of the current HTTP request.
+      /// </summary>
       [XPathFunction("form-names", "xs:string*")]
-      [Description("The names of the form parameters of the current HTTP request.")]
       public static string[] FormNames() {
          return Context.Request.Form.AllKeys;
       }
 
+      /// <summary>
+      /// The HTTP method the current request.
+      /// </summary>
       [XPathFunction("http-method", "xs:string")]
-      [Description("The HTTP method the current request.")]
       public static string HttpMethod() {
          return Context.Request.HttpMethod;
       }
@@ -188,14 +204,18 @@ namespace myxsl.net.web {
          return incomingVerb;
       }
 
+      /// <summary>
+      /// The value of the HTTP header of the current request, that match the provided name.
+      /// </summary>
       [XPathFunction("header", "xs:string?", "xs:string")]
-      [Description("The value of the HTTP header of the current request, that match the provided name.")]
       public static string Header(string name) {
          return Context.Request.Headers.Get(name);
       }
 
+      /// <summary>
+      /// The value of the Content-Type header of the current HTTP request.
+      /// </summary>
       [XPathFunction("content-type", "xs:string?")]
-      [Description("The value of the Content-Type header of the current HTTP request.")]
       public static string ContentType() {
          return Context.Request.ContentType;
       }
@@ -224,8 +244,6 @@ namespace myxsl.net.web {
       /// <summary>
       /// This member supports the myxsl.net infrastructure and is not intended to be used directly from your code.
       /// </summary>
-      /// <param name="name"></param>
-      /// <returns></returns>
       public static string Cookie(string name, bool remove) {
 
          string val = Cookie(name);
