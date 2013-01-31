@@ -20,7 +20,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 using myxsl.net.common;
-using myxsl.net.validation;
+using myxsl.net.validation.schematron;
 
 namespace myxsl.net {
    

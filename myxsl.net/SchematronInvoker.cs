@@ -20,9 +20,9 @@ using System.Web.Routing;
 using System.Xml;
 using System.Xml.XPath;
 using myxsl.net.common;
-using myxsl.net.validation;
-using UriCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.net.validation.SchematronValidator>>;
-using InlineCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Int32, myxsl.net.validation.SchematronValidator>>;
+using myxsl.net.validation.schematron;
+using UriCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.net.validation.schematron.SchematronValidator>>;
+using InlineCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Int32, myxsl.net.validation.schematron.SchematronValidator>>;
 
 namespace myxsl.net {
 

@@ -20,7 +20,7 @@ using System.Xml;
 using System.Xml.XPath;
 using myxsl.net.common;
 
-namespace myxsl.net.validation {
+namespace myxsl.net.validation.schematron {
 
    [XPathModule("validation", "http://myxsl.net/ns/validation", SvrlPrefix, WellKnownNamespaces.SVRL)]
    public class ValidationModule {
