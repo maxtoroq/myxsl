@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?page processor="system" accept-verbs="GET,HEAD,POST" ?>
 
-<xsl:stylesheet version="1.0" exclude-result-prefixes="fn xs exsl svrl request response validation"
+<xsl:stylesheet version="1.0" exclude-result-prefixes="fn xs exsl svrl request response schematron"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:fn="http://www.w3.org/2005/xpath-functions"
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -9,7 +9,7 @@
    xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
    xmlns:request="http://myxsl.net/ns/web/request"
    xmlns:response="http://myxsl.net/ns/web/response"
-   xmlns:validation="http://myxsl.net/ns/validation"
+   xmlns:schematron="http://myxsl.net/ns/validation/schematron"
    xmlns="http://www.w3.org/1999/xhtml">
 
    <xsl:import href="~/layout.xslt"/>
@@ -102,7 +102,7 @@
             </xsl:variable>
 
             <xsl:variable name="schema" select="exsl:node-set($schema-rtf)"/>
-            <xsl:variable name="report" select="validation:schematron-report($data, $schema)"/>
+            <xsl:variable name="report" select="schematron:report($schema, $data)"/>
 
             <xsl:choose>
                <xsl:when test="$view-report">

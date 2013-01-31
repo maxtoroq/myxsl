@@ -8,7 +8,7 @@
    xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
    xmlns:request="http://myxsl.net/ns/web/request"
    xmlns:response="http://myxsl.net/ns/web/response"
-   xmlns:validation="http://myxsl.net/ns/validation">
+   xmlns:schematron="http://myxsl.net/ns/validation/schematron">
 
    <xsl:import href="~/layout.xslt"/>
 
@@ -99,7 +99,7 @@
                </xsl:document>
             </xsl:variable>
 
-            <xsl:variable name="report" select="validation:schematron-report($data, $schema)"/>
+            <xsl:variable name="report" select="schematron:report($schema, $data)"/>
 
             <xsl:choose>
                <xsl:when test="$view-report">

@@ -224,8 +224,8 @@
                </ul>
             </xsl:when>
             <xsl:when test="
-               $first/../@namespace = 'http://myxsl.net/ns/validation'
-               and substring-after($first/@name, ':') = 'validate-with-schematron'">
+               $first/../@namespace = 'http://myxsl.net/ns/validation/schematron'
+               and substring-after($first/@name, ':') = 'report'">
                <h3>See also</h3>
                <ul>
                   <li>

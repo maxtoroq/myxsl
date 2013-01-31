@@ -17,6 +17,13 @@
             <a href="xslt2.xsl">XSLT 2.0</a>
          </li>
       </ul>
+      <h2>See also</h2>
+      <ul>
+         <li>
+            <a href="/modules.xsl/myxsl.net/ns/validation/schematron">Module documentation</a>
+         </li>
+      </ul>
+
    </xsl:template>
 
 </xsl:stylesheet>

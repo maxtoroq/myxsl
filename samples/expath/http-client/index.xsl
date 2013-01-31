@@ -27,9 +27,12 @@
          </li>
       </ul>
 
-      <p>
-         <a href="/modules.xsl/expath.org/ns/http-client">See module documentation</a>
-      </p>
+      <h2>See Also</h2>
+      <ul>
+         <li>
+            <a href="/modules.xsl/expath.org/ns/http-client">Module documentation</a>
+         </li>
+      </ul>
 
    </xsl:template>
      
