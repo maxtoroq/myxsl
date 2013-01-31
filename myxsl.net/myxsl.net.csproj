@@ -77,8 +77,6 @@
     <Compile Include="util\PseudoAttributeParser.cs" />
     <Compile Include="configuration\ConfigurationModule.cs" />
     <Compile Include="util\XPathNavigatorEqualityComparer.cs" />
-    <Compile Include="validation\SchematronRuntimeOptions.cs" />
-    <Compile Include="validation\SchematronValidator.cs" />
     <Compile Include="common\IXQueryProcessor.cs" />
     <Compile Include="common\IXsltProcessor.cs" />
     <Compile Include="common\ProcessorException.cs" />
@@ -104,6 +102,11 @@
     <Compile Include="common\XPathSequenceCardinality.cs" />
     <Compile Include="common\XPathSequenceType.cs" />
     <Compile Include="util\FormatInvariantExtensions.cs" />
+    <Compile Include="validation\schematron\SchematronExtensions.cs" />
+    <Compile Include="validation\schematron\SchematronModule.cs" />
+    <Compile Include="validation\schematron\SchematronRuntimeOptions.cs" />
+    <Compile Include="validation\schematron\SchematronValidator.cs" />
+    <Compile Include="validation\schematron\XsltSchematronValidator.cs" />
     <Compile Include="web\PreApplicationStartCode.cs" />
     <Compile Include="util\StringExtensions.cs" />
     <Compile Include="web.compilation\BindingExpressionContext.cs" />
@@ -138,7 +141,6 @@
     <Compile Include="web\SessionModule.cs" />
     <Compile Include="common\XPathModuleInfo.cs" />
     <Compile Include="web.ui\PageHandlerFactory.cs" />
-    <Compile Include="validation\ValidationModule.cs" />
     <Compile Include="web\XmlVirtualPathAwareUrlResolver.cs" />
     <Compile Include="system\EmptyXPathNodeIterator.cs" />
     <Compile Include="system\ExtensionObjectConvert.cs" />
@@ -174,8 +176,6 @@
     <Compile Include="web.ui\XQueryPage.cs" />
     <Compile Include="web.ui\XQueryPageParser.cs" />
     <Compile Include="web.ui\XsltPage.cs" />
-    <Compile Include="validation\SchematronExtensions.cs" />
-    <Compile Include="validation\XsltSchematronValidator.cs" />
     <Compile Include="util\XHtmlWriter.cs" />
     <Compile Include="util\XmlWrappingWriter.cs" />
   </ItemGroup>
