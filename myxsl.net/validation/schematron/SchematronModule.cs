@@ -22,8 +22,8 @@ using myxsl.net.common;
 
 namespace myxsl.net.validation.schematron {
 
-   [XPathModule("validation", "http://myxsl.net/ns/validation", SvrlPrefix, WellKnownNamespaces.SVRL)]
-   public class ValidationModule {
+   [XPathModule("schematron", "http://myxsl.net/ns/validation/schematron", SvrlPrefix, WellKnownNamespaces.SVRL)]
+   public class SchematronModule {
 
       const string SvrlPrefix = "svrl";
 
@@ -33,18 +33,18 @@ namespace myxsl.net.validation.schematron {
       [XPathDependency]
       public XmlResolver Resolver { get; set; }
 
-      [XPathFunction("schematron-report", "document-node(element(" + SvrlPrefix + ":schematron-output))", "node()", "item()")]
-      public XPathNavigator SchematronReport(XPathNavigator source, XPathItem schema) {
-         return SchematronReport(source, schema, null);
+      [XPathFunction("report", "document-node(element(" + SvrlPrefix + ":schematron-output))", "item()", "node()")]
+      public XPathNavigator Report(XPathItem schema, XPathNavigator source) {
+         return Report(schema, source, null);
       }
 
-      [XPathFunction("schematron-report", "document-node(element(" + SvrlPrefix + ":schematron-output))", "node()", "item()", "xs:string?")]
-      public XPathNavigator SchematronReport(XPathNavigator source, XPathItem schema, string phase) {
-         return SchematronReport(source, schema, phase, null);
+      [XPathFunction("report", "document-node(element(" + SvrlPrefix + ":schematron-output))", "item()", "node()", "xs:string?")]
+      public XPathNavigator Report(XPathItem schema, XPathNavigator source, string phase) {
+         return Report(schema, source, phase, null);
       }
 
-      [XPathFunction("schematron-report", "document-node(element(" + SvrlPrefix + ":schematron-output))", "node()", "item()", "xs:string?", "node()*")]
-      public XPathNavigator SchematronReport(XPathNavigator source, XPathItem schema, string phase, IEnumerable<XPathNavigator> parameters) {
+      [XPathFunction("report", "document-node(element(" + SvrlPrefix + ":schematron-output))", "item()", "node()", "xs:string?", "node()*")]
+      public XPathNavigator Report(XPathItem schema, XPathNavigator source, string phase, IEnumerable<XPathNavigator> parameters) {
 
          var options = new SchematronRuntimeOptions { 
             Instance = source,
