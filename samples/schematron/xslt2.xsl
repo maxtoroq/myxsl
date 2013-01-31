@@ -36,7 +36,7 @@
 
                <!-- Saxon 9.4.0.6 requires a document-node(), see https://saxonica.plan.io/issues/1675 -->
                <xsl:document>
-                  <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
+                  <schema xmlns="http://purl.oclc.org/dsdl/schematron">
 
                      <pattern>
                         <title>Grammar check</title>

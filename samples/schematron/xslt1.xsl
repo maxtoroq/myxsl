@@ -40,7 +40,7 @@
             <xsl:variable name="view-report" select="boolean(request:form('view-report'))"/>
 
             <xsl:variable name="schema-rtf">
-               <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt1">
+               <schema xmlns="http://purl.oclc.org/dsdl/schematron">
                   <ns prefix="fn" uri="http://www.w3.org/2005/xpath-functions"/>
                   <pattern>
                      <title>Grammar check</title>
@@ -102,7 +102,7 @@
             </xsl:variable>
 
             <xsl:variable name="schema" select="exsl:node-set($schema-rtf)"/>
-            <xsl:variable name="report" select="exsl:node-set(validation:schematron-report($data, $schema))"/>
+            <xsl:variable name="report" select="validation:schematron-report($data, $schema)"/>
 
             <xsl:choose>
                <xsl:when test="$view-report">
