@@ -37,11 +37,47 @@ namespace myxsl.net.validation {
             nav.MoveToChild(XPathNodeType.Element);
 
          string queryBinding = nav.GetAttribute("queryBinding", "");
+         decimal procXsltVersion = processor.GetXsltVersion();
+         
+         string xsltVersion;
 
-         string xsltVersion = String.IsNullOrEmpty(queryBinding)
-            || queryBinding.Equals("xslt2", StringComparison.OrdinalIgnoreCase)
-            || queryBinding.Equals("xpath2", StringComparison.OrdinalIgnoreCase) ? 
-            "xslt2" : "xslt1";
+         if (String.IsNullOrEmpty(queryBinding)) {
+
+            int maxMajorVersion = (procXsltVersion >= 3m) ? 2 : (int)Decimal.Floor(procXsltVersion);
+            xsltVersion = "xslt" + maxMajorVersion.ToStringInvariant();
+
+         } else {
+
+            string qbLower = queryBinding.ToLowerInvariant();
+
+            switch (qbLower) {
+               case "xslt":
+               case "xslt1":
+               case "xpath":
+               case "xpath1":
+                  xsltVersion = "xslt1";
+                  break;
+
+               case "xslt2":
+               case "xpath2":
+
+                  if (procXsltVersion < 2) {
+                     throw new ArgumentException(
+                        "The queryBinding '{0}' is not supported by this processor. Lower the language version or use a different processor.".FormatInvariant(queryBinding),
+                        "schemaDoc"
+                     );
+                  }
+
+                  xsltVersion = "xslt2";
+                  break;
+               
+               default:
+                  throw new ArgumentException(
+                     "The queryBinding '{0}' is not supported. Valid values are: {1}.".FormatInvariant(queryBinding, String.Join(", ", GetQueryBindings())), 
+                     "schemaDoc"
+                  );
+            }
+         }
 
          Assembly assembly = Assembly.GetExecutingAssembly();
          
@@ -102,6 +138,10 @@ namespace myxsl.net.validation {
             compileOptions.BaseUri = new Uri(schemaNav.BaseURI);
 
          return new XsltSchematronValidator(processor.Compile(stylesheetDoc, compileOptions));
+      }
+
+      internal static string[] GetQueryBindings() { 
+         return new[] { "xslt", "xslt1", "xslt2", "xpath", "xpath1", "xpath2" };
       }
    }
 }
