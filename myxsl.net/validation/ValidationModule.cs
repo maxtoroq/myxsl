@@ -30,6 +30,9 @@ namespace myxsl.net.validation {
       [XPathDependency]
       public IXsltProcessor Processor { get; set; }
 
+      [XPathDependency]
+      public XmlResolver Resolver { get; set; }
+
       [XPathFunction("schematron-report", "document-node(element(" + SvrlPrefix + ":schematron-output))", "node()", "item()")]
       public XPathNavigator SchematronReport(XPathNavigator source, XPathItem schema) {
          return SchematronReport(source, schema, null);
@@ -63,6 +66,9 @@ namespace myxsl.net.validation {
             invoker = SchematronInvoker.With((XPathNavigator)schema, this.Processor);
 
          } else {
+
+            Uri schemaUri = SchemaAsUri(schema);
+
             invoker = SchematronInvoker.With(schemaUri: schema.Value);
          }
 
@@ -70,6 +76,21 @@ namespace myxsl.net.validation {
             .Validate(options)
             .ToDocument()
             .CreateNavigator();
+      }
+
+      Uri SchemaAsUri(XPathItem schema) {
+
+         Uri schemaUri = schema.TypedValue as Uri;
+
+         if (schemaUri == null) {
+
+            if (this.Resolver == null)
+               throw new InvalidOperationException("Resolver cannot be null.");
+
+            schemaUri = this.Resolver.ResolveUri(null, schema.Value);
+         }
+
+         return schemaUri;
       }
    }
 }
