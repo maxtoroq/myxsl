@@ -93,50 +93,55 @@ namespace myxsl.net {
          this.withCallingAssembly = withCallingAssembly;
       }
 
-      public XQueryResultHandler Query(Stream input) {
-         return Query(input, null);
+      public XQueryResultHandler Query() {
+         return Query((object)null);
       }
 
-      public XQueryResultHandler Query(Stream input, object parameters) {
+      public XQueryResultHandler Query(Stream inputNode) {
+         return Query(inputNode, null);
+      }
+
+      public XQueryResultHandler Query(Stream inputNode, object parameters) {
 
          IXPathNavigable doc = this.executable.Processor.ItemFactory
-            .CreateNodeReadOnly(input);
+            .CreateNodeReadOnly(inputNode);
 
          return Query(doc, parameters);
       }
 
-      public XQueryResultHandler Query(TextReader input) {
-         return Query(input, null);
+      public XQueryResultHandler Query(TextReader inputNode) {
+         return Query(inputNode, null);
       }
 
-      public XQueryResultHandler Query(TextReader input, object parameters) {
+      public XQueryResultHandler Query(TextReader inputNode, object parameters) {
 
          IXPathNavigable doc = this.executable.Processor.ItemFactory
-            .CreateNodeReadOnly(input);
+            .CreateNodeReadOnly(inputNode);
 
          return Query(doc, parameters);
       }
 
-      public XQueryResultHandler Query(XmlReader input) {
-         return Query(input, null);
+      public XQueryResultHandler Query(XmlReader inputNode) {
+         return Query(inputNode, null);
       }
 
-      public XQueryResultHandler Query(XmlReader input, object parameters) {
+      public XQueryResultHandler Query(XmlReader inputNode, object parameters) {
 
-         IXPathNavigable doc = this.executable.Processor.ItemFactory.CreateNodeReadOnly(input);
+         IXPathNavigable doc = this.executable.Processor.ItemFactory
+            .CreateNodeReadOnly(inputNode);
 
          return Query(doc, parameters);
       }
 
-      public XQueryResultHandler Query(XPathItem input) {
+      public XQueryResultHandler Query(object input) {
          return Query(input, null);
       }
 
-      public XQueryResultHandler Query(XPathItem input, object parameters) {
+      public XQueryResultHandler Query(object input, object parameters) {
 
          if (input == null) throw new ArgumentNullException("input");
 
-         var options = new XQueryRuntimeOptions { 
+         var options = new XQueryRuntimeOptions {
             ContextItem = input,
             InputXmlResolver = new XmlDynamicResolver(this.withCallingAssembly)
          };
@@ -149,14 +154,6 @@ namespace myxsl.net {
          }
 
          return Query(options);
-      }
-
-      public XQueryResultHandler Query(object input) {
-         return Query(input, null);
-      }
-
-      public XQueryResultHandler Query(object input, object parameters) {
-         return Query(this.executable.Processor.ItemFactory.CreateDocument(input), parameters);
       }
 
       public XQueryResultHandler Query(XQueryRuntimeOptions options) {
