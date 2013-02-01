@@ -20,13 +20,15 @@ using System.Web.Routing;
 using System.Xml;
 using System.Xml.XPath;
 using myxsl.net.common;
-using CacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXQueryProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.net.common.XQueryExecutable>>;
+using UriCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXQueryProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.net.common.XQueryExecutable>>;
+using InlineCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXQueryProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Int32, myxsl.net.common.XQueryExecutable>>;
 
 namespace myxsl.net {
    
    public class XQueryInvoker {
 
-      static readonly CacheByProcessor cacheByProc = new CacheByProcessor();
+      static readonly UriCacheByProcessor uriCache = new UriCacheByProcessor();
+      static readonly InlineCacheByProcessor inlineCache = new InlineCacheByProcessor();
       
       readonly XQueryExecutable executable;
       readonly Assembly withCallingAssembly;
@@ -72,7 +74,7 @@ namespace myxsl.net {
             processor = Processors.XQuery.DefaultProcessor;
 
          ConcurrentDictionary<Uri, XQueryExecutable> cache =
-            cacheByProc.GetOrAdd(processor, p => new ConcurrentDictionary<Uri, XQueryExecutable>());
+            uriCache.GetOrAdd(processor, p => new ConcurrentDictionary<Uri, XQueryExecutable>());
 
          XQueryExecutable executable = cache.GetOrAdd(queryUri, u => {
 
@@ -85,6 +87,57 @@ namespace myxsl.net {
          });
 
          return new XQueryInvoker(executable, callingAssembly);
+      }
+
+      public static XQueryInvoker WithQuery(string query) {
+         return WithQuery(query, (IXQueryProcessor)null, Assembly.GetCallingAssembly());
+      }
+
+      public static XQueryInvoker WithQuery(string query, string processor) {
+         return WithQuery(query, (processor != null) ? Processors.XQuery[processor] : null, Assembly.GetCallingAssembly());
+      }
+
+      public static XQueryInvoker WithQuery(string query, IXQueryProcessor processor) {
+         return WithQuery(query, processor, Assembly.GetCallingAssembly());
+      }
+
+      static XQueryInvoker WithQuery(string query, IXQueryProcessor processor, Assembly callingAssembly) {
+
+         int hashCode;
+
+         return WithQuery(query, processor, callingAssembly, out hashCode);
+      }
+
+      internal static XQueryInvoker WithQuery(string query, IXQueryProcessor processor, Assembly callingAssembly, out int hashCode) {
+
+         if (query == null) throw new ArgumentNullException("query");
+
+         if (processor == null)
+            processor = Processors.XQuery.DefaultProcessor;
+
+         hashCode = query.GetHashCode();
+
+         ConcurrentDictionary<int, XQueryExecutable> cache =
+            inlineCache.GetOrAdd(processor, p => new ConcurrentDictionary<int, XQueryExecutable>());
+
+         XQueryExecutable exec = cache.GetOrAdd(hashCode, i => {
+
+            var resolver = new XmlDynamicResolver(callingAssembly);
+
+            return processor.Compile(new StringReader(query), new XQueryCompileOptions {
+               XmlResolver = resolver
+            });
+         });
+
+         return new XQueryInvoker(exec, callingAssembly);
+      }
+
+      internal static XQueryInvoker WithQuery(int stylesheetHashCode, IXQueryProcessor processor) {
+
+         if (processor == null)
+            processor = Processors.XQuery.DefaultProcessor;
+
+         return new XQueryInvoker(inlineCache[processor][stylesheetHashCode], null);
       }
 
       private XQueryInvoker(XQueryExecutable executable, Assembly withCallingAssembly) {
