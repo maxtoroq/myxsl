@@ -22,7 +22,7 @@ using System.Xml.XPath;
 using myxsl.net.common;
 using myxsl.net.validation.schematron;
 
-namespace myxsl.net {
+namespace myxsl.net.validation {
    
    public class SchematronResultHandler {
 

@@ -24,7 +24,7 @@ using myxsl.net.validation.schematron;
 using UriCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.net.validation.schematron.SchematronValidator>>;
 using InlineCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Int32, myxsl.net.validation.schematron.SchematronValidator>>;
 
-namespace myxsl.net {
+namespace myxsl.net.validation {
 
    public class SchematronInvoker {
 
