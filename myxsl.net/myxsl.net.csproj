@@ -55,6 +55,8 @@
     <Compile Include="common\XPathDependencyInfo.cs" />
     <Compile Include="common\XPathVariableInfo.cs" />
     <Compile Include="common\XsltProcessorExtensions.cs" />
+    <Compile Include="validation\SchematronInvoker.cs" />
+    <Compile Include="validation\SchematronResultHandler.cs" />
     <Compile Include="XQueryModule.cs" />
     <Compile Include="net.http\MediaTypes.cs" />
     <Compile Include="net.http\XPathHttpBody.cs" />
@@ -69,8 +71,6 @@
     <Compile Include="net.mail\XPathSmtpClient.cs" />
     <Compile Include="net.mail\XPathSmtpError.cs" />
     <Compile Include="net.mail\XPathSmtpSuccess.cs" />
-    <Compile Include="SchematronInvoker.cs" />
-    <Compile Include="SchematronResultHandler.cs" />
     <Compile Include="security\SecurityModule.cs" />
     <Compile Include="system\extensions\XmlSchemaConstructorFunctions.cs" />
     <Compile Include="system\extensions\XPathFunctions.cs" />
