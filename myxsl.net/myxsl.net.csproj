@@ -55,6 +55,7 @@
     <Compile Include="common\XPathDependencyInfo.cs" />
     <Compile Include="common\XPathVariableInfo.cs" />
     <Compile Include="common\XsltProcessorExtensions.cs" />
+    <Compile Include="XQueryModule.cs" />
     <Compile Include="net.http\MediaTypes.cs" />
     <Compile Include="net.http\XPathHttpBody.cs" />
     <Compile Include="net.http\XPathHttpClient.cs" />
