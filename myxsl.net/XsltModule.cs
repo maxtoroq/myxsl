@@ -119,7 +119,7 @@ namespace myxsl.net {
             XsltInvoker.With(stylesheetUri, processor);
 
             reference = new CompiledStylesheetReference { 
-               Uri = stylesheetUri.ToString(),
+               Uri = stylesheetUri.AbsoluteUri,
                Processor = processor
             };
          }
@@ -140,7 +140,7 @@ namespace myxsl.net {
       }
 
       /// <summary>
-      /// Invokes the provided XSLT <paramref name="stylesheet"/> using <paramref name="input"/> as initial context node.
+      /// Executes the provided XSLT <paramref name="stylesheet"/> using <paramref name="input"/> as initial context node.
       /// </summary>
       /// <remarks>
       /// <para>
@@ -154,7 +154,7 @@ namespace myxsl.net {
       /// </para>
       /// <para>
       /// The <paramref name="parameters"/> parameter is used to provide stylesheet parameters. The name of the <code>node()</code>
-      /// is used as the name of the parameter, and it's typed value is used as the value of the parameter.
+      /// is used as the name of the parameter, and its typed value is used as the value of the parameter.
       /// </para>
       /// <para>
       /// The <paramref name="mode"/> parameter is used as the initial mode. It can be provided as a <code>xs:QName</code>,
@@ -180,7 +180,7 @@ namespace myxsl.net {
       }
 
       /// <summary>
-      /// Invokes the provided XSLT <paramref name="stylesheet"/> using <paramref name="initialTemplate"/> as 
+      /// Executes the provided XSLT <paramref name="stylesheet"/> using <paramref name="initialTemplate"/> as 
       /// the initial named template.
       /// </summary>
       /// <remarks>
@@ -199,7 +199,7 @@ namespace myxsl.net {
       /// </para>
       /// <para>
       /// The <paramref name="parameters"/> parameter is used to provide stylesheet parameters. The name of the <code>node()</code>
-      /// is used as the name of the parameter, and it's typed value is used as the value of the parameter.
+      /// is used as the name of the parameter, and its typed value is used as the value of the parameter.
       /// </para>
       /// </remarks>
       [XPathFunction("transform-starting-at", "document-node()", "item()", "item()", "node()?", "node()*")]
@@ -251,11 +251,11 @@ namespace myxsl.net {
 
             XPathNavigator node = ((XPathNavigator)stylesheet).Clone();
 
-            if (node.NodeType != XPathNodeType.Element) 
+            if (node.NodeType == XPathNodeType.Root) 
                node.MoveToChild(XPathNodeType.Element);
 
             if (node.NodeType != XPathNodeType.Element)
-               throw new ArgumentException("stylesheet must be either a document or element node.", "stylesheet");
+               throw new ArgumentException("if stylesheet is a node() it must be either a document-node(element()) or an element() node.", "stylesheet");
 
             if (node.NamespaceURI == Namespace) {
 
