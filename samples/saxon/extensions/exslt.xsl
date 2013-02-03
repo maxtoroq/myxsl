@@ -20,6 +20,9 @@
          </xsl:variable>
          <xsl:value-of select="exsl:node-set($a)/name()"/>
       </exsl:node-set>
+      <exsl:object-type>
+         <xsl:value-of select="exsl:object-type(1), exsl:object-type('foo'), exsl:object-type(true()), exsl:object-type(document(''))" separator=", "/>
+      </exsl:object-type>
    </xsl:variable>
 
    <xsl:template name="content">

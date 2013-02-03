@@ -21,7 +21,7 @@ namespace myxsl.net.saxon.extensions.exslt.common {
    
    sealed class NodeSet : ExtensionFunctionDefinition {
 
-      readonly QName _FunctionName = new QName("http://exslt.org/common", "node-set");
+      readonly QName _FunctionName = new QName(Index.Namespace, "node-set");
       
       readonly XdmSequenceType[] _ArgumentTypes = new[] { 
          new XdmSequenceType(XdmAnyNodeType.Instance, '*') 

@@ -48,8 +48,8 @@ namespace myxsl.net.saxon {
 
       void RegisterExtensionFunctions(Processor processor, SaxonItemFactory itemFactory) {
 
-         ExtensionFunctionDefinition[] precompiledFunctions =
-            new ExtensionFunctionDefinition[] { new extensions.exslt.common.NodeSet() }
+         ExtensionFunctionDefinition[] precompiledFunctions = 
+            extensions.exslt.common.Index.GetFunctions()
             .Concat(extensions.w3c.xpath.math.Index.GetFunctions())
             .Concat(extensions.saxon.Index.GetFunctions(itemFactory))
             .ToArray();
