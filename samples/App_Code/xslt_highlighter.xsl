@@ -13,19 +13,16 @@
 
    <xsl:template name="main">
       <xsl:if test="$source">
-         <pre class="xslt" xmlns="http://www.w3.org/1999/xhtml">
+         <xsl:variable name="spans" as="item()*">
+            <xsl:call-template name="get-result-spans">
+               <xsl:with-param name="file-content" select="$source"/>
+               <xsl:with-param name="is-xml" select="starts-with(normalize-space($source), '&lt;')"/>
+               <xsl:with-param name="is-xsl" select="true()"/>
+               <xsl:with-param name="root-prefix" select="$xslt-prefix"/>
+            </xsl:call-template>
+         </xsl:variable>
 
-            <xsl:variable name="spans" as="item()*">
-               <xsl:call-template name="get-result-spans">
-                  <xsl:with-param name="file-content" select="$source"/>
-                  <xsl:with-param name="is-xml" select="starts-with(normalize-space($source), '&lt;')"/>
-                  <xsl:with-param name="is-xsl" select="true()"/>
-                  <xsl:with-param name="root-prefix" select="$xslt-prefix"/>
-               </xsl:call-template>
-            </xsl:variable>
-
-            <xsl:apply-templates mode="html2xhtml" select="$spans"/>
-         </pre>
+         <xsl:apply-templates mode="html2xhtml" select="$spans"/>
       </xsl:if>
    </xsl:template>
 

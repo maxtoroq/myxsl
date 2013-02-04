@@ -72,7 +72,10 @@
             </xsl:call-template>
 
             <xsl:if test="string()">
-               <xsl:value-of select="concat(' returns ', string())"/>
+               <xsl:text> returns </xsl:text>
+               <code>
+                  <xsl:value-of select="string()"/>
+               </code>
             </xsl:if>
          </div>
          <h3>See also</h3>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet version="2.0" exclude-result-prefixes="xs exsl saxon xslt app"
+<xsl:stylesheet version="2.0" exclude-result-prefixes="fn xs exsl saxon xslt app"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:fn="http://www.w3.org/2005/xpath-functions"
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -19,10 +19,15 @@
 
       <xsl:variable name="items3" select="exsl:node-set($items2)/*"/>
 
+      <xsl:variable name="exprOnly" select="count($items3) = 1 
+         and $items3/self::xsl:value-of/@select
+         and count($items3/@*) = 1"/>
+
       <xsl:variable name="params" xmlns="">
          <source>
             <xsl:choose>
-               <xsl:when test="count($items3) = 1 and $items3/self::xsl:value-of">
+               <xsl:when test="$exprOnly">
+                  
                   <xsl:value-of select="$items3/@select"/>
                </xsl:when>
                <xsl:otherwise>
@@ -65,7 +70,20 @@
          </source>
       </xsl:variable>
 
-      <xsl:copy-of select="xslt:transform-starting-at($xslt-highlighter, 'main', /.., exsl:node-set($params)/*)/*"/>
+      <xsl:variable name="highlighted" select="xslt:transform-starting-at($xslt-highlighter, 'main', /.., exsl:node-set($params)/*)/*"/>
+
+      <xsl:choose xmlns="http://www.w3.org/1999/xhtml">
+         <xsl:when test="$exprOnly">
+            <code>
+               <xsl:copy-of select="$highlighted"/>
+            </code>
+         </xsl:when>
+         <xsl:when test="fn:exists($highlighted)">
+            <pre class="xslt">
+               <xsl:copy-of select="$highlighted"/>
+            </pre>
+         </xsl:when>
+      </xsl:choose>
 
    </xsl:template>
 

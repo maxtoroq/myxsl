@@ -298,18 +298,26 @@
             <xsl:value-of select="name()"/>
             <a href="#" class="top">↑ top</a>
          </h2>
-         <h3>Examples</h3>
-         <div class="sample-code">
-            <xsl:variable name="sampleCode" select="document('')/*/xsl:variable[@name=$sampleVar]/*[name()=name(current())]"/>
 
-            <xsl:call-template name="app:highlight-xslt">
-               <xsl:with-param name="items" select="$sampleCode/*"/>
-            </xsl:call-template>
+         <xsl:variable name="sampleCode" select="document('')/*/xsl:variable[@name=$sampleVar]/*[name()=name(current())]"/>
 
-            <xsl:if test="string()">
-               <xsl:value-of select="concat(' returns ', string())"/>
-            </xsl:if>
-         </div>
+         <xsl:if test="fn:exists($sampleCode/*)">
+            <h3>Examples</h3>
+            <div class="sample-code">
+
+               <xsl:call-template name="app:highlight-xslt">
+                  <xsl:with-param name="items" select="$sampleCode/*"/>
+               </xsl:call-template>
+
+               <xsl:if test="string()">
+                  <xsl:text> returns </xsl:text>
+                  <code>
+                     <xsl:value-of select="string()"/>
+                  </code>
+               </xsl:if>
+            </div>
+         </xsl:if>
+
          <h3>See also</h3>
          <ul>
             <li>
