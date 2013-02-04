@@ -112,7 +112,16 @@
          <xsl:value-of select="fn:namespace-uri-for-prefix('xsl', document('')/*)" />
       </fn:namespace-uri-for-prefix>
       <fn:nilled>
-         <xsl:value-of select="fn:nilled(document('')/*)"/>
+         <xsl:variable name="schema-rtf">
+            <xs:schema>
+               <xs:element name="a" nillable="true" />
+            </xs:schema>
+         </xsl:variable>
+         <xsl:variable name="doc-rtf" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <a xsi:nil="true"/>
+         </xsl:variable>
+         <xsl:variable name="validated-doc" select="xml-schema:validate(exsl:node-set($doc-rtf), exsl:node-set($schema-rtf))" xmlns:xml-schema="http://myxsl.net/ns/validation/xml-schema"/>
+         <xsl:value-of select="fn:nilled($validated-doc/a)"/>
       </fn:nilled>
       <fn:one-or-more>
          <xsl:value-of select="fn:string-join(fn:one-or-more(document('')/*/@*), ', ')"/>

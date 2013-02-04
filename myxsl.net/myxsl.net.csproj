@@ -57,6 +57,7 @@
     <Compile Include="common\XsltProcessorExtensions.cs" />
     <Compile Include="validation\SchematronInvoker.cs" />
     <Compile Include="validation\SchematronResultHandler.cs" />
+    <Compile Include="validation\xmlschema\XmlSchemaModule.cs" />
     <Compile Include="XQueryModule.cs" />
     <Compile Include="net.http\MediaTypes.cs" />
     <Compile Include="net.http\XPathHttpBody.cs" />
