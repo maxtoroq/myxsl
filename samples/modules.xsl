@@ -154,6 +154,8 @@
          </xsl:for-each>
       </xsl:variable>
 
+      <xsl:variable name="sortedOverloads" select="exsl:node-set($sortedOverloads-rtf)/*"/>
+
       <div class="function-doc">
 
          <h2 id="{substring-after($first/@name, ':')}">
@@ -161,49 +163,56 @@
             <a href="#" class="top">↑ top</a>
          </h2>
 
-         <xsl:variable name="functionDoc" select="$documentation/*/members/member[@name=$overloads[last()]/@cref]"/>
+         <xsl:variable name="functionDoc" select="$documentation/*/members/member[@name=$sortedOverloads[last()]/@cref]"/>
 
          <xsl:if test="$functionDoc/summary">
             <h3>Summary</h3>
             <xsl:apply-templates select="$functionDoc/summary" mode="doc:html"/>
          </xsl:if>
 
+         <xsl:variable name="returnTypes" select="fn:distinct-values($sortedOverloads/@as)"/>
+
          <h3>
             <xsl:text>Signature</xsl:text>
-            <xsl:if test="count($overloads) > 1">s</xsl:if>
+            <xsl:if test="count($returnTypes) > 1">s</xsl:if>
          </h3>
 
-         <xsl:for-each select="$overloads">
-            <xsl:sort select="count(param)"/>
-         
-            <pre class="xquery signature">
+         <xsl:for-each select="$returnTypes">
             
-               <xsl:variable name="paramCount" select="count(param)"/>
+            <xsl:variable name="returnType" select="string()"/>
+            <xsl:variable name="sameReturnType" select="$sortedOverloads[@as=$returnType]"/>
 
-               <!--<xsl:if test="position() > 1">
-                  <xsl:text>&#160;&#xa;&#160;&#xa;</xsl:text>
-               </xsl:if>-->
+            <pre class="xquery signature">
+               <xsl:variable name="paramCount" select="count($sameReturnType[last()]/param)"/>
+
                <code class="function">
                   <xsl:value-of select="$first/@name"/>
                </code>
                <xsl:text>(</xsl:text>
-               <xsl:for-each select="param">
+               <xsl:for-each select="$sameReturnType[last()]/param">
                   <xsl:if test="$paramCount > 1">
                      <xsl:text>&#160;&#xa;   </xsl:text>
                   </xsl:if>
+                  <xsl:variable name="pos" select="position()"/>
+                  <xsl:variable name="optional" select="$sameReturnType[1][count(param) &lt; $pos]"/>
+
+                  <xsl:if test="$optional">[</xsl:if>
                   <code class="var">
                      <xsl:value-of select="concat('$', @name)"/>
                   </code>
                   <xsl:text>&#160;</xsl:text>
                   <code class="kwrd">as</code>
                   <xsl:value-of select="concat(' ', @as)"/>
+                  <xsl:if test="$optional">]</xsl:if>
+
                   <xsl:if test="position() != last()">, </xsl:if>
                </xsl:for-each>
                <xsl:if test="$paramCount > 1">&#160;&#xa;</xsl:if>
                <xsl:text>) </xsl:text>
                <code class="kwrd">as</code>
-               <xsl:value-of select="concat(' ', @as)"/>
+               <xsl:value-of select="concat(' ', $returnType)"/>
             </pre>
+            
          </xsl:for-each>
 
          <xsl:if test="$functionDoc/remarks">

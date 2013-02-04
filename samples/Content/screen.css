@@ -27,7 +27,7 @@ div > ul:first-child
 -----------------------------------------------------------*/
 body { margin: auto 20px; font-size: 90%; color: #222; /*line-height: 145%;*/ }
 body, textarea, select, input, button { font-family: Arial, Helvetica, sans-serif; }
-pre { background-color: #EBEBEB; padding: 0.5em; font-size: 95%; }
+pre { background-color: #e9e9e9; padding: 0.5em; font-size: 95%; }
 p, ul { line-height: 130%; }
 
 h1, h2, h3, h4, h5, h6 { font-family: Calibri, Sans-Serif; color: #333; }
@@ -82,7 +82,7 @@ form .error { color: Red; }
 
 pre.xquery code.function { font-weight: bold; }
 pre.xquery code.kwrd { color: blue; }
-pre.xquery code.var { color: #07A; }
+pre.xquery code.var { color: #8e36d3; }
 
 .function-doc {
    margin-bottom: 1.5em;
