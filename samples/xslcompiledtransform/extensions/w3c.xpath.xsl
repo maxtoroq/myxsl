@@ -2,17 +2,45 @@
 <?page processor="system"?>
 <?output-cache cache-profile="library" ?>
 
-<xsl:stylesheet version="1.0" exclude-result-prefixes="exsl fn xs math app"
+<xsl:stylesheet version="1.0" exclude-result-prefixes="exsl fn xs xsi math msxsl app ext"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xmlns:fn="http://www.w3.org/2005/xpath-functions"
    xmlns:math="http://www.w3.org/2005/xpath-functions/math"
    xmlns:exsl="http://exslt.org/common"
+   xmlns:msxsl="urn:schemas-microsoft-com:xslt" 
    xmlns:app="http://myxsl.net/"
+   xmlns:ext="urn:ext"
    xmlns="http://www.w3.org/1999/xhtml">
    
    <xsl:import href="~/layout.xslt"/>
    <xsl:import href="~/App_Code/xslt_highlighter_api.xsl"/>
+
+   <msxsl:script implements-prefix="ext" language="C#">
+      <msxsl:using namespace="System"/>
+      <msxsl:using namespace="System.Xml"/>
+      <msxsl:using namespace="System.Xml.XPath"/>
+      <msxsl:using namespace="System.Xml.Schema"/>
+      <![CDATA[
+
+         public XPathNavigator validate(XPathNavigator instance, XPathNavigator schema) {
+                  
+            var readerSettings = new XmlReaderSettings {
+               ValidationType = ValidationType.Schema,
+               ConformanceLevel = ConformanceLevel.Auto
+            };
+
+            readerSettings.Schemas.Add(null, schema.ReadSubtree());
+
+            var validatedDoc = new XmlDocument();
+            validatedDoc.Load(XmlReader.Create(instance.ReadSubtree(), readerSettings));
+
+            return validatedDoc.CreateNavigator();
+         }
+
+      ]]>
+   </msxsl:script>
 
    <xsl:variable name="samples-rtf" xmlns="">
       <fn:abs>
@@ -112,7 +140,16 @@
          <xsl:value-of select="fn:namespace-uri-for-prefix('xsl', document('')/*)" />
       </fn:namespace-uri-for-prefix>
       <fn:nilled>
-         <xsl:value-of select="fn:nilled(document('')/*)"/>
+         <xsl:variable name="schema-rtf">
+            <xs:schema>
+               <xs:element name="a" nillable="true" />
+            </xs:schema>
+         </xsl:variable>
+         <xsl:variable name="doc-rtf">
+            <a xsi:nil="true"/>
+         </xsl:variable>
+         <xsl:variable name="validated-doc" select="ext:validate(exsl:node-set($doc-rtf), exsl:node-set($schema-rtf))"/>
+         <xsl:value-of select="fn:nilled($validated-doc/a)"/>
       </fn:nilled>
       <fn:one-or-more>
          <xsl:value-of select="fn:string-join(fn:one-or-more(document('')/*/@*), ', ')"/>
