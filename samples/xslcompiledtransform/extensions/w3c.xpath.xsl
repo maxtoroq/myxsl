@@ -69,6 +69,18 @@
       <fn:current-time>
          <xsl:value-of select="fn:current-time()"/>
       </fn:current-time>
+      <fn:data>
+         <xsl:variable name="schema-rtf">
+            <xs:schema>
+               <xs:element name="a" type="xs:integer"/>
+            </xs:schema>
+         </xsl:variable>
+         <xsl:variable name="doc-rtf">
+            <a>5</a>
+         </xsl:variable>
+         <xsl:variable name="validated-doc" select="ext:validate(exsl:node-set($doc-rtf), exsl:node-set($schema-rtf))"/>
+         <xsl:value-of select="exsl:object-type(fn:data($validated-doc/a))"/>
+      </fn:data>
       <fn:distinct-values>
          <xsl:variable name="numbers-rtf">
             <num>2</num>

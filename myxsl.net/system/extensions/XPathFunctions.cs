@@ -102,6 +102,25 @@ namespace myxsl.net.system.extensions {
          return XmlConvert.ToString(DateTime.Now, XmlSchemaConstructorFunctions.TimeFormat);
       }
 
+      public object data(object arg) {
+         // fn:data($arg as item()*) as xs:anyAtomicType*
+
+         XPathNodeIterator iter = arg as XPathNodeIterator;
+
+         if (iter == null) {
+            // if not iterator then it's a single item, return unchanged
+            return arg;
+         }
+
+         if (ExtensionObjectConvert.IsEmpty(iter))
+            return ExtensionObjectConvert.EmptyIterator;
+
+         if (iter.Count == 1)
+            return iter.Cast<XPathNavigator>().Single().TypedValue;
+
+         return ExtensionObjectConvert.ToInput(iter.Cast<XPathNavigator>().Select(n => n.TypedValue));
+      }
+
       protected object document_uri(XPathNodeIterator iter) {
          // fn:document-uri($arg as node()?) as xs:anyURI?
 
