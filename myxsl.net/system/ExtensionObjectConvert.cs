@@ -178,6 +178,16 @@ namespace myxsl.net.system {
          return value.ToString();
       }
 
+      public static string ToInput(Uri value) {
+
+         if (value == null) throw new ArgumentNullException("value");
+
+         if (value.IsAbsoluteUri)
+            return value.AbsoluteUri;
+
+         return value.OriginalString;
+      }
+
       public static object ToInput(XPathItem value) {
 
          if (value == null) throw new ArgumentNullException("value");
@@ -247,6 +257,14 @@ namespace myxsl.net.system {
 
       public static object ToInputOrEmpty(String value) {
          return value ?? (object)EmptyIterator;
+      }
+
+      public static object ToInputOrEmpty(Uri value) {
+
+         if (value == null)
+            return EmptyIterator;
+
+         return ToInput(value);
       }
 
       public static object ToInputOrEmpty<T>(Nullable<T> value) where T : struct {

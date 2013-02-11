@@ -213,6 +213,9 @@
          </xsl:variable>
          <xsl:value-of select="fn:serialize(exsl:node-set($items-rtf)/node(), exsl:node-set($serialization-parameters-rtf))"/>
       </fn:serialize>
+      <fn:static-base-uri>
+         <xsl:value-of select="fn:static-base-uri()"/>
+      </fn:static-base-uri>
       <fn:string-join>
          <xsl:value-of select="fn:string-join(document('')/*/@*, ', ')"/>
       </fn:string-join>

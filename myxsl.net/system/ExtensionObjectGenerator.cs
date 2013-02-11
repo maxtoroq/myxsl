@@ -43,7 +43,11 @@ namespace myxsl.net.system {
          var generatedTypeNames = new List<string>();
 
          var compilerParams = new CompilerParameters {
-            GenerateInMemory = !debuggerIsAttached
+            GenerateInMemory = !debuggerIsAttached,
+            ReferencedAssemblies = { 
+               // System
+               typeof(Uri).Assembly.Location
+            }
          };
 
          foreach (XPathModuleInfo module in modules) {

@@ -34,6 +34,8 @@ namespace myxsl.net.system.extensions {
 
       internal const string Namespace = "http://www.w3.org/2005/xpath-functions";
 
+      internal XmlResolver resolver;
+
       public object abs(object arg) {
          // fn:abs($arg as numeric?) as numeric?
 
@@ -548,6 +550,18 @@ namespace myxsl.net.system.extensions {
          return Regex.Replace(inputStr, pattern, replacement, ParseFlags(flags));
       }
 
+      protected object resolve_uri(object relativeUri) {
+
+         string relativeUriStr = ExtensionObjectConvert.ToString(relativeUri);
+
+         if (relativeUriStr == null)
+            return ExtensionObjectConvert.EmptyIterator;
+
+         Uri resolvedUri = resolve_uri_impl(relativeUriStr, static_base_uri_impl());
+
+         return ExtensionObjectConvert.ToInput(resolvedUri);
+      }
+
       protected object resolve_uri(object relativeUri, string baseUri) {
          // fn:resolve-uri($relative as xs:string?, $base as xs:string) as xs:anyURI?
 
@@ -556,7 +570,19 @@ namespace myxsl.net.system.extensions {
          if (relativeUriStr == null)
             return ExtensionObjectConvert.EmptyIterator;
 
-         return new Uri(new Uri(baseUri, UriKind.Absolute), relativeUriStr).ToString();
+         Uri baseU = new Uri(baseUri, UriKind.Absolute);
+         Uri resolvedUri = resolve_uri_impl(relativeUriStr, baseU);
+
+         return ExtensionObjectConvert.ToInput(resolvedUri);
+      }
+
+      Uri resolve_uri_impl(string relativeUri, Uri baseUri) {
+
+         Uri resolvedUri = (this.resolver != null) ?
+            this.resolver.ResolveUri(baseUri, relativeUri)
+            : new Uri(baseUri, relativeUri);
+
+         return resolvedUri;
       }
 
       private object reverse(object arg) {
@@ -643,6 +669,22 @@ namespace myxsl.net.system.extensions {
             
             return writer.ToString();
          }
+      }
+
+      protected object static_base_uri() {
+         // fn:static-base-uri() as xs:anyURI?
+
+         Uri uri = static_base_uri_impl();
+
+         return ExtensionObjectConvert.ToInputOrEmpty(uri);
+      }
+
+      Uri static_base_uri_impl() {
+
+         if (this.resolver == null)
+            return null;
+
+         return this.resolver.ResolveUri(null, "");
       }
 
       protected string string_join(object arg) {

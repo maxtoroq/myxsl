@@ -226,8 +226,16 @@ namespace myxsl.net.system {
 
          object instance = Activator.CreateInstance(info.Item2);
 
-         if (info.Item1 != null
-            && info.Item1.Dependencies.Count > 0) {
+         XPathModuleInfo moduleInfo = info.Item1;
+
+         if (moduleInfo == null) {
+
+            var xpathFn = instance as extensions.XPathFunctions;
+
+            if (xpathFn != null) 
+               xpathFn.resolver = resolver;
+         
+         } else if (moduleInfo.Dependencies.Count > 0) {
 
             object[] args = new object[info.Item1.Dependencies.Count];
 
