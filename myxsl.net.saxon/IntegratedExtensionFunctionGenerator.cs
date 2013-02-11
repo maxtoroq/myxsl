@@ -49,10 +49,17 @@ namespace myxsl.net.saxon {
          var compilerParams = new CompilerParameters {
             GenerateInMemory = !debuggerIsAttached,
             ReferencedAssemblies = { 
+               // current assembly
                typeof(IntegratedExtensionFunctionGenerator).Assembly.Location,
+               
+               // Saxon.Api
                typeof(ExtensionFunctionDefinition).Assembly.Location,
+               
+               // System
+               typeof(Uri).Assembly.Location,
+               
+               // System.Core
                typeof(Enumerable).Assembly.Location,
-               typeof(Uri).Assembly.Location
             }
          };
          
