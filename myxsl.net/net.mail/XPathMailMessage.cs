@@ -156,8 +156,8 @@ namespace myxsl.net.net.mail {
          if (this.Sender != null)
             mailMessage.Sender = this.Sender.ToMailAddress();
 
-         if (this.Subject != null)
-            mailMessage.Subject = this.Subject;
+         if (this.Subject.HasValue())
+            mailMessage.Subject = this.Subject.Replace('\r', ' ').Replace('\n', ' ');
 
          if (this.Body != null) {
             
