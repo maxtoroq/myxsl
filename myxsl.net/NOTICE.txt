@@ -5,7 +5,7 @@
 =========================================================================
 
 myxsl.net
-Copyright 2009-2012 Max Toro Q.
+Copyright 2009-2013 Max Toro Q.
 
 This product includes/uses software(s) developed by 'Rick Jelliffe and Academia Sinica Computing Center'
   - iso_abstract_expand.xsl

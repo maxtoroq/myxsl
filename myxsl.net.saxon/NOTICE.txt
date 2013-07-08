@@ -5,7 +5,7 @@
 =========================================================================
 
 myxsl.net.saxon
-Copyright 2009-2012 Max Toro Q.
+Copyright 2009-2013 Max Toro Q.
 
 This product includes/uses software(s) developed by 'Saxonica Limited'
   - Saxon-HE (http://saxon.sf.net/)
