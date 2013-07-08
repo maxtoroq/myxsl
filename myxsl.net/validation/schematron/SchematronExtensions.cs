@@ -29,12 +29,10 @@ namespace myxsl.net.validation.schematron {
          if (schemaDoc == null) throw new ArgumentNullException("schemaDoc");
          if (output == null) throw new ArgumentNullException("output");
 
-         // TODO: check if it works when schemaDoc is element(sch:schema) instead of the usual document-node(element(sch:schema))
-
          XPathNavigator nav = schemaDoc.CreateNavigator();
 
-         if (nav.NodeType == XPathNodeType.Root)
-            nav.MoveToChild(XPathNodeType.Element);
+         if (nav.NodeType != XPathNodeType.Root)
+            throw new ArgumentException("The schema must be a document node.", "schemaDoc");
 
          string queryBinding = nav.GetAttribute("queryBinding", "");
          decimal procXsltVersion = processor.GetXsltVersion();
