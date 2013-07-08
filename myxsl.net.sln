@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myxsl.net.saxon", "myxsl.ne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myxsl.net.web.mvc", "myxsl.net.web.mvc\myxsl.net.web.mvc.csproj", "{AE71E623-E962-4554-8AC1-5F2492263666}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "samples", "http://localhost:1277", "{21BB371A-25CC-4409-83DB-A9AC0D5E2F78}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "samples(5)", "http://localhost:1277", "{21BB371A-25CC-4409-83DB-A9AC0D5E2F78}"
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "true"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
