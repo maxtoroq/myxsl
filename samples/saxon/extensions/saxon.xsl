@@ -81,7 +81,7 @@
          <h3>See also</h3>
          <ul>
             <li>
-               <a href="http://www.saxonica.com/documentation/extensions/functions/{local-name()}.xml">Saxon extension functions</a>
+               <a href="http://www.saxonica.com/documentation/functions/saxon/{local-name()}.html">Saxon extension functions</a>
             </li>
          </ul>
       </div>

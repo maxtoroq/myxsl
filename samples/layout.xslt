@@ -70,7 +70,14 @@
                   <li>
                      <span>Processor: </span>
                      <span class="xsl-vendor">
-                        <xsl:value-of select="system-property('xsl:vendor')"/>
+                        <xsl:choose>
+                           <xsl:when test="system-property('xsl:product-name')">
+                              <xsl:value-of select="concat(system-property('xsl:product-name'), ' ', system-property('xsl:product-version'))"/>
+                           </xsl:when>
+                           <xsl:otherwise>
+                              <xsl:value-of select="system-property('xsl:vendor')"/>
+                           </xsl:otherwise>
+                        </xsl:choose>
                      </span>
                      <br/>
                      <span>XSLT Version: </span>

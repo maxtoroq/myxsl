@@ -12,7 +12,7 @@
       <ol>
          <li>Create a class library (or use an existing one).</li>
          <li>
-            Reference <code>System.Web.WebPages</code>.
+            Reference <a href="http://www.nuget.org/packages/Microsoft.AspNet.WebPages">System.Web.WebPages</a>
          </li>
          <li>
             <span>Add the following code:</span>
