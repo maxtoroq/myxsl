@@ -55,6 +55,7 @@
     <Compile Include="common\XPathDependencyInfo.cs" />
     <Compile Include="common\XPathVariableInfo.cs" />
     <Compile Include="common\XsltProcessorExtensions.cs" />
+    <Compile Include="io\XPathFileSystem.cs" />
     <Compile Include="validation\SchematronInvoker.cs" />
     <Compile Include="validation\SchematronResultHandler.cs" />
     <Compile Include="XQueryModule.cs" />

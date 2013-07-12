@@ -43,6 +43,7 @@ namespace myxsl.net.common {
                         new XPathModuleInfo(typeof(validation.schematron.SchematronModule)),
                         new XPathModuleInfo(typeof(net.http.XPathHttpClient)),
                         new XPathModuleInfo(typeof(net.mail.XPathSmtpClient)),
+                        new XPathModuleInfo(typeof(io.XPathFileSystem)),
                         new XPathModuleInfo(typeof(XsltModule)),
                         new XPathModuleInfo(typeof(XQueryModule))
                      };
