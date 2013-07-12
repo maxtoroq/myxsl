@@ -279,7 +279,7 @@ namespace myxsl.net.system {
          string convertMethod = "ToInput";
 
          if (sequenceType.ItemType.KindIsNode) 
-            convertMethod = "ToNode";
+            convertMethod += "Node";
 
          if (sequenceType.Cardinality == XPathSequenceCardinality.ZeroOrMore
             || sequenceType.Cardinality == XPathSequenceCardinality.ZeroOrOne) {
@@ -383,57 +383,86 @@ namespace myxsl.net.system {
          if (paramTypeInfo.ClrType.IsAssignableFrom(varType)) 
             return argExpr;
 
+         MethodInfo convertMethod = typeof(ExtensionObjectConvert)
+            .GetMethod("To" + paramTypeInfo.ClrType.Name, BindingFlags.Public | BindingFlags.Static, null, new[] { varType }, null);
+
+         if (convertMethod != null) {
+
+            return new CodeMethodInvokeExpression {
+               Method = new CodeMethodReferenceExpression {
+                  MethodName = convertMethod.Name,
+                  TargetObject = convertTypeExpr,
+               },
+               Parameters = { argExpr }
+            };
+         } 
+
+         MethodInfo convertItemMethod = typeof(ExtensionObjectConvert)
+            .GetMethod("To" + paramTypeInfo.ItemType.ClrType.Name, BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(XPathItem) }, null);
+
+         CodeExpression convertItemExpr = (convertItemMethod != null) ?
+            new CodeMethodReferenceExpression(convertTypeExpr, convertItemMethod.Name)
+            : null;
+
          if (paramTypeInfo.ClrTypeIsEnumerable) {
 
-            argExpr = new CodeMethodInvokeExpression {
+            CodeMethodInvokeExpression methodExpr;
+
+            argExpr = methodExpr = new CodeMethodInvokeExpression {
                Method = new CodeMethodReferenceExpression {
-                  MethodName = (paramTypeInfo.ItemType.Kind == XPathItemKind.AnyItem) ?
-                     "ToXPathItems"
-                     : "ToXPathNavigators",
+                  MethodName = "ToEnumerable",
+                  TypeArguments = { paramTypeInfo.ItemType.ClrType },
                   TargetObject = convertTypeExpr
                },
-               Parameters = { varExpr }
+               Parameters = { argExpr }
             };
+
+            if (convertItemExpr != null)
+               methodExpr.Parameters.Add(convertItemExpr);
+
+            if (paramTypeInfo.ClrType.IsArray) {
+
+               argExpr = new CodeMethodInvokeExpression {
+                  Method = new CodeMethodReferenceExpression {
+                     MethodName = "ToArray",
+                     TypeArguments = { paramTypeInfo.ItemType.ClrType },
+                     TargetObject = new CodeTypeReferenceExpression(typeof(Enumerable))
+                  },
+                  Parameters = { argExpr }
+               };
+            }
+
+         } else if (paramTypeInfo.ClrTypeIsNullableValueType) {
+
+            CodeMethodInvokeExpression methodExpr;
+
+            argExpr = methodExpr = new CodeMethodInvokeExpression {
+               Method = new CodeMethodReferenceExpression {
+                  MethodName = "ToNullableValueType",
+                  TypeArguments = { paramTypeInfo.ItemType.ClrType },
+                  TargetObject = convertTypeExpr
+               },
+               Parameters = { argExpr }
+            };
+
+            if (convertItemExpr != null)
+               methodExpr.Parameters.Add(convertItemExpr);
 
          } else {
 
-            MethodInfo convertMethod = typeof(ExtensionObjectConvert)
-               .GetMethod("To" + paramTypeInfo.ClrType.Name, BindingFlags.Public | BindingFlags.Static, null, new[] { varType }, null);
+            CodeMethodInvokeExpression methodExpr;
 
-            if (convertMethod != null) {
+            argExpr = methodExpr = new CodeMethodInvokeExpression {
+               Method = new CodeMethodReferenceExpression {
+                  MethodName = "ToOutput",
+                  TypeArguments = { paramTypeInfo.ClrType },
+                  TargetObject = convertTypeExpr
+               },
+               Parameters = { argExpr }
+            };
 
-               argExpr = new CodeMethodInvokeExpression {
-                  Method = new CodeMethodReferenceExpression {
-                     MethodName = convertMethod.Name,
-                     TargetObject = convertTypeExpr,
-                  },
-                  Parameters = { varExpr }
-               };
-
-            }  else if (paramTypeInfo.ClrTypeIsNullableValueType) {
-
-               argExpr = new CodeMethodInvokeExpression {
-                  Method = new CodeMethodReferenceExpression {
-                     MethodName = "ToNullableValueType",
-                     TargetObject = convertTypeExpr,
-                     TypeArguments = { new CodeTypeReference(paramTypeInfo.ItemType.ClrType) }
-                  },
-                  Parameters = { varExpr }
-               };
-
-            } else {
-
-               argExpr = new CodeCastExpression {
-                  TargetType = new CodeTypeReference(paramTypeInfo.ClrType),
-                  Expression = new CodeMethodInvokeExpression {
-                     Method = new CodeMethodReferenceExpression {
-                        MethodName = "ChangeType",
-                        TargetObject = new CodeTypeReferenceExpression(typeof(Convert)),
-                     },
-                     Parameters = { varExpr, new CodeTypeOfExpression(paramTypeInfo.ClrType) }
-                  }
-               };
-            }
+            if (convertItemExpr != null && paramTypeInfo.ClrType == paramTypeInfo.ItemType.ClrType)
+               methodExpr.Parameters.Add(convertItemExpr);
          }
          
          return argExpr;

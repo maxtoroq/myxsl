@@ -15,6 +15,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Xml;
 using System.Xml.XPath;
@@ -48,6 +49,8 @@ namespace myxsl.net.system {
       public static bool IsEmpty(XPathNodeIterator value) {
          return value == null || value.Count == 0;
       }
+
+      #region ToInput: Converts the return values of user extension functions to types the processor accepts
 
       public static object ToInput(object value) {
 
@@ -103,7 +106,7 @@ namespace myxsl.net.system {
                if (typeof(TimeSpan).IsInstanceOfType(value))
                   return ToInput((TimeSpan)value);
 
-               return ToNode(value);
+               return ToInputNode(value);
          }
       }
 
@@ -229,7 +232,7 @@ namespace myxsl.net.system {
 
          return value
             .Where(i => !IsEmpty(i))
-            .Select(i => ToNode(i))
+            .Select(i => ToInputNode(i))
             .ToArray();
       }
 
@@ -311,76 +314,77 @@ namespace myxsl.net.system {
          return ToInput(value);
       }
 
-      public static XPathNavigator ToNode(object value) {
+      public static XPathNavigator ToInputNode(object value) {
 
          if (value == null) throw new ArgumentNullException("value");
 
          XPathItem item = value as XPathItem;
 
          if (item != null)
-            return ToNode(item);
+            return ToInputNode(item);
 
          var itemFactory = new SystemItemFactory();
 
          return itemFactory.CreateDocument(value).CreateNavigator();
       }
 
-      public static XPathNavigator ToNode(XPathItem value) {
+      public static XPathNavigator ToInputNode(XPathItem value) {
 
          if (value == null) throw new ArgumentNullException("value");
 
-         if (value.IsNode)
-            return (XPathNavigator)value;
-
-         return XsltConvert.ToNode(value);
+         return ToXPathNavigator(value);
       }
 
-      public static XPathNavigator ToNode(XPathNavigator value) {
+      public static XPathNavigator ToInputNode(XPathNavigator value) {
 
          if (value == null) throw new ArgumentNullException("value");
 
          return value;
       }
 
-      public static XPathNavigator ToNode(IXPathNavigable value) {
+      public static XPathNavigator ToInputNode(IXPathNavigable value) {
 
          if (value == null) throw new ArgumentNullException("value");
 
-         return value.CreateNavigator();
+         return ToXPathNavigator(value);
       }
 
-      public static object ToNodeOrEmpty(object value) {
+      public static object ToInputNodeOrEmpty(object value) {
 
          if (IsEmpty(value))
             return EmptyIterator;
 
-         return ToNode(value);
+         return ToInputNode(value);
       }
 
-      public static object ToNodeOrEmpty(XPathItem value) {
+      public static object ToInputNodeOrEmpty(XPathItem value) {
 
          if (value == null)
             return EmptyIterator;
 
-         return ToNode(value);
+         return ToInputNode(value);
       }
 
-      public static object ToNodeOrEmpty(XPathNavigator value) {
+      public static object ToInputNodeOrEmpty(XPathNavigator value) {
 
          if (value == null)
             return EmptyIterator;
 
-         return ToNode(value);
+         return ToInputNode(value);
       }
 
-      public static object ToNodeOrEmpty(IXPathNavigable value) {
+      public static object ToInputNodeOrEmpty(IXPathNavigable value) {
 
          if (value == null)
             return EmptyIterator;
 
-         return ToNode(value);
+         return ToInputNode(value);
       }
 
+      /// <summary>
+      /// This member supports the myxsl.net infrastructure and is not intended to be used directly from your code.
+      /// </summary>
+      [EditorBrowsable(EditorBrowsableState.Never)]
       public static object FirstElementOrSelf(object value) {
 
          if (IsEmpty(value))
@@ -389,6 +393,10 @@ namespace myxsl.net.system {
          return FirstElementOrSelf((XPathNavigator)value);
       }
 
+      /// <summary>
+      /// This member supports the myxsl.net infrastructure and is not intended to be used directly from your code.
+      /// </summary>
+      [EditorBrowsable(EditorBrowsableState.Never)]
       public static XPathNavigator FirstElementOrSelf(XPathNavigator value) {
 
          if (value == null) throw new ArgumentNullException("value");
@@ -401,6 +409,10 @@ namespace myxsl.net.system {
 
          return value;
       }
+
+      #endregion
+
+      #region ToXPathItem/ToXPathNavigator: Conversion of input and output values
 
       public static XPathItem ToXPathItem(object value) {
 
@@ -469,14 +481,14 @@ namespace myxsl.net.system {
                IXPathNavigable navigable = value as IXPathNavigable;
 
                if (navigable != null)
-                  return navigable.CreateNavigator();
+                  return ToXPathItem(navigable);
 
                XPathNodeIterator nodeIter = value as XPathNodeIterator;
 
                if (nodeIter != null)
                   return ToXPathItem(nodeIter);
 
-               return ToNode(value);
+               return ToInputNode(value);
          }
       }
 
@@ -543,16 +555,34 @@ namespace myxsl.net.system {
          return SystemItemFactory.CreateString(value);
       }
 
+      public static XPathItem ToXPathItem(XPathItem value) {
+         return value;
+      }
+
+      public static XPathItem ToXPathItem(IXPathNavigable value) {
+         return ToXPathNavigator(value);
+      }
+
       public static XPathItem ToXPathItem(XPathNodeIterator value) {
          return ToXPathNavigator(value);
       }
 
-      public static IEnumerable<XPathItem> ToXPathItems(XPathNodeIterator value) {
+      public static XPathNavigator ToXPathNavigator(XPathItem value) {
 
-         if (value == null)
-            return Enumerable.Empty<XPathItem>();
+         if (value == null) throw new ArgumentNullException("null");
 
-         return value.Cast<XPathItem>();
+         if (value.IsNode)
+            return (XPathNavigator)value;
+
+         return XsltConvert.ToNode(value);
+      }
+
+      public static XPathNavigator ToXPathNavigator(XPathNavigator value) {
+         return value;
+      }
+
+      public static XPathNavigator ToXPathNavigator(IXPathNavigable value) {
+         return value.CreateNavigator();
       }
 
       public static XPathNavigator ToXPathNavigator(XPathNodeIterator value) {
@@ -565,87 +595,196 @@ namespace myxsl.net.system {
          return value.Current;
       }
 
-      public static IEnumerable<XPathNavigator> ToXPathNavigators(XPathNodeIterator value) {
+      #endregion
 
-         if (value == null)
-            return Enumerable.Empty<XPathNavigator>();
+      #region ToOutput: Converts the arguments provided by the processor to the appropiate types expected by the user extension functions
 
-         return value.Cast<XPathNavigator>();
+      // NOTE:
+      // - When value is object it can be an atomic type, such as String or Double, an XPathNavigator or a singleton XPathNodeIterator
+      // - value will NEVER be null
+
+      public static T ToOutput<T>(object value) {
+         return ToOutput<T>(value, null);
       }
 
-      public static string ToString(object value) {
-
-         if (value == null)
-            return null;
-
-         string str = value as string;
-
-         if (str != null)
-            return str;
-
-         XPathNodeIterator iter = value as XPathNodeIterator;
-
-         if (iter != null) 
-            return ToString(iter);
-
-         return value.ToString();
-      }
-
-      public static string ToString(XPathNodeIterator value) {
-
-         if (IsEmpty(value))
-            return null;
-
-         value.MoveNext();
-         
-         return value.Current.Value;
-      }
-
-      public static Nullable<T> ToNullableValueType<T>(object value) where T : struct {
-
-         if (value == null)
-            return null;
+      public static T ToOutput<T>(object value, Func<XPathItem, T> mapper) {
 
          if (value is T)
             return (T)value;
 
          XPathNodeIterator iter = value as XPathNodeIterator;
 
-         if (iter != null) 
-            return ToNullableValueType<T>(iter);
+         if (iter != null)
+            return ToOutput<T>(iter, mapper);
 
-         throw new ArgumentException("value must be an instance of {0}.".FormatInvariant(typeof(T).FullName), "value");
+         XPathItem item = value as XPathItem;
+
+         if (item != null)
+            return ToOutput<T>(item, mapper);
+
+         string stringVal = value as string;
+
+         if (stringVal != null)
+            return ToOutput<T>(stringVal);
+
+         return ToOutputConvert<T>(value);
       }
 
-      public static Nullable<T> ToNullableValueType<T>(XPathNodeIterator value) where T : struct {
+      public static T ToOutput<T>(string value) {
 
+         switch (Type.GetTypeCode(typeof(T))) {
+            case TypeCode.Char:
+               return (T)(object)value.Single();
+
+            case TypeCode.String:
+               return (T)(object)value;
+
+            case TypeCode.DateTime:
+               return (T)(object)ToDateTime(value);
+
+            case TypeCode.Object:
+
+               if (typeof(T) == typeof(XmlQualifiedName))
+                  return (T)(object)ToXmlQualifiedName(value);
+
+               if (typeof(T) == typeof(Uri))
+                  return (T)(object)ToUri(value);
+
+               break;
+         }
+
+         return ToOutputConvert<T>(value);
+      }
+
+      public static T ToOutput<T>(XPathNodeIterator value) {
+         return ToOutput<T>(value, null);
+      }
+
+      public static T ToOutput<T>(XPathNodeIterator value, Func<XPathItem, T> mapper) {
+         
          if (IsEmpty(value))
-            return null;
+            return default(T);
 
          value.MoveNext();
 
-         return (T)value.Current.ValueAs(typeof(T));
+         return ToOutput<T>(value.Current, mapper);
       }
 
-      public static Nullable<Double> ToNullableDouble(object value) {
+      public static T ToOutput<T>(XPathItem value) {
+         return ToOutput<T>(value, null);
+      }
+
+      public static T ToOutput<T>(XPathItem value, Func<XPathItem, T> mapper) {
+
+         if (mapper != null)
+            return mapper(value);
+
+         switch (Type.GetTypeCode(typeof(T))) {
+            case TypeCode.Boolean:
+               return (T)(object)ToBoolean(value);
+
+            case TypeCode.DateTime:
+               return (T)(object)ToDateTime(value);
+
+            case TypeCode.Decimal:
+               return (T)(object)ToDecimal(value);
+
+            case TypeCode.Double:
+               return (T)(object)ToDouble(value);
+
+            case TypeCode.Int32:
+               return (T)(object)ToInt32(value);
+
+            case TypeCode.Int64:
+               return (T)(object)ToInt64(value);
+
+            case TypeCode.String:
+               return (T)(object)ToString(value);
+
+            case TypeCode.Object:
+
+               if (typeof(T) == typeof(XPathNavigator)
+                  || typeof(T) == typeof(IXPathNavigable)) {
+
+                  return (T)(object)ToXPathNavigator(value);
+               }
+
+               if (typeof(T) == typeof(XPathItem))
+                  return (T)(object)value;
+
+               break;
+         }
+
+         return ToOutput<T>(value.TypedValue);
+      }
+
+      static T ToOutputConvert<T>(object value) {
+         return (T)Convert.ChangeType(value, typeof(T));
+      }
+
+      public static string ToString(object value) {
+         return ToOutput<string>(value, ToString);
+      }
+
+      public static string ToString(XPathItem value) {
 
          if (value == null)
             return null;
 
-         if (value is double) 
-            return (double)value;
+         return value.Value;
+      }
 
-         XPathNodeIterator iter = value as XPathNodeIterator;
+      public static Boolean ToBoolean(XPathItem value) {
 
-         if (iter != null) {
+         if (value == null) throw new ArgumentNullException("value");
 
-            if (ExtensionObjectConvert.IsEmpty(iter))
-               return null;
+         return value.ValueAsBoolean;
+      }
 
-            return iter.Cast<XPathNavigator>().First().ValueAsDouble;
-         } 
+      public static DateTime ToDateTime(string value) {
 
-         return XmlConvert.ToDouble(value.ToString());
+         if (value == null) throw new ArgumentNullException("null");
+
+         return XsltConvert.ToDateTime(value);
+      }
+
+      public static DateTime ToDateTime(XPathItem value) {
+
+         if (value == null) throw new ArgumentNullException("value");
+
+         return value.ValueAsDateTime;
+      }
+
+      public static Double ToDouble(XPathItem value) {
+
+         if (value == null) throw new ArgumentNullException("value");
+
+         return value.ValueAsDouble;
+      }
+
+      public static Decimal ToDecimal(XPathItem value) {
+
+         if (value == null) throw new ArgumentNullException("value");
+
+         return (decimal)ToDouble(value);
+      }
+
+      public static Int32 ToInt32(XPathItem value) {
+
+         if (value == null) throw new ArgumentNullException("value");
+
+         return value.ValueAsInt;
+      }
+
+      public static Int64 ToInt64(XPathItem value) {
+
+         if (value == null) throw new ArgumentNullException("value");
+
+         return value.ValueAsLong;
+      }
+
+      public static Uri ToUri(string value) {
+         return new Uri(value, UriKind.RelativeOrAbsolute);
       }
 
       public static XmlQualifiedName ToXmlQualifiedName(string value) {
@@ -656,14 +795,57 @@ namespace myxsl.net.system {
          return new XmlQualifiedName(value);
       }
 
-      public static XmlQualifiedName ToXmlQualifiedName(XPathNodeIterator value) {
+      internal static Nullable<Double> ToNullableDouble(object value) {
+         return ToNullableValueType<double>(value, ToDouble);
+      }
+
+      public static Nullable<T> ToNullableValueType<T>(object value) where T : struct {
+         return ToNullableValueType<T>(value, null);
+      }
+
+      public static Nullable<T> ToNullableValueType<T>(object value, Func<XPathItem, T> mapper) where T : struct {
+
+         if (value == null)
+            return null;
+
+         if (value is T)
+            return (T)value;
+
+         XPathNodeIterator iter = value as XPathNodeIterator;
+
+         if (iter != null)
+            return ToNullableValueType<T>(iter, mapper);
+
+         return ToOutput<T>(value, mapper);
+      }
+
+      public static Nullable<T> ToNullableValueType<T>(XPathNodeIterator value) where T : struct {
+         return ToNullableValueType<T>(value, null);
+      }
+
+      public static Nullable<T> ToNullableValueType<T>(XPathNodeIterator value, Func<XPathItem, T> mapper) where T : struct {
 
          if (IsEmpty(value))
             return null;
 
-         value.MoveNext();
-
-         return ToXmlQualifiedName(value.Current.Value);
+         return ToOutput<T>(value, mapper);
       }
+
+      public static IEnumerable<T> ToEnumerable<T>(XPathNodeIterator value) {
+         return ToEnumerable<T>(value, null);
+      }
+
+      public static IEnumerable<T> ToEnumerable<T>(XPathNodeIterator value, Func<XPathItem, T> mapper) {
+
+         if (IsEmpty(value))
+            return Enumerable.Empty<T>();
+
+         if (mapper == null)
+            mapper = ToOutput<T>;
+
+         return value.Cast<XPathItem>().Select(mapper);
+      }
+
+      #endregion
    }
 }
