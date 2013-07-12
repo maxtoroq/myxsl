@@ -99,6 +99,9 @@
                <li>
                   <a href="/saxon/extensions/">Saxon Extensions</a>
                </li>
+            </ul>
+            <br/>
+            <ul>
                <xsl:for-each select="$function-library/*/module">
                   <xsl:sort select="@namespace"/>
 

@@ -140,6 +140,30 @@
          </xsl:call-template>
       </xsl:for-each>
 
+      <xsl:choose>
+         <xsl:when test="starts-with($module/@namespace, 'http://expath.org/')">
+            <h2>See also</h2>
+            <ul>
+               <li>
+                  <a href="{fn:replace($module/@namespace, '/ns/', '/spec/')}">EXPath Specification</a>
+               </li>
+               <xsl:if test="fn:ends-with($module/@namespace, '/http-client')">
+                  <li>
+                     <a href="/expath/http-client">Live examples</a>
+                  </li>
+               </xsl:if>
+            </ul>
+         </xsl:when>
+         <xsl:when test="$module/@namespace = 'http://myxsl.net/ns/validation/schematron'">
+            <h2>See also</h2>
+            <ul>
+               <li>
+                  <a href="/schematron/">Live examples</a>
+               </li>
+            </ul>
+         </xsl:when>
+      </xsl:choose>
+
    </xsl:template>
 
    <xsl:template name="function">
@@ -219,30 +243,6 @@
             <h3>Remarks</h3>
             <xsl:apply-templates select="$functionDoc/remarks" mode="doc:html"/>
          </xsl:if>
-
-         <xsl:choose>
-            <xsl:when test="$first/../@namespace = 'http://expath.org/ns/http-client'">
-               <h3>See also</h3>
-               <ul>
-                  <li>
-                     <a href="http://expath.org/spec/http-client">HTTP Client Module</a>
-                  </li>
-                  <li>
-                     <a href="/expath/http-client">Live examples</a>
-                  </li>
-               </ul>
-            </xsl:when>
-            <xsl:when test="
-               $first/../@namespace = 'http://myxsl.net/ns/validation/schematron'
-               and substring-after($first/@name, ':') = 'report'">
-               <h3>See also</h3>
-               <ul>
-                  <li>
-                     <a href="/schematron/">Live examples</a>
-                  </li>
-               </ul>
-            </xsl:when>
-         </xsl:choose>
       </div>
 
    </xsl:template>
