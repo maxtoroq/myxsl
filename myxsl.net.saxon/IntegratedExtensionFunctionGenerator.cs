@@ -590,9 +590,9 @@ namespace myxsl.net.saxon {
 
       CodeExpression TransformInput(CodeVariableReferenceExpression argumentsRef, int position, XPathSequenceType sequenceType) {
 
-         StringBuilder codeBuilder = new StringBuilder();
-         codeBuilder.Append(argumentsRef.VariableName);
-         codeBuilder.AppendFormatInvariant("[{0}]", position - 1);
+         var codeBuilder = new StringBuilder()
+            .Append(argumentsRef.VariableName)
+            .AppendFormatInvariant("[{0}]", position - 1);
 
          bool isAtomic = sequenceType.ItemType.Kind == XPathItemKind.Atomic;
          bool isNode = sequenceType.ItemType.KindIsNode;
@@ -607,7 +607,7 @@ namespace myxsl.net.saxon {
             codeBuilder.Append(".AsItems()");
          }
 
-         StringBuilder itemExpr = new StringBuilder("x");
+         var itemExpr = new StringBuilder("x");
 
          if (isAtomic) {
             

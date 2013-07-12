@@ -119,10 +119,12 @@ namespace myxsl.net.saxon {
       }
 
       /// <summary>
-      /// This method is used by generated integrated extension functions.
+      /// This member supports the myxsl.net infrastructure and is not intended to be used directly from your code.
       /// </summary>
       [EditorBrowsable(EditorBrowsableState.Never)]
       public static T? SingleOrNull<T>(IEnumerable<T> source) where T : struct {
+
+         // This method is used by generated integrated extension functions
 
          int count = source.Count();
 
