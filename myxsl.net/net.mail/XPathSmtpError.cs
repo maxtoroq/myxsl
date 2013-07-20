@@ -28,7 +28,7 @@ namespace myxsl.net.net.mail {
       public string Message { get; set; }
 
       public System.Xml.Schema.XmlSchema GetSchema() {
-         throw new NotImplementedException();
+         return null;
       }
 
       public void ReadXml(XmlReader reader) {

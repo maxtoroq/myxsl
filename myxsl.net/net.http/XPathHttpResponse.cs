@@ -41,7 +41,7 @@ namespace myxsl.net.net.http {
       }
 
       public System.Xml.Schema.XmlSchema GetSchema() {
-         throw new NotImplementedException();
+         return null;
       }
 
       public void ReadXml(XmlReader reader) {

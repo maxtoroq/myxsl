@@ -24,7 +24,7 @@ namespace myxsl.net.net.mail {
    sealed class XPathSmtpSuccess : IXmlSerializable {
 
       public System.Xml.Schema.XmlSchema GetSchema() {
-         throw new NotImplementedException();
+         return null;
       }
 
       public void ReadXml(XmlReader reader) {

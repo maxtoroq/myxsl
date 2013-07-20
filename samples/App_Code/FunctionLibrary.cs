@@ -16,7 +16,7 @@ public sealed class FunctionLibrary : IXmlSerializable {
    private FunctionLibrary() { }
 
    public System.Xml.Schema.XmlSchema GetSchema() {
-      throw new NotImplementedException();
+      return null;
    }
 
    public void ReadXml(XmlReader reader) {
