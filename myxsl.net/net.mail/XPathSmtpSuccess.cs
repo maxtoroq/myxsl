@@ -20,7 +20,8 @@ using System.Xml.Serialization;
 using System.Xml;
 
 namespace myxsl.net.net.mail {
-   
+
+   [XmlRoot("success", Namespace = XPathSmtpClient.Namespace)]
    sealed class XPathSmtpSuccess : IXmlSerializable {
 
       public System.Xml.Schema.XmlSchema GetSchema() {
@@ -31,10 +32,6 @@ namespace myxsl.net.net.mail {
          throw new NotImplementedException();
       }
 
-      public void WriteXml(XmlWriter writer) {
-
-         writer.WriteStartElement(XPathSmtpClient.Prefix, "success", XPathSmtpClient.Namespace);
-         writer.WriteEndElement();
-      }
+      public void WriteXml(XmlWriter writer) { }
    }
 }

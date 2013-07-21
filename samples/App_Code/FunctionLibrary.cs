@@ -9,6 +9,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using myxsl.net.common;
 
+[XmlRoot("library")]
 public sealed class FunctionLibrary : IXmlSerializable {
 
    public static readonly FunctionLibrary Instance = new FunctionLibrary();
@@ -24,8 +25,6 @@ public sealed class FunctionLibrary : IXmlSerializable {
    }
 
    public void WriteXml(XmlWriter writer) {
-
-      writer.WriteStartElement("library");
 
       int moduleIndex = 0;
 
@@ -72,8 +71,6 @@ public sealed class FunctionLibrary : IXmlSerializable {
 
          writer.WriteEndElement(); // module
       }
-
-      writer.WriteEndElement(); // library
    }
 
    string CRef(Type type) {

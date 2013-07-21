@@ -186,13 +186,10 @@ namespace myxsl.net.net.http {
 
       public void WriteXml(XmlWriter writer) {
 
-         writer.WriteStartElement(XPathHttpClient.Prefix, "body", XPathHttpClient.Namespace);
          writer.WriteAttributeString("media-type", this.MediaType);
 
          if (this.Encoding != null)
             writer.WriteAttributeString("encoding", this.Encoding.WebName);
-
-         writer.WriteEndElement();
       }
 
       public long PrepareContent(XPathItemFactory itemFactory, XmlResolver resolver) {

@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,8 +29,8 @@ namespace myxsl.net.common {
    
    public abstract class XPathItemFactory {
 
-      static readonly IDictionary<Type, XmlSerializer> serializerCache = new Dictionary<Type, XmlSerializer>();
-      static readonly object padlock = new object();
+      static readonly ConcurrentDictionary<Type, XmlSerializer> serializerCache = new ConcurrentDictionary<Type, XmlSerializer>();
+      static readonly ConcurrentDictionary<Type, XmlRootAttribute> xmlRootCache = new ConcurrentDictionary<Type, XmlRootAttribute>();
 
       public XPathItem CreateAtomicValue(object value, XmlTypeCode typeCode) {
          return CreateAtomicValue(value, XmlSchemaType.GetBuiltInSimpleType(typeCode).QualifiedName);
@@ -103,11 +104,15 @@ namespace myxsl.net.common {
             return null;
 
          IXPathNavigable doc = CreateNodeEditable();
+         XmlWriter writer = doc.CreateNavigator().AppendChild();
 
-         XmlWriter xmlWriter = doc.CreateNavigator().AppendChild();
-         value.WriteXml(xmlWriter);
+         XmlRootAttribute xmlRootAttr = GetXmlRootAttribute(value.GetType());
 
-         xmlWriter.Close();
+         writer.WriteStartElement(xmlRootAttr.ElementName, xmlRootAttr.Namespace);
+         value.WriteXml(writer);
+         writer.WriteEndElement();
+
+         writer.Close();
 
          return doc;
       }
@@ -141,16 +146,22 @@ namespace myxsl.net.common {
       }
 
       internal static XmlSerializer GetSerializer(Type type) {
+         return serializerCache.GetOrAdd(type, t => new XmlSerializer(t));
+      }
 
-         if (!serializerCache.ContainsKey(type)) {
-            lock (padlock) {
-               if (!serializerCache.ContainsKey(type)) {
-                  serializerCache[type] = new XmlSerializer(type);
-               }               
-            }
-         }
+      static XmlRootAttribute GetXmlRootAttribute(Type type) {
 
-         return serializerCache[type];
+         return xmlRootCache.GetOrAdd(type, t => {
+
+            XmlRootAttribute xmlRootAttr = t.GetCustomAttributes(typeof(XmlRootAttribute), inherit: false)
+               .Cast<XmlRootAttribute>()
+               .SingleOrDefault();
+
+            if (xmlRootAttr != null)
+               return xmlRootAttr;
+
+            return new XmlRootAttribute(XmlConvert.EncodeLocalName(type.Name));
+         });
       }
 
       public virtual IXPathNavigable CreateNodeReadOnly() {

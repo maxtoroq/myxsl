@@ -21,7 +21,8 @@ using System.Xml;
 using System.Xml.Serialization;
 
 namespace myxsl.net.net.mail {
-   
+
+   [XmlRoot("error", Namespace = XPathSmtpClient.Namespace)]
    sealed class XPathSmtpError : IXmlSerializable {
 
       public SmtpStatusCode Status { get; set; }
@@ -37,10 +38,8 @@ namespace myxsl.net.net.mail {
 
       public void WriteXml(XmlWriter writer) {
 
-         writer.WriteStartElement(XPathSmtpClient.Prefix, "error", XPathSmtpClient.Namespace);
          writer.WriteAttributeString("status", this.Status.ToString("d"));
          writer.WriteString(this.Message);
-         writer.WriteEndElement();
       }
    }
 }

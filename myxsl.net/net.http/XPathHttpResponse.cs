@@ -23,6 +23,7 @@ using System.Xml.Serialization;
 
 namespace myxsl.net.net.http {
    
+   [XmlRoot("response", Namespace = XPathHttpClient.Namespace)]
    sealed class XPathHttpResponse : IXmlSerializable {
 
       // required
@@ -50,24 +51,24 @@ namespace myxsl.net.net.http {
 
       public void WriteXml(XmlWriter writer) {
 
-         writer.WriteStartElement(XPathHttpClient.Prefix, "response", XPathHttpClient.Namespace);
          writer.WriteAttributeString("status", this.Status.ToString("d"));
          writer.WriteAttributeString("message", this.Message);
 
          for (int i = 0; i < this.Headers.Count; i++) {
-            writer.WriteStartElement(XPathHttpClient.Prefix, "header", XPathHttpClient.Namespace);
+            writer.WriteStartElement("header", XPathHttpClient.Namespace);
             writer.WriteAttributeString("name", this.Headers.Keys[i]);
             writer.WriteAttributeString("value", this.Headers[i]);
             writer.WriteEndElement();
          }
 
-         if (this.Body != null)
+         if (this.Body != null) {
+            writer.WriteStartElement("body", XPathHttpClient.Namespace);
             this.Body.WriteXml(writer);
+            writer.WriteEndElement();
 
-         else if (this.Multipart != null)
+         } else if (this.Multipart != null) {
             this.Multipart.WriteXml(writer);
-
-         writer.WriteEndElement();
+         }
       }
    }
 }

@@ -22,7 +22,8 @@ using System.Xml.Serialization;
 using System.Xml.XPath;
 
 namespace myxsl.net.common {
-   
+
+   [XmlRoot("serialization-parameters", Namespace = W3CSerializationNamespace)]
    public class XPathSerializationOptions : IXmlSerializable {
 
       const string W3CSerializationNamespace = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -226,8 +227,6 @@ namespace myxsl.net.common {
 
       void IXmlSerializable.WriteXml(XmlWriter writer) {
          
-         writer.WriteStartElement(W3CSerializationPrefix, "serialization-parameters", W3CSerializationNamespace);
-
          if (this.ByteOrderMark.HasValue) 
             WriteOption("byte-order-mark", SerializeYesOrNo(this.ByteOrderMark.Value), writer);
 
@@ -248,7 +247,7 @@ namespace myxsl.net.common {
 
          if (this.Method != null) {
             
-            writer.WriteStartElement(W3CSerializationPrefix, "method", W3CSerializationNamespace);
+            writer.WriteStartElement("method", W3CSerializationNamespace);
 
             string value;
 
@@ -265,21 +264,19 @@ namespace myxsl.net.common {
                value = this.Method.Name;
             }
 
-            writer.WriteElementString("value", value);
+            writer.WriteAttributeString("value", value);
             
             writer.WriteEndElement();
          }
 
          if (this.OmitXmlDeclaration.HasValue) 
             WriteOption("omit-xml-declaration", SerializeYesOrNo(this.OmitXmlDeclaration.Value), writer);
-
-         writer.WriteEndElement();
       }
 
       static void WriteOption(string name, string value, XmlWriter writer) {
 
-         writer.WriteStartElement(W3CSerializationPrefix, name, W3CSerializationNamespace);
-         writer.WriteElementString("value", value);
+         writer.WriteStartElement(name, W3CSerializationNamespace);
+         writer.WriteAttributeString("value", value);
          writer.WriteEndElement();
       }
 
