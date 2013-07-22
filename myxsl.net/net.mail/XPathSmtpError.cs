@@ -22,7 +22,7 @@ using System.Xml.Serialization;
 
 namespace myxsl.net.net.mail {
 
-   [XmlRoot("error", Namespace = XPathSmtpClient.Namespace)]
+   [XmlRootPrefixed("error", Namespace = XPathSmtpClient.Namespace, Prefix = XPathSmtpClient.Prefix)]
    sealed class XPathSmtpError : IXmlSerializable {
 
       public SmtpStatusCode Status { get; set; }

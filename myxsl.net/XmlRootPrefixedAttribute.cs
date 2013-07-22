@@ -1,4 +1,4 @@
-﻿// Copyright 2011 Max Toro Q.
+﻿// Copyright 2013 Max Toro Q.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,21 +17,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
-using System.Xml;
 
-namespace myxsl.net.net.mail {
+namespace myxsl.net {
+   
+   public class XmlRootPrefixedAttribute : XmlRootAttribute {
 
-   [XmlRootPrefixed("success", Namespace = XPathSmtpClient.Namespace, Prefix = XPathSmtpClient.Prefix)]
-   sealed class XPathSmtpSuccess : IXmlSerializable {
+      public string Prefix { get; set; }
 
-      public System.Xml.Schema.XmlSchema GetSchema() {
-         return null;
-      }
+      public XmlRootPrefixedAttribute() 
+         : base() { }
 
-      public void ReadXml(XmlReader reader) {
-         throw new NotImplementedException();
-      }
-
-      public void WriteXml(XmlWriter writer) { }
+      public XmlRootPrefixedAttribute(string elementName) 
+         : base(elementName) { }
    }
 }

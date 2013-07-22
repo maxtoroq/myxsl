@@ -23,7 +23,7 @@ using System.Xml.XPath;
 
 namespace myxsl.net.common {
 
-   [XmlRoot("serialization-parameters", Namespace = W3CSerializationNamespace)]
+   [XmlRootPrefixed("serialization-parameters", Namespace = W3CSerializationNamespace, Prefix = W3CSerializationPrefix)]
    public class XPathSerializationOptions : IXmlSerializable {
 
       const string W3CSerializationNamespace = "http://www.w3.org/2010/xslt-xquery-serialization";

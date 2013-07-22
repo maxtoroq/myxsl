@@ -363,8 +363,17 @@ namespace myxsl.net.common {
          if (output == null) throw new ArgumentNullException("output");
 
          XmlRootAttribute xmlRootAttr = GetXmlRootAttribute(item.GetType());
+         XmlRootPrefixedAttribute xmlRootPrefixAttr = xmlRootAttr as XmlRootPrefixedAttribute;
 
-         output.WriteStartElement(xmlRootAttr.ElementName, xmlRootAttr.Namespace);
+         if (xmlRootPrefixAttr != null
+            && xmlRootPrefixAttr.Prefix.HasValue()) {
+
+            output.WriteStartElement(xmlRootPrefixAttr.Prefix, xmlRootAttr.ElementName, xmlRootAttr.Namespace);
+
+         } else {
+            output.WriteStartElement(xmlRootAttr.ElementName, xmlRootAttr.Namespace);
+         }
+
          item.WriteXml(output);
          output.WriteEndElement();
       }

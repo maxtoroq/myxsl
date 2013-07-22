@@ -23,7 +23,7 @@ using System.Xml.Serialization;
 
 namespace myxsl.net.net.http {
    
-   [XmlRoot("response", Namespace = XPathHttpClient.Namespace)]
+   [XmlRootPrefixed("response", Namespace = XPathHttpClient.Namespace, Prefix = XPathHttpClient.Prefix)]
    sealed class XPathHttpResponse : IXmlSerializable {
 
       // required
