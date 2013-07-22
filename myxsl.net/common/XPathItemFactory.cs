@@ -32,6 +32,8 @@ namespace myxsl.net.common {
       static readonly ConcurrentDictionary<Type, XmlSerializer> serializerCache = new ConcurrentDictionary<Type, XmlSerializer>();
       static readonly ConcurrentDictionary<Type, XmlRootAttribute> xmlRootCache = new ConcurrentDictionary<Type, XmlRootAttribute>();
 
+      // Conversion: CLR type to XPathItem
+
       public XPathItem CreateAtomicValue(object value, XmlTypeCode typeCode) {
          return CreateAtomicValue(value, XmlSchemaType.GetBuiltInSimpleType(typeCode).QualifiedName);
       }
@@ -68,32 +70,28 @@ namespace myxsl.net.common {
 
          IXPathNavigable inputNode = value as IXPathNavigable;
 
-         if (inputNode == null) {
+         if (inputNode != null)
+            return inputNode;
 
-            XNode xNode = value as XNode;
+         XNode xNode = value as XNode;
 
-            if (xNode != null) {
-               inputNode = xNode.CreateNavigator();
-            } else {
+         if (xNode != null)
+            return xNode.CreateNavigator();
 
-               IXmlSerializable xmlSer = value as IXmlSerializable;
+         IXmlSerializable xmlSer = value as IXmlSerializable;
 
-               if (xmlSer != null) {
-                  inputNode = CreateDocument(xmlSer);
-               } else {
+         if (xmlSer != null)
+            return CreateDocument(xmlSer);
 
-                  inputNode = CreateNodeEditable();
+         inputNode = CreateNodeEditable();
 
-                  XmlSerializer serializer = GetSerializer(value.GetType());
+         XmlSerializer serializer = GetSerializer(value.GetType());
 
-                  XmlWriter xmlWriter = inputNode.CreateNavigator().AppendChild();
-                  
-                  serializer.Serialize(xmlWriter, value);
+         XmlWriter xmlWriter = inputNode.CreateNavigator().AppendChild();
 
-                  xmlWriter.Close();
-               }
-            }
-         }
+         serializer.Serialize(xmlWriter, value);
+
+         xmlWriter.Close();
 
          return inputNode;
       }
@@ -106,11 +104,7 @@ namespace myxsl.net.common {
          IXPathNavigable doc = CreateNodeEditable();
          XmlWriter writer = doc.CreateNavigator().AppendChild();
 
-         XmlRootAttribute xmlRootAttr = GetXmlRootAttribute(value.GetType());
-
-         writer.WriteStartElement(xmlRootAttr.ElementName, xmlRootAttr.Namespace);
-         value.WriteXml(writer);
-         writer.WriteEndElement();
+         Serialize(value, writer);
 
          writer.Close();
 
@@ -163,6 +157,8 @@ namespace myxsl.net.common {
             return new XmlRootAttribute(XmlConvert.EncodeLocalName(type.Name));
          });
       }
+
+      // Parsing
 
       public virtual IXPathNavigable CreateNodeReadOnly() {
          return CreateNodeReadOnly(XmlReader.Create(new StringReader(""), new XmlReaderSettings { ConformanceLevel = ConformanceLevel.Fragment }));      
@@ -236,6 +232,8 @@ namespace myxsl.net.common {
          return document;
       }
       
+      // Serialization
+
       public void Serialize(XPathItem item, Stream output) {
          Serialize(item, output, null);
       }
@@ -357,6 +355,18 @@ namespace myxsl.net.common {
          } else if (textBuffer != null) {
             output.WriteString(textBuffer.ToString());            
          }
+      }
+
+      public void Serialize(IXmlSerializable item, XmlWriter output) {
+
+         if (item == null) throw new ArgumentNullException("value");
+         if (output == null) throw new ArgumentNullException("output");
+
+         XmlRootAttribute xmlRootAttr = GetXmlRootAttribute(item.GetType());
+
+         output.WriteStartElement(xmlRootAttr.ElementName, xmlRootAttr.Namespace);
+         item.WriteXml(output);
+         output.WriteEndElement();
       }
    }
 }
