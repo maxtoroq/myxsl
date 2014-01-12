@@ -67,9 +67,6 @@
                   <a href="/trace.xsl">Tracing</a>
                </li>
                <li>
-                  <a href="/extensionless_urls.xsl">Extensionless URLs</a>
-               </li>
-               <li>
                   <a href="/mvc">MVC</a>
                </li>
                <li>
