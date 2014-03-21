@@ -17,7 +17,7 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
     <TargetFrameworkProfile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -50,7 +50,7 @@
       <ItemGroup>
         <Reference Include="saxon9he-api, Version=9.5.1.1, Culture=neutral, PublicKeyToken=e1fdd002d5083fe6, processorArchitecture=MSIL">
           <SpecificVersion>False</SpecificVersion>
-          <HintPath>..\packages\Saxon-HE.9.5.1.1\lib\net35\saxon9he-api.dll</HintPath>
+          <HintPath>..\..\packages\Saxon-HE.9.5.1.1\lib\net35\saxon9he-api.dll</HintPath>
         </Reference>
       </ItemGroup>
     </When>
@@ -58,7 +58,7 @@
       <ItemGroup>
         <Reference Include="saxon9he-api, Version=9.3.0.1, Culture=neutral, PublicKeyToken=e1fdd002d5083fe6, processorArchitecture=MSIL">
           <SpecificVersion>False</SpecificVersion>
-          <HintPath>..\packages\Saxon-HE.9.3.0.1\lib\net35\saxon9he-api.dll</HintPath>
+          <HintPath>..\..\packages\Saxon-HE.9.3.0.1\lib\net35\saxon9he-api.dll</HintPath>
         </Reference>
       </ItemGroup>
     </Otherwise>
