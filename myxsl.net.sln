@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myxsl.net", "myxsl.net\myxsl.net.csproj", "{8A918123-1467-469E-9C78-6D37A8F911F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myxsl.net", "src\myxsl.net\myxsl.net.csproj", "{8A918123-1467-469E-9C78-6D37A8F911F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myxsl.net.saxon", "myxsl.net.saxon\myxsl.net.saxon.csproj", "{5F9254A6-05F1-4255-A8F5-CC4490327DB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myxsl.net.saxon", "src\myxsl.net.saxon\myxsl.net.saxon.csproj", "{5F9254A6-05F1-4255-A8F5-CC4490327DB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myxsl.net.web.mvc", "myxsl.net.web.mvc\myxsl.net.web.mvc.csproj", "{AE71E623-E962-4554-8AC1-5F2492263666}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myxsl.net.web.mvc", "src\myxsl.net.web.mvc\myxsl.net.web.mvc.csproj", "{AE71E623-E962-4554-8AC1-5F2492263666}"
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "samples(5)", "http://localhost:1277", "{21BB371A-25CC-4409-83DB-A9AC0D5E2F78}"
 	ProjectSection(WebsiteProperties) = preProject
