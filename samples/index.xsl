@@ -114,18 +114,18 @@
 
       <h2 id="source">Source code</h2>
       <p>
-         Visit <a href="https://github.com/maxtoroq/myxsl.net">the project page</a>.
+         Visit the <a href="https://github.com/maxtoroq/myxsl.net">project page</a>.
       </p>
 
       <h2 id="feedback">Feedback</h2>
       <p>
-         Visit <a href="http://sourceforge.net/p/myxsl-net/discussion/">the project forums</a> for feedback, support and discussion.
+         Visit the <a href="https://github.com/maxtoroq/myxsl.net/issues">project forums</a> for feedback, support and discussion.
       </p>
 
       <h2>Resources</h2>
       <ul>
          <li>
-            <a href="http://maxtoroq.blogspot.com/2013/07/razor-vs-xslt.html">Razor vs XSLT</a>
+            <a href="http://maxtoroq.blogspot.com/2013/07/razor-vs-xslt.html">Razor vs. XSLT</a>
          </li>
          <li>
             <a href="http://www.onenaught.com/posts/8/xslt-in-server-side-web-frameworks">Why Use XSLT in Server Side Web Frameworks For Output Generation?</a>
