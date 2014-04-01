@@ -125,7 +125,7 @@
       <h2>Resources</h2>
       <ul>
          <li>
-            <a href="http://maxtoroq.blogspot.com/2013/07/razor-vs-xslt.html">Razor vs. XSLT</a>
+            <a href="http://maxtoroq.github.io/2013/07/razor-vs-xslt.html">Razor vs. XSLT</a>
          </li>
          <li>
             <a href="http://www.onenaught.com/posts/8/xslt-in-server-side-web-frameworks">Why Use XSLT in Server Side Web Frameworks For Output Generation?</a>
