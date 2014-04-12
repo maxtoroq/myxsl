@@ -96,8 +96,9 @@ namespace myxsl.net.saxon.extensions.saxon {
             if (arg2 != null
                && !arg2.IsAtomic()) {
 
-               foreach (XdmNode attr in ((IXdmEnumerator)((XdmNode)arg2).EnumerateAxis(XdmAxis.Attribute)).AsNodes()) 
+               foreach (XdmNode attr in ((IXdmEnumerator)((XdmNode)arg2).EnumerateAxis(XdmAxis.Attribute)).AsNodes()) {
                   serializer.SetOutputProperty(attr.NodeName, attr.StringValue);
+               }
             }
 
             using (var writer = new StringWriter()) {

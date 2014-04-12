@@ -97,9 +97,10 @@ namespace myxsl.net {
             int hashCode;
 
             XsltInvoker.With((XPathNavigator)stylesheet, proc, null, out hashCode);
-            
-            if (processor == null)
+
+            if (processor == null) {
                return this.ItemFactory.CreateAtomicValue(hashCode, XmlTypeCode.Integer);
+            }
 
             reference = new CompiledStylesheetReference {
                HashCode = hashCode,
@@ -214,12 +215,15 @@ namespace myxsl.net {
 
          var options = new XsltRuntimeOptions();
 
-         if (input != null)
+         if (input != null) {
             options.InitialContextNode = input;
+         }
 
          if (parameters != null) {
-            foreach (XPathNavigator n in parameters)
+
+            foreach (XPathNavigator n in parameters) {
                options.Parameters.Add(new XmlQualifiedName(n.Name, n.NamespaceURI), n.TypedValue);
+            }
          }
 
          if (initialTemplate != null) {
@@ -251,11 +255,13 @@ namespace myxsl.net {
 
             XPathNavigator node = ((XPathNavigator)stylesheet).Clone();
 
-            if (node.NodeType == XPathNodeType.Root) 
+            if (node.NodeType == XPathNodeType.Root) {
                node.MoveToChild(XPathNodeType.Element);
+            }
 
-            if (node.NodeType != XPathNodeType.Element)
+            if (node.NodeType != XPathNodeType.Element) {
                throw new ArgumentException("if stylesheet is a node() it must be either a document-node(element()) or an element() node.", "stylesheet");
+            }
 
             if (node.NamespaceURI == Namespace) {
 
@@ -302,10 +308,11 @@ namespace myxsl.net {
 
          Uri stylesheetUri = stylesheet.TypedValue as Uri;
 
-         if (stylesheetUri == null){
+         if (stylesheetUri == null) {
 
-            if (this.Resolver == null)
+            if (this.Resolver == null) {
                throw new InvalidOperationException("Resolver cannot be null.");
+            }
 
             stylesheetUri = this.Resolver.ResolveUri(null, stylesheet.Value);
          }

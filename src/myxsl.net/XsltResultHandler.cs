@@ -95,16 +95,18 @@ namespace myxsl.net {
 
       void OverrideSerialization(XPathSerializationOptions options) {
 
-         if (options == null)
+         if (options == null) {
             return;
+         }
 
          this.options.Serialization = options;
       }
 
       void RestoreSerialization(XPathSerializationOptions options) {
 
-         if (options == null)
+         if (options == null) {
             return;
+         }
 
          this.options.Serialization = this.defaultSerialization;
       }

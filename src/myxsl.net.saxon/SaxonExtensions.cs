@@ -43,8 +43,7 @@ namespace myxsl.net.saxon {
 
          if (value == null) throw new ArgumentNullException("value");
 
-         return (value.IsAtomic()) ?
-            ToXPathItem((XdmAtomicValue)value)
+         return (value.IsAtomic()) ? ToXPathItem((XdmAtomicValue)value)
             : ToXPathItem((XdmNode)value);
       }
 
@@ -58,16 +57,18 @@ namespace myxsl.net.saxon {
 
       public static IEnumerable<XPathItem> ToXPathItems(this XdmValue value) {
 
-         if (value == null)
+         if (value == null) {
             return Enumerable.Empty<XPathItem>();
+         }
 
          return ToXPathItems(value.Cast<XdmItem>());
       }
 
       public static IEnumerable<XPathItem> ToXPathItems(this IEnumerable<XdmItem> value) {
 
-         if (value == null)
+         if (value == null) {
             return Enumerable.Empty<XPathItem>();
+         }
 
          return value.Select(i => (i.IsAtomic()) ?
             ToXPathItem((XdmAtomicValue)i) :
@@ -81,35 +82,42 @@ namespace myxsl.net.saxon {
 
       public static IEnumerable<XdmItem> AsItems(this IXdmEnumerator enumerator) {
 
-         if (enumerator == null)
+         if (enumerator == null) {
             yield break;
+         }
 
-         while (enumerator.MoveNext()) 
+         while (enumerator.MoveNext()) {
             yield return (XdmItem)enumerator.Current;
+         }
       }
 
       public static IEnumerable<XdmNode> AsNodes(this IXdmEnumerator enumerator) {
 
-         if (enumerator == null)
+         if (enumerator == null) {
             yield break;
+         }
 
-         while (enumerator.MoveNext())
+         while (enumerator.MoveNext()) {
             yield return (XdmNode)enumerator.Current;
+         }
       }
 
       public static IEnumerable<XdmAtomicValue> AsAtomicValues(this IXdmEnumerator enumerator) {
 
-         if (enumerator == null)
+         if (enumerator == null) {
             yield break;
+         }
 
-         while (enumerator.MoveNext())
+         while (enumerator.MoveNext()) {
             yield return (XdmAtomicValue)enumerator.Current;
+         }
       }
 
       public static IXdmEnumerator GetXdmEnumerator(this XdmValue value) {
 
-         if (value == null)
+         if (value == null) {
             return EmptyEnumerator.INSTANCE;
+         }
 
          return (IXdmEnumerator)value.GetEnumerator();
       }
@@ -128,8 +136,9 @@ namespace myxsl.net.saxon {
 
          int count = source.Count();
 
-         if (count == 0)
+         if (count == 0) {
             return new T?();
+         }
 
          return source.Single();
       }
@@ -140,34 +149,42 @@ namespace myxsl.net.saxon {
 
       public static XdmValue ToXdmValue(this object value, SaxonItemFactory itemFactory) {
 
-         if (value == null)
+         if (value == null) {
             return XdmEmptySequence.INSTANCE;
+         }
 
          // Must check for string before checking for IEnumerable
          var str = value as string;
 
-         if (str != null)
+         if (str != null) {
             return ToXdmAtomicValue(str);
+         }
 
          var xdmVal = value as XdmValue;
 
-         if (xdmVal != null)
+         if (xdmVal != null) {
             return xdmVal;
+         }
 
          var item = value as XPathItem;
 
-         if (item != null)
+         if (item != null) {
             return ToXdmItem(item, itemFactory);
+         }
 
          var nav = value as IXPathNavigable;
 
-         if (nav != null)
+         if (nav != null) {
             return ToXdmNode(nav, itemFactory);
+         }
 
          Type type = value.GetType();
 
-         if (type.IsArray || typeof(IEnumerable).IsAssignableFrom(type)) 
+         if (type.IsArray
+            || typeof(IEnumerable).IsAssignableFrom(type)) {
+
             return ToXdmValue((IEnumerable)value, itemFactory);
+         }
 
          return ToXdmItem(value, itemFactory);
       }
@@ -302,8 +319,9 @@ namespace myxsl.net.saxon {
 
       public static XdmValue ToXdmValue(this IEnumerable<string> value) {
 
-         if (value == null)
+         if (value == null) {
             return XdmEmptySequence.INSTANCE;
+         }
 
          return new XdmValue(value.Select(s => ToXdmValue(s)));
       }
@@ -314,21 +332,24 @@ namespace myxsl.net.saxon {
 
       public static XdmValue ToXdmValue(this IEnumerable<XPathItem> value, SaxonItemFactory itemFactory) {
 
-         if (value == null)
+         if (value == null) {
             return XdmEmptySequence.INSTANCE;
+         }
 
          return new XdmValue(value.Select(i => ToXdmValue(i, itemFactory)));
       }
 
       public static XdmValue ToXdmValue(this IEnumerable value, SaxonItemFactory itemFactory) {
 
-         if (value == null)
+         if (value == null) {
             return XdmEmptySequence.INSTANCE;
+         }
 
          XdmValue result = XdmEmptySequence.INSTANCE;
 
-         foreach (object item in value) 
+         foreach (object item in value) {
             result = result.Append(ToXdmValue(item, itemFactory));
+         }
 
          return result;
       }
@@ -339,16 +360,18 @@ namespace myxsl.net.saxon {
 
       public static XdmValue ToXdmValue(this XPathNavigator value, SaxonItemFactory itemFactory) {
 
-         if (value == null)
+         if (value == null) {
             return XdmEmptySequence.INSTANCE;
+         }
 
          return ToXdmItem(value, itemFactory);
       }
 
       public static XdmValue ToXdmValue(this IXPathNavigable value, SaxonItemFactory itemFactory) {
 
-         if (value == null)
+         if (value == null) {
             return XdmEmptySequence.INSTANCE;
+         }
 
          return ToXdmItem(value, itemFactory);
       }
@@ -363,18 +386,21 @@ namespace myxsl.net.saxon {
 
          var xdmItem = value as XdmItem;
 
-         if (xdmItem != null)
+         if (xdmItem != null) {
             return xdmItem;
+         }
 
          var item = value as XPathItem;
 
-         if (item != null)
+         if (item != null) {
             return ToXdmItem(item, itemFactory);
+         }
 
          var nav = value as IXPathNavigable;
 
-         if (nav != null)
+         if (nav != null) {
             return ToXdmNode(nav, itemFactory);
+         }
 
          Type type = value.GetType();
          TypeCode typeCode = Type.GetTypeCode(type);
@@ -406,14 +432,17 @@ namespace myxsl.net.saxon {
                break;
          }
 
-         if (typeof(Uri).IsAssignableFrom(type))
+         if (typeof(Uri).IsAssignableFrom(type)) {
             return ToXdmAtomicValue((Uri)value);
+         }
 
-         if (typeof(XmlQualifiedName).IsAssignableFrom(type))
+         if (typeof(XmlQualifiedName).IsAssignableFrom(type)) {
             return ToXdmAtomicValue((XmlQualifiedName)value);
+         }
 
-         if (typeof(QName).IsAssignableFrom(type))
+         if (typeof(QName).IsAssignableFrom(type)) {
             return ToXdmAtomicValue((QName)value);
+         }
 
          return ToXdmNode(value, itemFactory);
       }
@@ -571,20 +600,25 @@ namespace myxsl.net.saxon {
                break;
          }
 
-         if (typeof(XdmAtomicValue).IsAssignableFrom(type))
+         if (typeof(XdmAtomicValue).IsAssignableFrom(type)) {
             return (XdmAtomicValue)value;
+         }
 
-         if (typeof(XPathItem).IsAssignableFrom(type))
+         if (typeof(XPathItem).IsAssignableFrom(type)) {
             return ToXdmAtomicValue((XPathItem)value, processor);
+         }
 
-         if (typeof(Uri).IsAssignableFrom(type))
+         if (typeof(Uri).IsAssignableFrom(type)) {
             return ToXdmAtomicValue((Uri)value);
+         }
 
-         if (typeof(XmlQualifiedName).IsAssignableFrom(type))
+         if (typeof(XmlQualifiedName).IsAssignableFrom(type)) {
             return ToXdmAtomicValue((XmlQualifiedName)value);
+         }
 
-         if (typeof(QName).IsAssignableFrom(type))
+         if (typeof(QName).IsAssignableFrom(type)) {
             return ToXdmAtomicValue((QName)value);
+         }
 
          return ToXdmAtomicValue(value.ToString());
       }
@@ -689,8 +723,9 @@ namespace myxsl.net.saxon {
 
          XPathItem item = value as XPathItem;
 
-         if (item != null)
+         if (item != null) {
             return ToXdmNode(item, itemFactory);
+         }
          
          return ToXdmNode(itemFactory.CreateDocument(value), itemFactory);
       }
@@ -699,8 +734,9 @@ namespace myxsl.net.saxon {
 
          if (value == null) throw new ArgumentNullException("value");
 
-         if (value.IsNode)
+         if (value.IsNode) {
             return ToXdmNode((XPathNavigator)value, itemFactory);
+         }
 
          return ToXdmNode(itemFactory.CreateDocument(value.TypedValue), itemFactory);
       }
@@ -725,8 +761,9 @@ namespace myxsl.net.saxon {
 
          XdmNode node;
 
-         if (!TryGetXdmNode(value, out node)) 
+         if (!TryGetXdmNode(value, out node)) {
             return MoveToElementOrReturnUnchanged(value, itemFactory.CreateXdmNode(value.ReadSubtree()));
+         }
 
          return node;
       }
@@ -737,8 +774,9 @@ namespace myxsl.net.saxon {
 
          XdmNode node;
 
-         if (!TryGetXdmNode(value, out node)) 
+         if (!TryGetXdmNode(value, out node)) {
             return MoveToElementOrReturnUnchanged(value, documentBuilder.Build(value.ReadSubtree()));
+         }
 
          return node;
       }
@@ -770,8 +808,9 @@ namespace myxsl.net.saxon {
 
          var node = value as XdmNode;
 
-         if (node == null)
+         if (node == null) {
             return value;
+         }
 
          return FirstElementOrSelf(node);
       }
@@ -780,8 +819,9 @@ namespace myxsl.net.saxon {
 
          if (value == null) throw new ArgumentNullException("value");
 
-         if (value.NodeKind == XmlNodeType.Element)
+         if (value.NodeKind == XmlNodeType.Element) {
             return value;
+         }
 
          return ((IXdmEnumerator)value.EnumerateAxis(XdmAxis.Child)).AsNodes().SingleOrDefault(n => n.NodeKind == XmlNodeType.Element)
             ?? value;

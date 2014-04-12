@@ -72,8 +72,9 @@ namespace myxsl.net.web {
          string rawUrl = Context.Request.RawUrl;
          int index = rawUrl.IndexOf('?');
 
-         if (index > -1)
+         if (index > -1) {
             rawUrl = rawUrl.Substring(0, index);
+         }
 
          return rawUrl;
       }
@@ -111,8 +112,9 @@ namespace myxsl.net.web {
 
          } catch (UriFormatException) { }
 
-         if (referrerUrl == null)
+         if (referrerUrl == null) {
             return null;
+         }
 
          return UriToString(referrerUrl, components, format);
       }
@@ -235,10 +237,11 @@ namespace myxsl.net.web {
 
          HttpCookie cookie = Context.Request.Cookies.Get(name);
 
-         if (cookie != null)
+         if (cookie != null) {
             return cookie.Value;
-         else
-            return null;
+         }
+         
+         return null;
       }
 
       /// <summary>
@@ -248,8 +251,9 @@ namespace myxsl.net.web {
 
          string val = Cookie(name);
 
-         if (remove)
+         if (remove) {
             ResponseModule.RemoveCookie(name);
+         }
 
          return val;
       }
@@ -285,8 +289,12 @@ namespace myxsl.net.web {
       static string UriToString(Uri uri, string components, string format) {
 
          if (components != null) {
+
             UriComponents componentsEnum = (UriComponents)Enum.Parse(typeof(UriComponents), components, ignoreCase: true);
-            UriFormat formatEnum = (format == null) ? UriFormat.UriEscaped : (UriFormat)Enum.Parse(typeof(UriFormat), format, ignoreCase: true);
+            
+            UriFormat formatEnum = (format == null) ? 
+               UriFormat.UriEscaped 
+               : (UriFormat)Enum.Parse(typeof(UriFormat), format, ignoreCase: true);
 
             return uri.GetComponents(componentsEnum, formatEnum);
          }

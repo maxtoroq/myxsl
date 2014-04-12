@@ -36,9 +36,8 @@ namespace myxsl.net.configuration.web {
 
       public NamespaceCollection Namespaces {
          get {
-            if (_Namespaces == null)
-               _Namespaces = (NamespaceCollection)base[_NamespacesProperty];
-            return _Namespaces;
+            return _Namespaces
+               ?? (_Namespaces = (NamespaceCollection)base[_NamespacesProperty]);
          }
       }
 

@@ -51,8 +51,9 @@ namespace myxsl.net {
 
       public override Uri ResolveUri(Uri baseUri, string relativeUri) {
 
-         if (baseUri == null)
+         if (baseUri == null) {
             baseUri = this.DefaultBaseUri;
+         }
 
          XmlResolver resolver;
 
@@ -80,8 +81,9 @@ namespace myxsl.net {
 
          XmlResolver resolver = GetResolver(scheme);
 
-         if (_Credentials != null)
+         if (_Credentials != null) {
             resolver.Credentials = _Credentials;
+         }
 
          return resolver.GetEntity(absoluteUri, role, ofObjectToReturn);
       }
@@ -111,8 +113,9 @@ namespace myxsl.net {
 
             XmlEmbeddedResourceResolver defaultImpl = resolver as XmlEmbeddedResourceResolver;
 
-            if (defaultImpl != null)
+            if (defaultImpl != null) {
                defaultImpl.DefaultAssembly = this.callingAssembly;
+            }
          }
 
          return resolver;

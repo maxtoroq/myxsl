@@ -87,24 +87,29 @@ namespace myxsl.net.system {
 
                XPathItem item = value as XPathItem;
 
-               if (item != null)
+               if (item != null) {
                   return ToInput(item);
+               }
 
                IXPathNavigable navigable = value as IXPathNavigable;
 
-               if (navigable != null)
+               if (navigable != null) {
                   return ToInput(navigable);
+               }
 
                IEnumerable enumerable = value as IEnumerable;
 
-               if (enumerable != null)
+               if (enumerable != null) {
                   return ToInput(enumerable);
+               }
 
-               if (typeof(Guid).IsInstanceOfType(value))
+               if (typeof(Guid).IsInstanceOfType(value)) {
                   return ToInput((Guid)value);
+               }
 
-               if (typeof(TimeSpan).IsInstanceOfType(value))
+               if (typeof(TimeSpan).IsInstanceOfType(value)) {
                   return ToInput((TimeSpan)value);
+               }
 
                return ToInputNode(value);
          }
@@ -185,8 +190,9 @@ namespace myxsl.net.system {
 
          if (value == null) throw new ArgumentNullException("value");
 
-         if (value.IsAbsoluteUri)
+         if (value.IsAbsoluteUri) {
             return value.AbsoluteUri;
+         }
 
          return value.OriginalString;
       }
@@ -195,8 +201,9 @@ namespace myxsl.net.system {
 
          if (value == null) throw new ArgumentNullException("value");
 
-         if (value.IsNode)
+         if (value.IsNode) {
             return value;
+         }
          
          return value.TypedValue;
       }
@@ -252,8 +259,9 @@ namespace myxsl.net.system {
 
       public static object ToInputOrEmpty(object value) {
 
-         if (IsEmpty(value))
+         if (IsEmpty(value)) {
             return EmptyIterator;
+         }
 
          return ToInput(value);
       }
@@ -264,8 +272,9 @@ namespace myxsl.net.system {
 
       public static object ToInputOrEmpty(Uri value) {
 
-         if (value == null)
+         if (value == null) {
             return EmptyIterator;
+         }
 
          return ToInput(value);
       }
@@ -276,8 +285,9 @@ namespace myxsl.net.system {
 
       public static object ToInputOrEmpty(XPathItem value) {
 
-         if (value == null)
+         if (value == null) {
             return EmptyIterator;
+         }
 
          return ToInput(value);
       }
@@ -288,28 +298,36 @@ namespace myxsl.net.system {
 
       public static object ToInputOrEmpty(IEnumerable value) {
 
-         IEnumerable<object> objects = (value != null) ? value.Cast<object>() : null;
+         IEnumerable<object> objects = (value != null) ? 
+            value.Cast<object>() 
+            : null;
 
-         int count = (value == null) ? 0 : objects.Count();
+         int count = (value == null) ? 0 
+            : objects.Count();
 
-         if (count == 0)
+         if (count == 0) {
             return EmptyIterator;
-         
-         if (count == 1)
+         }
+
+         if (count == 1) {
             return ToInputOrEmpty(objects.First());
+         }
          
          return ToInputOrEmpty(objects.Where(o => !IsEmpty(o)).Select(o => ToXPathItem(o)));
       }
 
       public static object ToInputOrEmpty(IEnumerable<XPathItem> value) {
 
-         int count = (value == null) ? 0 : value.Count();
+         int count = (value == null) ? 0 
+            : value.Count();
 
-         if (count == 0)
+         if (count == 0) {
             return EmptyIterator;
-         
-         if (count == 1)
+         }
+
+         if (count == 1) {
             return ToInputOrEmpty(value.First());
+         }
          
          return ToInput(value);
       }
@@ -320,8 +338,9 @@ namespace myxsl.net.system {
 
          XPathItem item = value as XPathItem;
 
-         if (item != null)
+         if (item != null) {
             return ToInputNode(item);
+         }
 
          var itemFactory = new SystemItemFactory();
 
@@ -351,32 +370,36 @@ namespace myxsl.net.system {
 
       public static object ToInputNodeOrEmpty(object value) {
 
-         if (IsEmpty(value))
+         if (IsEmpty(value)) {
             return EmptyIterator;
+         }
 
          return ToInputNode(value);
       }
 
       public static object ToInputNodeOrEmpty(XPathItem value) {
 
-         if (value == null)
+         if (value == null) {
             return EmptyIterator;
+         }
 
          return ToInputNode(value);
       }
 
       public static object ToInputNodeOrEmpty(XPathNavigator value) {
 
-         if (value == null)
+         if (value == null) {
             return EmptyIterator;
+         }
 
          return ToInputNode(value);
       }
 
       public static object ToInputNodeOrEmpty(IXPathNavigable value) {
 
-         if (value == null)
+         if (value == null) {
             return EmptyIterator;
+         }
 
          return ToInputNode(value);
       }
@@ -387,8 +410,9 @@ namespace myxsl.net.system {
       [EditorBrowsable(EditorBrowsableState.Never)]
       public static object FirstElementOrSelf(object value) {
 
-         if (IsEmpty(value))
+         if (IsEmpty(value)) {
             return value;
+         }
 
          return FirstElementOrSelf((XPathNavigator)value);
       }
@@ -401,8 +425,9 @@ namespace myxsl.net.system {
 
          if (value == null) throw new ArgumentNullException("value");
 
-         if (value.NodeType == XPathNodeType.Element)
+         if (value.NodeType == XPathNodeType.Element) {
             return value;
+         }
 
          value = value.Clone();
          value.MoveToChild(XPathNodeType.Element);
@@ -475,18 +500,21 @@ namespace myxsl.net.system {
 
                XPathItem item = value as XPathItem;
 
-               if (item != null)
+               if (item != null) {
                   return item;
+               }
 
                IXPathNavigable navigable = value as IXPathNavigable;
 
-               if (navigable != null)
+               if (navigable != null) {
                   return ToXPathItem(navigable);
+               }
 
                XPathNodeIterator nodeIter = value as XPathNodeIterator;
 
-               if (nodeIter != null)
+               if (nodeIter != null) {
                   return ToXPathItem(nodeIter);
+               }
 
                return ToInputNode(value);
          }
@@ -571,8 +599,9 @@ namespace myxsl.net.system {
 
          if (value == null) throw new ArgumentNullException("null");
 
-         if (value.IsNode)
+         if (value.IsNode) {
             return (XPathNavigator)value;
+         }
 
          return XsltConvert.ToNode(value);
       }
@@ -587,8 +616,9 @@ namespace myxsl.net.system {
 
       public static XPathNavigator ToXPathNavigator(XPathNodeIterator value) {
 
-         if (IsEmpty(value))
+         if (IsEmpty(value)) {
             return null;
+         }
 
          value.MoveNext();
 
@@ -609,23 +639,27 @@ namespace myxsl.net.system {
 
       public static T ToOutput<T>(object value, Func<XPathItem, T> mapper) {
 
-         if (value is T)
+         if (value is T) {
             return (T)value;
+         }
 
          XPathNodeIterator iter = value as XPathNodeIterator;
 
-         if (iter != null)
+         if (iter != null) {
             return ToOutput<T>(iter, mapper);
+         }
 
          XPathItem item = value as XPathItem;
 
-         if (item != null)
+         if (item != null) {
             return ToOutput<T>(item, mapper);
+         }
 
          string stringVal = value as string;
 
-         if (stringVal != null)
+         if (stringVal != null) {
             return ToOutput<T>(stringVal);
+         }
 
          return ToOutputConvert<T>(value);
       }
@@ -644,11 +678,13 @@ namespace myxsl.net.system {
 
             case TypeCode.Object:
 
-               if (typeof(T) == typeof(XmlQualifiedName))
+               if (typeof(T) == typeof(XmlQualifiedName)) {
                   return (T)(object)ToXmlQualifiedName(value);
+               }
 
-               if (typeof(T) == typeof(Uri))
+               if (typeof(T) == typeof(Uri)) {
                   return (T)(object)ToUri(value);
+               }
 
                break;
          }
@@ -661,9 +697,10 @@ namespace myxsl.net.system {
       }
 
       public static T ToOutput<T>(XPathNodeIterator value, Func<XPathItem, T> mapper) {
-         
-         if (IsEmpty(value))
+
+         if (IsEmpty(value)) {
             return default(T);
+         }
 
          value.MoveNext();
 
@@ -676,8 +713,9 @@ namespace myxsl.net.system {
 
       public static T ToOutput<T>(XPathItem value, Func<XPathItem, T> mapper) {
 
-         if (mapper != null)
+         if (mapper != null) {
             return mapper(value);
+         }
 
          switch (Type.GetTypeCode(typeof(T))) {
             case TypeCode.Boolean:
@@ -709,8 +747,9 @@ namespace myxsl.net.system {
                   return (T)(object)ToXPathNavigator(value);
                }
 
-               if (typeof(T) == typeof(XPathItem))
+               if (typeof(T) == typeof(XPathItem)) {
                   return (T)(object)value;
+               }
 
                break;
          }
@@ -728,8 +767,9 @@ namespace myxsl.net.system {
 
       public static string ToString(XPathItem value) {
 
-         if (value == null)
+         if (value == null) {
             return null;
+         }
 
          return value.Value;
       }
@@ -789,8 +829,9 @@ namespace myxsl.net.system {
 
       public static XmlQualifiedName ToXmlQualifiedName(string value) {
 
-         if (value == null)
+         if (value == null) {
             return null;
+         }
 
          return new XmlQualifiedName(value);
       }
@@ -805,16 +846,19 @@ namespace myxsl.net.system {
 
       public static Nullable<T> ToNullableValueType<T>(object value, Func<XPathItem, T> mapper) where T : struct {
 
-         if (value == null)
+         if (value == null) {
             return null;
+         }
 
-         if (value is T)
+         if (value is T) {
             return (T)value;
+         }
 
          XPathNodeIterator iter = value as XPathNodeIterator;
 
-         if (iter != null)
+         if (iter != null) {
             return ToNullableValueType<T>(iter, mapper);
+         }
 
          return ToOutput<T>(value, mapper);
       }
@@ -825,8 +869,9 @@ namespace myxsl.net.system {
 
       public static Nullable<T> ToNullableValueType<T>(XPathNodeIterator value, Func<XPathItem, T> mapper) where T : struct {
 
-         if (IsEmpty(value))
+         if (IsEmpty(value)) {
             return null;
+         }
 
          return ToOutput<T>(value, mapper);
       }
@@ -837,11 +882,13 @@ namespace myxsl.net.system {
 
       public static IEnumerable<T> ToEnumerable<T>(XPathNodeIterator value, Func<XPathItem, T> mapper) {
 
-         if (IsEmpty(value))
+         if (IsEmpty(value)) {
             return Enumerable.Empty<T>();
+         }
 
-         if (mapper == null)
+         if (mapper == null) {
             mapper = ToOutput<T>;
+         }
 
          return value.Cast<XPathItem>().Select(mapper);
       }

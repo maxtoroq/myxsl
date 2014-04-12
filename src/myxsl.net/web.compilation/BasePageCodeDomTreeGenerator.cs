@@ -61,8 +61,9 @@ namespace myxsl.net.web.compilation {
             
             var import = new CodeNamespaceImport(item.Value);
 
-            if (item.FileName != null) 
+            if (item.FileName != null) {
                import.LinePragma = new CodeLinePragma(item.FileName, item.LineNumber);
+            }
 
             codeNamespace.Imports.Add(import);
          }
@@ -83,9 +84,10 @@ namespace myxsl.net.web.compilation {
          CodeTypeConstructor cctor = new CodeTypeConstructor();
          cctor.CustomAttributes.Add(new CodeAttributeDeclaration(DebuggerNonUserCodeTypeReference));
          AddPageTypeCtorStatements(cctor.Statements);
-         
-         if (cctor.Statements.Count > 0)
+
+         if (cctor.Statements.Count > 0) {
             codeType.Members.Add(cctor);
+         }
 
          AddPageMethods(codeType.Members);
       }
@@ -247,8 +249,9 @@ namespace myxsl.net.web.compilation {
 
          members.Add(addFileDep);
 
-         if (parser.Parameters.Count > 0)
+         if (parser.Parameters.Count > 0) {
             members.Add(GetSetBoundParametersMethod());
+         }
       }
 
       protected virtual void AddFrameworkInitializeStatements(CodeStatementCollection statements) {
@@ -317,8 +320,9 @@ namespace myxsl.net.web.compilation {
 
          foreach (PageParameterInfo param in this.parser.Parameters) {
 
-            if (param.Binding == null)
+            if (param.Binding == null) {
                continue;
+            }
 
             pindex++;
 
@@ -392,8 +396,9 @@ namespace myxsl.net.web.compilation {
                   InitExpression = valueExpr
                };
 
-            if (bind.LineNumber > 0)
+            if (bind.LineNumber > 0) {
                pvarStatement.LinePragma = new CodeLinePragma(this.parser.PhysicalPath.LocalPath, bind.LineNumber);
+            }
 
             var pvarReference = new CodeVariableReferenceExpression {
                VariableName = pvarStatement.Name

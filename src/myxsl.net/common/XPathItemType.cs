@@ -47,8 +47,9 @@ namespace myxsl.net.common {
                
                } else {
 
-                  if (typeof(IXPathNavigable).IsAssignableFrom(type))
+                  if (typeof(IXPathNavigable).IsAssignableFrom(type)) {
                      kindTemp = XPathItemKind.AnyNode;
+                  }
                }
 
                _Kind = kindTemp;
@@ -92,8 +93,9 @@ namespace myxsl.net.common {
 
          this._ClrType = clrType;
 
-         if (lexicalItemType != null)
+         if (lexicalItemType != null) {
             ParseItemType(lexicalItemType, namespacesInScope);
+         }
       }
 
       void ParseItemType(string itemType, IDictionary<string, string> namespacesInScope) {
@@ -109,8 +111,9 @@ namespace myxsl.net.common {
 
          XPathItemKind? itemKind = ParseItemKind(parts[0]);
 
-         if (itemKind == null)
+         if (itemKind == null) {
             return;
+         }
 
          this.Kind = itemKind.Value;
 
@@ -120,11 +123,13 @@ namespace myxsl.net.common {
 
                if (parts.Length > 1) {
 
-                  if (parts[1] != "*")
+                  if (parts[1] != "*") {
                      this.AtomicTypeOrNodeName = ParseQName(parts[1], namespacesInScope, out this.atomicTypeOrNodeNamePrefix);
+                  }
 
-                  if (parts.Length > 2)
+                  if (parts.Length > 2) {
                      this.SchemaTypeName = ParseQName(parts[2], namespacesInScope, out this.schemaTypeNamePrefix);
+                  }
                }
 
                break;
@@ -136,8 +141,9 @@ namespace myxsl.net.common {
 
                   this.AtomicTypeOrNodeName = ParseQName(parts[1], namespacesInScope, out this.atomicTypeOrNodeNamePrefix);
 
-                  if (parts.Length > 2)
+                  if (parts.Length > 2) {
                      this.SchemaTypeName = ParseQName(parts[2], namespacesInScope, out this.schemaTypeNamePrefix);
+                  }
                }
 
                break;
@@ -147,8 +153,9 @@ namespace myxsl.net.common {
                if (parts.Length > 2) {
 
                   // document-node(element(NodeName, SchemaName))
-                  if (parts[2] != "*")
+                  if (parts[2] != "*") {
                      this.AtomicTypeOrNodeName = ParseQName(parts[2], namespacesInScope, out this.atomicTypeOrNodeNamePrefix);
+                  }
 
                   if (parts.Length > 3)
                      this.SchemaTypeName = ParseQName(parts[3], namespacesInScope, out this.schemaTypeNamePrefix);
@@ -158,8 +165,9 @@ namespace myxsl.net.common {
 
             case XPathItemKind.ProcessingInstruction:
 
-               if (parts.Length > 1)
+               if (parts.Length > 1) {
                   this.AtomicTypeOrNodeName = new XmlQualifiedName(parts[1]);
+               }
 
                break;
 
@@ -175,11 +183,13 @@ namespace myxsl.net.common {
          prefix = parts[0];
          string local = parts[1];
 
-         if (namespacesInScope == null)
+         if (namespacesInScope == null) {
             throw new ArgumentNullException("namespacesInScope", "namespacesInScope is needed to resolve the ItemType.");
+         }
 
-         if (!namespacesInScope.ContainsKey(prefix))
+         if (!namespacesInScope.ContainsKey(prefix)) {
             throw new ArgumentException("namespacesInScope does not contain a mapping for prefix '{0}'.".FormatInvariant(prefix), "namespacesInScope");
+         }
 
          string ns = namespacesInScope[prefix];
 
@@ -236,8 +246,10 @@ namespace myxsl.net.common {
 
                if (this.atomicTypeOrNodeNamePrefix != null
                   && this.AtomicTypeOrNodeName != null) {
+
                   return this.atomicTypeOrNodeNamePrefix + ":" + this.AtomicTypeOrNodeName.Name;
                }
+
                return this.ClrType.FullName;
             
             case XPathItemKind.AnyNode:
@@ -276,11 +288,13 @@ namespace myxsl.net.common {
          }
       }
 
-      string GetNodeAndSchemaTypeNamePair() { 
+      string GetNodeAndSchemaTypeNamePair() {
 
          if (this.AtomicTypeOrNodeName == null
-            && this.SchemaTypeName == null)
+            && this.SchemaTypeName == null) {
+
             return "";
+         }
 
          StringBuilder sb = new StringBuilder();
 

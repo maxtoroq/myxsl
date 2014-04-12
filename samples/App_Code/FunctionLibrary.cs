@@ -30,24 +30,25 @@ public sealed class FunctionLibrary : IXmlSerializable {
 
       foreach (XPathModuleInfo module in XPathModules.Modules) {
 
-         string modulePrefix = (module.Predeclare) ? 
-            module.PredeclarePrefix 
-            : module.NamespaceBindings.ContainsValue(module.Namespace) ?
-            module.NamespaceBindings.First(p => p.Value == module.Namespace).Key
+         string modulePrefix = (module.Predeclare) ? module.PredeclarePrefix 
+            : module.NamespaceBindings.ContainsValue(module.Namespace) ? module.NamespaceBindings.First(p => p.Value == module.Namespace).Key
             : "m" + (++moduleIndex);
 
          writer.WriteStartElement("module");
          writer.WriteAttributeString("namespace", module.Namespace);
          writer.WriteAttributeString("cref", CRef(module.Type));
 
-         if (module.Predeclare) 
-            writer.WriteAttributeString("predeclaredPrefix", modulePrefix); 
-         
-         foreach (var item in module.NamespaceBindings) 
+         if (module.Predeclare) {
+            writer.WriteAttributeString("predeclaredPrefix", modulePrefix);
+         }
+
+         foreach (var item in module.NamespaceBindings) {
             writer.WriteAttributeString("xmlns", item.Key, null, item.Value);
-         
-         if (!module.NamespaceBindings.ContainsKey(modulePrefix))
+         }
+
+         if (!module.NamespaceBindings.ContainsKey(modulePrefix)) {
             writer.WriteAttributeString("xmlns", modulePrefix, null, module.Namespace);
+         }
 
          foreach (XPathFunctionInfo function in module.Functions) {
 
@@ -102,10 +103,12 @@ public sealed class FunctionLibrary : IXmlSerializable {
       sb.Append(type.IsGenericType ? type.Name.Substring(0, type.Name.IndexOf('`')) : type.Name);
 
       if (type.IsGenericType) {
+
          sb.Append("{");
 
-         foreach (var typeParam in type.GetGenericArguments()) 
+         foreach (var typeParam in type.GetGenericArguments()) {
             sb.Append(CRefId(typeParam));
+         }
 
          sb.Append("}");
       }

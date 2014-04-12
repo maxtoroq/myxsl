@@ -96,23 +96,26 @@ namespace myxsl.net.saxon {
          }
 
          // XsltTransformer.BaseOutputUri doesn't accept null
-         if (options.BaseOutputUri != null)
+         if (options.BaseOutputUri != null) {
             transformer.BaseOutputUri = options.BaseOutputUri;
+         }
 
          // TODO: Bug in Saxon 9.3
          //else if (this.StaticBaseUri != null && this.StaticBaseUri.IsFile)
          //   transformer.BaseOutputUri = new Uri(Path.GetDirectoryName(this.StaticBaseUri.LocalPath), UriKind.Absolute);
 
          try {
-            if (options.InitialTemplate != null)
+            if (options.InitialTemplate != null) {
                transformer.InitialTemplate = new QName(options.InitialTemplate);
+            }
 
          } catch (DynamicError err) {
             throw new SaxonException(err);
          }
 
-         if (options.InitialMode != null)
+         if (options.InitialMode != null) {
             transformer.InitialMode = new QName(options.InitialMode);
+         }
 
          if (options.InitialContextNode != null) {
 

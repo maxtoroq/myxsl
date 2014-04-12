@@ -74,9 +74,10 @@ namespace myxsl.net {
       }
 
       protected override void Dispose(bool disposing) {
-         
-         if (this.WriteState != WriteState.Closed)
+
+         if (this.WriteState != WriteState.Closed) {
             Close();
+         }
 
          ((IDisposable)this.baseWriter).Dispose();
       }

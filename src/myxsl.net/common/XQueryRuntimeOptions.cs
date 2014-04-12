@@ -32,22 +32,22 @@ namespace myxsl.net.common {
 
       public XmlResolver InputXmlResolver {
          get {
-            if (_InputXmlResolver == null) 
-               InputXmlResolver = new XmlDynamicResolver();
-            return _InputXmlResolver;
+            return _InputXmlResolver
+               ?? (_InputXmlResolver = new XmlDynamicResolver());
          }
-         set {
-            _InputXmlResolver = value;
+         set { 
+            _InputXmlResolver = value; 
          }
       }
 
       public XPathSerializationOptions Serialization {
          get {
-            if (_Serialization == null)
-               _Serialization = new XPathSerializationOptions();
-            return _Serialization;
+            return _Serialization
+               ?? (_Serialization = new XPathSerializationOptions());
          }
-         set { _Serialization = value; }
+         set { 
+            _Serialization = value; 
+         }
       }
    }
 }

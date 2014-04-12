@@ -35,9 +35,8 @@ namespace myxsl.net.validation.schematron {
 
       public XmlResolver InputXmlResolver {
          get {
-            if (_InputXmlResolver == null) 
-               InputXmlResolver = new XmlDynamicResolver();
-            return _InputXmlResolver;
+            return _InputXmlResolver
+               ?? (_InputXmlResolver = new XmlDynamicResolver());
          }
          set {
             _InputXmlResolver = value;

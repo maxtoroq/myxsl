@@ -30,7 +30,9 @@ namespace myxsl.net.net.http {
          
          if (mediaType == null) throw new ArgumentNullException("mediaType");
 
-         if (mediaType.Length < 6) return false;
+         if (mediaType.Length < 6) {
+            return false;
+         }
 
          switch (mediaType) {
             case "text/xml":

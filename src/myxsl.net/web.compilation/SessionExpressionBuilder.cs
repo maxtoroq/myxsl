@@ -40,8 +40,9 @@ namespace myxsl.net.web.compilation {
 
          var uri = new Uri(expression, UriKind.RelativeOrAbsolute);
 
-         if (!uri.IsAbsoluteUri)
+         if (!uri.IsAbsoluteUri) {
             uri = new Uri(String.Concat(SessionModule.Prefix, ":", uri.OriginalString), UriKind.Absolute);
+         }
 
          var validValues = new List<string>() { bind.it };
 
@@ -51,8 +52,9 @@ namespace myxsl.net.web.compilation {
          if (!validValues.Contains(path))
             throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, "The value of the '{0}' attribute must be one of these values: {1}.", nodeName, String.Join(", ", validValues.ToArray())));
 
-         if (context.AffectsXsltInitiation)
+         if (context.AffectsXsltInitiation) {
             throw new ArgumentException("Cannot bind to session when the parameter affects XSLT initiation.");
+         }
 
          BasePageParser pageParser = context.Parser as BasePageParser;
 
@@ -79,8 +81,12 @@ namespace myxsl.net.web.compilation {
             XPathNavigator nav = context.BoundNode.Clone();
             nav.MoveToParent();
 
-            if (nav.NodeType == XPathNodeType.Element && nav.LocalName == "param" && nav.NamespaceURI == WellKnownNamespaces.XSLT)
+            if (nav.NodeType == XPathNodeType.Element 
+               && nav.LocalName == "param" 
+               && nav.NamespaceURI == WellKnownNamespaces.XSLT) {
+
                exprInfo.ParsedValues["name"] = nav.GetAttribute("name", "");
+            }
          }
 
          switch (path) {
@@ -98,8 +104,9 @@ namespace myxsl.net.web.compilation {
                break;
          }
 
-         foreach (string key in query.AllKeys) 
+         foreach (string key in query.AllKeys) {
             exprInfo.ParsedValues.Add(key, query[key]);
+         }
 
          return exprInfo;
       }
@@ -109,7 +116,10 @@ namespace myxsl.net.web.compilation {
          IDictionary<string, object> options = exprInfo.ParsedValues;
          Uri uri = (Uri)exprInfo.ParsedObject;
 
-         string inputName = options.ContainsKey("name") ? options["name"].ToString() : null;
+         string inputName = options.ContainsKey("name") ? 
+            options["name"].ToString() 
+            : null;
+
          string path = uri.AbsolutePath;
 
          switch (path) {
@@ -123,7 +133,7 @@ namespace myxsl.net.web.compilation {
 
       CodeExpression GetSessionExpression(string name, bool remove) {
 
-         string method = remove ? "GetAndRemove" : "Get";
+         string method = (remove) ? "GetAndRemove" : "Get";
 
          return new CodeMethodInvokeExpression {
             Method = new CodeMethodReferenceExpression {
@@ -137,7 +147,7 @@ namespace myxsl.net.web.compilation {
       }
 
       bool GetBooleanOrDefault(string value) {
-         return value != null ? XmlConvert.ToBoolean(value) : false;
+         return (value != null) ? XmlConvert.ToBoolean(value) : false;
       }
 
       struct bind {

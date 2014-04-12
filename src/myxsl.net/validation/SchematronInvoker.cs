@@ -68,11 +68,13 @@ namespace myxsl.net.validation {
          
          var resolver = new XmlDynamicResolver(callingAssembly);
 
-         if (!schemaUri.IsAbsoluteUri)
+         if (!schemaUri.IsAbsoluteUri) {
             schemaUri = resolver.ResolveUri(null, schemaUri.OriginalString);
+         }
 
-         if (processor == null) 
+         if (processor == null) {
             processor = Processors.Xslt.DefaultProcessor;
+         }
 
          ConcurrentDictionary<Uri, SchematronValidator> cache =
             uriCache.GetOrAdd(processor, p => new ConcurrentDictionary<Uri, SchematronValidator>());
@@ -109,8 +111,9 @@ namespace myxsl.net.validation {
 
          if (schema == null) throw new ArgumentNullException("schema");
 
-         if (processor == null)
+         if (processor == null) {
             processor = Processors.Xslt.DefaultProcessor;
+         }
 
          int hashCode = XPathNavigatorEqualityComparer.Instance.GetHashCode(schema.CreateNavigator());
 
@@ -184,10 +187,12 @@ namespace myxsl.net.validation {
          };
 
          if (parameters != null) {
+            
             var paramDictionary = new RouteValueDictionary(parameters);
 
-            foreach (var pair in paramDictionary)
+            foreach (var pair in paramDictionary) {
                options.Parameters.Add(new XmlQualifiedName(pair.Key), pair.Value);
+            }
          }
 
          return Validate(options);

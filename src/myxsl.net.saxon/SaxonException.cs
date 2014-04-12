@@ -32,11 +32,13 @@ namespace myxsl.net.saxon {
 
          this.LineNumber = error.LineNumber;
 
-         if (!String.IsNullOrEmpty(error.ModuleUri))
+         if (!String.IsNullOrEmpty(error.ModuleUri)) {
             this.ModuleUri = new Uri(error.ModuleUri);
+         }
 
-         if (error.ErrorCode != null)
+         if (error.ErrorCode != null) {
             this.ErrorCode = error.ErrorCode.ToXmlQualifiedName();
+         }
       }
 
       [CLSCompliant(false)]
@@ -45,11 +47,13 @@ namespace myxsl.net.saxon {
 
          this.LineNumber = error.LineNumber;
 
-         if (!String.IsNullOrEmpty(error.ModuleUri))
+         if (!String.IsNullOrEmpty(error.ModuleUri)) {
             this.ModuleUri = new Uri(error.ModuleUri);
+         }
 
-         if (error.ErrorCode != null)
+         if (error.ErrorCode != null) {
             this.ErrorCode = error.ErrorCode.ToXmlQualifiedName();
+         }
       }
 
       public SaxonException(string message)

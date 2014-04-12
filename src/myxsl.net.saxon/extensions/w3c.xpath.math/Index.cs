@@ -78,8 +78,9 @@ namespace myxsl.net.saxon.extensions.w3c.xpath.math {
             
             XdmAtomicValue p1 = arguments[0].AsAtomicValues().SingleOrDefault();
 
-            if (p1 == null)
+            if (p1 == null) {
                return EmptyEnumerator.INSTANCE;
+            }
 
             return Math.Acos((double)p1.Value).ToXdmAtomicValue().GetXdmEnumerator();
          }
@@ -124,8 +125,9 @@ namespace myxsl.net.saxon.extensions.w3c.xpath.math {
 
             XdmAtomicValue p1 = arguments[0].AsAtomicValues().SingleOrDefault();
 
-            if (p1 == null)
+            if (p1 == null) {
                return EmptyEnumerator.INSTANCE;
+            }
 
             return Math.Asin((double)p1.Value).ToXdmAtomicValue().GetXdmEnumerator();
          }
@@ -170,8 +172,9 @@ namespace myxsl.net.saxon.extensions.w3c.xpath.math {
 
             XdmAtomicValue p1 = arguments[0].AsAtomicValues().SingleOrDefault();
 
-            if (p1 == null)
+            if (p1 == null) {
                return EmptyEnumerator.INSTANCE;
+            }
 
             return Math.Atan((double)p1.Value).ToXdmAtomicValue().GetXdmEnumerator();
          }
@@ -216,8 +219,9 @@ namespace myxsl.net.saxon.extensions.w3c.xpath.math {
 
             XdmAtomicValue p1 = arguments[0].AsAtomicValues().SingleOrDefault();
 
-            if (p1 == null)
+            if (p1 == null) {
                return EmptyEnumerator.INSTANCE;
+            }
 
             return Math.Cos((double)p1.Value).ToXdmAtomicValue().GetXdmEnumerator();
          }
@@ -262,8 +266,9 @@ namespace myxsl.net.saxon.extensions.w3c.xpath.math {
 
             XdmAtomicValue p1 = arguments[0].AsAtomicValues().SingleOrDefault();
 
-            if (p1 == null)
+            if (p1 == null) {
                return EmptyEnumerator.INSTANCE;
+            }
 
             return Math.Exp((double)p1.Value).ToXdmAtomicValue().GetXdmEnumerator();
          }
@@ -308,8 +313,9 @@ namespace myxsl.net.saxon.extensions.w3c.xpath.math {
 
             XdmAtomicValue p1 = arguments[0].AsAtomicValues().SingleOrDefault();
 
-            if (p1 == null)
+            if (p1 == null) {
                return EmptyEnumerator.INSTANCE;
+            }
 
             return Math.Pow(10, (double)p1.Value).ToXdmAtomicValue().GetXdmEnumerator();
          }
@@ -354,8 +360,9 @@ namespace myxsl.net.saxon.extensions.w3c.xpath.math {
 
             XdmAtomicValue p1 = arguments[0].AsAtomicValues().SingleOrDefault();
 
-            if (p1 == null)
+            if (p1 == null) {
                return EmptyEnumerator.INSTANCE;
+            }
 
             return Math.Log((double)p1.Value).ToXdmAtomicValue().GetXdmEnumerator();
          }
@@ -400,8 +407,9 @@ namespace myxsl.net.saxon.extensions.w3c.xpath.math {
 
             XdmAtomicValue p1 = arguments[0].AsAtomicValues().SingleOrDefault();
 
-            if (p1 == null)
+            if (p1 == null) {
                return EmptyEnumerator.INSTANCE;
+            }
 
             return Math.Log10((double)p1.Value).ToXdmAtomicValue().GetXdmEnumerator();
          }
@@ -486,8 +494,9 @@ namespace myxsl.net.saxon.extensions.w3c.xpath.math {
             XdmAtomicValue p1 = arguments[0].AsAtomicValues().SingleOrDefault();
             XdmAtomicValue p2 = arguments[1].AsAtomicValues().Single();
 
-            if (p1 == null)
+            if (p1 == null) {
                return EmptyEnumerator.INSTANCE;
+            }
 
             return Math.Pow((double)p1.Value, (double)p2.Value).ToXdmAtomicValue().GetXdmEnumerator();
          }
@@ -532,8 +541,9 @@ namespace myxsl.net.saxon.extensions.w3c.xpath.math {
 
             XdmAtomicValue p1 = arguments[0].AsAtomicValues().SingleOrDefault();
 
-            if (p1 == null)
+            if (p1 == null) {
                return EmptyEnumerator.INSTANCE;
+            }
 
             return Math.Sin((double)p1.Value).ToXdmAtomicValue().GetXdmEnumerator();
          }
@@ -578,8 +588,9 @@ namespace myxsl.net.saxon.extensions.w3c.xpath.math {
 
             XdmAtomicValue p1 = arguments[0].AsAtomicValues().SingleOrDefault();
 
-            if (p1 == null)
+            if (p1 == null) {
                return EmptyEnumerator.INSTANCE;
+            }
 
             return Math.Sqrt((double)p1.Value).ToXdmAtomicValue().GetXdmEnumerator();
          }
@@ -624,8 +635,9 @@ namespace myxsl.net.saxon.extensions.w3c.xpath.math {
 
             XdmAtomicValue p1 = arguments[0].AsAtomicValues().SingleOrDefault();
 
-            if (p1 == null)
+            if (p1 == null) {
                return EmptyEnumerator.INSTANCE;
+            }
 
             return Math.Tan((double)p1.Value).ToXdmAtomicValue().GetXdmEnumerator();
          }

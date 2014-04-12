@@ -30,8 +30,9 @@ namespace myxsl.net.configuration {
 
          } catch (Exception ex) {
 
-            if (configElement != null) 
+            if (configElement != null) {
                throw new ConfigurationErrorsException(ex.Message, ex, configElement.ElementInformation.Properties[propertyName].Source, configElement.ElementInformation.Properties[propertyName].LineNumber);
+            }
             
             throw new ConfigurationErrorsException(ex.Message, ex);
          }
@@ -42,9 +43,10 @@ namespace myxsl.net.configuration {
       }
 
       static void CheckAssignableType(Type baseType, Type type, ConfigurationElement configElement, string propertyName) {
-         
-         if (!baseType.IsAssignableFrom(type)) 
+
+         if (!baseType.IsAssignableFrom(type)) {
             throw new ConfigurationErrorsException(String.Format(CultureInfo.InvariantCulture, "Type {0} doesn't inherit from type {1}.", type.FullName, baseType.FullName), configElement.ElementInformation.Properties[propertyName].Source, configElement.ElementInformation.Properties[propertyName].LineNumber);
+         }
       }
    }
 }

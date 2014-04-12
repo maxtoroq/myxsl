@@ -25,9 +25,8 @@ namespace myxsl.net.common {
 
       public XmlResolver XmlResolver {
          get {
-            if (_XmlResolver == null) 
-               XmlResolver = new XmlDynamicResolver();
-            return _XmlResolver;
+            return _XmlResolver
+               ?? (XmlResolver = new XmlDynamicResolver());
          }
          set {
             _XmlResolver = value;

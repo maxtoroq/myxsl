@@ -68,9 +68,8 @@ namespace myxsl.net.saxon {
 
       public override XmlSchemaType XmlType {
          get { 
-            if (_XmlType == null)
-               _XmlType = XmlSchemaType.GetBuiltInSimpleType(this.atomicValue.GetPrimitiveTypeName().ToXmlQualifiedName());
-            return _XmlType;
+            return _XmlType
+               ?? (_XmlType = XmlSchemaType.GetBuiltInSimpleType(this.atomicValue.GetPrimitiveTypeName().ToXmlQualifiedName()));
          }
       }
 

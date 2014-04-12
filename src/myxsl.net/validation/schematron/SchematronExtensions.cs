@@ -31,8 +31,9 @@ namespace myxsl.net.validation.schematron {
 
          XPathNavigator nav = schemaDoc.CreateNavigator();
 
-         if (nav.NodeType != XPathNodeType.Root)
+         if (nav.NodeType != XPathNodeType.Root) {
             throw new ArgumentException("The schema must be a document node.", "schemaDoc");
+         }
 
          string queryBinding = nav.GetAttribute("queryBinding", "");
          decimal procXsltVersion = processor.GetXsltVersion();
@@ -41,7 +42,9 @@ namespace myxsl.net.validation.schematron {
 
          if (String.IsNullOrEmpty(queryBinding)) {
 
-            int maxMajorVersion = (procXsltVersion >= 3m) ? 2 : (int)Decimal.Floor(procXsltVersion);
+            int maxMajorVersion = (procXsltVersion >= 3m) ? 2 
+               : (int)Decimal.Floor(procXsltVersion);
+
             xsltVersion = "xslt" + maxMajorVersion.ToStringInvariant();
 
          } else {
@@ -132,8 +135,9 @@ namespace myxsl.net.validation.schematron {
 
          XPathNavigator schemaNav = schemaDoc.CreateNavigator();
 
-         if (!String.IsNullOrEmpty(schemaNav.BaseURI))
+         if (!String.IsNullOrEmpty(schemaNav.BaseURI)) {
             compileOptions.BaseUri = new Uri(schemaNav.BaseURI);
+         }
 
          return new XsltSchematronValidator(processor.Compile(stylesheetDoc, compileOptions));
       }

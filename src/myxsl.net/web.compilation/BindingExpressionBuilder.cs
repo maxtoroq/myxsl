@@ -41,8 +41,9 @@ namespace myxsl.net.web.compilation {
 
          BindingExpressionInfo exprInfo = exprBuilder.ParseExpression(expression, context);
 
-         if (exprInfo == null)
+         if (exprInfo == null) {
             exprInfo = new BindingExpressionInfo(expression);
+         }
 
          exprInfo.ExpressionBuilder = exprBuilder;
 

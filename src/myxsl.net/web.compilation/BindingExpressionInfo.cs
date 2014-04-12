@@ -37,8 +37,9 @@ namespace myxsl.net.web.compilation {
 
       public CodeExpression GetCodeExpression() {
 
-         if (this.ExpressionBuilder == null)
+         if (this.ExpressionBuilder == null) {
             throw new InvalidOperationException("ExpressionBuilder cannot be null.");
+         }
 
          return this.ExpressionBuilder.GetCodeExpression(this);
       }

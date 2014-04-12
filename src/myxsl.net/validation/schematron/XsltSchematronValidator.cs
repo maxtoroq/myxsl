@@ -57,12 +57,14 @@ namespace myxsl.net.validation.schematron {
             InitialContextNode = options.Instance
          };
 
-         if (!String.IsNullOrEmpty(options.Phase))
+         if (!String.IsNullOrEmpty(options.Phase)) {
             xsltOptions.Parameters.Add(new XmlQualifiedName("phase"), options.Phase);
+         }
 
          if (options.Parameters != null) {
-            foreach (var p in options.Parameters)
+            foreach (var p in options.Parameters) {
                xsltOptions.Parameters.Add(p);
+            }
          }
 
          return xsltOptions;

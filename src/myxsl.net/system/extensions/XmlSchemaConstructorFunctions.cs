@@ -32,8 +32,9 @@ namespace myxsl.net.system.extensions {
 
       public object boolean(XPathNodeIterator arg) {
 
-         if (ExtensionObjectConvert.IsEmpty(arg))
+         if (ExtensionObjectConvert.IsEmpty(arg)) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          arg.MoveNext();
 
@@ -42,8 +43,9 @@ namespace myxsl.net.system.extensions {
 
       public object date(XPathNodeIterator arg) {
 
-         if (ExtensionObjectConvert.IsEmpty(arg))
+         if (ExtensionObjectConvert.IsEmpty(arg)) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          arg.MoveNext();
 
@@ -52,8 +54,9 @@ namespace myxsl.net.system.extensions {
 
       public object dateTime(XPathNodeIterator arg) {
 
-         if (ExtensionObjectConvert.IsEmpty(arg))
+         if (ExtensionObjectConvert.IsEmpty(arg)) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          arg.MoveNext();
 
@@ -62,8 +65,9 @@ namespace myxsl.net.system.extensions {
 
       public object @decimal(XPathNodeIterator arg) {
 
-         if (ExtensionObjectConvert.IsEmpty(arg))
+         if (ExtensionObjectConvert.IsEmpty(arg)) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          arg.MoveNext();
 
@@ -72,8 +76,9 @@ namespace myxsl.net.system.extensions {
 
       public object @double(XPathNodeIterator arg) {
 
-         if (ExtensionObjectConvert.IsEmpty(arg))
+         if (ExtensionObjectConvert.IsEmpty(arg)) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          arg.MoveNext();
 
@@ -82,8 +87,9 @@ namespace myxsl.net.system.extensions {
 
       public object @duration(XPathNodeIterator arg) {
 
-         if (ExtensionObjectConvert.IsEmpty(arg))
+         if (ExtensionObjectConvert.IsEmpty(arg)) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          arg.MoveNext();
          
@@ -92,8 +98,9 @@ namespace myxsl.net.system.extensions {
 
       public object @float(XPathNodeIterator arg) {
 
-         if (ExtensionObjectConvert.IsEmpty(arg))
+         if (ExtensionObjectConvert.IsEmpty(arg)) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          arg.MoveNext();
          
@@ -102,8 +109,9 @@ namespace myxsl.net.system.extensions {
 
       public object @integer(XPathNodeIterator arg) {
 
-         if (ExtensionObjectConvert.IsEmpty(arg))
+         if (ExtensionObjectConvert.IsEmpty(arg)) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          arg.MoveNext();
 
@@ -112,8 +120,9 @@ namespace myxsl.net.system.extensions {
 
       public object @string(XPathNodeIterator arg) {
 
-         if (ExtensionObjectConvert.IsEmpty(arg))
+         if (ExtensionObjectConvert.IsEmpty(arg)) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          arg.MoveNext();
 
@@ -122,8 +131,9 @@ namespace myxsl.net.system.extensions {
 
       public object time(XPathNodeIterator arg) {
 
-         if (ExtensionObjectConvert.IsEmpty(arg))
+         if (ExtensionObjectConvert.IsEmpty(arg)) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          arg.MoveNext();
 

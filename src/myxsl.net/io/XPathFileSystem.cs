@@ -63,8 +63,9 @@ namespace myxsl.net.io {
 
          string normalizedPath;
 
-         if (IsFile(path, out normalizedPath))
+         if (IsFile(path, out normalizedPath)) {
             return File.GetLastWriteTime(normalizedPath);
+         }
 
          return Directory.GetLastWriteTime(normalizedPath);
       }

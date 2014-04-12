@@ -71,41 +71,36 @@ namespace myxsl.net.configuration {
 
       public ProcessorElementCollection Processors {
          get {
-            if (_Processors == null)
-               _Processors = (ProcessorElementCollection)base[_ProcessorsProperty];
-            return _Processors;
+            return _Processors
+               ?? (_Processors = (ProcessorElementCollection)base[_ProcessorsProperty]);
          }
       }
 
       public ResolverElementCollection Resolvers {
          get {
-            if (_Resolvers == null)
-               _Resolvers = (ResolverElementCollection)base[_ResolversProperty];
-            return _Resolvers;
+            return _Resolvers
+               ?? (_Resolvers = (ResolverElementCollection)base[_ResolversProperty]);
          }
       }
 
       public XsltElement Xslt {
          get {
-            if (_Xslt == null)
-               _Xslt = (XsltElement)base[_XsltProperty];
-            return _Xslt;
+            return _Xslt
+               ?? (_Xslt = (XsltElement)base[_XsltProperty]);
          }
       }
 
       public XQueryElement XQuery {
          get {
-            if (_XQuery == null)
-               _XQuery = (XQueryElement)base[_XQueryProperty];
-            return _XQuery;
+            return _XQuery
+               ?? (_XQuery = (XQueryElement)base[_XQueryProperty]);
          }
       }
 
       public WebElement Web {
          get {
-            if (_Web == null)
-               _Web = (WebElement)base[_WebProperty];
-            return _Web;
+            return _Web
+               ?? (_Web = (WebElement)base[_WebProperty]);
          }
       }
 

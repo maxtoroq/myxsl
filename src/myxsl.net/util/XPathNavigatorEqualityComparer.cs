@@ -29,11 +29,13 @@ namespace myxsl.net {
 
       public bool Equals(XPathNavigator x, XPathNavigator y) {
 
-         if (x == null)
+         if (x == null) {
             return y == null;
+         }
 
-         if (y == null)
+         if (y == null) {
             return false;
+         }
 
          return Object.ReferenceEquals(x, y)
             || GetHashCode(x) == GetHashCode(y);
@@ -41,8 +43,9 @@ namespace myxsl.net {
 
       public int GetHashCode(XPathNavigator obj) {
 
-         if (obj == null)
+         if (obj == null) {
             return 0;
+         }
 
          XNode xnode = obj.UnderlyingObject as XNode;
 

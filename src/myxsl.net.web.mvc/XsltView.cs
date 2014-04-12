@@ -34,9 +34,10 @@ namespace myxsl.net.web.mvc {
          if (viewContext == null) throw new ArgumentNullException("viewContext");
 
          XsltPage page = instance as XsltPage;
-         
-         if (page == null)
+
+         if (page == null) {
             throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Compiled view '{0}' must inherit from {1}.", this.ViewPath, typeof(XsltPage).AssemblyQualifiedName));
+         }
 
          var options = new XsltRuntimeOptions();
 
@@ -47,14 +48,17 @@ namespace myxsl.net.web.mvc {
          IXPathNavigable inputNode = page.Executable.Processor.ItemFactory.CreateDocument(viewContext.ViewData.Model);
 
          if (inputNode != null) {
-            if (options.InitialContextNode == null)
+
+            if (options.InitialContextNode == null) {
                options.InitialTemplate = null;
+            }
 
             options.InitialContextNode = inputNode;
          }
 
-         foreach (var item in viewContext.ViewData)
+         foreach (var item in viewContext.ViewData) {
             options.Parameters[new XmlQualifiedName(item.Key)] = item.Value;
+         }
 
          page.Render(viewContext.Writer, options);
       }

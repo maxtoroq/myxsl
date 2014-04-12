@@ -132,8 +132,9 @@ namespace myxsl.net.web.compilation {
 
          statements.AddRange(new CodeStatement[] { procVar, sourceVar, virtualPathVar, sourceUriVar });
 
-         if (useInitialContextNode)
+         if (useInitialContextNode) {
             statements.Add(icnSourceVar);
+         }
 
          var optionsVar = new CodeVariableDeclarationStatement {
             Name = "options",
@@ -398,8 +399,9 @@ namespace myxsl.net.web.compilation {
                   }
                };
 
-               if (bind.LineNumber > 0)
+               if (bind.LineNumber > 0) {
                   initialTemplVar.LinePragma = new CodeLinePragma(this.parser.PhysicalPath.LocalPath, bind.LineNumber);
+               }
 
                if (bind.ParsedValues.ContainsKey("accept")) {
 

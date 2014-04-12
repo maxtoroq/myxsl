@@ -19,8 +19,9 @@ namespace myxsl.net {
             
             int read;
 
-            while ((read = input.Read(buffer, 0, buffer.Length)) > 0) 
+            while ((read = input.Read(buffer, 0, buffer.Length)) > 0) {
                ms.Write(buffer, 0, read);
+            }
             
             return ms.ToArray();
          }

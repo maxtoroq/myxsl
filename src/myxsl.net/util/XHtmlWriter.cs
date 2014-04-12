@@ -95,11 +95,12 @@ namespace myxsl.net {
                   break;
             }
          }
-         
-         if (writeFullEndTag) 
+
+         if (writeFullEndTag) {
             base.WriteFullEndElement();
-         else 
+         } else {
             base.WriteEndElement();
+         }
       }
    }
 }

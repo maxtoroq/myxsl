@@ -45,8 +45,9 @@ namespace myxsl.net.net.mail {
 
          bool movedToDocEl = false;
 
-         if (node.NodeType == XPathNodeType.Root)
+         if (node.NodeType == XPathNodeType.Root) {
             movedToDocEl = node.MoveToChild(XPathNodeType.Element);
+         }
 
          if (node.NamespaceURI == XPathSmtpClient.Namespace
             && node.LocalName == "message") {
@@ -130,45 +131,53 @@ namespace myxsl.net.net.mail {
             }
          }
 
-         if (movedToDocEl)
+         if (movedToDocEl) {
             node.MoveToParent();
+         }
       }
 
       public MailMessage ToMailMessage(XPathItemFactory itemFactory) {
 
          var mailMessage = new MailMessage();
 
-         if (this.From != null)
+         if (this.From != null) {
             mailMessage.From = this.From.ToMailAddress();
+         }
 
-         for (int i = 0; i < this.To.Count; i++) 
+         for (int i = 0; i < this.To.Count; i++) {
             mailMessage.To.Add(this.To[i].ToMailAddress());
+         }
 
-         for (int i = 0; i < this.CC.Count; i++) 
+         for (int i = 0; i < this.CC.Count; i++) {
             mailMessage.CC.Add(this.CC[i].ToMailAddress());
+         }
 
-         for (int i = 0; i < this.Bcc.Count; i++) 
+         for (int i = 0; i < this.Bcc.Count; i++) {
             mailMessage.Bcc.Add(this.Bcc[i].ToMailAddress());
+         }
 
-         for (int i = 0; i < this.ReplyTo.Count; i++)
+         for (int i = 0; i < this.ReplyTo.Count; i++) {
             mailMessage.ReplyToList.Add(this.ReplyTo[i].ToMailAddress());
+         }
 
-         if (this.Sender != null)
+         if (this.Sender != null) {
             mailMessage.Sender = this.Sender.ToMailAddress();
+         }
 
-         if (this.Subject.HasValue())
+         if (this.Subject.HasValue()) {
             mailMessage.Subject = this.Subject.Replace('\r', ' ').Replace('\n', ' ');
+         }
 
          if (this.Body != null) {
             
             using (var writer = new StringWriter(CultureInfo.CurrentCulture)) {
+
                this.Body.Serialize(writer, itemFactory);
 
                mailMessage.Body = writer.ToString();
             }
 
-            mailMessage.IsBodyHtml = 
-               this.Body.Method == XPathSerializationMethods.Html
+            mailMessage.IsBodyHtml = this.Body.Method == XPathSerializationMethods.Html
                || this.Body.Method == XPathSerializationMethods.XHtml;
          }
 

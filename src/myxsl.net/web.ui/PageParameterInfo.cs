@@ -52,15 +52,19 @@ namespace myxsl.net.web.ui {
 
          if (!String.IsNullOrEmpty(sequenceType)) {
 
-            if (sequenceType.Length < 3)
+            if (sequenceType.Length < 3) {
                throw new ArgumentException("Unrecognized SequenceType.", "sequenceType");
+            }
 
             string occurrenceIndicator = OcurrenceIndicatorRegex.Match(sequenceType).Value;
-            string itemType = String.IsNullOrEmpty(occurrenceIndicator) ? sequenceType : sequenceType.Substring(0, sequenceType.Length - 1);
+            
+            string itemType = String.IsNullOrEmpty(occurrenceIndicator) ? sequenceType 
+               : sequenceType.Substring(0, sequenceType.Length - 1);
 
             // ensure non ParenthesizedItemType
-            if (itemType[0] == '(')
+            if (itemType[0] == '(') {
                itemType = itemType.Substring(1, itemType.Length - 1);
+            }
             
             switch (occurrenceIndicator) {
                default:
@@ -87,8 +91,9 @@ namespace myxsl.net.web.ui {
             if (itemType.Contains("(")) {
                // not AtomicType
 
-               if (itemType == "empty-sequence()")
+               if (itemType == "empty-sequence()") {
                   param.MinLength = param.MaxLength = 0;
+               }
 
             } else if (itemType.Contains(":")) {
                string[] parts = itemType.Split(':');
@@ -96,11 +101,13 @@ namespace myxsl.net.web.ui {
                string atomicTypePrefix = parts[0];
                string atomicTypeLocal = parts[1];
 
-               if (namespacesInScope == null)
+               if (namespacesInScope == null) {
                   throw new ArgumentNullException("namespacesInScope", "namespacesInScope is needed to resolve the ItemType.");
+               }
 
-               if (!namespacesInScope.ContainsKey(atomicTypePrefix))
+               if (!namespacesInScope.ContainsKey(atomicTypePrefix)) {
                   throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, "namespacesInScope does not contain a mapping for prefix '{0}'.", atomicTypePrefix), "namespacesInScope");
+               }
 
                string atomicTypeNamespace = namespacesInScope[atomicTypePrefix];
 

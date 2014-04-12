@@ -29,16 +29,18 @@ namespace myxsl.net.saxon {
       
       public static void ThrowIfBug1675(XdmNode initialContextNode) {
 
-         if (initialContextNode.Root.NodeKind != XmlNodeType.Document)
+         if (initialContextNode.Root.NodeKind != XmlNodeType.Document) {
             CurrentVersionHigherThan("9.4.0.6", 1675, () => "Cannot use an initial context node that isn't a descendant of a document node.");
+         }
       }
 
       static bool CurrentVersionHigherThan(string version, int bug, Func<string> specificMessage) {
 
          Version ver = BugMaxVersions.GetOrAdd(bug, b => Version.Parse(version));
 
-         if (CurrentVersion > ver)
+         if (CurrentVersion > ver) {
             return true;
+         }
 
          throw new InvalidOperationException(specificMessage() + 
             ". Consider upgrading Saxon to a version higher than {0}. See https://saxonica.plan.io/issues/{1} for more details.".FormatInvariant(ver, bug));

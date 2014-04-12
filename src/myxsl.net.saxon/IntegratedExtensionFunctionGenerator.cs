@@ -105,8 +105,9 @@ namespace myxsl.net.saxon {
             throw new ArgumentException(firstError.ErrorText, "modules");
          }
 
-         if (debuggerIsAttached)
+         if (debuggerIsAttached) {
             Debugger.Log(0, Debugger.DefaultCategory, "Integrated extension function(s) generated " + result.PathToAssembly + Environment.NewLine);
+         }
 
          return generatedTypeNames
             .Select(n => result.CompiledAssembly.GetType(n, throwOnError: true))
@@ -537,8 +538,9 @@ namespace myxsl.net.saxon {
 
                currentBlock.Add(new CodeMethodReturnStatement(returnExpr));
 
-               if (ifElse != null) 
+               if (ifElse != null) {
                   currentBlock = ifElse.FalseStatements;
+               }
             }
          }
 
@@ -674,8 +676,9 @@ namespace myxsl.net.saxon {
             case XPathSequenceCardinality.OneOrMore:
             case XPathSequenceCardinality.ZeroOrMore:
 
-               if (sequenceType.ClrType.IsArray) 
+               if (sequenceType.ClrType.IsArray) {
                   codeBuilder.Append(".ToArray()");
+               }
 
                break;
          }
@@ -842,8 +845,9 @@ namespace myxsl.net.saxon {
 
       static QName GetAtomicSchemaType(XPathItemType itemType) {
 
-         if (itemType.AtomicTypeOrNodeName != null)
+         if (itemType.AtomicTypeOrNodeName != null) {
             return new QName(itemType.AtomicTypeOrNodeName);
+         }
 
          Type clrType = itemType.ClrType;
 
@@ -884,8 +888,9 @@ namespace myxsl.net.saxon {
                   return QName.XS_QNAME;
                }
 
-               if (clrType == typeof(Uri))
+               if (clrType == typeof(Uri)) {
                   return QName.XS_ANYURI;
+               }
 
                return new QName(XMLSchemaNamespace, "xs:anyAtomicType");
          }

@@ -29,12 +29,16 @@ namespace myxsl.net.common {
       public XmlQualifiedName ErrorCode { get; protected set; }
 
       public string GetErrorCodeAsClarkName() {
-         
-         if (this.ErrorCode == null || this.ErrorCode.IsEmpty)
-            return "";
 
-         if (String.IsNullOrEmpty(this.ErrorCode.Namespace))
+         if (this.ErrorCode == null 
+            || this.ErrorCode.IsEmpty) {
+
+            return "";
+         }
+
+         if (String.IsNullOrEmpty(this.ErrorCode.Namespace)) {
             return this.ErrorCode.Name;
+         }
 
          return String.Concat("{", this.ErrorCode.Namespace, "}", this.ErrorCode.Name);
       }

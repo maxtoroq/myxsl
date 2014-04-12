@@ -113,8 +113,9 @@ namespace myxsl.net.system {
          this.possiblyXhtmlMethod = this.transform.OutputSettings != null &&
             this.transform.OutputSettings.OutputMethod == XmlOutputMethod.AutoDetect;
 
-         if (!CLR.IsMono)
+         if (!CLR.IsMono) {
             this.command = commandField.GetValue(this.transform);
+         }
       }
 
       public override void Run(Stream output, XsltRuntimeOptions options) {
@@ -154,8 +155,11 @@ namespace myxsl.net.system {
          if (output == null) throw new ArgumentNullException("output");
          if (options == null) throw new ArgumentNullException("options");
 
-         if (this.possiblyXhtmlMethod || options.Serialization.Method == XPathSerializationMethods.XHtml)
+         if (this.possiblyXhtmlMethod
+            || options.Serialization.Method == XPathSerializationMethods.XHtml) {
+
             output = new XHtmlWriter(output);
+         }
 
          IXPathNavigable input;
 
@@ -180,10 +184,12 @@ namespace myxsl.net.system {
          }
 
          try {
-            if (CLR.IsMono) 
+            
+            if (CLR.IsMono) {
                monoTransform(this.transform, ((input != null) ? input.CreateNavigator() : null), args, output, resolver);
-            else 
+            } else {
                net20Transform(this.command, input, resolver, args, output);
+            }
 
          } catch (XsltException ex) {
             throw new SystemXsltException(ex);
@@ -208,14 +214,17 @@ namespace myxsl.net.system {
          var list = new XsltArgumentList();
 
          foreach (var item in options.Parameters) {
+
             object val = ExtensionObjectConvert.ToInputOrEmpty(item.Value);
 
-            if (!ExtensionObjectConvert.IsEmpty(val))
+            if (!ExtensionObjectConvert.IsEmpty(val)) {
                list.AddParam(item.Key.Name, item.Key.Namespace, val);
+            }
          }
 
-         foreach (var pair in ExtensionObjects)
+         foreach (var pair in ExtensionObjects) {
             list.AddExtensionObject(pair.Key, InitializeExtensionObject(pair.Value, options.InputXmlResolver));
+         }
 
          list.XsltMessageEncountered += new XsltMessageEncounteredEventHandler(args_XsltMessageEncountered);
 
@@ -232,8 +241,9 @@ namespace myxsl.net.system {
 
             var xpathFn = instance as extensions.XPathFunctions;
 
-            if (xpathFn != null) 
+            if (xpathFn != null) {
                xpathFn.resolver = resolver;
+            }
          
          } else if (moduleInfo.Dependencies.Count > 0) {
 

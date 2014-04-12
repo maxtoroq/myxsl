@@ -62,8 +62,9 @@ namespace myxsl.net.saxon.extensions.exslt.common {
 
                object typedVal = atomicVal.Value;
 
-               if (typedVal is string)
+               if (typedVal is string) {
                   return Result("string");
+               }
 
                switch (Type.GetTypeCode(typedVal.GetType())) {
                   case TypeCode.Boolean:

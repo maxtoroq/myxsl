@@ -59,8 +59,9 @@ namespace myxsl.net.net.http {
 
          bool movedToDocEl = false;
 
-         if (node.NodeType == XPathNodeType.Root)
+         if (node.NodeType == XPathNodeType.Root) {
             movedToDocEl = node.MoveToChild(XPathNodeType.Element);
+         }
 
          if (node.NamespaceURI == XPathHttpClient.Namespace
             && node.LocalName == "request") {
@@ -149,8 +150,9 @@ namespace myxsl.net.net.http {
             }
          }
 
-         if (movedToDocEl)
+         if (movedToDocEl) {
             node.MoveToParent();
+         }
       }
 
       public XPathHttpResponse GetResponse() {
@@ -162,8 +164,9 @@ namespace myxsl.net.net.http {
          httpRequest.AllowAutoRedirect = this.FollowRedirect;
          httpRequest.Headers.Add(this.Headers);
 
-         if (this.Timeout > 0)
+         if (this.Timeout > 0) {
             httpRequest.Timeout = this.Timeout;
+         }
 
          if (this.SendAuthorization) {
 
@@ -173,21 +176,25 @@ namespace myxsl.net.net.http {
             }.GetCredential(httpRequest.RequestUri, this.AuthMethod);
          }
 
-         if (this.Multipart != null) 
+         if (this.Multipart != null) {
             LoadContent(httpRequest, this.Multipart);
-            
-         else if (this.Body != null) 
+
+         } else if (this.Body != null) {
             LoadContent(httpRequest, this.Body);
+         }
 
          HttpWebResponse httpResponse;
 
          try {
             httpResponse = (HttpWebResponse)httpRequest.GetResponse();
+
          } catch (WebException ex) {
-            if (ex.Response != null)
+
+            if (ex.Response != null) {
                httpResponse = (HttpWebResponse)ex.Response;
-            else
+            } else {
                throw;
+            }
          }
 
          return GetResponse(httpResponse);
@@ -219,8 +226,9 @@ namespace myxsl.net.net.http {
                   MediaType = mediaType
                };
 
-               using (Stream responseBody = httpResponse.GetResponseStream())
+               using (Stream responseBody = httpResponse.GetResponseStream()) {
                   multipart.Deserialize(responseBody, this.StatusOnly);
+               }
 
                response.Multipart = multipart;
 
@@ -251,22 +259,29 @@ namespace myxsl.net.net.http {
 
       void EnsureValidForHttpRequest() {
 
-         if (this.Href == null)
+         if (this.Href == null) {
             throw new InvalidOperationException("Href cannot be null.");
+         }
 
-         if (String.IsNullOrEmpty(this.Method))
+         if (String.IsNullOrEmpty(this.Method)) {
             throw new InvalidOperationException("Method cannot be null or empty.");
+         }
 
-         if (this.Multipart != null && this.Body != null)
+         if (this.Multipart != null 
+            && this.Body != null) {
+
             throw new InvalidOperationException("Multipart and Body properties are mutually exclusive.");
+         }
 
          if (!String.IsNullOrEmpty(this.Username)) {
 
-            if (String.IsNullOrEmpty(this.Password))
+            if (String.IsNullOrEmpty(this.Password)) {
                throw new InvalidOperationException("Password cannot be null or empty if Username isn't.");
+            }
 
-            if (String.IsNullOrEmpty(this.AuthMethod))
+            if (String.IsNullOrEmpty(this.AuthMethod)) {
                throw new InvalidOperationException("AuthMethod cannot be null or empty if Username isn't.");
+            }
 
          } else if (this.SendAuthorization) {
             throw new InvalidOperationException("SendAuthorization cannot be true if Username is null or empty.");
@@ -274,31 +289,41 @@ namespace myxsl.net.net.http {
 
          if (this.Body != null) {
 
-            if (String.IsNullOrEmpty(this.Body.MediaType))
+            if (String.IsNullOrEmpty(this.Body.MediaType)) {
                throw new InvalidOperationException("Body.MediaType cannot be null or empty.");
+            }
 
          } else if (this.Multipart != null) {
 
-            if (this.Multipart.Items.Count == 0)
+            if (this.Multipart.Items.Count == 0) {
                throw new InvalidOperationException("A multipart request must have at least one part.");
+            }
 
-            if (String.IsNullOrEmpty(this.Multipart.MediaType))
+            if (String.IsNullOrEmpty(this.Multipart.MediaType)) {
                throw new InvalidOperationException("Multipart.MediaType cannot be null or empty.");
+            }
 
-            if (!MediaTypes.IsMultipart(this.Multipart.MediaType))
+            if (!MediaTypes.IsMultipart(this.Multipart.MediaType)) {
                throw new InvalidOperationException("Multipart.MediaType must be set to a multipart media type.");
+            }
 
             for (int i = 0; i < this.Multipart.Items.Count; i++) {
+
                XPathHttpMultipartItem item = this.Multipart.Items[i];
 
-               if (item.Body == null)
+               if (item.Body == null) {
                   throw new InvalidOperationException("Multipart.Items[" + i + "].Body cannot be null.");
+               }
 
-               if (String.IsNullOrEmpty(item.Body.MediaType))
+               if (String.IsNullOrEmpty(item.Body.MediaType)) {
                   throw new InvalidOperationException("Multipart.Items[" + i + "].MediaType cannot be null or empty.");
+               }
 
-               if (item.Body.Content == null && item.Body.Src == null) 
+               if (item.Body.Content == null 
+                  && item.Body.Src == null) {
+
                   throw new InvalidOperationException("All multipart bodies must have content.");
+               }
             }
          }
       }
@@ -308,6 +333,7 @@ namespace myxsl.net.net.http {
          long contentLength = body.PrepareContent(this.ItemFactory, this.Resolver);
 
          if (contentLength > 0) {
+
             httpRequest.ContentLength = contentLength;
             httpRequest.ContentType = body.MediaType;
 
@@ -323,8 +349,9 @@ namespace myxsl.net.net.http {
 
          string boundary = multipart.Boundary;
 
-         if (String.IsNullOrEmpty(boundary))
+         if (String.IsNullOrEmpty(boundary)) {
             boundary = "----------" + DateTime.Now.Ticks.ToStringInvariant();
+         }
 
          Encoding encoding = Encoding.UTF8;
 
@@ -346,6 +373,7 @@ namespace myxsl.net.net.http {
                .Append(newLine);
 
             foreach (string key in item.Headers) {
+
                sb.Append(key)
                   .Append(": ")
                   .Append(item.Headers[key])
@@ -371,6 +399,7 @@ namespace myxsl.net.net.http {
          using (Stream requestStream = httpRequest.GetRequestStream()) {
 
             for (int i = 0; i < multipart.Items.Count; i++) {
+
                byte[] header = headers[i];
 
                requestStream.Write(header, 0, header.Length);

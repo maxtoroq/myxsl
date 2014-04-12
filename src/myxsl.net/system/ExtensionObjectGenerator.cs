@@ -139,12 +139,14 @@ namespace myxsl.net.system {
 
             moduleExpr = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), moduleField.Name);
 
-            if (module.Dependencies.Count > 0) 
+            if (module.Dependencies.Count > 0) {
                type.Members.Add(GenerateInitialize(module, moduleExpr));
+            }
          }
 
-         foreach (XPathFunctionInfo function in module.Functions)
+         foreach (XPathFunctionInfo function in module.Functions) {
             type.Members.Add(GenerateFunction(function, moduleExpr));
+         }
 
          return type;
       }
@@ -252,8 +254,10 @@ namespace myxsl.net.system {
          switch (returnTypeInfo.Cardinality) {
             default:
             case XPathSequenceCardinality.One:
-               if (returnTypeInfo.ItemType.KindIsNode)
+
+               if (returnTypeInfo.ItemType.KindIsNode) {
                   return typeof(XPathNavigator);
+               }
                
                return typeof(object);
             
@@ -278,8 +282,9 @@ namespace myxsl.net.system {
 
          string convertMethod = "ToInput";
 
-         if (sequenceType.ItemType.KindIsNode) 
+         if (sequenceType.ItemType.KindIsNode) {
             convertMethod += "Node";
+         }
 
          if (sequenceType.Cardinality == XPathSequenceCardinality.ZeroOrMore
             || sequenceType.Cardinality == XPathSequenceCardinality.ZeroOrOne) {
@@ -315,11 +320,13 @@ namespace myxsl.net.system {
          switch (paramTypeInfo.Cardinality) {
             case XPathSequenceCardinality.One:
 
-               if (paramTypeInfo.ItemType.Kind == XPathItemKind.AnyItem)
+               if (paramTypeInfo.ItemType.Kind == XPathItemKind.AnyItem) {
                   return typeof(object);
+               }
 
-               if (paramTypeInfo.ItemType.KindIsNode)
+               if (paramTypeInfo.ItemType.KindIsNode) {
                   return typeof(XPathNavigator);
+               }
 
                switch (Type.GetTypeCode(paramTypeInfo.ItemType.ClrType)) {
 
@@ -380,8 +387,9 @@ namespace myxsl.net.system {
 
          CodeExpression argExpr = varExpr;
 
-         if (paramTypeInfo.ClrType.IsAssignableFrom(varType)) 
+         if (paramTypeInfo.ClrType.IsAssignableFrom(varType)) {
             return argExpr;
+         }
 
          MethodInfo convertMethod = typeof(ExtensionObjectConvert)
             .GetMethod("To" + paramTypeInfo.ClrType.Name, BindingFlags.Public | BindingFlags.Static, null, new[] { varType }, null);
@@ -417,8 +425,9 @@ namespace myxsl.net.system {
                Parameters = { argExpr }
             };
 
-            if (convertItemExpr != null)
+            if (convertItemExpr != null) {
                methodExpr.Parameters.Add(convertItemExpr);
+            }
 
             if (paramTypeInfo.ClrType.IsArray) {
 
@@ -445,8 +454,9 @@ namespace myxsl.net.system {
                Parameters = { argExpr }
             };
 
-            if (convertItemExpr != null)
+            if (convertItemExpr != null) {
                methodExpr.Parameters.Add(convertItemExpr);
+            }
 
          } else {
 
@@ -461,8 +471,11 @@ namespace myxsl.net.system {
                Parameters = { argExpr }
             };
 
-            if (convertItemExpr != null && paramTypeInfo.ClrType == paramTypeInfo.ItemType.ClrType)
+            if (convertItemExpr != null
+               && paramTypeInfo.ClrType == paramTypeInfo.ItemType.ClrType) {
+
                methodExpr.Parameters.Add(convertItemExpr);
+            }
          }
          
          return argExpr;

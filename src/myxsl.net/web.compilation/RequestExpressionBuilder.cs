@@ -40,8 +40,9 @@ namespace myxsl.net.web.compilation {
 
          var uri = new Uri(expression, UriKind.RelativeOrAbsolute);
 
-         if (!uri.IsAbsoluteUri)
+         if (!uri.IsAbsoluteUri) {
             uri = new Uri(String.Concat(RequestModule.Prefix, ":", uri.OriginalString), UriKind.Absolute);
+         }
 
          var validValues = new List<string>() { 
             bind.query, bind.cookie, bind.form, 
@@ -74,8 +75,12 @@ namespace myxsl.net.web.compilation {
             XPathNavigator nav = context.BoundNode.Clone();
             nav.MoveToParent();
 
-            if (nav.NodeType == XPathNodeType.Element && nav.LocalName == "param" && nav.NamespaceURI == WellKnownNamespaces.XSLT)
+            if (nav.NodeType == XPathNodeType.Element 
+               && nav.LocalName == "param" 
+               && nav.NamespaceURI == WellKnownNamespaces.XSLT) {
+
                exprInfo.ParsedValues["name"] = nav.GetAttribute("name", "");
+            }
          }
 
          if (query["accept"] != null) {
@@ -124,8 +129,9 @@ namespace myxsl.net.web.compilation {
                break;
          }
 
-         foreach (string key in query.AllKeys) 
+         foreach (string key in query.AllKeys) {
             exprInfo.ParsedValues.Add(key, query[key]);
+         }
 
          return exprInfo;
       }
@@ -135,7 +141,10 @@ namespace myxsl.net.web.compilation {
          IDictionary<string, object> options = exprInfo.ParsedValues;
          Uri uri = (Uri)exprInfo.ParsedObject;
 
-         string inputName = options.ContainsKey("name") ? options["name"].ToString() : null;
+         string inputName = options.ContainsKey("name") ? 
+            options["name"].ToString() 
+            : null;
+
          string path = uri.AbsolutePath;
 
          switch (path) {
@@ -197,8 +206,9 @@ namespace myxsl.net.web.compilation {
             }
          };
 
-         if (remove)
+         if (remove) {
             methodInvoke.Parameters.Add(new CodePrimitiveExpression(true));
+         }
 
          return methodInvoke;
       }

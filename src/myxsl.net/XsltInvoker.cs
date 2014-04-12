@@ -66,12 +66,14 @@ namespace myxsl.net {
          if (stylesheetUri == null) throw new ArgumentNullException("stylesheetUri");
 
          var resolver = new XmlDynamicResolver(callingAssembly);
-         
-         if (!stylesheetUri.IsAbsoluteUri)
-            stylesheetUri = resolver.ResolveUri(null, stylesheetUri.OriginalString);
 
-         if (processor == null)
+         if (!stylesheetUri.IsAbsoluteUri) {
+            stylesheetUri = resolver.ResolveUri(null, stylesheetUri.OriginalString);
+         }
+
+         if (processor == null) {
             processor = Processors.Xslt.DefaultProcessor;
+         }
 
          ConcurrentDictionary<Uri, XsltExecutable> cache = 
             uriCache.GetOrAdd(processor, p => new ConcurrentDictionary<Uri, XsltExecutable>());
@@ -112,8 +114,9 @@ namespace myxsl.net {
 
          if (stylesheet == null) throw new ArgumentNullException("stylesheet");
 
-         if (processor == null)
+         if (processor == null) {
             processor = Processors.Xslt.DefaultProcessor;
+         }
 
          hashCode = XPathNavigatorEqualityComparer.Instance.GetHashCode(stylesheet.CreateNavigator());
 
@@ -134,8 +137,9 @@ namespace myxsl.net {
 
       internal static XsltInvoker With(int stylesheetHashCode, IXsltProcessor processor) {
 
-         if (processor == null)
+         if (processor == null) {
             processor = Processors.Xslt.DefaultProcessor;
+         }
 
          return new XsltInvoker(inlineCache[processor][stylesheetHashCode], null);
       }
@@ -195,10 +199,12 @@ namespace myxsl.net {
          };
 
          if (parameters != null) {
+
             var paramDictionary = new RouteValueDictionary(parameters);
 
-            foreach (var pair in paramDictionary) 
+            foreach (var pair in paramDictionary) {
                options.Parameters.Add(new XmlQualifiedName(pair.Key), pair.Value);
+            }
          }
 
          return Transform(options);

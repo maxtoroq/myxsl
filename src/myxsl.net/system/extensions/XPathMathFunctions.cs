@@ -28,8 +28,9 @@ namespace myxsl.net.system.extensions {
 
          double? value = ExtensionObjectConvert.ToNullableDouble(arg);
 
-         if (value == null)
+         if (value == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return Math.Acos(value.Value);
       }
@@ -39,8 +40,9 @@ namespace myxsl.net.system.extensions {
 
          double? value = ExtensionObjectConvert.ToNullableDouble(arg);
 
-         if (value == null)
+         if (value == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return Math.Asin(value.Value);
       }
@@ -50,8 +52,9 @@ namespace myxsl.net.system.extensions {
 
          double? value = ExtensionObjectConvert.ToNullableDouble(arg);
 
-         if (value == null)
+         if (value == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return Math.Atan(value.Value);
       }
@@ -61,8 +64,9 @@ namespace myxsl.net.system.extensions {
 
          double? value = ExtensionObjectConvert.ToNullableDouble(arg);
 
-         if (value == null)
+         if (value == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return Math.Cos(value.Value);
       }
@@ -72,8 +76,9 @@ namespace myxsl.net.system.extensions {
 
          double? value = ExtensionObjectConvert.ToNullableDouble(arg);
 
-         if (value == null)
+         if (value == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return Math.Exp(value.Value);
       }
@@ -83,8 +88,9 @@ namespace myxsl.net.system.extensions {
 
          double? value = ExtensionObjectConvert.ToNullableDouble(arg);
 
-         if (value == null)
+         if (value == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return Math.Pow(10, value.Value);
       }
@@ -94,8 +100,9 @@ namespace myxsl.net.system.extensions {
 
          double? value = ExtensionObjectConvert.ToNullableDouble(arg);
 
-         if (value == null)
+         if (value == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return Math.Log(value.Value);
       }
@@ -105,8 +112,9 @@ namespace myxsl.net.system.extensions {
 
          double? value = ExtensionObjectConvert.ToNullableDouble(arg);
 
-         if (value == null)
+         if (value == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return Math.Log10(value.Value);
       }
@@ -121,8 +129,9 @@ namespace myxsl.net.system.extensions {
 
          double? xVal = ExtensionObjectConvert.ToNullableDouble(x);
 
-         if (xVal == null)
+         if (xVal == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return Math.Pow(xVal.Value, y);
       }
@@ -132,8 +141,9 @@ namespace myxsl.net.system.extensions {
 
          double? value = ExtensionObjectConvert.ToNullableDouble(arg);
 
-         if (value == null)
+         if (value == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return Math.Sin(value.Value);
       }
@@ -143,8 +153,9 @@ namespace myxsl.net.system.extensions {
 
          double? value = ExtensionObjectConvert.ToNullableDouble(arg);
 
-         if (value == null)
+         if (value == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return Math.Sqrt(value.Value);
       }
@@ -154,8 +165,9 @@ namespace myxsl.net.system.extensions {
 
          double? value = ExtensionObjectConvert.ToNullableDouble(arg);
 
-         if (value == null)
+         if (value == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return Math.Tan(value.Value);
       }

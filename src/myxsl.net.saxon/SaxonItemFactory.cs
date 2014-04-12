@@ -57,27 +57,32 @@ namespace myxsl.net.saxon {
          XdmAtomicValue atomicValue;
          XdmValue xdmValue = value.ToXdmValue(this);
 
-         if (xdmValue.Count != 1)
+         if (xdmValue.Count != 1) {
             throw new ArgumentException("value cannot be empty, or more than one item.", "value");
+         }
          
          try {
+
             XdmItem item = xdmValue.GetXdmEnumerator().AsItems().Single();
 
             if (item.IsAtomic()) {
+
                atomicValue = (XdmAtomicValue)item;
 
                if (!qualifiedName.IsEmpty) {
+
                   XmlQualifiedName typeName = atomicValue.GetTypeName(this.processor).ToXmlQualifiedName();
 
-                  if (typeName != qualifiedName) 
+                  if (typeName != qualifiedName) {
                      atomicValue = new XdmAtomicValue(value.ToString(), new QName(qualifiedName), this.processor);
+                  }
                }
 
             } else {
+
                atomicValue = (!qualifiedName.IsEmpty) ?
-                  new XdmAtomicValue(value.ToString(), new QName(qualifiedName), this.processor) :
-                  new XdmAtomicValue(value.ToString())
-                  ;
+                  new XdmAtomicValue(value.ToString(), new QName(qualifiedName), this.processor) 
+                  : new XdmAtomicValue(value.ToString());
             }
             
          } catch (Exception ex) {
@@ -95,11 +100,13 @@ namespace myxsl.net.saxon {
 
             docb = this.processor.NewDocumentBuilder();
 
-            if (options.BaseUri != null)
+            if (options.BaseUri != null) {
                docb.BaseUri = options.BaseUri;
+            }
 
-            if (options.XmlResolver != null)
+            if (options.XmlResolver != null) {
                docb.XmlResolver = options.XmlResolver;
+            }
 
             docb.DtdValidation = options.PerformDtdValidation;
          }
@@ -141,32 +148,43 @@ namespace myxsl.net.saxon {
 
          var serializer = new Serializer();
 
-         if (options.ByteOrderMark.HasValue)
+         if (options.ByteOrderMark.HasValue) {
             serializer.SetOutputProperty(Serializer.BYTE_ORDER_MARK, (options.ByteOrderMark.Value) ? "yes" : "no");
+         }
 
-         if (options.ConformanceLevel == ConformanceLevel.Document)
+         if (options.ConformanceLevel == ConformanceLevel.Document) {
             serializer.SetOutputProperty(Serializer.SAXON_REQUIRE_WELL_FORMED, "yes");
+         }
 
-         if (options.DocTypePublic != null)
+         if (options.DocTypePublic != null) {
             serializer.SetOutputProperty(Serializer.DOCTYPE_PUBLIC, options.DocTypePublic);
+         }
 
-         if (options.DocTypeSystem != null)
+         if (options.DocTypeSystem != null) {
             serializer.SetOutputProperty(Serializer.DOCTYPE_SYSTEM, options.DocTypeSystem);
+         }
 
-         if (options.Encoding != null)
+         if (options.Encoding != null) {
             serializer.SetOutputProperty(Serializer.ENCODING, options.Encoding.WebName);
+         }
 
-         if (options.Indent.HasValue)
+         if (options.Indent.HasValue) {
             serializer.SetOutputProperty(Serializer.INDENT, (options.Indent.Value) ? "yes" : "no");
+         }
 
-         if (options.MediaType != null)
+         if (options.MediaType != null) {
             serializer.SetOutputProperty(Serializer.MEDIA_TYPE, options.MediaType);
+         }
 
-         if (options.Method != null && options.Method.Namespace.Length == 0)
+         if (options.Method != null 
+            && options.Method.Namespace.Length == 0) {
+
             serializer.SetOutputProperty(Serializer.METHOD, options.Method.Name);
+         }
 
-         if (options.OmitXmlDeclaration.HasValue)
+         if (options.OmitXmlDeclaration.HasValue) {
             serializer.SetOutputProperty(Serializer.OMIT_XML_DECLARATION, (options.OmitXmlDeclaration.Value) ? "yes" : "no");
+         }
 
          return serializer;
       }

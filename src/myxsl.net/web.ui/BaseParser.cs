@@ -41,8 +41,11 @@ namespace myxsl.net.web.ui {
       public string AppRelativeVirtualPath {
          get {
             if (_AppRelativeVirtualPath == null) {
-               if (VirtualPath == null)
+               
+               if (VirtualPath == null) {
                   throw new InvalidOperationException("VirtualPath cannot be null");
+               }
+
                _AppRelativeVirtualPath = VirtualPathUtility.ToAppRelative(VirtualPath);
             }
             return _AppRelativeVirtualPath;
@@ -64,10 +67,13 @@ namespace myxsl.net.web.ui {
 
       protected virtual Exception CreateParseException(IXmlLineInfo lineInfo, string format, params object[] args) {
 
-         if (lineInfo != null && lineInfo.HasLineInfo())
+         if (lineInfo != null 
+            && lineInfo.HasLineInfo()) {
+
             return new HttpParseException(String.Format(CultureInfo.InvariantCulture, format, args), null, this.VirtualPath, null, lineInfo.LineNumber);
-         else
-            return new HttpParseException(String.Format(CultureInfo.InvariantCulture, format, args));
+         }
+         
+         return new HttpParseException(String.Format(CultureInfo.InvariantCulture, format, args));
       }
       
       protected string GetVirtualPathAttribute(IDictionary<string, string> attribs, string name, bool checkFileExists) {
@@ -168,8 +174,10 @@ namespace myxsl.net.web.ui {
       protected bool ContainsWhiteSpace(string s) {
 
          for (int i = s.Length - 1; i >= 0; i--) {
-            if (Char.IsWhiteSpace(s[i]))
+
+            if (Char.IsWhiteSpace(s[i])) {
                return true;
+            }
          }
 
          return false;

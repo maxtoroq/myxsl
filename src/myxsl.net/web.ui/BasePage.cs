@@ -53,16 +53,18 @@ namespace myxsl.net.web.ui {
 
       protected void CheckHttpMethod(string[] acceptVerbs) {
 
-         if (!Array.Exists(acceptVerbs, s => String.Equals(s, this.Request.HttpMethod, StringComparison.OrdinalIgnoreCase)))
+         if (!Array.Exists(acceptVerbs, s => String.Equals(s, this.Request.HttpMethod, StringComparison.OrdinalIgnoreCase))) {
             throw new HttpException((int)HttpStatusCode.MethodNotAllowed, "Method Not Allowed");
+         }
       }
 
       public virtual void AddFileDependencies() { }
 
       protected void AddFileDependencies(string[] fileDependencies) {
 
-         if (fileDependencies != null)
+         if (fileDependencies != null) {
             this.Response.AddFileDependencies(fileDependencies);
+         }
       }
 
       protected virtual void InitOutputCache(OutputCacheParameters parameters) {
@@ -118,7 +120,8 @@ namespace myxsl.net.web.ui {
 
       protected T[] CheckParamLength<T>(string name, T[] values, int minLength, int maxLength) {
 
-         int length = (values == null) ? 0 : values.Length;
+         int length = (values == null) ? 0 
+            : values.Length;
 
          CheckParamLengthValidate(name, length, minLength, maxLength);
 
@@ -127,7 +130,8 @@ namespace myxsl.net.web.ui {
 
       protected IEnumerable<T> CheckParamLength<T>(string name, IEnumerable<T> values, int minLength, int maxLength) {
 
-         int length = (values == null) ? 0 : values.Count();
+         int length = (values == null) ? 0 
+            : values.Count();
 
          CheckParamLengthValidate(name, length, minLength, maxLength);
 
@@ -145,24 +149,33 @@ namespace myxsl.net.web.ui {
 
       protected string CheckParamValues(string name, string value, string[] accept) {
 
-         if (value != null && !accept.Contains(value)) 
+         if (value != null
+            && !accept.Contains(value)) {
+
             throw CheckParamValuesException(name);
+         }
 
          return value;
       }
 
       protected string[] CheckParamValues(string name, string[] values, string[] accept) {
 
-         if (values != null && !values.All(s => accept.Contains(s)))
+         if (values != null
+            && !values.All(s => accept.Contains(s))) {
+
             throw CheckParamValuesException(name);
+         }
 
          return values;
       }
 
       protected IEnumerable<string> CheckParamValues(string name, IEnumerable<string> values, string[] accept) {
 
-         if (values != null && !values.All(s => accept.Contains(s)))
+         if (values != null
+            && !values.All(s => accept.Contains(s))) {
+            
             throw CheckParamValuesException(name);
+         }
 
          return values;
       }

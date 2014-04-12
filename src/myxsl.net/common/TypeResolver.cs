@@ -59,14 +59,17 @@ namespace myxsl.net.common {
 
                var longNameBuilder = new StringBuilder(asm);
 
-               if (!String.IsNullOrEmpty(ver))
+               if (!String.IsNullOrEmpty(ver)) {
                   longNameBuilder.Append(", Version=").Append(ver);
+               }
 
-               if (!String.IsNullOrEmpty(loc))
+               if (!String.IsNullOrEmpty(loc)) {
                   longNameBuilder.Append(", Culture=").Append(loc);
+               }
 
-               if (!String.IsNullOrEmpty(sn))
+               if (!String.IsNullOrEmpty(sn)) {
                   longNameBuilder.Append(", PublicKeyToken=").Append(sn);
+               }
 
                typeName = String.Concat(className, ", ", longNameBuilder.ToString());
 

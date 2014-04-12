@@ -31,8 +31,9 @@ namespace myxsl.net.system {
 
          base.LineNumber = exception.LineNumber;
 
-         if (!String.IsNullOrEmpty(exception.SourceUri))
+         if (!String.IsNullOrEmpty(exception.SourceUri)) {
             base.ModuleUri = new Uri(exception.SourceUri);
+         }
       }
 
       public SystemXsltException(string message)

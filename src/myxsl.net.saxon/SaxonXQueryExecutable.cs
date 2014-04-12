@@ -119,8 +119,9 @@ namespace myxsl.net.saxon {
             }
          }
 
-         if (options.ContextItem != null) 
+         if (options.ContextItem != null) {
             eval.ContextItem = options.ContextItem.ToXdmItem(this.Processor.ItemFactory);
+         }
 
          foreach (var pair in options.ExternalVariables) {
 

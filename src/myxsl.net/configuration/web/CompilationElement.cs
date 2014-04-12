@@ -33,9 +33,8 @@ namespace myxsl.net.configuration.web {
 
       public ExpressionBuilderElementCollection ExpressionBuilders {
          get {
-            if (_ExpressionBuilders == null)
-               _ExpressionBuilders = (ExpressionBuilderElementCollection)base[_ExpressionBuildersProperty];
-            return _ExpressionBuilders;
+            return _ExpressionBuilders
+               ?? (_ExpressionBuilders = (ExpressionBuilderElementCollection)base[_ExpressionBuildersProperty]);
          }
       }
 

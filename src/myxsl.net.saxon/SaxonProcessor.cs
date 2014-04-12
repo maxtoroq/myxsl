@@ -57,8 +57,10 @@ namespace myxsl.net.saxon {
          bool[] funcAvailable = FunctionsAvailable(precompiledFunctions.Select(d => d.FunctionName).ToArray(), processor, itemFactory);
          
          for (int i = 0; i < precompiledFunctions.Length; i++) {
-            if (!funcAvailable[i]) 
+
+            if (!funcAvailable[i]) {
                processor.RegisterExtensionFunction(precompiledFunctions[i]);
+            }
          }
          
          Type itemFactoryType = itemFactory.GetType();
@@ -105,10 +107,12 @@ namespace myxsl.net.saxon {
          builder.WriteAttributeString("name", "main");
 
          for (int i = 0; i < names.Length; i++) {
+            
             QName item = names[i];
 
-            if (i > 0)
+            if (i > 0) {
                builder.WriteElementString("text", xsltNs, "|");
+            }
 
             builder.WriteStartElement("value-of", xsltNs);
             builder.WriteAttributeString("select", "function-available('{0}:{1}')".FormatInvariant("p" + i.ToStringInvariant(), item.LocalName));
@@ -145,8 +149,9 @@ namespace myxsl.net.saxon {
          compiler.ErrorList = new ArrayList();
          compiler.BaseUri = options.BaseUri;
 
-         if (options.XmlResolver != null)
+         if (options.XmlResolver != null) {
             compiler.XmlResolver = options.XmlResolver;
+         }
 
          return compiler;
       }
@@ -233,8 +238,9 @@ namespace myxsl.net.saxon {
          compiler.ErrorList = new ArrayList();
          compiler.BaseUri = options.BaseUri.AbsoluteUri;
 
-         foreach (XPathModuleInfo item in XPathModules.Modules.Where(m => m.Predeclare)) 
+         foreach (XPathModuleInfo item in XPathModules.Modules.Where(m => m.Predeclare)) {
             compiler.DeclareNamespace(item.PredeclarePrefix, item.Namespace);
+         }
 
          return compiler;
       }
@@ -274,9 +280,10 @@ namespace myxsl.net.saxon {
          StaticError err =
             errors.OfType<StaticError>().FirstOrDefault(s => !s.IsWarning)
             ?? ex as StaticError;
-         
-         if (err != null)
+
+         if (err != null) {
             return new SaxonException(err);
+         }
 
          return new SaxonException(ex.Message, ex);
       }

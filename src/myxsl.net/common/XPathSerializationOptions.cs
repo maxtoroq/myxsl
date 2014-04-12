@@ -83,31 +83,38 @@ namespace myxsl.net.common {
             }
          }
 
-         if (options.DocTypePublic != null)
+         if (options.DocTypePublic != null) {
             setDocTypePublic(settings, options.DocTypePublic);
+         }
 
-         if (options.DocTypeSystem != null)
+         if (options.DocTypeSystem != null) {
             setDocTypeSystem(settings, options.DocTypeSystem);
+         }
 
-         if (options.Encoding != null)
+         if (options.Encoding != null) {
             settings.Encoding = options.Encoding;
+         }
 
-         if (options.Indent.HasValue)
+         if (options.Indent.HasValue) {
             settings.Indent = options.Indent.Value;
+         }
 
-         if (options.MediaType != null)
+         if (options.MediaType != null) {
             setMediaType(settings, options.MediaType);
+         }
 
-         if (options.OmitXmlDeclaration.HasValue)
+         if (options.OmitXmlDeclaration.HasValue) {
             settings.OmitXmlDeclaration = options.OmitXmlDeclaration.Value;
+         }
 
          Encoding enc = settings.Encoding;
 
          if (options.ByteOrderMark.HasValue 
             && !options.ByteOrderMark.Value) {
-            
-            if (enc is UTF8Encoding)
+
+            if (enc is UTF8Encoding) {
                settings.Encoding = new UTF8Encoding(false);
+            }
          }
 
          settings.ConformanceLevel = options.ConformanceLevel;
@@ -139,8 +146,10 @@ namespace myxsl.net.common {
          while (reader.Read()) {
 
             if (reader.NodeType != XmlNodeType.Element
-               || reader.Depth == initialDepth)
+               || reader.Depth == initialDepth) {
+               
                continue;
+            }
 
             if (reader.Depth > initialDepth + 1) {
                reader.Skip();
@@ -204,8 +213,9 @@ namespace myxsl.net.common {
 
          string[] parts = lexicalQName.Split(':');
 
-         if (parts.Length == 1)
+         if (parts.Length == 1) {
             return new XmlQualifiedName(parts[0]);
+         }
 
          string prefix = parts[0];
          string ns = reader.LookupNamespace(prefix);
@@ -226,24 +236,30 @@ namespace myxsl.net.common {
       }
 
       void IXmlSerializable.WriteXml(XmlWriter writer) {
-         
-         if (this.ByteOrderMark.HasValue) 
+
+         if (this.ByteOrderMark.HasValue) {
             WriteOption("byte-order-mark", SerializeYesOrNo(this.ByteOrderMark.Value), writer);
+         }
 
-         if (this.DocTypePublic != null)
+         if (this.DocTypePublic != null) {
             WriteOption("doctype-public", this.DocTypePublic, writer);
+         }
 
-         if (this.DocTypeSystem != null)
+         if (this.DocTypeSystem != null) {
             WriteOption("doctype-system", this.DocTypeSystem, writer);
+         }
 
-         if (this.Encoding != null)
+         if (this.Encoding != null) {
             WriteOption("encoding", this.Encoding.WebName, writer);
+         }
 
-         if (this.Indent.HasValue) 
+         if (this.Indent.HasValue) {
             WriteOption("indent", SerializeYesOrNo(this.Indent.Value), writer);
+         }
 
-         if (this.MediaType != null)
+         if (this.MediaType != null) {
             WriteOption("media-type", this.MediaType, writer);
+         }
 
          if (this.Method != null) {
             
@@ -269,8 +285,9 @@ namespace myxsl.net.common {
             writer.WriteEndElement();
          }
 
-         if (this.OmitXmlDeclaration.HasValue) 
+         if (this.OmitXmlDeclaration.HasValue) {
             WriteOption("omit-xml-declaration", SerializeYesOrNo(this.OmitXmlDeclaration.Value), writer);
+         }
       }
 
       static void WriteOption(string name, string value, XmlWriter writer) {
@@ -281,11 +298,7 @@ namespace myxsl.net.common {
       }
 
       static string SerializeYesOrNo(bool value) {
-
-         if (value)
-            return "yes";
-
-         return "no";
+         return (value) ? "yes" : "no";
       }
 
       #endregion

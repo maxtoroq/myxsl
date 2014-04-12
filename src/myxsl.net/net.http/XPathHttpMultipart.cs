@@ -65,15 +65,17 @@ namespace myxsl.net.net.http {
 
                      switch (node.LocalName) {
                         case "header":
-                           if (currentItem == null)
+                           if (currentItem == null) {
                               currentItem = new XPathHttpMultipartItem();
+                           }
 
                            currentItem.Headers.Add(node.GetAttribute("name", ""), node.GetAttribute("value", ""));
                            break;
 
                         case "body":
-                           if (currentItem == null)
+                           if (currentItem == null) {
                               currentItem = new XPathHttpMultipartItem();
+                           }
 
                            currentItem.Body = new XPathHttpBody();
                            currentItem.Body.ReadXml(node, resolver);

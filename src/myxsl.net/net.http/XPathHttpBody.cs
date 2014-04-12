@@ -50,8 +50,9 @@ namespace myxsl.net.net.http {
 
       public XmlQualifiedName Method {
          get {
-            if (_Method != null)
+            if (_Method != null) {
                return _Method;
+            }
             return XPathSerializationMethods.Xml;
          }
          set { _Method = value; }
@@ -188,8 +189,9 @@ namespace myxsl.net.net.http {
 
          writer.WriteAttributeString("media-type", this.MediaType);
 
-         if (this.Encoding != null)
+         if (this.Encoding != null) {
             writer.WriteAttributeString("encoding", this.Encoding.WebName);
+         }
       }
 
       public long PrepareContent(XPathItemFactory itemFactory, XmlResolver resolver) {
@@ -206,8 +208,9 @@ namespace myxsl.net.net.http {
 
          } else if (this.Src != null) {
 
-            if (resolver == null)
+            if (resolver == null) {
                throw new ArgumentNullException("resolver");
+            }
 
             Stream source = resolver.GetEntity(this.Src, null, typeof(Stream)) as Stream;
                
@@ -229,7 +232,9 @@ namespace myxsl.net.net.http {
             }
          }
 
-         return (this.contentStream != null) ? this.contentStream.Length : 0;
+         return (this.contentStream != null) ? 
+            this.contentStream.Length 
+            : 0;
       }
 
       public Stream GetContentStream() {
@@ -245,8 +250,8 @@ namespace myxsl.net.net.http {
          if (method == ExtensionMethods.Base64Binary) {
             
             byte[] buffer = (!item.IsNode && item.XmlType.TypeCode == XmlTypeCode.Base64Binary) ? 
-               (byte[])item.TypedValue :
-               Convert.FromBase64String(item.Value);
+               (byte[])item.TypedValue 
+               : Convert.FromBase64String(item.Value);
             
             output.Write(buffer, 0, buffer.Length);
 
@@ -277,7 +282,10 @@ namespace myxsl.net.net.http {
 
       public void Deserialize(Stream source, Uri sourceUri, XPathItemFactory itemFactory, string overrideMediaType) {
 
-         string mediaType = !String.IsNullOrEmpty(overrideMediaType) ? overrideMediaType : this.MediaType;
+         string mediaType = !String.IsNullOrEmpty(overrideMediaType) ? 
+            overrideMediaType 
+            : this.MediaType;
+
          XmlQualifiedName method = GetMethodFromMediaType(mediaType, ExtensionMethods.Base64Binary);
 
          Deserialize(source, sourceUri, itemFactory, method);
@@ -290,19 +298,23 @@ namespace myxsl.net.net.http {
 
          XPathItem content;
 
-         TextReader textReader = (this.Encoding != null) ? new StreamReader(source, this.Encoding) : new StreamReader(source);
+         TextReader textReader = (this.Encoding != null) ? 
+            new StreamReader(source, this.Encoding) 
+            : new StreamReader(source);
 
          if (method == XPathSerializationMethods.Xml || method == XPathSerializationMethods.XHtml) {
+
             content = itemFactory.CreateNodeReadOnly(textReader, new XmlParsingOptions { BaseUri = sourceUri }).CreateNavigator();
 
          } else if (method == XPathSerializationMethods.Html) {
 
             var htmlParser = XPathHttpClient.HtmlParser;
 
-            if (htmlParser != null) 
+            if (htmlParser != null) {
                content = htmlParser(textReader).CreateNavigator();
-            else 
+            } else {
                content = itemFactory.CreateAtomicValue(textReader.ReadToEnd(), XmlTypeCode.String);
+            }
 
          } else if (method == XPathSerializationMethods.Text) {
             content = itemFactory.CreateAtomicValue(textReader.ReadToEnd(), XmlTypeCode.String);
@@ -320,17 +332,21 @@ namespace myxsl.net.net.http {
 
       static XmlQualifiedName GetMethodFromMediaType(string mediaType, XmlQualifiedName defaultValue) {
 
-         if (MediaTypes.Equals(mediaType, MediaTypes.XHtml))
+         if (MediaTypes.Equals(mediaType, MediaTypes.XHtml)) {
             return XPathSerializationMethods.XHtml;
-         
-         if (MediaTypes.IsXml(mediaType))
+         }
+
+         if (MediaTypes.IsXml(mediaType)) {
             return XPathSerializationMethods.Xml;
-         
-         if (MediaTypes.Equals(mediaType, MediaTypes.Html))
+         }
+
+         if (MediaTypes.Equals(mediaType, MediaTypes.Html)) {
             return XPathSerializationMethods.Html;
-         
-         if (MediaTypes.IsText(mediaType))
+         }
+
+         if (MediaTypes.IsText(mediaType)) {
             return XPathSerializationMethods.Text;
+         }
          
          return defaultValue;
       }

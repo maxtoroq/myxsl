@@ -35,17 +35,15 @@ namespace myxsl.net.configuration.web {
 
       public CompilationElement Compilation {
          get {
-            if (_Compilation == null)
-               _Compilation = (CompilationElement)base[_CompilationProperty];
-            return _Compilation;
+            return _Compilation
+               ?? (_Compilation = (CompilationElement)base[_CompilationProperty]);
          }
       }
 
       public PagesElement Pages {
          get {
-            if (_Pages == null)
-               _Pages = (PagesElement)base[_PagesProperty];
-            return _Pages;
+            return _Pages
+               ?? (_Pages = (PagesElement)base[_PagesProperty]);
          }
       }
 

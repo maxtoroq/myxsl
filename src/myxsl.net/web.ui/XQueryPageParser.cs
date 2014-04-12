@@ -28,14 +28,16 @@ namespace myxsl.net.web.ui {
       public string ProcessorName { get; set; }
 
       public override void Parse(TextReader source) {
-         
-         if (Processors.XQuery.Count == 0)
+
+         if (Processors.XQuery.Count == 0) {
             throw CreateParseException("There are no XQuery processors registered to render this page.");
+         }
 
          this.ProcessorName = Processors.XQuery.DefaultProcessorName;
 
-         if (this.ProcessorName == null)
+         if (this.ProcessorName == null) {
             throw CreateParseException("Please specify a default XQuery processor.");
+         }
       }
    }
 }

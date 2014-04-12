@@ -38,39 +38,31 @@ namespace myxsl.net.common {
 
       public string Name {
          get {
-            if (_Name == null) {
-               _Name = XmlConvert.VerifyNCName(
-                  (functionAttr != null && functionAttr.Name.HasValue()) ?
-                     functionAttr.Name
-                     : Method.Name
-               );
-            };
-            return _Name;
+            return _Name
+               ?? (_Name = XmlConvert.VerifyNCName(
+                     (functionAttr != null && functionAttr.Name.HasValue()) ? functionAttr.Name
+                        : Method.Name
+                  ));
          }
       }
 
       public bool HasSideEffects {
          get {
-            if (_HasSideEffects == null) {
-               _HasSideEffects = (functionAttr != null) ?
-                  functionAttr.HasSideEffects
-                  : Method.ReturnType == typeof(void);
-            }
-            return _HasSideEffects.Value;
+            return _HasSideEffects
+               ?? (_HasSideEffects = (functionAttr != null) ? functionAttr.HasSideEffects
+                  : Method.ReturnType == typeof(void)).Value;
          }
       }
 
       public XPathSequenceType ReturnType {
          get {
-            if (_ReturnType == null) {
-               _ReturnType = new XPathSequenceType(
-                  Method.ReturnType,
-                  (functionAttr != null && functionAttr.ReturnSequenceType.HasValue()) ? 
-                     functionAttr.ReturnSequenceType : null,
-                  Module.NamespaceBindings
-               );
-            }
-            return _ReturnType;
+            return _ReturnType
+               ?? (_ReturnType = new XPathSequenceType(
+                     Method.ReturnType,
+                     (functionAttr != null && functionAttr.ReturnSequenceType.HasValue()) ? 
+                        functionAttr.ReturnSequenceType : null,
+                     Module.NamespaceBindings
+                  ));
          }
       }
 
@@ -95,9 +87,7 @@ namespace myxsl.net.common {
                      param.Name, 
                      new XPathSequenceType(
                         param.ParameterType,
-                        (sequenceTypes != null) ?
-                           sequenceTypes[i]
-                           : null,
+                        (sequenceTypes != null) ? sequenceTypes[i] : null,
                         Module.NamespaceBindings
                      )
                   ));
@@ -120,6 +110,7 @@ namespace myxsl.net.common {
          this._Module = module;
 
          if (this.Module.HasModuleAttribute) {
+
             this.functionAttr = Attribute.GetCustomAttribute(this.Method, typeof(XPathFunctionAttribute))
                as XPathFunctionAttribute;
          }

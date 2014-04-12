@@ -35,8 +35,9 @@ namespace myxsl.net.web.mvc {
 
          XQueryPage page = instance as XQueryPage;
 
-         if (page == null)
+         if (page == null) {
             throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Compiled view '{0}' must inherit from {1}.", this.ViewPath, typeof(XQueryPage).AssemblyQualifiedName));
+         }
 
          page.SetIntrinsics(HttpContext.Current);
          page.AddFileDependencies();
@@ -44,8 +45,9 @@ namespace myxsl.net.web.mvc {
          var options = new XQueryRuntimeOptions();
          options.ContextItem = viewContext.ViewData.Model;
 
-         foreach (var item in viewContext.ViewData)
+         foreach (var item in viewContext.ViewData) {
             options.ExternalVariables[new XmlQualifiedName(item.Key)] = item.Value;
+         }
 
          page.Render(viewContext.Writer, options);
       }

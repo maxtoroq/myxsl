@@ -48,8 +48,11 @@ namespace myxsl.net.web {
 
             if (relUri != null && !relUri.IsAbsoluteUri && baseUriIsInApp) {
 
-               if (VirtualPathUtility.IsAbsolute(relUri.OriginalString) || VirtualPathUtility.IsAppRelative(relUri.OriginalString)) 
+               if (VirtualPathUtility.IsAbsolute(relUri.OriginalString) 
+                  || VirtualPathUtility.IsAppRelative(relUri.OriginalString)) {
+
                   return new Uri(HostingEnvironment.MapPath(relUri.OriginalString), UriKind.Absolute);
+               }
             }
          }
 

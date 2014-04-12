@@ -60,8 +60,9 @@ namespace myxsl.net.common {
 
                if (moduleAttr != null) {
 
-                  if (moduleAttr.Prefix.HasValue())
+                  if (moduleAttr.Prefix.HasValue()) {
                      bindingsTemp.Add(moduleAttr.Prefix, Namespace);
+                  }
 
                   string[] nsBindings = moduleAttr.GetNamespaceBindings();
 
@@ -90,10 +91,7 @@ namespace myxsl.net.common {
                         const string xmlNs = "http://www.w3.org/XML/1998/namespace";
 
                         if ((prefix == "xml" && ns != xmlNs)) {
-                           
-                           throw new InvalidOperationException(
-                              "The {0} prefix must be bound to {1}.".FormatInvariant(prefix, xmlNs)
-                           );
+                           throw new InvalidOperationException("The {0} prefix must be bound to {1}.".FormatInvariant(prefix, xmlNs));
                         }
 
                         bindingsTemp.Add(prefix, ns);
@@ -114,10 +112,11 @@ namespace myxsl.net.common {
 
                IEnumerable<MethodInfo> methods = Type.GetMethods(bindingFlags);
 
-               if (HasModuleAttribute)
+               if (HasModuleAttribute) {
                   methods = methods.Where(m => Attribute.IsDefined(m, typeof(XPathFunctionAttribute)));
-               else
+               } else {
                   methods = methods.Where(m => !m.ContainsGenericParameters && m.GetParameters().All(p => !p.IsOut));
+               }
 
                var functionsTemp = new ReadOnlyCollection<XPathFunctionInfo>(
                   methods.Select(m => new XPathFunctionInfo(m, this)).ToArray()
@@ -188,13 +187,12 @@ namespace myxsl.net.common {
 
       public string PredeclarePrefix {
          get {
-            if (!Predeclare)
+            if (!Predeclare) {
                return null;
+            }
 
-            if (_PredeclarePrefix == null) 
-               _PredeclarePrefix = NamespaceBindings.First(p => p.Value == Namespace).Key;
-
-            return _PredeclarePrefix;
+            return _PredeclarePrefix
+               ?? (_PredeclarePrefix = NamespaceBindings.First(p => p.Value == Namespace).Key);
          }
       }
 

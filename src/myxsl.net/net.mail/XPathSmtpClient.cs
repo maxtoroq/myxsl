@@ -38,8 +38,9 @@ namespace myxsl.net.net.mail {
 
          XPathItemFactory itemFactory = this.ItemFactory;
 
-         if (itemFactory == null)
+         if (itemFactory == null) {
             throw new InvalidOperationException("ItemFactory cannot be null.");
+         }
 
          MailMessage mailMessage = GetMailMessage(message, itemFactory);
 

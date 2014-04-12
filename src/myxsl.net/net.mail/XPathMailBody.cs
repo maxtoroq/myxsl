@@ -31,8 +31,9 @@ namespace myxsl.net.net.mail {
 
       public XmlQualifiedName Method {
          get {
-            if (_Method != null)
+            if (_Method != null) {
                return _Method;
+            }
             return XPathSerializationMethods.Text;
          }
          set { _Method = value; }
@@ -91,8 +92,9 @@ namespace myxsl.net.net.mail {
 
       public void Serialize(TextWriter output, XPathItemFactory itemFactory) {
 
-         if (this.Content == null)
+         if (this.Content == null) {
             return;
+         }
          
          var serialization = new XPathSerializationOptions {
             Method = this.Method,

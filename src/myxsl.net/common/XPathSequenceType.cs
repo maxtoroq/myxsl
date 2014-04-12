@@ -58,20 +58,17 @@ namespace myxsl.net.common {
 
       public bool ClrTypeIsEnumerable {
          get {
-            if (_ClrTypeIsEnumerable == null) {
-               _ClrTypeIsEnumerable = ClrType.IsArray
+            return _ClrTypeIsEnumerable
+               ?? (_ClrTypeIsEnumerable = ClrType.IsArray
                   || (typeof(IEnumerable).IsAssignableFrom(ClrType) 
-                     && ClrType != typeof(string));
-            }
-            return _ClrTypeIsEnumerable.Value;
+                     && ClrType != typeof(string))).Value;
          }
       }
 
       public bool ClrTypeIsNullableValueType {
          get {
-            if (_ClrTypeIsNullableValueType == null) 
-               _ClrTypeIsNullableValueType = IsNullableValueType(ClrType);
-            return _ClrTypeIsNullableValueType.Value;
+            return _ClrTypeIsNullableValueType
+               ?? (_ClrTypeIsNullableValueType = IsNullableValueType(ClrType)).Value;
          }
       }
 
@@ -87,17 +84,9 @@ namespace myxsl.net.common {
 
          if (this.ClrTypeIsEnumerable) {
 
-            if (clrItemType.IsArray) {
-               clrItemType = clrItemType.GetElementType();
-
-            } else if (clrItemType.IsGenericType
-               && clrItemType.GetGenericTypeDefinition() == typeof(IEnumerable<>)) {
-
-               clrItemType = clrItemType.GetGenericArguments()[0];
-
-            } else {
-               clrItemType = typeof(object);
-            }
+            clrItemType = (clrItemType.IsArray) ? clrItemType.GetElementType()
+               : (clrItemType.IsGenericType && clrItemType.GetGenericTypeDefinition() == typeof(IEnumerable<>)) ? clrItemType.GetGenericArguments()[0]
+               : typeof(object);
 
          } else if (this.ClrTypeIsNullableValueType) {
             
@@ -112,8 +101,9 @@ namespace myxsl.net.common {
 
          string lexicalItemType = null;
 
-         if (lexicalSequenceType != null) 
+         if (lexicalSequenceType != null) {
             ParseSequenceType(lexicalSequenceType, out lexicalItemType);
+         }
 
          if (!this.IsEmptySequence
             && lexicalItemType == null
@@ -129,8 +119,9 @@ namespace myxsl.net.common {
 
          lexicalItemType = null;
 
-         if (lexicalSequenceType.Length < 3)
+         if (lexicalSequenceType.Length < 3) {
             return;
+         }
 
          if (lexicalSequenceType == "empty-sequence()") {
             this._IsEmptySequence = true;
@@ -144,8 +135,9 @@ namespace myxsl.net.common {
             : lexicalSequenceType.Substring(0, lexicalSequenceType.Length - 1);
 
          // ensure non ParenthesizedItemType
-         if (itemType[0] == '(')
+         if (itemType[0] == '(') {
             itemType = itemType.Substring(1, itemType.Length - 1);
+         }
 
          lexicalItemType = itemType;
 
@@ -169,14 +161,16 @@ namespace myxsl.net.common {
       }
 
       bool IsNullableValueType(Type type) {
+
          return type.IsGenericType
             && type.GetGenericTypeDefinition() == typeof(Nullable<>);
       }
 
       public override string ToString() {
 
-         if (this.IsEmptySequence)
+         if (this.IsEmptySequence) {
             return "empty-sequence()";
+         }
 
          string str = this.ItemType.ToString();
 

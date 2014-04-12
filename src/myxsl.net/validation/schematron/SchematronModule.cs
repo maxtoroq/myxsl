@@ -52,16 +52,19 @@ namespace myxsl.net.validation.schematron {
          };
 
          if (parameters != null) {
-            foreach (XPathNavigator n in parameters) 
+
+            foreach (XPathNavigator n in parameters) {
                options.Parameters.Add(new XmlQualifiedName(n.Name, n.NamespaceURI), n.TypedValue);
+            }
          }
 
          SchematronInvoker invoker;
          
-         if (schema.IsNode) { 
+         if (schema.IsNode) {
 
-            if (this.Processor == null)
+            if (this.Processor == null) {
                throw new InvalidOperationException("Processor cannot be null");
+            }
 
             invoker = SchematronInvoker.With((XPathNavigator)schema, this.Processor);
 
@@ -84,8 +87,9 @@ namespace myxsl.net.validation.schematron {
 
          if (schemaUri == null) {
 
-            if (this.Resolver == null)
+            if (this.Resolver == null) {
                throw new InvalidOperationException("Resolver cannot be null.");
+            }
 
             schemaUri = this.Resolver.ResolveUri(null, schema.Value);
          }

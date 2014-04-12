@@ -170,12 +170,9 @@ namespace myxsl.net.system {
          
          XmlReaderSettings settings = (XmlReaderSettings)options;
          
-         XmlReader reader;
-
-         if (options.BaseUri != null)
-            reader = XmlReader.Create(input, settings, options.BaseUri.AbsoluteUri);
-         else
-            reader = XmlReader.Create(input, settings);
+         XmlReader reader = (options.BaseUri != null) ? 
+            XmlReader.Create(input, settings, options.BaseUri.AbsoluteUri)
+            : XmlReader.Create(input, settings);
 
          return CreateNodeReadOnly(reader);
       }
@@ -186,12 +183,9 @@ namespace myxsl.net.system {
 
          XmlReaderSettings settings = (XmlReaderSettings)options;
 
-         XmlReader reader;
-
-         if (options.BaseUri != null)
-            reader = XmlReader.Create(input, settings, options.BaseUri.AbsoluteUri);
-         else
-            reader = XmlReader.Create(input, settings);
+         XmlReader reader = (options.BaseUri != null) ? 
+            XmlReader.Create(input, settings, options.BaseUri.AbsoluteUri)
+            : XmlReader.Create(input, settings);
 
          return CreateNodeReadOnly(reader);
       }

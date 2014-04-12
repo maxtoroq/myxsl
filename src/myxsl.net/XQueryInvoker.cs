@@ -66,12 +66,14 @@ namespace myxsl.net {
          if (queryUri == null) throw new ArgumentNullException("queryUri");
 
          var resolver = new XmlDynamicResolver(callingAssembly);
-         
-         if (!queryUri.IsAbsoluteUri)
-            queryUri = resolver.ResolveUri(null, queryUri.OriginalString);
 
-         if (processor == null)
+         if (!queryUri.IsAbsoluteUri) {
+            queryUri = resolver.ResolveUri(null, queryUri.OriginalString);
+         }
+
+         if (processor == null) {
             processor = Processors.XQuery.DefaultProcessor;
+         }
 
          ConcurrentDictionary<Uri, XQueryExecutable> cache =
             uriCache.GetOrAdd(processor, p => new ConcurrentDictionary<Uri, XQueryExecutable>());
@@ -112,8 +114,9 @@ namespace myxsl.net {
 
          if (query == null) throw new ArgumentNullException("query");
 
-         if (processor == null)
+         if (processor == null) {
             processor = Processors.XQuery.DefaultProcessor;
+         }
 
          hashCode = query.GetHashCode();
 
@@ -134,8 +137,9 @@ namespace myxsl.net {
 
       internal static XQueryInvoker WithQuery(int stylesheetHashCode, IXQueryProcessor processor) {
 
-         if (processor == null)
+         if (processor == null) {
             processor = Processors.XQuery.DefaultProcessor;
+         }
 
          return new XQueryInvoker(inlineCache[processor][stylesheetHashCode], null);
       }
@@ -200,10 +204,12 @@ namespace myxsl.net {
          };
 
          if (parameters != null) {
+            
             var paramDictionary = new RouteValueDictionary(parameters);
 
-            foreach (var pair in paramDictionary)
+            foreach (var pair in paramDictionary) {
                options.ExternalVariables.Add(new XmlQualifiedName(pair.Key), pair.Value);
+            }
          }
 
          return Query(options);

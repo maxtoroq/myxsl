@@ -140,8 +140,9 @@ namespace myxsl.net {
 
          XQueryInvoker.WithQuery(query, proc, null, out hashCode);
 
-         if (processor == null)
+         if (processor == null) {
             return this.ItemFactory.CreateAtomicValue(hashCode, XmlTypeCode.Integer);
+         }
 
          var reference = new CompiledQueryReference { 
             HashCode = hashCode,
@@ -190,8 +191,9 @@ namespace myxsl.net {
 
             XPathNavigator node = ((XPathNavigator)module).Clone();
 
-            if (node.NodeType == XPathNodeType.Root)
+            if (node.NodeType == XPathNodeType.Root) {
                node.MoveToChild(XPathNodeType.Element);
+            }
 
             if (node.NodeType == XPathNodeType.Element
                && node.NamespaceURI == Namespace) {
@@ -276,21 +278,25 @@ namespace myxsl.net {
 
          var options = new XQueryRuntimeOptions();
 
-         if (input != null)
+         if (input != null) {
             options.ContextItem = input;
+         }
 
          if (parameters != null) {
-            foreach (XPathNavigator n in parameters)
+
+            foreach (XPathNavigator n in parameters) {
                options.ExternalVariables.Add(new XmlQualifiedName(n.Name, n.NamespaceURI), n.TypedValue);
+            }
          }
 
          return options;
       }
 
-      Uri ResolveUri(string relativeUri) { 
+      Uri ResolveUri(string relativeUri) {
 
-         if (this.Resolver == null)
+         if (this.Resolver == null) {
             throw new InvalidOperationException("Resolver cannot be null.");
+         }
 
          return this.Resolver.ResolveUri(null, relativeUri);
       }
@@ -301,8 +307,9 @@ namespace myxsl.net {
 
          if (uri == null) {
 
-            if (this.Resolver == null)
+            if (this.Resolver == null) {
                throw new InvalidOperationException("Resolver cannot be null.");
+            }
 
             uri = this.Resolver.ResolveUri(null, relativeUri.Value);
          }

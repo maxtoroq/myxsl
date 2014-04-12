@@ -31,9 +31,10 @@ namespace myxsl.net.web.ui {
       protected XPathNavigator Navigator { get; private set; }
 
       public override void Parse(TextReader source) {
-         
-         if (Processors.Xslt.Count == 0)
+
+         if (Processors.Xslt.Count == 0) {
             throw CreateParseException("There are no XSLT processors registered to compile this schema.");
+         }
 
          this.ProcessorName = Processors.Xslt.DefaultProcessorName;
 
@@ -44,11 +45,14 @@ namespace myxsl.net.web.ui {
          bool validatorPiFound = false;
 
          for (bool moved = nav.MoveToFirstChild(); moved; moved = nav.MoveToNext()) {
+
             if (nav.NodeType == XPathNodeType.ProcessingInstruction) {
 
                switch (nav.LocalName) {
                   case validator.it:
-                     if (validatorPiFound) goto non_unique;
+                     if (validatorPiFound) {
+                        goto non_unique;
+                     }
                      GetValidatorSettings(nav);
                      validatorPiFound = true;
                      break;
@@ -61,8 +65,9 @@ namespace myxsl.net.web.ui {
             }
          }
 
-         if (this.ProcessorName == null)
+         if (this.ProcessorName == null) {
             throw CreateParseException("Please specify a default XSLT processor.");
+         }
       }
 
       protected void GetValidatorSettings(XPathNavigator nav) {
@@ -72,8 +77,9 @@ namespace myxsl.net.web.ui {
          // class-name
          string className = GetFullClassNameAttribute(attribs, validator.class_name);
 
-         if (!String.IsNullOrEmpty(className))
+         if (!String.IsNullOrEmpty(className)) {
             this.GeneratedTypeFullName = className;
+         }
 
          // processor
          string processor = GetNonEmptyAttribute(attribs, validator.processor);

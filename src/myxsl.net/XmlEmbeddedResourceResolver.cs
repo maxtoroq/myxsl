@@ -46,11 +46,11 @@ namespace myxsl.net {
 
          string host = absoluteUri.Host;
 
-         if (String.IsNullOrEmpty(host))
+         if (String.IsNullOrEmpty(host)) {
             host = null;
+         }
 
-         string resourceName = ((host != null) ?
-            absoluteUri.GetComponents(UriComponents.Host | UriComponents.Path, UriFormat.Unescaped)
+         string resourceName = ((host != null) ? absoluteUri.GetComponents(UriComponents.Host | UriComponents.Path, UriFormat.Unescaped)
             : absoluteUri.AbsolutePath)
             .Replace("/", ".");
 
@@ -73,25 +73,29 @@ namespace myxsl.net {
 
             var longNameBuilder = new StringBuilder(asm);
 
-            if (!String.IsNullOrEmpty(ver))
+            if (!String.IsNullOrEmpty(ver)) {
                longNameBuilder.Append(", Version=").Append(ver);
+            }
 
-            if (!String.IsNullOrEmpty(loc))
+            if (!String.IsNullOrEmpty(loc)) {
                longNameBuilder.Append(", Culture=").Append(loc);
+            }
 
-            if (!String.IsNullOrEmpty(sn))
+            if (!String.IsNullOrEmpty(sn)) {
                longNameBuilder.Append(", PublicKeyToken=").Append(sn);
+            }
 
             assembly = Assembly.ReflectionOnlyLoad(longNameBuilder.ToString());
 
          } else if (this.DefaultAssembly != null) {
             assembly = this.DefaultAssembly;
          }
-         
-         if (assembly != null)
+
+         if (assembly != null) {
             return assembly.GetManifestResourceStream(resourceName);
-         else
-            throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, "Could not determine the assembly of the resource identified by \"{0}\".", absoluteUri));
+         }
+
+         throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, "Could not determine the assembly of the resource identified by \"{0}\".", absoluteUri));
       }
    }
 }

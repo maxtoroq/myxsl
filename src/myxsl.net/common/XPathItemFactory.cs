@@ -42,8 +42,9 @@ namespace myxsl.net.common {
 
       public IEnumerable<XPathItem> CreateAtomicValueSequence(object value, XmlQualifiedName qualifiedName) {
 
-         if (value == null)
+         if (value == null) {
             yield break;
+         }
 
          yield return CreateAtomicValue(value, qualifiedName);
       }
@@ -54,34 +55,40 @@ namespace myxsl.net.common {
 
       public IEnumerable<XPathItem> CreateAtomicValueSequence(IEnumerable value, XmlQualifiedName qualifiedName) {
 
-         if (value == null)
+         if (value == null) {
             yield break;
+         }
 
          foreach (object item in value) {
-            if (item != null)
+            if (item != null) {
                yield return CreateAtomicValue(item, qualifiedName);
+            }
          }
       }
 
       public IXPathNavigable CreateDocument(object value) {
 
-         if (value == null)
+         if (value == null) {
             return null;
+         }
 
          IXPathNavigable inputNode = value as IXPathNavigable;
 
-         if (inputNode != null)
+         if (inputNode != null) {
             return inputNode;
+         }
 
          XNode xNode = value as XNode;
 
-         if (xNode != null)
+         if (xNode != null) {
             return xNode.CreateNavigator();
+         }
 
          IXmlSerializable xmlSer = value as IXmlSerializable;
 
-         if (xmlSer != null)
+         if (xmlSer != null) {
             return CreateDocument(xmlSer);
+         }
 
          inputNode = CreateNodeEditable();
 
@@ -98,8 +105,9 @@ namespace myxsl.net.common {
 
       public IXPathNavigable CreateDocument(IXmlSerializable value) {
 
-         if (value == null)
+         if (value == null) {
             return null;
+         }
 
          IXPathNavigable doc = CreateNodeEditable();
          XmlWriter writer = doc.CreateNavigator().AppendChild();
@@ -115,8 +123,9 @@ namespace myxsl.net.common {
 
          IXPathNavigable doc = CreateDocument(value);
 
-         if (doc == null)
+         if (doc == null) {
             return null;
+         }
 
          return MoveToDocumentElement(doc);
       }
@@ -125,8 +134,9 @@ namespace myxsl.net.common {
 
          IXPathNavigable doc = CreateDocument(value);
 
-         if (doc == null)
+         if (doc == null) {
             return null;
+         }
 
          return MoveToDocumentElement(doc);
       }
@@ -151,8 +161,9 @@ namespace myxsl.net.common {
                .Cast<XmlRootAttribute>()
                .SingleOrDefault();
 
-            if (xmlRootAttr != null)
+            if (xmlRootAttr != null) {
                return xmlRootAttr;
+            }
 
             return new XmlRootAttribute(XmlConvert.EncodeLocalName(type.Name));
          });
@@ -192,15 +203,12 @@ namespace myxsl.net.common {
 
          XmlReaderSettings settings = (XmlReaderSettings)options;
 
-         XmlReader reader;
+         XmlReader reader = (options.BaseUri != null) ? XmlReader.Create(input, settings, options.BaseUri.AbsoluteUri)
+            : XmlReader.Create(input, settings);
 
-         if (options.BaseUri != null)
-            reader = XmlReader.Create(input, settings, options.BaseUri.AbsoluteUri);
-         else
-            reader = XmlReader.Create(input, settings);
-
-         using (reader) 
-            return CreateNodeEditable(reader); 
+         using (reader) {
+            return CreateNodeEditable(reader);
+         }
       }
 
       public IXPathNavigable CreateNodeEditable(TextReader input) {
@@ -213,15 +221,12 @@ namespace myxsl.net.common {
 
          XmlReaderSettings settings = (XmlReaderSettings)options;
 
-         XmlReader reader;
+         XmlReader reader = (options.BaseUri != null) ? XmlReader.Create(input, settings, options.BaseUri.AbsoluteUri)
+            : XmlReader.Create(input, settings);
 
-         if (options.BaseUri != null)
-            reader = XmlReader.Create(input, settings, options.BaseUri.AbsoluteUri);
-         else
-            reader = XmlReader.Create(input, settings);
-
-         using (reader) 
-            return CreateNodeEditable(reader); 
+         using (reader) {
+            return CreateNodeEditable(reader);
+         }
       }
 
       public virtual IXPathNavigable CreateNodeEditable(XmlReader reader) {
@@ -264,8 +269,9 @@ namespace myxsl.net.common {
 
          XmlWriter writer = XmlWriter.Create(output, (XmlWriterSettings)options);
 
-         if (options.Method == XPathSerializationMethods.XHtml)
+         if (options.Method == XPathSerializationMethods.XHtml) {
             writer = new XHtmlWriter(writer);
+         }
 
          Serialize(items, writer);
 
@@ -283,8 +289,9 @@ namespace myxsl.net.common {
 
          XmlWriter writer = XmlWriter.Create(output, (XmlWriterSettings)options);
 
-         if (options.Method == XPathSerializationMethods.XHtml)
+         if (options.Method == XPathSerializationMethods.XHtml) {
             writer = new XHtmlWriter(writer);
+         }
 
          Serialize(items, writer);
 
@@ -305,7 +312,9 @@ namespace myxsl.net.common {
 
             XPathItem item = enumerator.Current;
 
-            if (item == null) continue;
+            if (item == null) {
+               continue;
+            }
 
             if (item.IsNode) {
 
@@ -316,8 +325,9 @@ namespace myxsl.net.common {
                   case XPathNodeType.Text:
                   case XPathNodeType.Whitespace:
 
-                     if (textBuffer == null)
+                     if (textBuffer == null) {
                         textBuffer = new StringBuilder();
+                     }
 
                      textBuffer.Append(node.Value);
                      break;
@@ -336,11 +346,13 @@ namespace myxsl.net.common {
 
             } else {
 
-               if (textBuffer == null)
+               if (textBuffer == null) {
                   textBuffer = new StringBuilder();
+               }
 
-               if (!lastItem.IsNode)
+               if (!lastItem.IsNode) {
                   textBuffer.Append(" ");
+               }
 
                textBuffer.Append(item.Value);
             }

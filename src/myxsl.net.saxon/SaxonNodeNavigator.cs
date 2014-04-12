@@ -37,10 +37,12 @@ namespace myxsl.net.saxon {
 
       public override string Name {
          get {
-            string prefix = Prefix, local = LocalName;
+            string prefix = Prefix;
+            string local = LocalName;
 
-            if (!String.IsNullOrEmpty(prefix))
+            if (!String.IsNullOrEmpty(prefix)) {
                return String.Concat(prefix, ":", local);
+            }
 
             return local; 
          }
@@ -48,10 +50,12 @@ namespace myxsl.net.saxon {
 
       public override string NamespaceURI {
          get {
-            if (currentNode.NodeName == null)
+            if (currentNode.NodeName == null) {
                return "";
+            }
 
-            return currentNode.NodeName.Uri ?? "";
+            return currentNode.NodeName.Uri 
+               ?? "";
          }
       }
 
@@ -114,18 +118,21 @@ namespace myxsl.net.saxon {
 
       public override string LocalName {
          get {
-            if (currentNode.NodeName == null)
+            if (currentNode.NodeName == null) {
                return "";
+            }
 
-            return currentNode.NodeName.LocalName ?? ""; 
+            return currentNode.NodeName.LocalName 
+               ?? ""; 
          }
       }
 
       public override string OuterXml {
          get { return currentNode.OuterXml; }
          set {
-            if (!this.CanEdit)
+            if (!this.CanEdit) {
                throw new InvalidOperationException("Cannot set OuterXml because this navigator does not support editing.");
+            }
             
             throw new NotImplementedException("set_OuterXml not implemented.");
          }
@@ -137,16 +144,16 @@ namespace myxsl.net.saxon {
 
       public override XmlNameTable NameTable {
          get {
-            if (_NameTable == null)
-               _NameTable = new NameTable();
-            return _NameTable;
+            return _NameTable
+               ?? (_NameTable = new NameTable());
          }
       }
 
       public override bool IsEmptyElement {
          get {
-            if (NodeType != XPathNodeType.Element)
+            if (NodeType != XPathNodeType.Element) {
                return false;
+            }
 
             return !currentNode.EnumerateAxis(XdmAxis.Child).MoveNext();
          }
@@ -280,32 +287,37 @@ namespace myxsl.net.saxon {
 
       public override bool MoveToFirstAttribute() {
 
-         if (this.NodeType != XPathNodeType.Element)
+         if (this.NodeType != XPathNodeType.Element) {
             return false;
+         }
 
          return MoveTo(XdmAxis.Attribute);
       }
 
       public override bool MoveToNextAttribute() {
 
-         if (this.NodeType != XPathNodeType.Attribute)
+         if (this.NodeType != XPathNodeType.Attribute) {
             return false;
+         }
 
          return MoveToNextInCurrentSequence();
       }
 
       public override bool MoveToFirstNamespace(XPathNamespaceScope namespaceScope) {
 
-         if (this.NodeType != XPathNodeType.Element)
+         if (this.NodeType != XPathNodeType.Element) {
             return false;
+         }
 
          IEnumerator en = this.currentNode.EnumerateAxis(XdmAxis.Namespace);
 
          while (en.MoveNext()) {
+
             XdmNode node = (XdmNode)en.Current;
 
-            if (!NamespaceScopeOk(node, namespaceScope))
+            if (!NamespaceScopeOk(node, namespaceScope)) {
                continue;
+            }
 
             this.currentNode = node;
             this.currentSequence = en;
@@ -317,14 +329,17 @@ namespace myxsl.net.saxon {
 
       public override bool MoveToNextNamespace(XPathNamespaceScope namespaceScope) {
 
-         if (this.NodeType != XPathNodeType.Namespace)
+         if (this.NodeType != XPathNodeType.Namespace) {
             return false;
+         }
 
          while (this.currentSequence.MoveNext()) {
+
             XdmNode node = (XdmNode)this.currentSequence.Current;
 
-            if (!NamespaceScopeOk(node, namespaceScope))
+            if (!NamespaceScopeOk(node, namespaceScope)) {
                continue;
+            }
 
             this.currentNode = node;
             return true;
@@ -395,8 +410,9 @@ namespace myxsl.net.saxon {
 
          SaxonNodeNavigator navigator = other as SaxonNodeNavigator;
 
-         if (navigator == null)
+         if (navigator == null) {
             return false;
+         }
 
          return navigator.currentNode.Equals(this.currentNode);
       }

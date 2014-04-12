@@ -56,17 +56,21 @@ namespace myxsl.net.net.http {
          XPathItemFactory itemFactory = this.ItemFactory;
          XmlResolver resolver = this.Resolver;
 
-         if (itemFactory == null)
+         if (itemFactory == null) {
             throw new InvalidOperationException("ItemFactory cannot be null.");
+         }
          
-         int bodiesLength = bodies != null ? bodies.Count() : 0;
+         int bodiesLength = (bodies != null) ? 
+            bodies.Count() 
+            : 0;
 
          XPathHttpRequest xpathRequest;
 
          if (request == null) {
 
-            if (String.IsNullOrEmpty(href))
+            if (String.IsNullOrEmpty(href)) {
                throw new ArgumentException("href cannot be null or empty if request is null.", "href");
+            }
 
             xpathRequest = new XPathHttpRequest { 
                Method = WebRequestMethods.Http.Get,
@@ -75,8 +79,9 @@ namespace myxsl.net.net.http {
                ItemFactory = itemFactory
             };
 
-            if (bodiesLength > 0)
+            if (bodiesLength > 0) {
                throw new ArgumentException("Cannot use the bodies parameter when request is null.", "bodies");
+            }
 
          } else {
 
@@ -87,8 +92,10 @@ namespace myxsl.net.net.http {
             xpathRequest.ReadXml(request);
 
             if (String.IsNullOrEmpty(href)) {
-               if (xpathRequest.Href == null)
+               
+               if (xpathRequest.Href == null) {
                   throw new ArgumentException("href cannot be null or empty if request.Href is null.", "href");
+               }
 
             } else {
                xpathRequest.Href = new Uri(href);
@@ -97,8 +104,10 @@ namespace myxsl.net.net.http {
             if (xpathRequest.Body != null) {
 
                if (bodiesLength > 0) {
-                  if (bodiesLength > 1)
+                  
+                  if (bodiesLength > 1) {
                      throw new ArgumentException("bodies must have a single item when request.Body is not null.", "bodies");
+                  }
 
                   xpathRequest.Body.Content = bodies.Single();
                }
@@ -107,14 +116,17 @@ namespace myxsl.net.net.http {
 
                if (bodiesLength > 0) {
 
-                  if (bodiesLength != xpathRequest.Multipart.Items.Count)
+                  if (bodiesLength != xpathRequest.Multipart.Items.Count) {
                      throw new ArgumentException("The number of items in bodies must match the multipart request bodies.", "bodies");
+                  }
 
                   for (int i = 0; i < xpathRequest.Multipart.Items.Count; i++) {
+
                      XPathHttpMultipartItem item = xpathRequest.Multipart.Items[i];
 
-                     if (item.Body != null)
+                     if (item.Body != null) {
                         item.Body.Content = bodies.Skip(i).First();
+                     }
                   }
                }
 
@@ -131,15 +143,17 @@ namespace myxsl.net.net.http {
 
          if (xpathResponse.Body != null) {
 
-            if (xpathResponse.Body.Content != null)
+            if (xpathResponse.Body.Content != null) {
                result.Add(xpathResponse.Body.Content);
+            }
 
          } else if (xpathResponse.Multipart != null) {
 
             foreach (XPathHttpMultipartItem item in xpathResponse.Multipart.Items) {
 
-               if (item.Body.Content != null)
+               if (item.Body.Content != null) {
                   result.Add(item.Body.Content);
+               }
             }
          }
 

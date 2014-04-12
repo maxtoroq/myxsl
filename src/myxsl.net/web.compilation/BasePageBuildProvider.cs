@@ -28,11 +28,9 @@ namespace myxsl.net.web.compilation {
 
       public override ICollection VirtualPathDependencies {
          get {
-            if (_VirtualPathDependencies == null)
-               _VirtualPathDependencies = ((BasePageParser)base.Parser).SourceDependencies as ICollection ??
-                  base.VirtualPathDependencies;
-            
-            return _VirtualPathDependencies;
+            return _VirtualPathDependencies
+               ?? (_VirtualPathDependencies = ((BasePageParser)base.Parser).SourceDependencies as ICollection
+                  ?? base.VirtualPathDependencies);
          }
       }
 

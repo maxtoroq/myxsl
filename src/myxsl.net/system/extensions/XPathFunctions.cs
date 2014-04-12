@@ -41,8 +41,9 @@ namespace myxsl.net.system.extensions {
 
          double? value = ExtensionObjectConvert.ToNullableDouble(arg);
 
-         if (value == null)
+         if (value == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return Math.Abs(value.Value);
       }
@@ -57,8 +58,9 @@ namespace myxsl.net.system.extensions {
             return args;
          }
 
-         if (ExtensionObjectConvert.IsEmpty(iter))
+         if (ExtensionObjectConvert.IsEmpty(iter)) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return iter.Cast<XPathNavigator>().Select(n => n.ValueAsDouble).Average();
       }
@@ -68,8 +70,9 @@ namespace myxsl.net.system.extensions {
 
          XPathNavigator node = ExtensionObjectConvert.ToXPathNavigator(arg);
 
-         if (node == null)
+         if (node == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return node.BaseURI;
       }
@@ -114,11 +117,13 @@ namespace myxsl.net.system.extensions {
             return arg;
          }
 
-         if (ExtensionObjectConvert.IsEmpty(iter))
+         if (ExtensionObjectConvert.IsEmpty(iter)) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
-         if (iter.Count == 1)
+         if (iter.Count == 1) {
             return iter.Cast<XPathNavigator>().Single().TypedValue;
+         }
 
          return ExtensionObjectConvert.ToInput(iter.Cast<XPathNavigator>().Select(n => n.TypedValue));
       }
@@ -139,34 +144,40 @@ namespace myxsl.net.system.extensions {
 
       protected bool deep_equal(object arg1, object arg2) {
 
-         if (arg1 == null)
+         if (arg1 == null) {
             return arg2 == null;
+         }
 
-         if (arg2 == null)
+         if (arg2 == null) {
             return false;
+         }
 
          var iter1 = arg1 as XPathNodeIterator;
          var iter2 = arg2 as XPathNodeIterator;
 
          if (iter1 != null) {
-            
-            if (iter2 == null)
-               return false;
 
-            if (iter1.Count != iter2.Count)
+            if (iter2 == null) {
                return false;
+            }
+
+            if (iter1.Count != iter2.Count) {
+               return false;
+            }
 
             while (iter1.MoveNext() && iter2.MoveNext()) {
 
-               if (!XPathNavigatorEqualityComparer.Instance.Equals(iter1.Current, iter2.Current)) 
+               if (!XPathNavigatorEqualityComparer.Instance.Equals(iter1.Current, iter2.Current)) {
                   return false;
+               }
             }
 
             return true;
          }
 
-         if (iter2 != null)
+         if (iter2 != null) {
             return false;
+         }
 
          return arg1.Equals(arg2);
       }
@@ -178,8 +189,10 @@ namespace myxsl.net.system.extensions {
          var distinct = new Dictionary<object, XPathNavigator>();
 
          foreach (object item in nodes.Select(n => n.TypedValue).Distinct()) {
-            if (!distinct.ContainsKey(item))
+            
+            if (!distinct.ContainsKey(item)) {
                distinct.Add(item, nodes.First(n => n.TypedValue.Equals(item)));
+            }
          }
 
          return distinct.Values.ToArray();
@@ -195,8 +208,9 @@ namespace myxsl.net.system.extensions {
 
          string value = ExtensionObjectConvert.ToString(arg);
 
-         if (value == null)
+         if (value == null) {
             return "";
+         }
 
          return Uri.EscapeDataString(value);
       }
@@ -232,8 +246,9 @@ namespace myxsl.net.system.extensions {
             return arg;
          }
 
-         if (iter.Count == 0 || iter.Count > 1)
+         if (iter.Count == 0 || iter.Count > 1) {
             throw new XsltException("fn:exactly-one called with a sequence containing zero or more than one item.");
+         }
 
          return iter;
       }
@@ -256,8 +271,9 @@ namespace myxsl.net.system.extensions {
 
          XPathNavigator node = ExtensionObjectConvert.ToXPathNavigator(arg);
 
-         if (node == null)
+         if (node == null) {
             return false;
+         }
 
          return node.HasChildren;
       }
@@ -272,8 +288,9 @@ namespace myxsl.net.system.extensions {
             return arg;
          }
 
-         if (ExtensionObjectConvert.IsEmpty(iter))
+         if (ExtensionObjectConvert.IsEmpty(iter)) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return ExtensionObjectConvert.ToXPathNavigator(iter);
       }
@@ -288,8 +305,9 @@ namespace myxsl.net.system.extensions {
 
          string str = ExtensionObjectConvert.ToString(arg);
 
-         if (str == null)
+         if (str == null) {
             return "";
+         }
 
          return str.ToLower();
       }
@@ -316,8 +334,9 @@ namespace myxsl.net.system.extensions {
             return arg;
          }
 
-         if (ExtensionObjectConvert.IsEmpty(iter))
+         if (ExtensionObjectConvert.IsEmpty(iter)) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return iter.Cast<XPathNavigator>().Max(n => n.TypedValue);
       }
@@ -332,8 +351,9 @@ namespace myxsl.net.system.extensions {
             return arg;
          }
 
-         if (ExtensionObjectConvert.IsEmpty(iter))
+         if (ExtensionObjectConvert.IsEmpty(iter)) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return iter.Cast<XPathNavigator>().Min(n => n.TypedValue);
       }
@@ -362,8 +382,9 @@ namespace myxsl.net.system.extensions {
 
          string p = ExtensionObjectConvert.ToString(prefix) ?? "";
 
-         if (!namespaces.ContainsKey(p))
+         if (!namespaces.ContainsKey(p)) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return namespaces[p];
       }
@@ -378,8 +399,9 @@ namespace myxsl.net.system.extensions {
             return arg;
          }
 
-         if (iter.Count == 0)
+         if (iter.Count == 0) {
             throw new XsltException("fn:one-or-more called with a sequence containing no items.");
+         }
 
          return iter;
       }
@@ -398,8 +420,9 @@ namespace myxsl.net.system.extensions {
 
          string str = ExtensionObjectConvert.ToString(arg);
 
-         if (str == null)
+         if (str == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          var parseOptions = new XmlParsingOptions { 
             ConformanceLevel = (fragment) ? 
@@ -409,8 +432,9 @@ namespace myxsl.net.system.extensions {
 
          var itemFactory = new SystemItemFactory();
 
-         using (var reader = new StringReader(str)) 
+         using (var reader = new StringReader(str)) {
             return ExtensionObjectConvert.ToInput(itemFactory.CreateNodeReadOnly(reader, parseOptions));
+         }
       }
 
       public object path(XPathNodeIterator arg) {
@@ -418,8 +442,9 @@ namespace myxsl.net.system.extensions {
 
          XPathNavigator node = ExtensionObjectConvert.ToXPathNavigator(arg);
 
-         if (node == null)
+         if (node == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          var reverseBuffer = new List<string>();
 
@@ -427,13 +452,15 @@ namespace myxsl.net.system.extensions {
 
          path_impl(clone, reverseBuffer);
 
-         if (reverseBuffer.Count == 1)
+         if (reverseBuffer.Count == 1) {
             return reverseBuffer[0];
+         }
 
          // replace document-node path expr with empty string
          // so join operation doesn't create //
-         if (reverseBuffer[reverseBuffer.Count - 1] == "/")
+         if (reverseBuffer[reverseBuffer.Count - 1] == "/") {
             reverseBuffer[reverseBuffer.Count - 1] = "";
+         }
 
          return String.Join("/", Enumerable.Reverse(reverseBuffer));
       }
@@ -457,8 +484,9 @@ namespace myxsl.net.system.extensions {
                   int position = 1;
 
                   while (node.MoveToPrevious()) {
-                     if (node.NodeType == XPathNodeType.Comment) 
+                     if (node.NodeType == XPathNodeType.Comment) {
                         position++;
+                     }
                   }
 
                   reverseBuffer.Add(String.Concat("comment()[", position.ToStringInvariant(), "]"));
@@ -534,8 +562,9 @@ namespace myxsl.net.system.extensions {
                break;
          }
 
-         if (node.MoveToParent())
+         if (node.MoveToParent()) {
             path_impl(node, reverseBuffer);
+         }
       }
 
       public string replace(string input, string pattern, string replacement) {
@@ -554,8 +583,9 @@ namespace myxsl.net.system.extensions {
 
          string relativeUriStr = ExtensionObjectConvert.ToString(relativeUri);
 
-         if (relativeUriStr == null)
+         if (relativeUriStr == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          Uri resolvedUri = resolve_uri_impl(relativeUriStr, static_base_uri_impl());
 
@@ -567,8 +597,9 @@ namespace myxsl.net.system.extensions {
 
          string relativeUriStr = ExtensionObjectConvert.ToString(relativeUri);
 
-         if (relativeUriStr == null)
+         if (relativeUriStr == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          Uri baseU = new Uri(baseUri, UriKind.Absolute);
          Uri resolvedUri = resolve_uri_impl(relativeUriStr, baseU);
@@ -597,8 +628,9 @@ namespace myxsl.net.system.extensions {
             return arg;
          }
 
-         if (ExtensionObjectConvert.IsEmpty(iter))
+         if (ExtensionObjectConvert.IsEmpty(iter)) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return iter.Cast<XPathNavigator>().Reverse().ToArray();
       }
@@ -608,8 +640,9 @@ namespace myxsl.net.system.extensions {
 
          XPathNavigator node = ExtensionObjectConvert.ToXPathNavigator(arg);
 
-         if (node == null)
+         if (node == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          XPathNavigator clone = node.Clone();
 
@@ -623,8 +656,9 @@ namespace myxsl.net.system.extensions {
 
          double? value = ExtensionObjectConvert.ToNullableDouble(arg);
 
-         if (value == null)
+         if (value == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return Math.Round(value.Value, MidpointRounding.ToEven);
       }
@@ -634,8 +668,9 @@ namespace myxsl.net.system.extensions {
 
          double? value = ExtensionObjectConvert.ToNullableDouble(arg);
 
-         if (value == null)
+         if (value == null) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return Math.Round(value.Value, precision, MidpointRounding.ToEven);
       }
@@ -662,10 +697,11 @@ namespace myxsl.net.system.extensions {
             
             IEnumerable<XPathItem> items = arg.Cast<XPathItem>();
 
-            if (options == null)
+            if (options == null) {
                itemFactory.Serialize(items, writer);
-            else
+            } else {
                itemFactory.Serialize(items, writer, options);
+            }
             
             return writer.ToString();
          }
@@ -681,8 +717,9 @@ namespace myxsl.net.system.extensions {
 
       Uri static_base_uri_impl() {
 
-         if (this.resolver == null)
+         if (this.resolver == null) {
             return null;
+         }
 
          return this.resolver.ResolveUri(null, "");
       }
@@ -701,8 +738,9 @@ namespace myxsl.net.system.extensions {
             return arg.ToString();
          }
 
-         if (ExtensionObjectConvert.IsEmpty(iter))
+         if (ExtensionObjectConvert.IsEmpty(iter)) {
             return "";
+         }
 
          return String.Join(separator, iter.Cast<XPathNavigator>().Select(n => n.Value));
       }
@@ -734,8 +772,9 @@ namespace myxsl.net.system.extensions {
 
          string inputStr = ExtensionObjectConvert.ToString(input);
 
-         if (!inputStr.HasValue())
+         if (!inputStr.HasValue()) {
             return ExtensionObjectConvert.EmptyIterator;
+         }
 
          return ExtensionObjectConvert.ToInput(Regex.Split(inputStr, pattern, ParseFlags(flags)));
       }
@@ -753,8 +792,9 @@ namespace myxsl.net.system.extensions {
 
          string str = ExtensionObjectConvert.ToString(arg);
 
-         if (str == null)
+         if (str == null) {
             return "";
+         }
 
          return str.ToUpper();
       }
@@ -778,8 +818,9 @@ namespace myxsl.net.system.extensions {
 
          RegexOptions options = RegexOptions.None;
 
-         if (!flags.HasValue())
+         if (!flags.HasValue()) {
             return options;
+         }
 
          char[] flagChars = flags.ToCharArray();
 

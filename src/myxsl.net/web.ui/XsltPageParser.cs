@@ -37,9 +37,8 @@ namespace myxsl.net.web.ui {
 
       string[] ExpressionBuilderNamespaces {
          get {
-            if (_ExpressionBuilderNamespaces == null)
-               _ExpressionBuilderNamespaces = BindingExpressionBuilder.GetNamespaces();
-            return _ExpressionBuilderNamespaces;
+            return _ExpressionBuilderNamespaces
+               ?? (_ExpressionBuilderNamespaces = BindingExpressionBuilder.GetNamespaces());
          }
       }
 
@@ -54,8 +53,11 @@ namespace myxsl.net.web.ui {
       public Uri XsltPhysicalUri {
          get {
             if (_XsltPhysicalUri == null) {
-               if (XsltVirtualPath == null)
+               
+               if (XsltVirtualPath == null) {
                   throw new InvalidOperationException("XsltVirtualPath cannot be null");
+               }
+
                _XsltPhysicalUri = new Uri(HostingEnvironment.MapPath(XsltVirtualPath), UriKind.Absolute);
             }
             return _XsltPhysicalUri;
@@ -94,8 +96,9 @@ namespace myxsl.net.web.ui {
 
          nav.MoveToRoot();
 
-         if (Processors.Xslt.Count == 0)
+         if (Processors.Xslt.Count == 0) {
             throw CreateParseException("There are no XSLT processors registered to render this page.");
+         }
 
          this.ProcessorName = Processors.Xslt.DefaultProcessorName;
          this.XsltVirtualPath = this.VirtualPath;
@@ -123,20 +126,26 @@ namespace myxsl.net.web.ui {
          for (bool moved = nav.MoveToFirstChild(); moved; moved = nav.MoveToNext()) {
 
             if (nav.NodeType == XPathNodeType.Element) {
-               if (this.PageType == XsltPageType.StandardStylesheet)
+
+               if (this.PageType == XsltPageType.StandardStylesheet) {
                   ParseDeclarations();
+               }
 
             } else if (nav.NodeType == XPathNodeType.ProcessingInstruction) {
 
                switch (nav.LocalName) {
                   case page.it:
-                     if (pageDone) goto non_unique;
+                     if (pageDone) { 
+                        goto non_unique; 
+                     }
                      ParsePagePI();
                      pageDone = true;
                      break;
 
                   case output_cache.it:
-                     if (outputCacheDone) goto non_unique;
+                     if (outputCacheDone) {
+                        goto non_unique;
+                     }
                      this.OutputCache = ParseOutputCachePI();
                      outputCacheDone = true;
                      break;
@@ -170,8 +179,9 @@ namespace myxsl.net.web.ui {
 
          string localPath = HostingEnvironment.MapPath(virtualPath);
 
-         using (TextReader source = File.OpenText(localPath)) 
-            return new XPathDocument(XmlReader.Create(source, readerSettings)); 
+         using (TextReader source = File.OpenText(localPath)) {
+            return new XPathDocument(XmlReader.Create(source, readerSettings));
+         }
       }
 
       protected XsltPageType GetPageType(out string associatedStylesheetVirtualPath) {
@@ -185,18 +195,20 @@ namespace myxsl.net.web.ui {
          bool xmlStyleDone = false;
 
          for (bool moved = nav.MoveToChild(XPathNodeType.ProcessingInstruction); moved; moved = nav.MoveToNext()) {
+
             switch (nav.LocalName) {
                case xml_stylesheet.it:
                   IDictionary<string, string> styleAttr = GetAttributes(nav.Value);
                   string assocVirtualPath = GetAssociatedStylesheetVirtualPath(styleAttr);
 
                   if (assocVirtualPath != null) {
-                     if (xmlStyleDone)
+                     
+                     if (xmlStyleDone) {
                         throw CreateParseException("There can be only one '{0}' processing instruction.", nav.LocalName);
-                     else {
-                        associatedStylesheetVirtualPath = assocVirtualPath;
-                        return XsltPageType.AssociatedStylesheet;
                      }
+
+                     associatedStylesheetVirtualPath = assocVirtualPath;
+                     return XsltPageType.AssociatedStylesheet;
                   }
 
                   break;
@@ -208,11 +220,15 @@ namespace myxsl.net.web.ui {
          nav.MoveToRoot();
          nav.MoveToChild(XPathNodeType.Element);
 
-         if (nav.NamespaceURI == WellKnownNamespaces.XSLT)
+         if (nav.NamespaceURI == WellKnownNamespaces.XSLT) {
             return XsltPageType.StandardStylesheet;
+         }
 
-         else if (nav.HasAttributes && !String.IsNullOrEmpty(nav.GetAttribute("version", WellKnownNamespaces.XSLT))) 
+         if (nav.HasAttributes 
+            && !String.IsNullOrEmpty(nav.GetAttribute("version", WellKnownNamespaces.XSLT))) {
+
             return XsltPageType.SimplifiedStylesheet;
+         }
 
          throw CreateParseException("xsl:version attribute is missing (xsl prefix bound to '{0}').", WellKnownNamespaces.XSLT);
       }
@@ -234,41 +250,48 @@ namespace myxsl.net.web.ui {
          // language
          string language = GetNonEmptyNoWhitespaceAttribute(attribs, page.language);
 
-         if (language != null)
+         if (language != null) {
             this.Language = language;
+         }
 
          // class-name
          string className = GetFullClassNameAttribute(attribs, page.class_name);
 
-         if (!String.IsNullOrEmpty(className))
+         if (!String.IsNullOrEmpty(className)) {
             this.GeneratedTypeFullName = className;
+         }
 
          // content-type
          string contentType = GetNonEmptyAttribute(attribs, page.content_type);
 
-         if (contentType != null)
+         if (contentType != null) {
             this.ContentType = contentType;
+         }
 
          // enable-session-state
          object enableSs = GetEnumAttribute(attribs, page.enable_session_state, typeof(PagesEnableSessionState));
 
-         if (enableSs != null)
+         if (enableSs != null) {
             this.EnableSessionState = (PagesEnableSessionState)enableSs;
+         }
 
          // validate-request
          bool valReq = default(bool);
 
-         if (GetBooleanAttribute(attribs, page.validate_request, ref valReq))
+         if (GetBooleanAttribute(attribs, page.validate_request, ref valReq)) {
             this.ValidateRequest = valReq;
+         }
 
          // accept-verbs
          string acceptVerbs = GetNonEmptyAttribute(attribs, page.accept_verbs);
 
          if (acceptVerbs != null) { 
+
             string[] verbs = acceptVerbs.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-            for (int i = 0; i < verbs.Length; i++)
+            for (int i = 0; i < verbs.Length; i++) {
                this.AcceptVerbs.Add(verbs[i].Trim());
+            }
          }
 
          // XSLT related attributes
@@ -295,8 +318,9 @@ namespace myxsl.net.web.ui {
                itLocal = itParts[1];
                string itPrefix = itParts[0];
 
-               if (namespacesInScope.ContainsKey(itPrefix))
+               if (namespacesInScope.ContainsKey(itPrefix)) {
                   itNamespace = namespacesInScope[itPrefix];
+               }
             }
 
             this.InitialTemplate = new XmlQualifiedName(itLocal, itNamespace);
@@ -335,8 +359,9 @@ namespace myxsl.net.web.ui {
                      throw CreateParseException(ex.Message);
                   }
 
-                  if (this.InitialTemplateBinding != null)
+                  if (this.InitialTemplateBinding != null) {
                      this.InitialTemplateBinding.LineNumber = ((IXmlLineInfo)nav).LineNumber;
+                  }
                }
             }
          }
@@ -373,8 +398,9 @@ namespace myxsl.net.web.ui {
          // cache-profile
          string cacheProfile = GetNonEmptyAttribute(attribs, output_cache.cache_profile);
 
-         if (cacheProfile != null)
+         if (cacheProfile != null) {
             parameters["CacheProfile"] = cacheProfile;
+         }
 
          bool otherParamsRequired = loc != OutputCacheLocation.None
             && cacheProfile == null;
@@ -382,52 +408,62 @@ namespace myxsl.net.web.ui {
          // duration
          string durationStr = GetNonEmptyAttribute(attribs, output_cache.duration);
 
-         if (otherParamsRequired)
+         if (otherParamsRequired) {
             EnsureNonNull(durationStr, output_cache.it, output_cache.duration);
+         }
 
          if (durationStr != null) {
+
             int duration;
 
-            if (!int.TryParse(durationStr, out duration) || duration <= 0)
+            if (!int.TryParse(durationStr, out duration) 
+               || duration <= 0) {
+
                throw CreateParseException("The '{0}' attribute must be set to a positive integer value.", output_cache.duration);
-            else
-               parameters["Duration"] = duration; 
+            }
+            
+            parameters["Duration"] = duration; 
          }
 
          // vary-by-param
          string varyByParam = GetNonEmptyAttribute(attribs, output_cache.vary_by_param);
 
-         if (otherParamsRequired)
+         if (otherParamsRequired) {
             EnsureNonNull(varyByParam, output_cache.it, output_cache.vary_by_param);
+         }
 
          if (varyByParam != null) {
-            parameters["VaryByParam"] = String.Equals(varyByParam, "none", StringComparison.OrdinalIgnoreCase) ?
-               null : varyByParam; 
+            parameters["VaryByParam"] = String.Equals(varyByParam, "none", StringComparison.OrdinalIgnoreCase) ? null 
+               : varyByParam; 
          }
 
          // no-store
          bool noStore = default(bool);
 
-         if (GetBooleanAttribute(attribs, output_cache.no_store, ref noStore))
+         if (GetBooleanAttribute(attribs, output_cache.no_store, ref noStore)) {
             parameters["NoStore"] = noStore;
+         }
 
          // vary-by-header
          string varyByHeader = GetNonEmptyAttribute(attribs, output_cache.vary_by_header);
 
-         if (varyByHeader != null)
+         if (varyByHeader != null) {
             parameters["VaryByHeader"] = varyByHeader;
+         }
 
          // vary-by-custom
          string varyByCustom = GetNonEmptyAttribute(attribs, output_cache.vary_by_custom);
 
-         if (varyByCustom != null)
+         if (varyByCustom != null) {
             parameters["VaryByCustom"] = varyByCustom;
+         }
 
          // vary-by-content-encodings
          string varyByContentEncoding = GetNonEmptyAttribute(attribs, output_cache.vary_by_content_encodings);
 
-         if (varyByContentEncoding != null)
+         if (varyByContentEncoding != null) {
             parameters["VaryByContentEncoding"] = varyByContentEncoding;
+         }
 
          return parameters;
       }
@@ -439,8 +475,9 @@ namespace myxsl.net.web.ui {
          string href = GetVirtualPathAttribute(attribs, reference.href, true);
          EnsureNonNull(href, reference.it, reference.href);
 
-         if (!this.SourceDependencies.Contains(href))
+         if (!this.SourceDependencies.Contains(href)) {
             this.SourceDependencies.Add(href);
+         }
       }
 
       protected void ParseImportPI() {
@@ -464,16 +501,19 @@ namespace myxsl.net.web.ui {
          bool movedToChildren = nav.MoveToFirstChild();
 
          for (bool moved = movedToChildren; moved; moved = nav.MoveToNext()) {
-            
-            if (nav.LocalName == "param" && nav.NamespaceURI == WellKnownNamespaces.XSLT) 
+
+            if (nav.LocalName == "param" && nav.NamespaceURI == WellKnownNamespaces.XSLT) {
                ParseParameter();
             
-            else if ((nav.LocalName == "import" || nav.LocalName == "include") && nav.NamespaceURI == WellKnownNamespaces.XSLT)
+            } else if ((nav.LocalName == "import" || nav.LocalName == "include") && nav.NamespaceURI == WellKnownNamespaces.XSLT) {
+
                ParseImportDeclaration(this.VirtualPath);
+            }
          }
 
-         if (movedToChildren)
+         if (movedToChildren) {
             nav.MoveToParent();
+         }
       }
 
       protected void ParseImportDeclaration(string importingVirtualPath) {
@@ -503,8 +543,11 @@ namespace myxsl.net.web.ui {
                   .Split('/')[0]
                   .Equals("App_Code", StringComparison.OrdinalIgnoreCase);
 
-               if (!isInCodeDir && !this.SourceDependencies.Contains(virtualPath)) 
+               if (!isInCodeDir 
+                  && !this.SourceDependencies.Contains(virtualPath)) {
+
                   this.SourceDependencies.Add(virtualPath);
+               }
 
                if (!visitedDocs.Contains(virtualPath)) {
                   visitedDocs.Add(virtualPath);
@@ -524,11 +567,12 @@ namespace myxsl.net.web.ui {
 
             for (bool moved = nav.MoveToChild(XPathNodeType.Element); moved; moved = nav.MoveToNext(XPathNodeType.Element)) {
 
-               if (nav.LocalName == "param" && nav.NamespaceURI == WellKnownNamespaces.XSLT)
+               if (nav.LocalName == "param" && nav.NamespaceURI == WellKnownNamespaces.XSLT) {
                   ParseParameter();
 
-               else if ((nav.LocalName == "import" || nav.LocalName == "include") && nav.NamespaceURI == WellKnownNamespaces.XSLT)
+               } else if ((nav.LocalName == "import" || nav.LocalName == "include") && nav.NamespaceURI == WellKnownNamespaces.XSLT) {
                   ParseImportDeclaration(importingVirtualPath);
+               }
             }
          }
       }
@@ -539,8 +583,9 @@ namespace myxsl.net.web.ui {
 
          string nameValue = nav.GetAttribute("name", "");
 
-         if (this.Parameters.Contains(nameValue))
+         if (this.Parameters.Contains(nameValue)) {
             return;
+         }
 
          PageParameterInfo paramInfo = null;
 
@@ -559,8 +604,9 @@ namespace myxsl.net.web.ui {
                   throw CreateParseException(ex.Message);
                }
 
-               if (exprInfo != null)
+               if (exprInfo != null) {
                   exprInfo.LineNumber = ((IXmlLineInfo)nav).LineNumber;
+               }
 
                nav.MoveToParent();
 
@@ -573,20 +619,24 @@ namespace myxsl.net.web.ui {
                paramInfo = PageParameterInfo.FromSequenceType(nameValue, asValue, namespacesInScope);
 
                if (hasDefaultValue) {
-                  if (paramInfo.MinLength > 0)
+                  if (paramInfo.MinLength > 0) {
                      paramInfo.MinLength = 0;
+                  }
 
                } else if (required) {
-                  if (paramInfo.MinLength == 0)
+
+                  if (paramInfo.MinLength == 0) {
                      paramInfo.MinLength = 1;
+                  }
                }
 
                paramInfo.Binding = exprInfo;
             }
          }
 
-         if (paramInfo != null)
+         if (paramInfo != null) {
             this.Parameters.Add(paramInfo);
+         }
       }
 
       protected override Exception CreateParseException(string format, params object[] args) {

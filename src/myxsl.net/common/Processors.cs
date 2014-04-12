@@ -34,8 +34,9 @@ namespace myxsl.net.common {
          get {
             if (_All == null) {
                lock (padlock) {
-                  if (_All == null) 
+                  if (_All == null) {
                      _All = new Processors<object>(LibraryConfigSection.Instance.Processors, null);
+                  }
                }
             }
             return _All;
@@ -73,7 +74,9 @@ namespace myxsl.net.common {
       internal static object GetInstance(string name) {
 
          if (!instances.ContainsKey(name)) {
+
             lock (padlock) {
+
                if (!instances.ContainsKey(name)) {
 
                   ProcessorElementCollection config = LibraryConfigSection.Instance.Processors;
@@ -98,9 +101,8 @@ namespace myxsl.net.common {
 
       public TProc DefaultProcessor {
          get {
-            if (_DefaultProcessor == null)
-               _DefaultProcessor = (TProc)Processors.GetInstance(DefaultProcessorName);
-            return _DefaultProcessor;
+            return _DefaultProcessor
+               ?? (_DefaultProcessor = (TProc)Processors.GetInstance(DefaultProcessorName));
          }
       }
 
@@ -118,8 +120,9 @@ namespace myxsl.net.common {
 
       public TProc this[string name] {
          get {
-            if (!Exists(name)) 
+            if (!Exists(name)) {
                throw new ArgumentException("The processor '{0}' is not registered.".FormatInvariant(name), "name");
+            }
             
             return (TProc)Processors.GetInstance(name);
          }

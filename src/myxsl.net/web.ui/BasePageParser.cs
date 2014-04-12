@@ -61,25 +61,25 @@ namespace myxsl.net.web.ui {
 
       public PageParameterInfoCollection Parameters {
          get {
-            if (_Parameters == null)
-               _Parameters = new PageParameterInfoCollection();
-            return _Parameters;
+            return _Parameters
+               ?? (_Parameters = new PageParameterInfoCollection());
          }
       }
 
       public IList<string> AcceptVerbs { 
          get { 
-            if (_AcceptVerbs == null)
-               _AcceptVerbs = new List<string>();
-            return _AcceptVerbs;
+            return _AcceptVerbs
+               ?? (_AcceptVerbs = new List<string>());
          } 
       }
 
       public IList<string> SourceDependencies {
          get {
             if (_SourceDependencies == null) {
-               if (String.IsNullOrEmpty(this.VirtualPath))
+               
+               if (String.IsNullOrEmpty(this.VirtualPath)) {
                   throw new InvalidOperationException("VirtualPath cannot be null or empty.");
+               }
                _SourceDependencies = new List<string> { this.VirtualPath };
             }
             return _SourceDependencies;
@@ -93,8 +93,9 @@ namespace myxsl.net.web.ui {
 
                EnsureConfig();
 
-               foreach (ParsedValue<string> item in config.Namespaces.Cast<NamespaceInfo>().Select(n => new ParsedValue<string>(n.Namespace, n.ElementInformation.Source, n.ElementInformation.LineNumber))) 
+               foreach (ParsedValue<string> item in config.Namespaces.Cast<NamespaceInfo>().Select(n => new ParsedValue<string>(n.Namespace, n.ElementInformation.Source, n.ElementInformation.LineNumber))) {
                   _Namespaces.Add(item);
+               }
             }
             return _Namespaces;
          }
@@ -102,13 +103,13 @@ namespace myxsl.net.web.ui {
 
       void EnsureConfig() {
 
-         if (this.config != null)
+         if (this.config != null) {
             return;
+         }
 
          var localConfig = (LibraryConfigSection)WebConfigurationManager.GetSection(LibraryConfigSection.SectionName, this.AppRelativeVirtualPath);
 
-         this.config = (localConfig != null) ?
-            localConfig.Web.Pages
+         this.config = (localConfig != null) ? localConfig.Web.Pages
             : LibraryConfigSection.Instance.Web.Pages;
       }
    }
