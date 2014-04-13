@@ -187,11 +187,11 @@ namespace myxsl.net.common {
             throw new ArgumentNullException("namespacesInScope", "namespacesInScope is needed to resolve the ItemType.");
          }
 
-         if (!namespacesInScope.ContainsKey(prefix)) {
+         string ns;
+
+         if (!namespacesInScope.TryGetValue(prefix, out ns)) {
             throw new ArgumentException("namespacesInScope does not contain a mapping for prefix '{0}'.".FormatInvariant(prefix), "namespacesInScope");
          }
-
-         string ns = namespacesInScope[prefix];
 
          return new XmlQualifiedName(local, ns);
       }

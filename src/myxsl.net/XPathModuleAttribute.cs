@@ -62,6 +62,7 @@ namespace myxsl.net {
 
          if (namespaceBindings != null
             && namespaceBindings.Length % 2 != 0) {
+
             throw new ArgumentException(
                "The length of namespaceBindings must be even.",
                "namespaceBindings"

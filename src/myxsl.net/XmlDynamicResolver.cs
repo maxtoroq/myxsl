@@ -76,8 +76,9 @@ namespace myxsl.net {
 
          string scheme = absoluteUri.Scheme;
 
-         if (!IsKnownScheme(scheme))
+         if (!IsKnownScheme(scheme)) {
             throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "There isn't a resolver registered for the '{0}' scheme.", scheme));
+         }
 
          XmlResolver resolver = GetResolver(scheme);
 
@@ -89,19 +90,20 @@ namespace myxsl.net {
       }
 
       bool IsKnownScheme(string scheme) {
-         return this.resolvers.ContainsKey(scheme) || LibraryConfigSection.Instance.Resolvers.Get(scheme) != null;
+         
+         return this.resolvers.ContainsKey(scheme) 
+            || LibraryConfigSection.Instance.Resolvers.Get(scheme) != null;
       }
 
       XmlResolver GetResolver(string scheme) {
 
          XmlResolver resolver;
 
-         if (this.resolvers.ContainsKey(scheme)) {
-            resolver = this.resolvers[scheme];
-         } else {
+         if (!this.resolvers.TryGetValue(scheme, out resolver)) {
             resolver = CreateResolver(scheme);
             this.resolvers[scheme] = resolver;
          }
+
          return resolver;
       }
 

@@ -50,7 +50,8 @@ namespace myxsl.net {
             host = null;
          }
 
-         string resourceName = ((host != null) ? absoluteUri.GetComponents(UriComponents.Host | UriComponents.Path, UriFormat.Unescaped)
+         string resourceName = ((host != null) ? 
+            absoluteUri.GetComponents(UriComponents.Host | UriComponents.Path, UriFormat.Unescaped)
             : absoluteUri.AbsolutePath)
             .Replace("/", ".");
 

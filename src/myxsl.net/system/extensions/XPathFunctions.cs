@@ -382,11 +382,13 @@ namespace myxsl.net.system.extensions {
 
          string p = ExtensionObjectConvert.ToString(prefix) ?? "";
 
-         if (!namespaces.ContainsKey(p)) {
+         string ns;
+
+         if (!namespaces.TryGetValue(p, out ns)) {
             return ExtensionObjectConvert.EmptyIterator;
          }
 
-         return namespaces[p];
+         return ns;
       }
 
       protected object one_or_more(object arg) {
