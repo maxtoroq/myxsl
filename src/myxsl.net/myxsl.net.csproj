@@ -56,10 +56,24 @@
     <Compile Include="common\XPathVariableInfo.cs" />
     <Compile Include="common\XsltProcessorExtensions.cs" />
     <Compile Include="io\XPathFileSystem.cs" />
-    <Compile Include="validation\SchematronInvoker.cs" />
-    <Compile Include="validation\SchematronResultHandler.cs" />
+    <Compile Include="schematron\SchematronExtensions.cs" />
+    <Compile Include="schematron\SchematronInvoker.cs" />
+    <Compile Include="schematron\SchematronModule.cs" />
+    <Compile Include="schematron\SchematronResultHandler.cs" />
+    <Compile Include="schematron\SchematronRuntimeOptions.cs" />
+    <Compile Include="schematron\SchematronValidator.cs" />
+    <Compile Include="schematron\XsltSchematronValidator.cs" />
+    <Compile Include="xml.xsl\EmptyXPathNodeIterator.cs" />
+    <Compile Include="xml.xsl\ExtensionObjectConvert.cs" />
+    <Compile Include="xml.xsl\ExtensionObjectGenerator.cs" />
+    <Compile Include="xml.xsl\extensions\XmlSchemaConstructorFunctions.cs" />
+    <Compile Include="xml.xsl\extensions\XPathFunctions.cs" />
+    <Compile Include="xml.xsl\extensions\XPathMathFunctions.cs" />
+    <Compile Include="xml.xsl\SystemItemFactory.cs" />
+    <Compile Include="xml.xsl\SystemXsltException.cs" />
+    <Compile Include="xml.xsl\SystemXsltExecutable.cs" />
+    <Compile Include="xml.xsl\SystemXsltProcessor.cs" />
     <Compile Include="XmlRootPrefixedAttribute.cs" />
-    <Compile Include="XQueryModule.cs" />
     <Compile Include="net.http\MediaTypes.cs" />
     <Compile Include="net.http\XPathHttpBody.cs" />
     <Compile Include="net.http\XPathHttpClient.cs" />
@@ -74,9 +88,6 @@
     <Compile Include="net.mail\XPathSmtpError.cs" />
     <Compile Include="net.mail\XPathSmtpSuccess.cs" />
     <Compile Include="security\SecurityModule.cs" />
-    <Compile Include="system\extensions\XmlSchemaConstructorFunctions.cs" />
-    <Compile Include="system\extensions\XPathFunctions.cs" />
-    <Compile Include="system\extensions\XPathMathFunctions.cs" />
     <Compile Include="util\PseudoAttributeParser.cs" />
     <Compile Include="configuration\ConfigurationModule.cs" />
     <Compile Include="util\XPathNavigatorEqualityComparer.cs" />
@@ -105,11 +116,6 @@
     <Compile Include="common\XPathSequenceCardinality.cs" />
     <Compile Include="common\XPathSequenceType.cs" />
     <Compile Include="util\FormatInvariantExtensions.cs" />
-    <Compile Include="validation\schematron\SchematronExtensions.cs" />
-    <Compile Include="validation\schematron\SchematronModule.cs" />
-    <Compile Include="validation\schematron\SchematronRuntimeOptions.cs" />
-    <Compile Include="validation\schematron\SchematronValidator.cs" />
-    <Compile Include="validation\schematron\XsltSchematronValidator.cs" />
     <Compile Include="web\PreApplicationStartCode.cs" />
     <Compile Include="util\StringExtensions.cs" />
     <Compile Include="web.compilation\BindingExpressionContext.cs" />
@@ -123,11 +129,12 @@
     <Compile Include="XPathFunctionAttribute.cs" />
     <Compile Include="XPathModuleAttribute.cs" />
     <Compile Include="XPathModuleExportAttribute.cs" />
-    <Compile Include="XQueryInvoker.cs" />
-    <Compile Include="XQueryResultHandler.cs" />
-    <Compile Include="XsltInvoker.cs" />
-    <Compile Include="XsltModule.cs" />
-    <Compile Include="XsltResultHandler.cs" />
+    <Compile Include="xquery\XQueryInvoker.cs" />
+    <Compile Include="xquery\XQueryModule.cs" />
+    <Compile Include="xquery\XQueryResultHandler.cs" />
+    <Compile Include="xslt\XsltInvoker.cs" />
+    <Compile Include="xslt\XsltModule.cs" />
+    <Compile Include="xslt\XsltResultHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -145,13 +152,6 @@
     <Compile Include="common\XPathModuleInfo.cs" />
     <Compile Include="web.ui\PageHandlerFactory.cs" />
     <Compile Include="web\XmlVirtualPathAwareUrlResolver.cs" />
-    <Compile Include="system\EmptyXPathNodeIterator.cs" />
-    <Compile Include="system\ExtensionObjectConvert.cs" />
-    <Compile Include="system\ExtensionObjectGenerator.cs" />
-    <Compile Include="system\SystemItemFactory.cs" />
-    <Compile Include="system\SystemXsltException.cs" />
-    <Compile Include="system\SystemXsltExecutable.cs" />
-    <Compile Include="system\SystemXsltProcessor.cs" />
     <Compile Include="util\CLR.cs" />
     <Compile Include="util\StreamUtil.cs" />
     <Compile Include="web.compilation\SessionExpressionBuilder.cs" />
@@ -183,43 +183,26 @@
     <Compile Include="util\XmlWrappingWriter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="validation\schematron\xslt2\iso_abstract_expand.xsl" />
+    <EmbeddedResource Include="schematron\xslt1\iso_abstract_expand.xsl" />
+    <EmbeddedResource Include="schematron\xslt1\iso_dsdl_include.xsl" />
+    <EmbeddedResource Include="schematron\xslt1\iso_schematron_message.xsl" />
+    <EmbeddedResource Include="schematron\xslt1\iso_schematron_skeleton_for_xslt1.xsl" />
+    <EmbeddedResource Include="schematron\xslt1\iso_svrl_for_xslt1.xsl" />
+    <EmbeddedResource Include="schematron\xslt1\readme.txt" />
+    <EmbeddedResource Include="schematron\xslt2\iso_abstract_expand.xsl" />
+    <EmbeddedResource Include="schematron\xslt2\iso_dsdl_include.xsl" />
+    <EmbeddedResource Include="schematron\xslt2\iso_schematron_message_xslt2.xsl" />
+    <EmbeddedResource Include="schematron\xslt2\iso_schematron_skeleton_for_saxon.xsl" />
+    <EmbeddedResource Include="schematron\xslt2\iso_svrl_for_xslt2.xsl" />
+    <EmbeddedResource Include="schematron\xslt2\readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="validation\schematron\xslt2\iso_dsdl_include.xsl" />
+    <EmbeddedResource Include="schematron\xslt2\sch-messages-cs.xhtml" />
+    <EmbeddedResource Include="schematron\xslt2\sch-messages-de.xhtml" />
+    <EmbeddedResource Include="schematron\xslt2\sch-messages-en.xhtml" />
+    <EmbeddedResource Include="schematron\xslt2\sch-messages-fr.xhtml" />
+    <EmbeddedResource Include="schematron\xslt2\sch-messages-nl.xhtml" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="validation\schematron\xslt2\iso_schematron_message_xslt2.xsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="validation\schematron\xslt2\iso_schematron_skeleton_for_saxon.xsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="validation\schematron\xslt2\iso_svrl_for_xslt2.xsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="validation\schematron\xslt2\readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="validation\schematron\xslt2\sch-messages-en.xhtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="validation\schematron\xslt1\iso_abstract_expand.xsl" />
-    <EmbeddedResource Include="validation\schematron\xslt1\iso_dsdl_include.xsl" />
-    <EmbeddedResource Include="validation\schematron\xslt1\iso_schematron_message.xsl" />
-    <EmbeddedResource Include="validation\schematron\xslt1\iso_schematron_skeleton_for_xslt1.xsl" />
-    <EmbeddedResource Include="validation\schematron\xslt1\iso_svrl_for_xslt1.xsl" />
-    <EmbeddedResource Include="validation\schematron\xslt1\readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="validation\schematron\xslt2\sch-messages-de.xhtml" />
-    <EmbeddedResource Include="validation\schematron\xslt2\sch-messages-fr.xhtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="validation\schematron\xslt2\sch-messages-cs.xhtml" />
-    <EmbeddedResource Include="validation\schematron\xslt2\sch-messages-nl.xhtml" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

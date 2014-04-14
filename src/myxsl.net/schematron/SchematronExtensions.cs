@@ -85,7 +85,7 @@ namespace myxsl.schematron {
          Uri baseUri = new UriBuilder {
             Scheme = XmlEmbeddedResourceResolver.UriSchemeClires,
             Host = null,
-            Path = String.Concat(assembly.GetName().Name, "/validation/schematron/", xsltVersion, "/")
+            Path = String.Concat(assembly.GetName().Name, "/schematron/", xsltVersion, "/")
          }.Uri;
 
          var compileOptions = new XsltCompileOptions(baseUri);
