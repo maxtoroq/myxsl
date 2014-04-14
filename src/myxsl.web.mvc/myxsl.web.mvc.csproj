@@ -55,7 +55,7 @@
     <Compile Include="XsltViewEngine.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\myxsl.net\myxsl.net.csproj">
+    <ProjectReference Include="..\myxsl\myxsl.csproj">
       <Project>{8A918123-1467-469E-9C78-6D37A8F911F3}</Project>
       <Name>myxsl.net</Name>
     </ProjectReference>
