@@ -18,5 +18,5 @@ return
          else
             $path
       
-      let $source-url as xs:string := concat('https://github.com/maxtoroq/myxsl.net/blob/master/samples', $path2)
+      let $source-url as xs:string := concat('https://github.com/myxsl/myxsl/blob/master/samples', $path2)
       return response:redirect($source-url)

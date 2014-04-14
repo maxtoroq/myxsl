@@ -114,12 +114,12 @@
 
       <h2 id="source">Source code</h2>
       <p>
-         Visit the <a href="https://github.com/maxtoroq/myxsl.net">project page</a>.
+         Visit the <a href="https://github.com/myxsl">project page</a>.
       </p>
 
       <h2 id="feedback">Feedback</h2>
       <p>
-         Visit the <a href="https://github.com/maxtoroq/myxsl.net/issues">project forums</a> for feedback, support and discussion.
+         Visit the <a href="https://github.com/myxsl/myxsl/issues">project forums</a> for feedback, support and discussion.
       </p>
 
       <h2>Resources</h2>
