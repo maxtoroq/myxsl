@@ -18,7 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Globalization;
 
-namespace myxsl.net {
+namespace myxsl {
    
    static class FormatInvariantExtensions {
 

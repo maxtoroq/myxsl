@@ -19,7 +19,7 @@ using System.Text;
 using System.Configuration;
 using System.Xml;
 
-namespace myxsl.net.configuration {
+namespace myxsl.configuration {
 
    sealed class ResolverElement : ConfigurationElement {
       

@@ -20,7 +20,7 @@
       <h2>See also</h2>
       <ul>
          <li>
-            <a href="/modules.xsl/myxsl.net/ns/validation/schematron">Module documentation</a>
+            <a href="/modules.xsl/myxsl.github.io/ns/schematron">Module documentation</a>
          </li>
       </ul>
 

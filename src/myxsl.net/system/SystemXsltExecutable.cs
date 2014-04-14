@@ -22,9 +22,9 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.XPath;
 using System.Xml.Xsl;
-using myxsl.net.common;
+using myxsl.common;
 
-namespace myxsl.net.system {
+namespace myxsl.xml.xsl {
 
    using MonoTransform = Action<XslCompiledTransform, XPathNavigator, XsltArgumentList, XmlWriter, XmlResolver>;
    using Net20Transform = Action<object, IXPathNavigable, XmlResolver, XsltArgumentList, XmlWriter>;

@@ -8,8 +8,8 @@
     <ProjectGuid>{AE71E623-E962-4554-8AC1-5F2492263666}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>myxsl.net.web.mvc</RootNamespace>
-    <AssemblyName>myxsl.net.web.mvc</AssemblyName>
+    <RootNamespace>myxsl.web.mvc</RootNamespace>
+    <AssemblyName>myxsl.web.mvc</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>

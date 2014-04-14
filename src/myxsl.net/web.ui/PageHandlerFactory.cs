@@ -18,7 +18,7 @@ using System.Text;
 using System.Web;
 using System.Web.Compilation;
 
-namespace myxsl.net.web.ui {
+namespace myxsl.web.ui {
    
    public class PageHandlerFactory : IHttpHandlerFactory {
 

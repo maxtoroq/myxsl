@@ -12,7 +12,7 @@
 
       <h1>Compilation</h1>
       <p>
-         <strong>myxsl.net</strong> provides compile-time notificacion of <a href="http://www.w3.org/TR/xslt20/#dt-static-error">static errors</a> on Visual Studio,
+         <strong>myxsl</strong> provides compile-time notificacion of <a href="http://www.w3.org/TR/xslt20/#dt-static-error">static errors</a> on Visual Studio,
          helping you detect bugs earlier in the development process. Just click
          'Build Website' (Ctrl+Shift+B) and watch the 'Error List' pane.
       </p>

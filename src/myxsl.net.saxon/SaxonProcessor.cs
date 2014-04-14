@@ -20,15 +20,15 @@ using System.Linq;
 using System.Reflection;
 using System.Xml;
 using System.Xml.XPath;
-using myxsl.net.common;
+using myxsl.common;
 using Saxon.Api;
-using XsltExecutable = myxsl.net.common.XsltExecutable;
-using XQueryExecutable = myxsl.net.common.XQueryExecutable;
+using XsltExecutable = myxsl.common.XsltExecutable;
+using XQueryExecutable = myxsl.common.XQueryExecutable;
 using SaxonApiXsltExecutable = Saxon.Api.XsltExecutable;
 using SaxonApiXQueryExecutable = Saxon.Api.XQueryExecutable;
 using System.Globalization;
 
-namespace myxsl.net.saxon {
+namespace myxsl.saxon {
 
    public sealed class SaxonProcessor : IXsltProcessor, IXQueryProcessor {
 

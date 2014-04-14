@@ -19,7 +19,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 
-namespace myxsl.net.common {
+namespace myxsl.common {
    
    public sealed class XPathItemType {
 

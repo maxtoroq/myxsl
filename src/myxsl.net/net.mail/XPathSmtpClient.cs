@@ -16,16 +16,16 @@ using System;
 using System.Net.Mail;
 using System.Web;
 using System.Xml.XPath;
-using myxsl.net.web;
-using myxsl.net.common;
+using myxsl.web;
+using myxsl.common;
 using System.Xml.Serialization;
 
-namespace myxsl.net.net.mail {
+namespace myxsl.net.mail {
 
    [XPathModule(Prefix, Namespace)]
    public sealed class XPathSmtpClient {
-      
-      internal const string Namespace = "http://myxsl.net/ns/net/mail";
+
+      internal const string Namespace = "http://myxsl.github.io/ns/net/mail";
       internal const string Prefix = "mail";
 
       [XPathDependency]

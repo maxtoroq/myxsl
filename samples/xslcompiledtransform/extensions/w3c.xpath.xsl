@@ -289,7 +289,7 @@
       
       <h1>XPath 2.0 and 3.0 functions for XslCompiledTransform</h1>
       <p>
-         myxsl.net implements the following <a href="http://www.w3.org/TR/xpath-functions-30/">XPath 2.0 and 3.0 functions</a>
+         <strong>myxsl</strong> implements the following <a href="http://www.w3.org/TR/xpath-functions-30/">XPath 2.0 and 3.0 functions</a>
          for XslCompiledTransform (which currently supports XPath 1.0 only).
       </p>
       

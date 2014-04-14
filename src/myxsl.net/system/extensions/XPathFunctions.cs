@@ -26,9 +26,9 @@ using System.Xml.Schema;
 using System.Xml.Serialization;
 using System.Xml.XPath;
 using System.Xml.Xsl;
-using myxsl.net.common;
+using myxsl.common;
 
-namespace myxsl.net.system.extensions {
+namespace myxsl.xml.xsl.extensions {
 
    public class XPathFunctions {
 

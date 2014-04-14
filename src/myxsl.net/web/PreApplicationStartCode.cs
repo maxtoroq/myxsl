@@ -17,9 +17,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Compilation;
-using myxsl.net.web.compilation;
+using myxsl.web.compilation;
 
-namespace myxsl.net.web {
+namespace myxsl.web {
 
    public static class PreApplicationStartCode {
 

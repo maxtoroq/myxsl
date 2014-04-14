@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace myxsl.net.saxon {
+namespace myxsl.saxon {
    
    static class StringExtensions {
 

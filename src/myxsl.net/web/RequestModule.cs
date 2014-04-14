@@ -21,13 +21,13 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.XPath;
 
-namespace myxsl.net.web {
+namespace myxsl.web {
 
    [XPathModule(Prefix, Namespace)]
    public static class RequestModule {
 
       internal const string Prefix = "request";
-      internal const string Namespace = "http://myxsl.net/ns/web/request";
+      internal const string Namespace = "http://myxsl.github.io/ns/web/request";
 
       internal const UriFormat ReturnUriFormat = UriFormat.UriEscaped;
 
@@ -245,7 +245,7 @@ namespace myxsl.net.web {
       }
 
       /// <summary>
-      /// This member supports the myxsl.net infrastructure and is not intended to be used directly from your code.
+      /// This member supports the myxsl infrastructure and is not intended to be used directly from your code.
       /// </summary>
       public static string Cookie(string name, bool remove) {
 

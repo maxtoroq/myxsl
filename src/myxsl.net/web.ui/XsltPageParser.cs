@@ -23,10 +23,10 @@ using System.Web.Hosting;
 using System.Web.UI;
 using System.Xml;
 using System.Xml.XPath;
-using myxsl.net.common;
-using myxsl.net.web.compilation;
+using myxsl.common;
+using myxsl.web.compilation;
 
-namespace myxsl.net.web.ui {
+namespace myxsl.web.ui {
    
    public class XsltPageParser : BasePageParser {
 

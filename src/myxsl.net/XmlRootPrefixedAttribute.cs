@@ -18,7 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace myxsl.net {
+namespace myxsl {
    
    public class XmlRootPrefixedAttribute : XmlRootAttribute {
 

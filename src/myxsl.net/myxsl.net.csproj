@@ -8,8 +8,8 @@
     <ProjectGuid>{8A918123-1467-469E-9C78-6D37A8F911F3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>myxsl.net</RootNamespace>
-    <AssemblyName>myxsl.net</AssemblyName>
+    <RootNamespace>myxsl</RootNamespace>
+    <AssemblyName>myxsl</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -26,7 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\myxsl.net.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\myxsl.xml</DocumentationFile>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

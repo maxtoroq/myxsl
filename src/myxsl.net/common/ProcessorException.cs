@@ -19,7 +19,7 @@ using System.Runtime.Serialization;
 using System.Xml;
 using System.Security;
 
-namespace myxsl.net.common {
+namespace myxsl.common {
 
    [Serializable]
    public abstract class ProcessorException : Exception {

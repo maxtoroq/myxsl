@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace myxsl.net.system.extensions {
+namespace myxsl.xml.xsl.extensions {
 
    public class XPathMathFunctions {
 

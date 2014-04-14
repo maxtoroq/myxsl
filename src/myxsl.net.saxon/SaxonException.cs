@@ -16,9 +16,9 @@ using System;
 using System.Runtime.Serialization;
 using Saxon.Api;
 using System.Security;
-using myxsl.net.common;
+using myxsl.common;
 
-namespace myxsl.net.saxon {
+namespace myxsl.saxon {
 
    [Serializable]
    public sealed class SaxonException : ProcessorException {

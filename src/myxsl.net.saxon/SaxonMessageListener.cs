@@ -16,7 +16,7 @@ using System;
 using System.Diagnostics;
 using Saxon.Api;
 
-namespace myxsl.net.saxon {
+namespace myxsl.saxon {
    
    sealed class SaxonMessageListener : IMessageListener {
 

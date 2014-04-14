@@ -4,9 +4,9 @@
    xmlns:exsl="http://exslt.org/common"
    xmlns:fn="http://www.w3.org/2005/xpath-functions"
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-   xmlns:request="http://myxsl.net/ns/web/request"
-   xmlns:response="http://myxsl.net/ns/web/response"
-   xmlns:code="http://myxsl.net/ns/code"
+   xmlns:request="http://myxsl.github.io/ns/web/request"
+   xmlns:response="http://myxsl.github.io/ns/web/response"
+   xmlns:code="http://myxsl.github.io/ns/code"
    xmlns:doc="http://myxsl.net/doc-html"
    xmlns="http://www.w3.org/1999/xhtml">
 
@@ -14,7 +14,7 @@
    <xsl:import href="~/App_Code/doc-html.xsl"/>
 
    <xsl:param name="functionLibrary" as="document(element(library))" code:bind="FunctionLibrary.Instance" />
-   <xsl:param name="documentation" select="document('~/Bin/myxsl.net.xml')" as="document(element(doc))"/>
+   <xsl:param name="documentation" select="document('~/Bin/myxsl.xml')" as="document(element(doc))"/>
 
    <xsl:param name="pathInfo" select="request:path-info()"/>
    
@@ -154,7 +154,7 @@
                </xsl:if>
             </ul>
          </xsl:when>
-         <xsl:when test="$module/@namespace = 'http://myxsl.net/ns/validation/schematron'">
+         <xsl:when test="$module/@namespace = 'http://myxsl.github.io/ns/schematron'">
             <h2>See also</h2>
             <ul>
                <li>

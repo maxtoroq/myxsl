@@ -18,7 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Globalization;
 
-namespace myxsl.net.saxon {
+namespace myxsl.saxon {
    
    static class FormatInvariantExtensions {
 

@@ -21,7 +21,7 @@ using System.Reflection;
 using System.Xml.Serialization;
 using System.Xml.XPath;
 
-namespace myxsl.net.common {
+namespace myxsl.common {
 
    [XmlRootPrefixed("serialization-parameters", Namespace = W3CSerializationNamespace, Prefix = W3CSerializationPrefix)]
    public class XPathSerializationOptions : IXmlSerializable {

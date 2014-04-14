@@ -17,9 +17,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.XPath;
-using myxsl.net.common;
+using myxsl.common;
 
-namespace myxsl.net.validation.schematron {
+namespace myxsl.schematron {
 
    class XsltSchematronValidator : SchematronValidator {
 

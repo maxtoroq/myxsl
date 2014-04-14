@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace myxsl.net.web.ui {
+namespace myxsl.web.ui {
    
    public enum XsltPageType {
       StandardStylesheet,

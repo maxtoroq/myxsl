@@ -24,7 +24,7 @@ using System.Xml.Serialization;
 using System.Xml.XPath;
 using Saxon.Api;
 
-namespace myxsl.net.saxon {
+namespace myxsl.saxon {
 
    [CLSCompliant(false)]
    public static class SaxonExtensions {
@@ -127,7 +127,7 @@ namespace myxsl.net.saxon {
       }
 
       /// <summary>
-      /// This member supports the myxsl.net infrastructure and is not intended to be used directly from your code.
+      /// This member supports the myxsl infrastructure and is not intended to be used directly from your code.
       /// </summary>
       [EditorBrowsable(EditorBrowsableState.Never)]
       public static T? SingleOrNull<T>(IEnumerable<T> source) where T : struct {

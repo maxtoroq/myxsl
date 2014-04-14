@@ -11,7 +11,7 @@
 
       <h1>EXPath HTTP Client Module</h1>
       <p>
-         <strong>myxsl.net</strong> provides an implementation of the <a href="http://www.expath.org/modules/http-client/">EXPath HTTP Client module</a>.
+         <strong>myxsl</strong> provides an implementation of the <a href="http://www.expath.org/modules/http-client/">EXPath HTTP Client module</a>.
       </p>
 
       <h2>Examples</h2>

@@ -5,7 +5,7 @@
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
    xmlns:exsl="http://exslt.org/common"
    xmlns:html="http://www.w3.org/1999/xhtml"
-   xmlns:request="http://myxsl.net/ns/web/request"
+   xmlns:request="http://myxsl.github.io/ns/web/request"
    xmlns="http://www.w3.org/1999/xhtml">
 
    <xsl:variable name="title" as="xs:string?"/>
@@ -29,7 +29,7 @@
          <head>
             <title>
                <xsl:call-template name="title">
-                  <xsl:with-param name="base-title" select="'myxsl.net'"/>
+                  <xsl:with-param name="base-title" select="'myxsl'"/>
                   <xsl:with-param name="title">
                      <xsl:variable name="h1" select="(exsl:node-set($content)//html:h1)[1]"/>
                      <xsl:choose>
@@ -54,7 +54,6 @@
             <div id="lo-header">
                <span id="lo-logo">
                   <span class="myxsl">myxsl</span>
-                  <span class="net">.net</span>
                </span>
             </div>
             <div id="lo-content">

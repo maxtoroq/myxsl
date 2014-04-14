@@ -21,9 +21,9 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using System.Xml.XPath;
-using myxsl.net.common;
+using myxsl.common;
 
-namespace myxsl.net {
+namespace myxsl.xquery {
 
    /// <summary>
    /// Provides functions for compiling and executing XQuery modules.
@@ -31,7 +31,7 @@ namespace myxsl.net {
    [XPathModule("xquery", Namespace)]
    public class XQueryModule {
 
-      const string Namespace = "http://myxsl.net/ns/xquery";
+      const string Namespace = "http://myxsl.github.io/ns/xquery";
 
       [XPathDependency]
       public XPathItemFactory ItemFactory { get; set; }
@@ -61,7 +61,7 @@ namespace myxsl.net {
       /// <para>
       /// The <paramref name="processor"/> parameter identifies the XQuery processor to use for the compilation.
       /// If ommited, the processor used is the default XQuery processor, specified in (App|Web).config by 
-      /// the <code>myxsl.net/xquery/@defaultProcessor</code> attribute.
+      /// the <code>myxsl/xquery/@defaultProcessor</code> attribute.
       /// </para>
       /// <para>
       /// <strong>It is not necessary to call this function to execute an XQuery module</strong>, you can call the
@@ -114,7 +114,7 @@ namespace myxsl.net {
       /// <para>
       /// The <paramref name="processor"/> parameter identifies the XQuery processor to use for the compilation.
       /// If ommited, the processor used is the default XQuery processor, specified in (App|Web).config by 
-      /// the <code>myxsl.net/xquery/@defaultProcessor</code> attribute.
+      /// the <code>myxsl/xquery/@defaultProcessor</code> attribute.
       /// </para>
       /// <para>
       /// <strong>It is not necessary to call this function to execute an XQuery module</strong>, you can call the

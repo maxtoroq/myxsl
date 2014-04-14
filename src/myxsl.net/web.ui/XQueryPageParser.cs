@@ -18,10 +18,10 @@ using System.Text;
 using System.Web.Configuration;
 using System.Web.UI;
 using System.IO;
-using myxsl.net.configuration;
-using myxsl.net.common;
+using myxsl.configuration;
+using myxsl.common;
 
-namespace myxsl.net.web.ui {
+namespace myxsl.web.ui {
    
    public class XQueryPageParser : BasePageParser {
 

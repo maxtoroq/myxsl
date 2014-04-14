@@ -19,7 +19,7 @@ using System.Text;
 using System.Xml.Serialization;
 using System.Xml;
 
-namespace myxsl.net.net.mail {
+namespace myxsl.net.mail {
 
    [XmlRootPrefixed("success", Namespace = XPathSmtpClient.Namespace, Prefix = XPathSmtpClient.Prefix)]
    sealed class XPathSmtpSuccess : IXmlSerializable {

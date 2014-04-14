@@ -16,9 +16,9 @@ using System;
 using System.Runtime.Serialization;
 using System.Xml.Xsl;
 using System.Security;
-using myxsl.net.common;
+using myxsl.common;
 
-namespace myxsl.net.system {
+namespace myxsl.xml.xsl {
 
    [Serializable]
    public sealed class SystemXsltException : ProcessorException {

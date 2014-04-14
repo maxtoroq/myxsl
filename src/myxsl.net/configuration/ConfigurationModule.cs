@@ -19,9 +19,9 @@ using System.Text;
 using System.Configuration;
 using System.Web;
 
-namespace myxsl.net.configuration {
+namespace myxsl.configuration {
 
-   [XPathModule("config", "http://myxsl.net/ns/configuration")]
+   [XPathModule("config", "http://myxsl.github.io/ns/configuration")]
    public static class ConfigurationModule {
 
       [XPathFunction("app-settings", "xs:string*", "xs:string")]

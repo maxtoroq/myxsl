@@ -18,7 +18,7 @@ using System.Xml;
 using System.Xml.XPath;
 using System.ComponentModel;
 
-namespace myxsl.net.common {
+namespace myxsl.common {
 
    public abstract class XsltExecutable {
 

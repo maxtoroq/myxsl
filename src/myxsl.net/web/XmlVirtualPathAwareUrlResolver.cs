@@ -20,7 +20,7 @@ using System.Web.Hosting;
 using System.Text.RegularExpressions;
 using System.Web;
 
-namespace myxsl.net.web {
+namespace myxsl.web {
    
    public class XmlVirtualPathAwareUrlResolver : XmlUrlResolver {
 

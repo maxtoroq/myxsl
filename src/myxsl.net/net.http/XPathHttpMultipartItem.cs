@@ -18,7 +18,7 @@ using System.Collections.Specialized;
 using System.Text;
 using System.IO;
 
-namespace myxsl.net.net.http {
+namespace myxsl.net.http {
    
    sealed class XPathHttpMultipartItem {
 

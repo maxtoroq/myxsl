@@ -18,9 +18,9 @@ using System.Linq;
 using System.Text;
 using System.Web;
 
-namespace myxsl.net.web {
-   
-   [XPathModule("response", "http://myxsl.net/ns/web/response")]
+namespace myxsl.web {
+
+   [XPathModule("response", "http://myxsl.github.io/ns/web/response")]
    public static class ResponseModule {
       
       static HttpContext Context {

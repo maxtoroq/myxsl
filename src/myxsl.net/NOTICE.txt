@@ -1,11 +1,11 @@
 =========================================================================
 ==  NOTICE file corresponding to the section 4 d of                    ==
 ==  the Apache License, Version 2.0,                                   ==
-==  in this case for the myxsl.net distribution.                       ==
+==  in this case for the myxsl distribution.                           ==
 =========================================================================
 
-myxsl.net
-Copyright 2009-2013 Max Toro Q.
+myxsl
+Copyright 2009-2014 Max Toro Q.
 
 This product includes/uses software(s) developed by 'Rick Jelliffe and Academia Sinica Computing Center'
   - iso_abstract_expand.xsl

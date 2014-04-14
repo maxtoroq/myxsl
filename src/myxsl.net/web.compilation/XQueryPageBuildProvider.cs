@@ -15,10 +15,10 @@
 using System;
 using System.IO;
 using System.Web.Compilation;
-using myxsl.net.common;
-using myxsl.net.web.ui;
+using myxsl.common;
+using myxsl.web.ui;
 
-namespace myxsl.net.web.compilation {
+namespace myxsl.web.compilation {
    
    public class XQueryPageBuildProvider : BasePageBuildProvider {
 

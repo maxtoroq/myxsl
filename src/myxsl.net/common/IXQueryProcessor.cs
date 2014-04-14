@@ -15,7 +15,7 @@
 using System;
 using System.IO;
 
-namespace myxsl.net.common {
+namespace myxsl.common {
    
    public interface IXQueryProcessor {
       

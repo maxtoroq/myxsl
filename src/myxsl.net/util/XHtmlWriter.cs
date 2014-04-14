@@ -40,7 +40,7 @@ using System.Xml;
 //-----------------------------------------------------------------//
 
 //namespace Mvp.Xml.Common {
-namespace myxsl.net {
+namespace myxsl {
 
    class XHtmlWriter : XmlWrappingWriter {
       

@@ -15,15 +15,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using myxsl.net.web.ui;
+using myxsl.web.ui;
 using System.CodeDom;
 using System.IO;
 using System.Xml;
 using System.Web.Hosting;
 using System.Web;
-using myxsl.net.common;
+using myxsl.common;
 
-namespace myxsl.net.web.compilation {
+namespace myxsl.web.compilation {
    
    public class XQueryPageCodeDomTreeGenerator : BasePageCodeDomTreeGenerator {
 

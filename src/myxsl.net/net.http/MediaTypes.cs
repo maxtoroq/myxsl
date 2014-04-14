@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace myxsl.net.net.http {
+namespace myxsl.net.http {
    
    static class MediaTypes {
 

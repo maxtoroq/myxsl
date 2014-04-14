@@ -15,10 +15,10 @@
 using System;
 using System.IO;
 using System.Linq;
-using myxsl.net.common;
+using myxsl.common;
 using Saxon.Api;
 
-namespace myxsl.net.saxon.extensions.saxon {
+namespace myxsl.saxon.extensions.saxon {
 
    sealed class Serialize : ExtensionFunctionDefinition {
 

@@ -11,7 +11,7 @@
       
       <h1>ASP.NET MVC</h1>
       <p>
-         <strong>myxsl.net</strong> integrates with <a href="http://www.asp.net/mvc">ASP.NET MVC</a>
+         <strong>myxsl</strong> integrates with <a href="http://www.asp.net/mvc">ASP.NET MVC</a>
          by implementing view engines for XSLT and XQuery. The ViewData dictionary items are passed
          as XSLT global parameters and XQuery external variables, and the model object is converted
          to XML and used as initial context node.

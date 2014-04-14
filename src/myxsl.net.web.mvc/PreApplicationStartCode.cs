@@ -18,7 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 
-namespace myxsl.net.web.mvc {
+namespace myxsl.web.mvc {
 
    public static class PreApplicationStartCode {
 
@@ -28,7 +28,7 @@ namespace myxsl.net.web.mvc {
 
          if (!startWasCalled) {
             startWasCalled = true;
-            myxsl.net.web.PreApplicationStartCode.Start();
+            myxsl.web.PreApplicationStartCode.Start();
             ViewEngines.Engines.Add(new XsltViewEngine());
             ViewEngines.Engines.Add(new XQueryViewEngine());
          }

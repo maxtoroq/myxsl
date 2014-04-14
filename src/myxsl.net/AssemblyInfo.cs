@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Web;
 
-[assembly: AssemblyTitle("myxsl.net.dll")]
-[assembly: AssemblyDescription("myxsl.net.dll")]
+[assembly: AssemblyTitle("myxsl.dll")]
+[assembly: AssemblyDescription("myxsl.dll")]
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(true)]
 [assembly: AllowPartiallyTrustedCallers]
@@ -14,4 +14,4 @@ using System.Web;
 // SystemItemFactory needs this to create XmlAtomicValue instances
 [assembly: SecurityRules(SecurityRuleSet.Level1)]
 
-[assembly: PreApplicationStartMethod(typeof(myxsl.net.web.PreApplicationStartCode), "Start")]
+[assembly: PreApplicationStartMethod(typeof(myxsl.web.PreApplicationStartCode), "Start")]

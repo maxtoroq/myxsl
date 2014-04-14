@@ -21,7 +21,7 @@ using System.Xml;
 using System.Xml.XPath;
 using System.Xml.Serialization;
 
-namespace myxsl.net.net.http {
+namespace myxsl.net.http {
    
    [XmlRootPrefixed("response", Namespace = XPathHttpClient.Namespace, Prefix = XPathHttpClient.Prefix)]
    sealed class XPathHttpResponse : IXmlSerializable {

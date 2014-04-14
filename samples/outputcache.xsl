@@ -12,7 +12,7 @@
 
       <h1>Output Caching</h1>
       <p>
-         Output Caching is an ASP.NET feature, myxsl.net does not change or extend it
+         Output Caching is an ASP.NET feature, <strong>myxsl</strong> does not change or extend it
          in any way. You can configure output caching using the <code>output-cache</code>
          processing instruction in your XSLT stylesheets, which is analogous to the
          <code>@OutputCache</code> directive in .aspx

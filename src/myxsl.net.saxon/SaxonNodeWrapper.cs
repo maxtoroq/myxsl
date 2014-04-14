@@ -18,7 +18,7 @@ using System.Text;
 using System.Xml.XPath;
 using Saxon.Api;
 
-namespace myxsl.net.saxon {
+namespace myxsl.saxon {
    
    sealed class SaxonNodeWrapper : IXPathNavigable {
 

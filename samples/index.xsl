@@ -5,7 +5,7 @@
    xmlns="http://www.w3.org/1999/xhtml"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:fn="http://www.w3.org/2005/xpath-functions"
-   xmlns:code="http://myxsl.net/ns/code">
+   xmlns:code="http://myxsl.github.io/ns/code">
 
    <xsl:import href="layout.xslt"/>
 
@@ -18,14 +18,14 @@
       
       <h1>Build dynamic websites with XSLT</h1>
       <p>
-         <strong>myxsl.net</strong> is an open-source extension to the
+         <strong>myxsl</strong> is an open-source extension to the
          <a href="http://www.asp.net/">ASP.NET</a> framework that allows programmers to
          build dynamic websites using <a href="http://www.w3.org/Style/XSL/">XSLT</a> and
          other XML standards, such as <a href="http://www.w3.org/XML/Query/">XQuery</a>
          and <a href="http://www.schematron.com/">Schematron</a>.
       </p>
       <p>
-         <strong>myxsl.net</strong> provides dynamic compilation using
+         <strong>myxsl</strong> provides dynamic compilation using
          <a href="http://msdn.microsoft.com/en-us/library/system.web.compilation.buildprovider.aspx">build providers</a>
          that generate optimized code for your web pages.
       </p>

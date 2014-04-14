@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace myxsl.net {
+namespace myxsl {
    
    [AttributeUsage(AttributeTargets.Property)]
    public sealed class XPathDependencyAttribute : Attribute { }

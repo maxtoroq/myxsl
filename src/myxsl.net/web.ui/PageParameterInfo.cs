@@ -18,9 +18,9 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Xml;
-using myxsl.net.web.compilation;
+using myxsl.web.compilation;
 
-namespace myxsl.net.web.ui {
+namespace myxsl.web.ui {
    
    public class PageParameterInfo {
 

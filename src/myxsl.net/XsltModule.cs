@@ -21,9 +21,9 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using System.Xml.XPath;
-using myxsl.net.common;
+using myxsl.common;
 
-namespace myxsl.net {
+namespace myxsl.xslt {
 
    /// <summary>
    /// Provides functions for compiling and executing XSLT stylesheets.
@@ -31,7 +31,7 @@ namespace myxsl.net {
    [XPathModule("xslt", Namespace)]
    public class XsltModule {
 
-      const string Namespace = "http://myxsl.net/ns/xslt";
+      const string Namespace = "http://myxsl.github.io/ns/xslt";
 
       [XPathDependency]
       public XPathItemFactory ItemFactory { get; set; }
@@ -66,7 +66,7 @@ namespace myxsl.net {
       /// If ommited, the processor used depends on the <paramref name="stylesheet"/> parameter. If <paramref name="stylesheet"/>
       /// is a <code>node()</code>, and the current executing program is an XSLT processor, then the same processor of the
       /// current executing program is used to compile the <paramref name="stylesheet"/>. In all other cases,
-      /// the default XSLT processor, specified in (App|Web).config by the <code>myxsl.net/xslt/@defaultProcessor</code> attribute,
+      /// the default XSLT processor, specified in (App|Web).config by the <code>myxsl/xslt/@defaultProcessor</code> attribute,
       /// is used.
       /// </para>
       /// <para>

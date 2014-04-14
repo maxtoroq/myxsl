@@ -24,9 +24,9 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Xml.XPath;
 using Microsoft.CSharp;
-using myxsl.net.common;
+using myxsl.common;
 
-namespace myxsl.net.system {
+namespace myxsl.xml.xsl {
 
    static class ExtensionObjectGenerator {
 

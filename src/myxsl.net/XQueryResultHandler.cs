@@ -19,9 +19,9 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
-using myxsl.net.common;
+using myxsl.common;
 
-namespace myxsl.net {
+namespace myxsl.xquery {
 
    public class XQueryResultHandler {
 

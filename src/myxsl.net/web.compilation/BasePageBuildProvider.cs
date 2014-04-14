@@ -17,9 +17,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Web.Compilation;
-using myxsl.net.web.ui;
+using myxsl.web.ui;
 
-namespace myxsl.net.web.compilation {
+namespace myxsl.web.compilation {
 
    [BuildProviderAppliesTo(BuildProviderAppliesTo.Web)]
    public abstract class BasePageBuildProvider : BaseBuildProvider {

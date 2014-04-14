@@ -17,7 +17,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace myxsl.net.common {
+namespace myxsl.common {
 
    public sealed class XPathSequenceType {
 

@@ -8,8 +8,8 @@
     <ProjectGuid>{5F9254A6-05F1-4255-A8F5-CC4490327DB1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>myxsl.net.saxon</RootNamespace>
-    <AssemblyName>myxsl.net.saxon</AssemblyName>
+    <RootNamespace>myxsl.saxon</RootNamespace>
+    <AssemblyName>myxsl.saxon</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>

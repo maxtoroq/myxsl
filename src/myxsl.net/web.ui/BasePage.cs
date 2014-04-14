@@ -22,9 +22,9 @@ using System.Xml;
 using System.Text;
 using System.Linq;
 using System.Globalization;
-using myxsl.net.common;
+using myxsl.common;
 
-namespace myxsl.net.web.ui {
+namespace myxsl.web.ui {
    
    public abstract class BasePage : IHttpHandler {
 

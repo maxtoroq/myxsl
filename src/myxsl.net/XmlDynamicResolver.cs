@@ -18,9 +18,9 @@ using System.Globalization;
 using System.Net;
 using System.Reflection;
 using System.Xml;
-using myxsl.net.configuration;
+using myxsl.configuration;
 
-namespace myxsl.net {
+namespace myxsl {
 
    public sealed class XmlDynamicResolver : XmlResolver {
 

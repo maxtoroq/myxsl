@@ -17,9 +17,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Web;
 using System.Xml;
-using myxsl.net.common;
+using myxsl.common;
 
-namespace myxsl.net.web.ui {
+namespace myxsl.web.ui {
 
    public abstract class XQueryPage : BasePage {
 

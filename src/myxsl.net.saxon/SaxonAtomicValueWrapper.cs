@@ -20,7 +20,7 @@ using System.Xml.XPath;
 using System.Xml.Schema;
 using Saxon.Api;
 
-namespace myxsl.net.saxon {
+namespace myxsl.saxon {
    
    sealed class SaxonAtomicValueWrapper : XPathItem  {
 

@@ -19,10 +19,10 @@ using System.Reflection;
 using System.Text;
 using System.Web.Compilation;
 using System.Xml;
-using myxsl.net.common;
-using myxsl.net.web.ui;
+using myxsl.common;
+using myxsl.web.ui;
 
-namespace myxsl.net.web.compilation {
+namespace myxsl.web.compilation {
    
    public class XsltPageBuildProvider : BasePageBuildProvider {
 

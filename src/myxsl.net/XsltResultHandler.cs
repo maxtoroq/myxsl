@@ -19,10 +19,10 @@ using System.Text;
 using System.Xml;
 using System.IO;
 using System.Xml.Serialization;
-using myxsl.net.common;
+using myxsl.common;
 using System.Xml.XPath;
 
-namespace myxsl.net {
+namespace myxsl.xslt {
    
    public class XsltResultHandler {
 

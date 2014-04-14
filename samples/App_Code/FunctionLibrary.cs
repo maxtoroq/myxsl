@@ -7,7 +7,7 @@ using System.Text;
 using System.Web;
 using System.Xml;
 using System.Xml.Serialization;
-using myxsl.net.common;
+using myxsl.common;
 
 [XmlRoot("library")]
 public sealed class FunctionLibrary : IXmlSerializable {

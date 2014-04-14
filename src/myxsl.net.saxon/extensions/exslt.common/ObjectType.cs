@@ -18,7 +18,7 @@ using System.Linq;
 using System.Text;
 using Saxon.Api;
 
-namespace myxsl.net.saxon.extensions.exslt.common {
+namespace myxsl.saxon.extensions.exslt.common {
    
    class ObjectType : ExtensionFunctionDefinition {
 

@@ -16,9 +16,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.XPath;
-using myxsl.net.web.ui;
+using myxsl.web.ui;
 
-namespace myxsl.net.web.compilation {
+namespace myxsl.web.compilation {
    
    public class BindingExpressionContext {
 

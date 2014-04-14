@@ -20,9 +20,9 @@ using System.Text;
 using System.Threading;
 using System.Web;
 
-namespace myxsl.net.security {
-   
-   [XPathModule("security", "http://myxsl.net/ns/security")]
+namespace myxsl.security {
+
+   [XPathModule("security", "http://myxsl.github.io/ns/security")]
    public static class SecurityModule {
 
       static IPrincipal CurrentPrincipal {

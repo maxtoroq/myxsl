@@ -25,7 +25,7 @@ using System.Xml.Schema;
 using System.Xml.Serialization;
 using System.Xml.XPath;
 
-namespace myxsl.net.common {
+namespace myxsl.common {
    
    public abstract class XPathItemFactory {
 

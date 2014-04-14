@@ -18,7 +18,7 @@ using System.Text;
 using System.CodeDom;
 using System.Diagnostics;
 
-namespace myxsl.net.web.compilation {
+namespace myxsl.web.compilation {
    
    public abstract class BaseCodeDomTreeGenerator {
       

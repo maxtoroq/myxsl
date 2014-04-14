@@ -20,7 +20,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace myxsl.net.common {
+namespace myxsl.common {
    
    [DebuggerDisplay("{Namespace}")]
    public sealed class XPathModuleInfo {

@@ -50,7 +50,7 @@
       
       <h1>Constructor functions for XML Schema built-in atomic types for XslCompiledTransform</h1>
       <p>
-         myxsl.net implements the following <a href="http://www.w3.org/TR/xpath-functions-30/#constructor-functions">Constructor functions for XML Schema built-in atomic types</a>
+         <strong>myxsl</strong> implements the following <a href="http://www.w3.org/TR/xpath-functions-30/#constructor-functions">Constructor functions for XML Schema built-in atomic types</a>
          for XslCompiledTransform.
       </p>
       

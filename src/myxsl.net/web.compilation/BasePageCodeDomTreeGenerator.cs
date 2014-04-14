@@ -22,10 +22,10 @@ using System.Web.Configuration;
 using System.Web.Hosting;
 using System.Web.SessionState;
 using System.Xml;
-using myxsl.net.web.ui;
+using myxsl.web.ui;
 using System.Xml.XPath;
 
-namespace myxsl.net.web.compilation {
+namespace myxsl.web.compilation {
 
    public abstract class BasePageCodeDomTreeGenerator : BaseCodeDomTreeGenerator {
 

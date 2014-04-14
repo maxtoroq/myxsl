@@ -7,9 +7,9 @@
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
    xmlns:exsl="http://exslt.org/common"
    xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-   xmlns:request="http://myxsl.net/ns/web/request"
-   xmlns:response="http://myxsl.net/ns/web/response"
-   xmlns:schematron="http://myxsl.net/ns/validation/schematron"
+   xmlns:request="http://myxsl.github.io/ns/web/request"
+   xmlns:response="http://myxsl.github.io/ns/web/response"
+   xmlns:schematron="http://myxsl.github.io/ns/schematron"
    xmlns="http://www.w3.org/1999/xhtml">
 
    <xsl:import href="~/layout.xslt"/>

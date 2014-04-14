@@ -21,10 +21,10 @@ using System.Web;
 using System.Web.Hosting;
 using System.Xml;
 using System.Xml.XPath;
-using myxsl.net.common;
-using myxsl.net.web.ui;
+using myxsl.common;
+using myxsl.web.ui;
 
-namespace myxsl.net.web.compilation {
+namespace myxsl.web.compilation {
    
    public class XsltPageCodeDomTreeGenerator : BasePageCodeDomTreeGenerator {
 

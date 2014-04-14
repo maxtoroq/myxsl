@@ -21,9 +21,9 @@ using System.Xml;
 using System.Xml.XPath;
 using System.Collections.Generic;
 using System.Net.Mime;
-using myxsl.net.common;
+using myxsl.common;
 
-namespace myxsl.net.net.http {
+namespace myxsl.net.http {
    
    sealed class XPathHttpRequest {
 

@@ -22,10 +22,10 @@ using System.Text;
 using System.Web;
 using System.Web.Compilation;
 using System.Web.Hosting;
-using myxsl.net.common;
-using myxsl.net.web.ui;
+using myxsl.common;
+using myxsl.web.ui;
 
-namespace myxsl.net.web.compilation {
+namespace myxsl.web.compilation {
 
    public abstract class BaseBuildProvider : BuildProvider {
 

@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Configuration;
 
-namespace myxsl.net.configuration {
+namespace myxsl.configuration {
    
    sealed class ProcessorElement : ConfigurationElement {
 

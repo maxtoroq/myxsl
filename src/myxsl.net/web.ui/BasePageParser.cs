@@ -17,10 +17,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Configuration;
 using System.Web.UI;
-using myxsl.net.configuration;
-using myxsl.net.configuration.web;
+using myxsl.configuration;
+using myxsl.configuration.web;
 
-namespace myxsl.net.web.ui {
+namespace myxsl.web.ui {
    
    public abstract class BasePageParser : BaseParser {
 

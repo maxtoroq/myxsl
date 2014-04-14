@@ -5,10 +5,10 @@
    xmlns="http://www.w3.org/1999/xhtml"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-   xmlns:code="http://myxsl.net/ns/code"
-   xmlns:request="http://myxsl.net/ns/web/request"
-   xmlns:response="http://myxsl.net/ns/web/response"
-   xmlns:session="http://myxsl.net/ns/web/session">
+   xmlns:code="http://myxsl.github.io/ns/code"
+   xmlns:request="http://myxsl.github.io/ns/web/request"
+   xmlns:response="http://myxsl.github.io/ns/web/response"
+   xmlns:session="http://myxsl.github.io/ns/web/session">
 
    <xsl:import href="layout.xslt"/>
 

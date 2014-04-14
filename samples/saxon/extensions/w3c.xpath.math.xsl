@@ -59,7 +59,7 @@
       <h1>XPath 3.0 Math</h1>
       <p>
          <a href="http://www.w3.org/TR/xpath-functions-30/">XPath 3.0 Math functions</a>
-         are natively available in Saxon-PE and Saxon-EE. myxsl.net provides its own implementations for Saxon-HE.
+         are natively available in Saxon-PE and Saxon-EE. <strong>myxsl</strong> provides its own implementations for Saxon-HE.
       </p>
       <h2>Namespace Bindings</h2>
       <ul>

@@ -18,10 +18,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using myxsl.net.common;
+using myxsl.common;
 using Saxon.Api;
 
-namespace myxsl.net.saxon.extensions.saxon {
+namespace myxsl.saxon.extensions.saxon {
    
    sealed class Parse : ExtensionFunctionDefinition {
 

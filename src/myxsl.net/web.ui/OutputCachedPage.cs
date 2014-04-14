@@ -19,7 +19,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Web.UI;
 
 //namespace System.Web.Mvc {
-namespace myxsl.net.web.ui {
+namespace myxsl.web.ui {
 
    [SuppressMessage("ASP.NET.Security", "CA5328:ValidateRequestShouldBeEnabled", Justification = "Instances of this type are not created in response to direct user input.")]
    sealed class OutputCachedPage : Page {

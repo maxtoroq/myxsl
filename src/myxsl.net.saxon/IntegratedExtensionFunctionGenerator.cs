@@ -25,10 +25,10 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 using Microsoft.CSharp;
-using myxsl.net.common;
+using myxsl.common;
 using Saxon.Api;
 
-namespace myxsl.net.saxon {
+namespace myxsl.saxon {
    
    class IntegratedExtensionFunctionGenerator {
 

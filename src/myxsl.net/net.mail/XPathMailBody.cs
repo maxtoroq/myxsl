@@ -19,9 +19,9 @@ using System.Text;
 using System.Xml.XPath;
 using System.Xml;
 using System.IO;
-using myxsl.net.common;
+using myxsl.common;
 
-namespace myxsl.net.net.mail {
+namespace myxsl.net.mail {
    
    sealed class XPathMailBody {
 

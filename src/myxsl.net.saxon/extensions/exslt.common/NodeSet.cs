@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Text;
 using Saxon.Api;
 
-namespace myxsl.net.saxon.extensions.exslt.common {
+namespace myxsl.saxon.extensions.exslt.common {
    
    sealed class NodeSet : ExtensionFunctionDefinition {
 

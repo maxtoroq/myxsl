@@ -16,10 +16,10 @@ using System;
 using System.IO;
 using System.Xml;
 using System.Xml.XPath;
-using myxsl.net.common;
+using myxsl.common;
 using Saxon.Api;
 
-namespace myxsl.net.saxon {
+namespace myxsl.saxon {
 
    public sealed class SaxonXsltExecutable : common.XsltExecutable {
 

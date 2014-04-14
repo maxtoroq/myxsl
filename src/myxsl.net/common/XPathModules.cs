@@ -20,7 +20,7 @@ using System.Web.Compilation;
 using System.Web.Hosting;
 using System.Collections.ObjectModel;
 
-namespace myxsl.net.common {
+namespace myxsl.common {
 
    public static class XPathModules {
 
@@ -40,12 +40,12 @@ namespace myxsl.net.common {
                         new XPathModuleInfo(typeof(web.WebModule)),
                         new XPathModuleInfo(typeof(security.SecurityModule)) { Predeclare = true },
                         new XPathModuleInfo(typeof(configuration.ConfigurationModule)),
-                        new XPathModuleInfo(typeof(validation.schematron.SchematronModule)),
+                        new XPathModuleInfo(typeof(schematron.SchematronModule)),
                         new XPathModuleInfo(typeof(net.http.XPathHttpClient)),
                         new XPathModuleInfo(typeof(net.mail.XPathSmtpClient)),
                         new XPathModuleInfo(typeof(io.XPathFileSystem)),
-                        new XPathModuleInfo(typeof(XsltModule)),
-                        new XPathModuleInfo(typeof(XQueryModule))
+                        new XPathModuleInfo(typeof(xslt.XsltModule)),
+                        new XPathModuleInfo(typeof(xquery.XQueryModule))
                      };
 
                      IList<Assembly> assemblies = (HostingEnvironment.IsHosted) ?

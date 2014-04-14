@@ -19,10 +19,10 @@ using System.Web;
 using System.Web.Mvc;
 using System.Xml;
 using System.Xml.XPath;
-using myxsl.net.common;
-using myxsl.net.web.ui;
+using myxsl.common;
+using myxsl.web.ui;
 
-namespace myxsl.net.web.mvc {
+namespace myxsl.web.mvc {
    
    public class XQueryView : BuildManagerCompiledView {
 

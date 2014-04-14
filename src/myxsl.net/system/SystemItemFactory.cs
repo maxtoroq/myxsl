@@ -19,9 +19,9 @@ using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.XPath;
-using myxsl.net.common;
+using myxsl.common;
 
-namespace myxsl.net.system {
+namespace myxsl.xml.xsl {
    
    public sealed class SystemItemFactory : XPathItemFactory {
 

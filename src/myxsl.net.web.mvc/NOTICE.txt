@@ -1,8 +1,8 @@
 =========================================================================
 ==  NOTICE file corresponding to the section 4 d of                    ==
 ==  the Apache License, Version 2.0,                                   ==
-==  in this case for the myxsl.net.web.mvc distribution.               ==
+==  in this case for the myxsl.web.mvc distribution.                   ==
 =========================================================================
 
-myxsl.net.web.mvc
-Copyright 2009-2013 Max Toro Q.
+myxsl
+Copyright 2009-2014 Max Toro Q.

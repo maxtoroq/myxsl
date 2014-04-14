@@ -19,11 +19,11 @@ using System.Reflection;
 using System.Web.Routing;
 using System.Xml;
 using System.Xml.XPath;
-using myxsl.net.common;
-using UriCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXQueryProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.net.common.XQueryExecutable>>;
-using InlineCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.net.common.IXQueryProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Int32, myxsl.net.common.XQueryExecutable>>;
+using myxsl.common;
+using UriCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.common.IXQueryProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.common.XQueryExecutable>>;
+using InlineCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.common.IXQueryProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Int32, myxsl.common.XQueryExecutable>>;
 
-namespace myxsl.net {
+namespace myxsl.xquery {
    
    public class XQueryInvoker {
 

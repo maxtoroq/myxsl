@@ -16,7 +16,7 @@ using System;
 using System.CodeDom;
 using System.Collections.Generic;
 
-namespace myxsl.net.web.compilation {
+namespace myxsl.web.compilation {
    
    public class BindingExpressionInfo {
 

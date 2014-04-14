@@ -41,7 +41,7 @@ using System.Xml.XPath;
 //-----------------------------------------------------------------//
 
 //namespace Mvp.Xml.Common.XPath {
-namespace myxsl.net.system {
+namespace myxsl.xml.xsl {
    
    sealed class EmptyXPathNodeIterator : XPathNodeIterator {
       

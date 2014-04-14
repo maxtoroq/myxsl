@@ -18,9 +18,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using myxsl.net.common;
+using myxsl.common;
 
-namespace myxsl.net.io {
+namespace myxsl.io {
    
    [XPathModule(Prefix, Namespace)]
    public class XPathFileSystem {

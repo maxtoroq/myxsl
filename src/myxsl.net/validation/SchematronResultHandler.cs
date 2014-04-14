@@ -19,10 +19,9 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
-using myxsl.net.common;
-using myxsl.net.validation.schematron;
+using myxsl.common;
 
-namespace myxsl.net.validation {
+namespace myxsl.schematron {
    
    public class SchematronResultHandler {
 

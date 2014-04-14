@@ -19,10 +19,10 @@ using System.IO;
 using System.Xml;
 using System.Xml.XPath;
 using PIAttribs = System.Collections.Generic.IDictionary<string, string>;
-using myxsl.net.configuration;
-using myxsl.net.common;
+using myxsl.configuration;
+using myxsl.common;
 
-namespace myxsl.net.web.ui {
+namespace myxsl.web.ui {
    
    public class SchematronParser : BaseParser {
       

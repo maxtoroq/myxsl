@@ -18,7 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 
-namespace myxsl.net.web.mvc {
+namespace myxsl.web.mvc {
    
    public class XQueryViewEngine : BuildManagerViewEngine {
 

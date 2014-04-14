@@ -23,7 +23,7 @@ using System.Collections.Specialized;
 using System.Web;
 using System.Globalization;
 
-namespace myxsl.net {
+namespace myxsl {
    
    public class XmlEmbeddedResourceResolver : XmlResolver {
       

@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace myxsl.net.web.ui {
+namespace myxsl.web.ui {
    
    public class ParsedValue<T> {
 

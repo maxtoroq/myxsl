@@ -19,7 +19,7 @@ using System.Xml.XPath;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace myxsl.net.common {
+namespace myxsl.common {
 
    public abstract class XQueryExecutable {
 

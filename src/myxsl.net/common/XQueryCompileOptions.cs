@@ -15,7 +15,7 @@
 using System;
 using System.Xml;
 
-namespace myxsl.net.common {
+namespace myxsl.common {
 
    public class XQueryCompileOptions {
 

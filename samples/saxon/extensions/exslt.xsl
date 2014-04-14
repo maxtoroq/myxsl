@@ -30,7 +30,7 @@
       <h1>EXSLT Extensions</h1>
       <p>
          <a href="http://www.saxonica.com/documentation/extensions/exslt.xml">EXSLT extension functions</a>
-         are natively available in Saxon-PE and Saxon-EE. myxsl.net provides its own implementations for Saxon-HE.
+         are natively available in Saxon-PE and Saxon-EE. <strong>myxsl</strong> provides its own implementations for Saxon-HE.
       </p>
       <h2>Namespace Bindings</h2>
       <ul>

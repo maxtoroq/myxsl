@@ -19,7 +19,7 @@ using System.Xml;
 using System.Xml.XPath;
 using System.IO;
 
-namespace myxsl.net.net.http {
+namespace myxsl.net.http {
    
    sealed class XPathHttpMultipart {
 

@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace myxsl.net {
+namespace myxsl {
 
    static class WellKnownNamespaces {
       

@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Saxon.Api;
 
-namespace myxsl.net.saxon.extensions.w3c.xpath.math {
+namespace myxsl.saxon.extensions.w3c.xpath.math {
    
    static class Index {
       

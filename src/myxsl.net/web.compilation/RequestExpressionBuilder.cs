@@ -22,9 +22,9 @@ using System.Web;
 using System.Web.Configuration;
 using System.Xml;
 using System.Xml.XPath;
-using myxsl.net.web.ui;
+using myxsl.web.ui;
 
-namespace myxsl.net.web.compilation {
+namespace myxsl.web.compilation {
    
    public sealed class RequestExpressionBuilder : BindingExpressionBuilder {
 

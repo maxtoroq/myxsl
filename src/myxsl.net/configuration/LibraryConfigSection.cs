@@ -18,15 +18,15 @@ using System.Configuration;
 using System.Text;
 using System.Web.Configuration;
 using System.Xml;
-using myxsl.net.configuration.web;
-using myxsl.net.web;
-using myxsl.net.web.compilation;
+using myxsl.configuration.web;
+using myxsl.web;
+using myxsl.web.compilation;
 
-namespace myxsl.net.configuration {
+namespace myxsl.configuration {
 
    sealed class LibraryConfigSection : ConfigurationSection {
 
-      internal static readonly string SectionName = "myxsl.net";
+      internal static readonly string SectionName = "myxsl";
 
       static readonly ConfigurationPropertyCollection _Properties;
       static readonly ConfigurationProperty _ProcessorsProperty;
@@ -127,7 +127,7 @@ namespace myxsl.net.configuration {
 
          var sysProc = new ProcessorElement {
             Name = "system",
-            Type = typeof(system.SystemXsltProcessor).AssemblyQualifiedName,
+            Type = typeof(xml.xsl.SystemXsltProcessor).AssemblyQualifiedName,
             LockItem = true
          };
 

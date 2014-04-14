@@ -17,7 +17,7 @@ using System.Configuration;
 using System.Globalization;
 using System.Web.Compilation;
 
-namespace myxsl.net.configuration {
+namespace myxsl.configuration {
    
    static class TypeLoader {
 

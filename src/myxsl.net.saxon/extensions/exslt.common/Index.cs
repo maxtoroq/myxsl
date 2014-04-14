@@ -16,10 +16,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using myxsl.net.common;
+using myxsl.common;
 using Saxon.Api;
 
-namespace myxsl.net.saxon.extensions.exslt.common {
+namespace myxsl.saxon.extensions.exslt.common {
    
    static class Index {
 

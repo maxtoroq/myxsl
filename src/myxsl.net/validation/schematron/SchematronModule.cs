@@ -18,11 +18,11 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
-using myxsl.net.common;
+using myxsl.common;
 
-namespace myxsl.net.validation.schematron {
+namespace myxsl.schematron {
 
-   [XPathModule("schematron", "http://myxsl.net/ns/validation/schematron", SvrlPrefix, WellKnownNamespaces.SVRL)]
+   [XPathModule("schematron", "http://myxsl.github.io/ns/schematron", SvrlPrefix, WellKnownNamespaces.SVRL)]
    public class SchematronModule {
 
       const string SvrlPrefix = "svrl";

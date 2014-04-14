@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace myxsl.net {
+namespace myxsl {
    
    static class StreamUtil {
 

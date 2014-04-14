@@ -21,7 +21,7 @@ using System.Xml;
 using System.Xml.XPath;
 using System.Xml.Xsl.Runtime;
 
-namespace myxsl.net.system {
+namespace myxsl.xml.xsl {
    
    [CLSCompliant(false)]
    public static class ExtensionObjectConvert {
@@ -405,7 +405,7 @@ namespace myxsl.net.system {
       }
 
       /// <summary>
-      /// This member supports the myxsl.net infrastructure and is not intended to be used directly from your code.
+      /// This member supports the myxsl infrastructure and is not intended to be used directly from your code.
       /// </summary>
       [EditorBrowsable(EditorBrowsableState.Never)]
       public static object FirstElementOrSelf(object value) {
@@ -418,7 +418,7 @@ namespace myxsl.net.system {
       }
 
       /// <summary>
-      /// This member supports the myxsl.net infrastructure and is not intended to be used directly from your code.
+      /// This member supports the myxsl infrastructure and is not intended to be used directly from your code.
       /// </summary>
       [EditorBrowsable(EditorBrowsableState.Never)]
       public static XPathNavigator FirstElementOrSelf(XPathNavigator value) {

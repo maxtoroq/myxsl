@@ -21,7 +21,7 @@ using System.Web;
 using System.Web.Hosting;
 using System.Xml;
 
-namespace myxsl.net.web.ui {
+namespace myxsl.web.ui {
    
    public abstract class BaseParser {
 

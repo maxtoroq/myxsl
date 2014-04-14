@@ -15,7 +15,7 @@
 using System;
 using System.Configuration;
 
-namespace myxsl.net.configuration {
+namespace myxsl.configuration {
 
    sealed class ResolverElementCollection : ConfigurationElementCollection {
 

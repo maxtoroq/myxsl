@@ -19,7 +19,7 @@ using System.Text;
 using System.Web;
 using System.Web.Compilation;
 
-namespace myxsl.net.common {
+namespace myxsl.common {
 
    static class TypeResolver {
 

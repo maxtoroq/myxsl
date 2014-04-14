@@ -16,10 +16,10 @@ using System;
 using System.CodeDom;
 using System.Globalization;
 using System.Linq;
-using myxsl.net.configuration;
-using myxsl.net.configuration.web;
+using myxsl.configuration;
+using myxsl.configuration.web;
 
-namespace myxsl.net.web.compilation {
+namespace myxsl.web.compilation {
    
    public abstract class BindingExpressionBuilder {
 

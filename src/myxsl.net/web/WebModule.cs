@@ -19,9 +19,9 @@ using System.Text;
 using System.Configuration;
 using System.Web;
 
-namespace myxsl.net.web {
+namespace myxsl.web {
 
-   [XPathModule("web", "http://myxsl.net/ns/web")]
+   [XPathModule("web", "http://myxsl.github.io/ns/web")]
    public static class WebModule {
 
       [XPathFunction("absolute-path", "xs:string", "xs:string")]

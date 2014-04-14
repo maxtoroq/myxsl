@@ -19,7 +19,7 @@ using System.Text;
 using System.Xml.XPath;
 using System.Net.Mail;
 
-namespace myxsl.net.net.mail {
+namespace myxsl.net.mail {
    
    sealed class XPathMailAddress {
 

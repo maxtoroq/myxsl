@@ -18,7 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace myxsl.net.common {
+namespace myxsl.common {
    
    public class XmlParsingOptions {
 

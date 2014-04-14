@@ -18,9 +18,9 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
-using myxsl.net.common;
+using myxsl.common;
 
-namespace myxsl.net.web.ui {
+namespace myxsl.web.ui {
    
    public abstract class XsltPage : BasePage {
 

@@ -17,9 +17,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
-using myxsl.net.configuration;
+using myxsl.configuration;
 
-namespace myxsl.net.common {
+namespace myxsl.common {
    
    public static class Processors {
 

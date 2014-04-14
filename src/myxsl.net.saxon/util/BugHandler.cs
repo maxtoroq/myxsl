@@ -20,7 +20,7 @@ using System.Text;
 using System.Xml;
 using Saxon.Api;
 
-namespace myxsl.net.saxon {
+namespace myxsl.saxon {
 
    class BugHandler {
       
