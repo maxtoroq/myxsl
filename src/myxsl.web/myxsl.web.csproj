@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FC5EE7F5-A466-48B2-97BC-526173A8600B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>myxsl.web</RootNamespace>
+    <AssemblyName>myxsl.web</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="compilation\BaseBuildProvider.cs" />
+    <Compile Include="compilation\BaseCodeDomTreeGenerator.cs" />
+    <Compile Include="compilation\BasePageBuildProvider.cs" />
+    <Compile Include="compilation\BasePageCodeDomTreeGenerator.cs" />
+    <Compile Include="compilation\BindingExpressionBuilder.cs" />
+    <Compile Include="compilation\BindingExpressionContext.cs" />
+    <Compile Include="compilation\BindingExpressionInfo.cs" />
+    <Compile Include="compilation\CodeExpressionBuilder.cs" />
+    <Compile Include="compilation\RequestExpressionBuilder.cs" />
+    <Compile Include="compilation\SessionExpressionBuilder.cs" />
+    <Compile Include="compilation\XQueryPageBuildProvider.cs" />
+    <Compile Include="compilation\XQueryPageCodeDomTreeGenerator.cs" />
+    <Compile Include="compilation\XsltPageBuildProvider.cs" />
+    <Compile Include="compilation\XsltPageCodeDomTreeGenerator.cs" />
+    <Compile Include="configuration\CompilationElement.cs" />
+    <Compile Include="configuration\ExpressionBuilderElement.cs" />
+    <Compile Include="configuration\ExpressionBuilderElementCollection.cs" />
+    <Compile Include="configuration\PagesElement.cs" />
+    <Compile Include="configuration\WebSection.cs" />
+    <Compile Include="PreApplicationStartCode.cs" />
+    <Compile Include="RequestModule.cs" />
+    <Compile Include="ResponseModule.cs" />
+    <Compile Include="SessionModule.cs" />
+    <Compile Include="ui\BasePage.cs" />
+    <Compile Include="ui\BasePageParser.cs" />
+    <Compile Include="ui\BaseParser.cs" />
+    <Compile Include="ui\OutputCachedPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ui\PageHandlerFactory.cs" />
+    <Compile Include="ui\PageParameterInfo.cs" />
+    <Compile Include="ui\ParsedValue`1.cs" />
+    <Compile Include="ui\SchematronParser.cs" />
+    <Compile Include="ui\XQueryPage.cs" />
+    <Compile Include="ui\XQueryPageParser.cs" />
+    <Compile Include="ui\XsltPage.cs" />
+    <Compile Include="ui\XsltPageParser.cs" />
+    <Compile Include="ui\XsltPageType.cs" />
+    <Compile Include="WebModule.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\myxsl\myxsl.csproj">
+      <Project>{8a918123-1467-469e-9c78-6d37a8f911f3}</Project>
+      <Name>myxsl</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

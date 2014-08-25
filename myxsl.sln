@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2013 for Web
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myxsl", "src\myxsl\myxsl.csproj", "{8A918123-1467-469E-9C78-6D37A8F911F3}"
 EndProject
@@ -13,7 +13,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "samples(5)", "http://localh
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "true"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		ProjectReferences = "{8A918123-1467-469E-9C78-6D37A8F911F3}|myxsl.dll;{5F9254A6-05F1-4255-A8F5-CC4490327DB1}|myxsl.saxon.dll;{AE71E623-E962-4554-8AC1-5F2492263666}|myxsl.web.mvc.dll;"
+		ProjectReferences = "{8A918123-1467-469E-9C78-6D37A8F911F3}|myxsl.dll;{5F9254A6-05F1-4255-A8F5-CC4490327DB1}|myxsl.saxon.dll;{AE71E623-E962-4554-8AC1-5F2492263666}|myxsl.web.mvc.dll;{FC5EE7F5-A466-48B2-97BC-526173A8600B}|myxsl.web.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/samples"
 		Debug.AspNetCompiler.PhysicalPath = "samples\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\samples\"
@@ -30,6 +30,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "samples(5)", "http://localh
 		Release.AspNetCompiler.Debug = "False"
 		SlnRelativePath = "samples\"
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myxsl.web", "src\myxsl.web\myxsl.web.csproj", "{FC5EE7F5-A466-48B2-97BC-526173A8600B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{21BB371A-25CC-4409-83DB-A9AC0D5E2F78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21BB371A-25CC-4409-83DB-A9AC0D5E2F78}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{21BB371A-25CC-4409-83DB-A9AC0D5E2F78}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{FC5EE7F5-A466-48B2-97BC-526173A8600B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC5EE7F5-A466-48B2-97BC-526173A8600B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC5EE7F5-A466-48B2-97BC-526173A8600B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC5EE7F5-A466-48B2-97BC-526173A8600B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -20,7 +20,7 @@ using System.Web;
 
 namespace myxsl.web {
 
-   [XPathModule(Prefix, Namespace)]
+   [XPathModule(Prefix, Namespace, Predeclare = true)]
    public static class SessionModule {
 
       internal const string Prefix = "session";

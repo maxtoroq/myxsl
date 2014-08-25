@@ -17,8 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Configuration;
 using System.Web.UI;
-using myxsl.configuration;
-using myxsl.configuration.web;
+using myxsl.web.configuration;
 
 namespace myxsl.web.ui {
    
@@ -107,10 +106,10 @@ namespace myxsl.web.ui {
             return;
          }
 
-         var localConfig = (LibraryConfigSection)WebConfigurationManager.GetSection(LibraryConfigSection.SectionName, this.AppRelativeVirtualPath);
+         var localConfig = (WebSection)WebConfigurationManager.GetSection(WebSection.SectionName, this.AppRelativeVirtualPath);
 
-         this.config = (localConfig != null) ? localConfig.Web.Pages
-            : LibraryConfigSection.Instance.Web.Pages;
+         this.config = (localConfig != null) ? localConfig.Pages
+            : WebSection.Instance.Pages;
       }
    }
 }

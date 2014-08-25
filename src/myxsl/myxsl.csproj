@@ -104,9 +104,6 @@
     <Compile Include="common\XsltCompileOptions.cs" />
     <Compile Include="common\XsltExecutable.cs" />
     <Compile Include="common\XsltRuntimeOptions.cs" />
-    <Compile Include="configuration\web\CompilationElement.cs" />
-    <Compile Include="configuration\web\PagesElement.cs" />
-    <Compile Include="configuration\web\WebElement.cs" />
     <Compile Include="configuration\XQueryElement.cs" />
     <Compile Include="configuration\XsltElement.cs" />
     <Compile Include="common\XPathFunctionInfo.cs" />
@@ -115,13 +112,7 @@
     <Compile Include="common\XPathSequenceCardinality.cs" />
     <Compile Include="common\XPathSequenceType.cs" />
     <Compile Include="util\FormatInvariantExtensions.cs" />
-    <Compile Include="web\PreApplicationStartCode.cs" />
     <Compile Include="util\StringExtensions.cs" />
-    <Compile Include="web.compilation\BindingExpressionContext.cs" />
-    <Compile Include="web.ui\OutputCachedPage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="web\WebModule.cs" />
     <Compile Include="XmlDynamicResolver.cs" />
     <Compile Include="XmlEmbeddedResourceResolver.cs" />
     <Compile Include="XPathDependencyAttribute.cs" />
@@ -143,41 +134,11 @@
     <Compile Include="configuration\ProcessorElementCollection.cs" />
     <Compile Include="configuration\ProcessorElement.cs" />
     <Compile Include="configuration\TypeLoader.cs" />
-    <Compile Include="configuration\web\ExpressionBuilderElement.cs" />
-    <Compile Include="configuration\web\ExpressionBuilderElementCollection.cs" />
-    <Compile Include="web\RequestModule.cs" />
-    <Compile Include="web\ResponseModule.cs" />
-    <Compile Include="web\SessionModule.cs" />
     <Compile Include="common\XPathModuleInfo.cs" />
-    <Compile Include="web.ui\PageHandlerFactory.cs" />
     <Compile Include="web\XmlVirtualPathAwareUrlResolver.cs" />
     <Compile Include="util\CLR.cs" />
     <Compile Include="util\StreamUtil.cs" />
-    <Compile Include="web.compilation\SessionExpressionBuilder.cs" />
-    <Compile Include="web.compilation\RequestExpressionBuilder.cs" />
-    <Compile Include="web.compilation\BindingExpressionBuilder.cs" />
-    <Compile Include="web.compilation\CodeExpressionBuilder.cs" />
-    <Compile Include="web.ui\BasePageParser.cs" />
-    <Compile Include="web.compilation\BindingExpressionInfo.cs" />
-    <Compile Include="web.ui\ParsedValue`1.cs" />
     <Compile Include="util\WellKnownNamespaces.cs" />
-    <Compile Include="web.ui\PageParameterInfo.cs" />
-    <Compile Include="web.compilation\BaseCodeDomTreeGenerator.cs" />
-    <Compile Include="web.compilation\BaseBuildProvider.cs" />
-    <Compile Include="web.compilation\XsltPageBuildProvider.cs" />
-    <Compile Include="web.compilation\BasePageBuildProvider.cs" />
-    <Compile Include="web.compilation\BasePageCodeDomTreeGenerator.cs" />
-    <Compile Include="web.compilation\XQueryPageBuildProvider.cs" />
-    <Compile Include="web.compilation\XQueryPageCodeDomTreeGenerator.cs" />
-    <Compile Include="web.compilation\XsltPageCodeDomTreeGenerator.cs" />
-    <Compile Include="web.ui\BaseParser.cs" />
-    <Compile Include="web.ui\SchematronParser.cs" />
-    <Compile Include="web.ui\XsltPageParser.cs" />
-    <Compile Include="web.ui\XsltPageType.cs" />
-    <Compile Include="web.ui\BasePage.cs" />
-    <Compile Include="web.ui\XQueryPage.cs" />
-    <Compile Include="web.ui\XQueryPageParser.cs" />
-    <Compile Include="web.ui\XsltPage.cs" />
     <Compile Include="util\XHtmlWriter.cs" />
     <Compile Include="util\XmlWrappingWriter.cs" />
   </ItemGroup>

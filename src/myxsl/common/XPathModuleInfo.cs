@@ -207,6 +207,10 @@ namespace myxsl.common {
          this._Type = type;
          this.moduleAttr = Attribute.GetCustomAttribute(this.Type, typeof(XPathModuleAttribute)) 
             as XPathModuleAttribute;
+
+         if (this.moduleAttr != null) {
+            this.Predeclare = this.moduleAttr.Predeclare;
+         }
       }
    }
 }

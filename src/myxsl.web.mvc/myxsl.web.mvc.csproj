@@ -78,6 +78,10 @@
     <Compile Include="XsltViewEngine.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\myxsl.web\myxsl.web.csproj">
+      <Project>{fc5ee7f5-a466-48b2-97bc-526173a8600b}</Project>
+      <Name>myxsl.web</Name>
+    </ProjectReference>
     <ProjectReference Include="..\myxsl\myxsl.csproj">
       <Project>{8A918123-1467-469E-9C78-6D37A8F911F3}</Project>
       <Name>myxsl</Name>

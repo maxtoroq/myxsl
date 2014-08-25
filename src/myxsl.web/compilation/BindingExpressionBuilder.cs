@@ -16,8 +16,7 @@ using System;
 using System.CodeDom;
 using System.Globalization;
 using System.Linq;
-using myxsl.configuration;
-using myxsl.configuration.web;
+using myxsl.web.configuration;
 
 namespace myxsl.web.compilation {
    
@@ -32,7 +31,7 @@ namespace myxsl.web.compilation {
          
          BindingExpressionBuilder exprBuilder;
 
-         ExpressionBuilderElement el = LibraryConfigSection.Instance.Web.Compilation.ExpressionBuilders.Get(ns);
+         ExpressionBuilderElement el = WebSection.Instance.Compilation.ExpressionBuilders.Get(ns);
 
          if (el == null)
             throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "There are no expression builders registered for namespace '{0}'.", ns));
@@ -51,7 +50,7 @@ namespace myxsl.web.compilation {
       }
 
       public static string[] GetNamespaces() {
-         return LibraryConfigSection.Instance.Web.Compilation.ExpressionBuilders.Cast<ExpressionBuilderElement>().Select(e => e.Namespace).ToArray();
+         return WebSection.Instance.Compilation.ExpressionBuilders.Cast<ExpressionBuilderElement>().Select(e => e.Namespace).ToArray();
       }
 
       public virtual BindingExpressionInfo ParseExpression(string expression, BindingExpressionContext context) {

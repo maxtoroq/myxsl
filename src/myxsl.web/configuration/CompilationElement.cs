@@ -18,7 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Configuration;
 
-namespace myxsl.configuration.web {
+namespace myxsl.web.configuration {
    
    sealed class CompilationElement : ConfigurationElement {
 

@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Compilation;
+using myxsl.configuration;
 using myxsl.web.compilation;
 
 namespace myxsl.web {
@@ -28,7 +29,9 @@ namespace myxsl.web {
       public static void Start() {
 
          if (!startWasCalled) {
+
             startWasCalled = true;
+            
             BuildProvider.RegisterBuildProvider(".xsl", typeof(XsltPageBuildProvider));
             BuildProvider.RegisterBuildProvider(".xqy", typeof(XQueryPageBuildProvider));
          }

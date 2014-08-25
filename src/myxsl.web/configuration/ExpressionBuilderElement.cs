@@ -18,8 +18,9 @@ using System.Linq;
 using System.Text;
 using System.Configuration;
 using myxsl.web.compilation;
+using myxsl.configuration;
 
-namespace myxsl.configuration.web {
+namespace myxsl.web.configuration {
 
    sealed class ExpressionBuilderElement : ConfigurationElement {
       

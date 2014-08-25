@@ -19,7 +19,7 @@ using System.Text;
 using System.Configuration;
 using System.Web.Configuration;
 
-namespace myxsl.configuration.web {
+namespace myxsl.web.configuration {
    
    sealed class PagesElement : ConfigurationElement {
 

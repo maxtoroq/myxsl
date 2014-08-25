@@ -27,6 +27,8 @@ namespace myxsl {
       public string Prefix { get; private set; }
       public string Namespace { get; private set; }
 
+      public bool Predeclare { get; set; }
+
       public XPathModuleAttribute() { }
 
       public XPathModuleAttribute(string @namespace) {

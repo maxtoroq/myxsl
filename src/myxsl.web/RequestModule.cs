@@ -23,7 +23,7 @@ using System.Xml.XPath;
 
 namespace myxsl.web {
 
-   [XPathModule(Prefix, Namespace)]
+   [XPathModule(Prefix, Namespace, Predeclare = true)]
    public static class RequestModule {
 
       internal const string Prefix = "request";

@@ -18,9 +18,7 @@ using System.Configuration;
 using System.Text;
 using System.Web.Configuration;
 using System.Xml;
-using myxsl.configuration.web;
 using myxsl.web;
-using myxsl.web.compilation;
 
 namespace myxsl.configuration {
 
@@ -33,7 +31,6 @@ namespace myxsl.configuration {
       static readonly ConfigurationProperty _ResolversProperty;
       static readonly ConfigurationProperty _XsltProperty;
       static readonly ConfigurationProperty _XQueryProperty;
-      static readonly ConfigurationProperty _WebProperty;
 
       static LibraryConfigSection _Instance;
       static readonly object padlock = new object();
@@ -42,7 +39,6 @@ namespace myxsl.configuration {
       ResolverElementCollection _Resolvers;
       XsltElement _Xslt;
       XQueryElement _XQuery;
-      WebElement _Web;
 
       public static LibraryConfigSection Instance {
          get {
@@ -97,27 +93,18 @@ namespace myxsl.configuration {
          }
       }
 
-      public WebElement Web {
-         get {
-            return _Web
-               ?? (_Web = (WebElement)base[_WebProperty]);
-         }
-      }
-
       static LibraryConfigSection() {
          
          _ProcessorsProperty = new ConfigurationProperty("processors", typeof(ProcessorElementCollection));
          _ResolversProperty = new ConfigurationProperty("resolvers", typeof(ResolverElementCollection));
          _XsltProperty = new ConfigurationProperty("xslt", typeof(XsltElement));
          _XQueryProperty = new ConfigurationProperty("xquery", typeof(XQueryElement));
-         _WebProperty = new ConfigurationProperty("web", typeof(WebElement));
 
          _Properties = new ConfigurationPropertyCollection { 
             _ProcessorsProperty, 
             _ResolversProperty, 
             _XsltProperty,
-            _XQueryProperty,
-            _WebProperty
+            _XQueryProperty
          };
       }
 
@@ -133,32 +120,6 @@ namespace myxsl.configuration {
 
          this.Processors.Add(sysProc);
          this.Xslt.DefaultProcessor = sysProc.Name;
-
-         ExpressionBuilderElementCollection exprBuilders = this.Web.Compilation.ExpressionBuilders;
-
-         exprBuilders.Add(
-            new ExpressionBuilderElement { 
-               Namespace = RequestExpressionBuilder.Namespace,
-               Type = typeof(RequestExpressionBuilder).AssemblyQualifiedName,
-               LockItem = true
-            }
-         );
-
-         exprBuilders.Add(
-            new ExpressionBuilderElement {
-               Namespace = SessionExpressionBuilder.Namespace,
-               Type = typeof(SessionExpressionBuilder).AssemblyQualifiedName,
-               LockItem = true
-            }
-         );
-
-         exprBuilders.Add(
-            new ExpressionBuilderElement { 
-               Namespace = CodeExpressionBuilder.Namespace,
-               Type = typeof(CodeExpressionBuilder).AssemblyQualifiedName,
-               LockItem = true
-            }
-         );
 
          ResolverElementCollection resolvers = this.Resolvers;
 
@@ -182,17 +143,6 @@ namespace myxsl.configuration {
                 Type = typeof(XmlEmbeddedResourceResolver).AssemblyQualifiedName
              }
          );
-
-         NamespaceCollection pagesNamespaces = this.Web.Pages.Namespaces;
-
-         pagesNamespaces.Add(new NamespaceInfo("System"));
-         pagesNamespaces.Add(new NamespaceInfo("System.Collections.Generic"));
-         pagesNamespaces.Add(new NamespaceInfo("System.IO"));
-         pagesNamespaces.Add(new NamespaceInfo("System.Linq"));
-         pagesNamespaces.Add(new NamespaceInfo("System.Net"));
-         pagesNamespaces.Add(new NamespaceInfo("System.Web"));
-         pagesNamespaces.Add(new NamespaceInfo("System.Web.Security"));
-         pagesNamespaces.Add(new NamespaceInfo("System.Web.UI"));
 
          base.InitializeDefault();
       }

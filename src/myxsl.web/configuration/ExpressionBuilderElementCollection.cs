@@ -15,7 +15,7 @@
 using System;
 using System.Configuration;
 
-namespace myxsl.configuration.web {
+namespace myxsl.web.configuration {
 
    sealed class ExpressionBuilderElementCollection : ConfigurationElementCollection {
 
