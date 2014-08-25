@@ -36,7 +36,7 @@ namespace myxsl.web.configuration {
       CompilationElement _Compilation;
       PagesElement _Pages;
 
-      public static WebSection Instance {
+      internal static WebSection Instance {
          get {
 
             if (_Instance == null) {
