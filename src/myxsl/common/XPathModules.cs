@@ -16,8 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Web.Compilation;
-using System.Web.Hosting;
 using System.Collections.ObjectModel;
 
 namespace myxsl.common {
@@ -44,9 +42,9 @@ namespace myxsl.common {
                         new XPathModuleInfo(typeof(xquery.XQueryModule))
                      };
 
-                     IList<Assembly> assemblies = (HostingEnvironment.IsHosted) ?
-                        BuildManager.GetReferencedAssemblies().Cast<Assembly>().ToArray() :
-                        AppDomain.CurrentDomain.GetAssemblies();
+                     IList<Assembly> assemblies = TypeLoader.Instance
+                        .GetReferencedAssemblies()
+                        .ToArray();
 
                      IEnumerable<XPathModuleInfo> userModules =
                         from a in assemblies

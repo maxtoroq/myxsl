@@ -19,6 +19,7 @@ using System.Text;
 using System.Configuration;
 using myxsl.web.compilation;
 using myxsl.configuration;
+using myxsl.common;
 
 namespace myxsl.web.configuration {
 
@@ -49,7 +50,7 @@ namespace myxsl.web.configuration {
             if (_TypeInternal == null) {
                lock (this) {
                   if (_TypeInternal == null) {
-                     _TypeInternal = TypeLoader.LoadType(Type, typeof(BindingExpressionBuilder), this, "type");
+                     _TypeInternal = TypeLoader.Instance.LoadType(Type, typeof(BindingExpressionBuilder), this, "type");
                   }
                }
             }

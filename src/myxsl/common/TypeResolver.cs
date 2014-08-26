@@ -16,8 +16,6 @@ using System;
 using System.Collections.Specialized;
 using System.Reflection;
 using System.Text;
-using System.Web;
-using System.Web.Compilation;
 
 namespace myxsl.common {
 
@@ -31,7 +29,7 @@ namespace myxsl.common {
          if (!typeUri.IsAbsoluteUri) throw new ArgumentException("typeUri must be absolute", "typeUri");
          if (typeUri.Scheme != UriSchemeClitype) throw new ArgumentException("", "typeUri");
 
-         NameValueCollection query = HttpUtility.ParseQueryString(
+         NameValueCollection query = QueryStringUtil.ParseQueryString(
             (typeUri.Query ?? "").Replace(';', '&')
          );
 
@@ -77,7 +75,7 @@ namespace myxsl.common {
                typeName = className;
             }
 
-            type = BuildManager.GetType(typeName, throwOnError, ignoreCase);
+            type = TypeLoader.Instance.GetType(typeName, throwOnError, ignoreCase);
          }
 
          return type;

@@ -9,26 +9,22 @@ Copyright 2009-2014 Max Toro Q.
 
 See licenses/LICENSE.txt
 
-This product includes/uses software(s) developed by 'XMLMVP Project' (http://mvpxml.codeplex.com/)
+This product includes/uses software(s) developed by:
+
+XMLMVP Project
+--------------
+http://mvpxml.codeplex.com/
+
   - XHtmlWriter
   - XmlWrappingWriter
   - EmptyXPathNodeIterator
 
 See licenses/XMLMVP-LICENSE.txt
 
-This product includes/uses software(s) from ASP.NET MVC developed by 'Microsoft Corporation' (http://aspnetwebstack.codeplex.com/)
-  - OutputCachedPage
-  - RequestModule.IsAjaxRequest, based on AjaxRequestExtensions
-  - RequestModule.HttpMethodOverride, based on HttpRequestExtensions
+Rick Jelliffe and Academia Sinica Computing Center
+--------------------------------------------------
+http://www.schematron.com/implementation.html
 
-See licenses/ASP.NET-MVC-LICENSE.txt
-
-This product includes/uses software(s) developed by 'Jon Skeet'
-  - StreamUtil.ReadFully (http://stackoverflow.com/a/221941/39923) 
-
-See http://creativecommons.org/licenses/by-sa/3.0/
-
-This product includes/uses software(s) developed by 'Rick Jelliffe and Academia Sinica Computing Center'
   - iso_abstract_expand.xsl
   - iso_schematron_message.xsl
   - iso_schematron_message_xslt2.xsl
@@ -37,13 +33,38 @@ This product includes/uses software(s) developed by 'Rick Jelliffe and Academia 
   - iso_svrl_for_xslt1.xsl
   - iso_svrl_for_xslt2.xsl
 
-This product includes/uses software(s) developed by 'Rick Jelliffe'
+See licenses/ISO-SCHEMATRON-1-LICENSE.txt
+
+Rick Jelliffe
+-------------
+http://www.schematron.com/implementation.html
+
   - iso_dsdl_include.xsl
   
-See http://www.schematron.com/implementation.html
-See the source code for license information
+See licenses/ISO-SCHEMATRON-2-LICENSE.txt
 
-This product includes/uses software(s) developed by 'Saxonica Limited'
-  - Saxon-HE (http://saxon.sf.net/)
+Novell, Inc
+-----------
+http://www.mono-project.com/
+
+  - QueryStringUtil, based on System.Web.HttpUtility
+
+See licenses/MONO-LICENSE.txt
+
+Microsoft Corporation
+---------------------
+http://aspnetwebstack.codeplex.com/
+
+  - OutputCachedPage
+  - RequestModule.IsAjaxRequest, based on AjaxRequestExtensions
+  - RequestModule.HttpMethodOverride, based on HttpRequestExtensions
+
+See licenses/ASP.NET-MVC-LICENSE.txt
+
+Saxonica Limited
+----------------
+http://saxon.sf.net/
+
+  - Saxon-HE
 
 See packages/Saxon-HE.9.3.0.1/notices/

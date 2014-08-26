@@ -57,7 +57,7 @@ namespace myxsl {
 
          Assembly assembly = null;
 
-         NameValueCollection query = HttpUtility.ParseQueryString(
+         NameValueCollection query = QueryStringUtil.ParseQueryString(
             (absoluteUri.Query ?? "").Replace(';', '&')
          );
 

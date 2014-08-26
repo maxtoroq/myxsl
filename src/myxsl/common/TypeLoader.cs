@@ -13,20 +13,33 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
-using System.Web.Compilation;
+using System.Reflection;
 
-namespace myxsl.configuration {
+namespace myxsl.common {
    
-   static class TypeLoader {
+   class TypeLoader {
 
-      public static Type LoadType(string typeName, Type requiredBaseType, ConfigurationElement configElement, string propertyName) {
+      static TypeLoader _Instance = new TypeLoader();
+
+      public static TypeLoader Instance {
+         get { return _Instance; }
+         set {
+
+            if (value == null) throw new ArgumentNullException("value");
+
+            _Instance = value;
+         }
+      }
+
+      public Type LoadType(string typeName, Type requiredBaseType, ConfigurationElement configElement, string propertyName) {
 
          Type type;
 
          try {
-            type = BuildManager.GetType(typeName, true, false);
+            type = GetType(typeName, throwOnError: true, ignoreCase: false);
 
          } catch (Exception ex) {
 
@@ -40,6 +53,14 @@ namespace myxsl.configuration {
          CheckAssignableType(requiredBaseType, type, configElement, propertyName);
 
          return type;
+      }
+
+      public virtual Type GetType(string typeName, bool throwOnError, bool ignoreCase) {
+         return Type.GetType(typeName, throwOnError, ignoreCase);
+      }
+
+      public virtual IEnumerable<Assembly> GetReferencedAssemblies() {
+         return AppDomain.CurrentDomain.GetAssemblies();
       }
 
       static void CheckAssignableType(Type baseType, Type type, ConfigurationElement configElement, string propertyName) {

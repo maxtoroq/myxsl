@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Configuration;
+using myxsl.common;
 
 namespace myxsl.configuration {
    
@@ -46,7 +47,7 @@ namespace myxsl.configuration {
             if (_TypeInternal == null) {
                lock (this) {
                   if (_TypeInternal == null) {
-                     _TypeInternal = TypeLoader.LoadType(this.Type, typeof(Object), this, "type");
+                     _TypeInternal = TypeLoader.Instance.LoadType(this.Type, typeof(Object), this, "type");
                   }
                }
             }

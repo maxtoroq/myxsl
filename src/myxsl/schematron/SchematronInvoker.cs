@@ -14,14 +14,14 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.ComponentModel;
 using System.IO;
 using System.Reflection;
-using System.Web.Routing;
 using System.Xml;
 using System.Xml.XPath;
 using myxsl.common;
-using UriCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.schematron.SchematronValidator>>;
 using InlineCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Int32, myxsl.schematron.SchematronValidator>>;
+using UriCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.common.IXsltProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.schematron.SchematronValidator>>;
 
 namespace myxsl.schematron {
 
@@ -186,11 +186,9 @@ namespace myxsl.schematron {
          };
 
          if (parameters != null) {
-            
-            var paramDictionary = new RouteValueDictionary(parameters);
 
-            foreach (var pair in paramDictionary) {
-               options.Parameters.Add(new XmlQualifiedName(pair.Key), pair.Value);
+            foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(parameters)) {
+               options.Parameters.Add(new XmlQualifiedName(property.Name), property.GetValue(parameters));
             }
          }
 

@@ -44,7 +44,6 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data.SqlXml" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
@@ -62,6 +61,7 @@
     <Compile Include="schematron\SchematronRuntimeOptions.cs" />
     <Compile Include="schematron\SchematronValidator.cs" />
     <Compile Include="schematron\XsltSchematronValidator.cs" />
+    <Compile Include="util\QueryStringUtil.cs" />
     <Compile Include="xml.xsl\EmptyXPathNodeIterator.cs" />
     <Compile Include="xml.xsl\ExtensionObjectConvert.cs" />
     <Compile Include="xml.xsl\ExtensionObjectGenerator.cs" />
@@ -133,11 +133,9 @@
     <Compile Include="configuration\LibraryConfigSection.cs" />
     <Compile Include="configuration\ProcessorElementCollection.cs" />
     <Compile Include="configuration\ProcessorElement.cs" />
-    <Compile Include="configuration\TypeLoader.cs" />
+    <Compile Include="common\TypeLoader.cs" />
     <Compile Include="common\XPathModuleInfo.cs" />
-    <Compile Include="web\XmlVirtualPathAwareUrlResolver.cs" />
     <Compile Include="util\CLR.cs" />
-    <Compile Include="util\StreamUtil.cs" />
     <Compile Include="util\WellKnownNamespaces.cs" />
     <Compile Include="util\XHtmlWriter.cs" />
     <Compile Include="util\XmlWrappingWriter.cs" />
@@ -153,7 +151,9 @@
     <EmbeddedResource Include="schematron\xslt2\iso_dsdl_include.xsl" />
     <EmbeddedResource Include="schematron\xslt2\iso_schematron_message_xslt2.xsl" />
     <EmbeddedResource Include="schematron\xslt2\iso_schematron_skeleton_for_saxon.xsl" />
-    <EmbeddedResource Include="schematron\xslt2\iso_svrl_for_xslt2.xsl" />
+    <EmbeddedResource Include="schematron\xslt2\iso_svrl_for_xslt2.xsl">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="schematron\xslt2\readme.txt" />
   </ItemGroup>
   <ItemGroup>

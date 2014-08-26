@@ -14,14 +14,14 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.ComponentModel;
 using System.IO;
 using System.Reflection;
-using System.Web.Routing;
 using System.Xml;
 using System.Xml.XPath;
 using myxsl.common;
-using UriCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.common.IXQueryProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.common.XQueryExecutable>>;
 using InlineCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.common.IXQueryProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Int32, myxsl.common.XQueryExecutable>>;
+using UriCacheByProcessor = System.Collections.Concurrent.ConcurrentDictionary<myxsl.common.IXQueryProcessor, System.Collections.Concurrent.ConcurrentDictionary<System.Uri, myxsl.common.XQueryExecutable>>;
 
 namespace myxsl.xquery {
    
@@ -204,11 +204,9 @@ namespace myxsl.xquery {
          };
 
          if (parameters != null) {
-            
-            var paramDictionary = new RouteValueDictionary(parameters);
 
-            foreach (var pair in paramDictionary) {
-               options.ExternalVariables.Add(new XmlQualifiedName(pair.Key), pair.Value);
+            foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(parameters)) {
+               options.ExternalVariables.Add(new XmlQualifiedName(property.Name), property.GetValue(parameters));
             }
          }
 

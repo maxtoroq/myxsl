@@ -321,7 +321,15 @@ namespace myxsl.net.http {
 
          } else {
 
-            byte[] buffer = StreamUtil.ReadFully(source);
+            byte[] buffer;
+
+            using (var memStream = new MemoryStream()) {
+               
+               source.CopyTo(memStream);
+
+               buffer = memStream.ToArray();
+            }
+
             byte[] base64 = Encoding.UTF8.GetBytes(Convert.ToBase64String(buffer));
 
             content = itemFactory.CreateAtomicValue(base64, XmlTypeCode.Base64Binary);

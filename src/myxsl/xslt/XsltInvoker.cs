@@ -14,9 +14,9 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.ComponentModel;
 using System.IO;
 using System.Reflection;
-using System.Web.Routing;
 using System.Xml;
 using System.Xml.XPath;
 using myxsl.common;
@@ -200,10 +200,8 @@ namespace myxsl.xslt {
 
          if (parameters != null) {
 
-            var paramDictionary = new RouteValueDictionary(parameters);
-
-            foreach (var pair in paramDictionary) {
-               options.Parameters.Add(new XmlQualifiedName(pair.Key), pair.Value);
+            foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(parameters)) {
+               options.Parameters.Add(new XmlQualifiedName(property.Name), property.GetValue(parameters));
             }
          }
 

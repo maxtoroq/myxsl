@@ -58,6 +58,7 @@
     <Compile Include="configuration\ExpressionBuilderElementCollection.cs" />
     <Compile Include="configuration\PagesElement.cs" />
     <Compile Include="configuration\WebSection.cs" />
+    <Compile Include="common\WebTypeLoader.cs" />
     <Compile Include="PreApplicationStartCode.cs" />
     <Compile Include="RequestModule.cs" />
     <Compile Include="ResponseModule.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="ui\XsltPageParser.cs" />
     <Compile Include="ui\XsltPageType.cs" />
     <Compile Include="WebModule.cs" />
+    <Compile Include="XmlVirtualPathAwareUrlResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\myxsl\myxsl.csproj">

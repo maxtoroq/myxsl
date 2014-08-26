@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Configuration;
 using System.Xml;
+using myxsl.common;
 
 namespace myxsl.configuration {
 
@@ -35,12 +36,12 @@ namespace myxsl.configuration {
 
       public string Scheme {
          get { return (string)this[_SchemeProperty]; }
-         internal set { this[_SchemeProperty] = value; }
+         private set { this[_SchemeProperty] = value; }
       }
 
       public string Type {
          get { return (string)this[_TypeProperty]; }
-         internal set { this[_TypeProperty] = value; }
+         private set { this[_TypeProperty] = value; }
       }
 
       internal Type TypeInternal {
@@ -48,11 +49,19 @@ namespace myxsl.configuration {
             if (_TypeInternal == null) {
                lock (this) {
                   if (_TypeInternal == null) {
-                     _TypeInternal = TypeLoader.LoadType(Type, typeof(XmlResolver), this, "type");
+                     _TypeInternal = TypeLoader.Instance.LoadType(Type, typeof(XmlResolver), this, "type");
                   }
                }
             }
             return _TypeInternal;
+         }
+         set {
+
+            if (value == null) throw new ArgumentNullException("value");
+
+            // The configuration is read only.
+            //Type = value.AssemblyQualifiedName;
+            _TypeInternal = value;
          }
       }
 
@@ -64,6 +73,18 @@ namespace myxsl.configuration {
          _Properties = new ConfigurationPropertyCollection { 
             _SchemeProperty, _TypeProperty
          };
+      }
+
+      public ResolverElement() { }
+
+      internal ResolverElement(string scheme, Type type) {
+
+         if (scheme == null) throw new ArgumentNullException("scheme");
+         if (type == null) throw new ArgumentNullException("type");
+
+         this.Scheme = scheme;
+         this.TypeInternal = type;
+         this.Type = type.AssemblyQualifiedName;
       }
    }
 }

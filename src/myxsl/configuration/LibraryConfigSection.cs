@@ -16,9 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
-using System.Web.Configuration;
 using System.Xml;
-using myxsl.web;
 
 namespace myxsl.configuration {
 
@@ -123,26 +121,9 @@ namespace myxsl.configuration {
 
          ResolverElementCollection resolvers = this.Resolvers;
 
-         resolvers.Add(
-            new ResolverElement { 
-               Scheme = Uri.UriSchemeFile,
-               Type = typeof(XmlVirtualPathAwareUrlResolver).AssemblyQualifiedName
-            }
-         );
-
-         resolvers.Add(
-             new ResolverElement { 
-               Scheme = Uri.UriSchemeHttp,
-               Type = typeof(XmlVirtualPathAwareUrlResolver).AssemblyQualifiedName
-            }
-         );
-
-         resolvers.Add(
-             new ResolverElement {
-                Scheme = XmlEmbeddedResourceResolver.UriSchemeClires,
-                Type = typeof(XmlEmbeddedResourceResolver).AssemblyQualifiedName
-             }
-         );
+         resolvers.Add(new ResolverElement(Uri.UriSchemeFile, typeof(XmlUrlResolver)));
+         resolvers.Add(new ResolverElement(Uri.UriSchemeHttp, typeof(XmlUrlResolver)));
+         resolvers.Add(new ResolverElement(XmlEmbeddedResourceResolver.UriSchemeClires, typeof(XmlEmbeddedResourceResolver)));
 
          base.InitializeDefault();
       }
