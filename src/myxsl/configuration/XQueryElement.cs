@@ -40,7 +40,7 @@ namespace myxsl.configuration {
 
       public string DefaultProcessor {
          get { return (string)this[_DefaultProcessor]; }
-         internal set { this[_DefaultProcessor] = value; }
+         private set { this[_DefaultProcessor] = value; }
       }
    }
 }

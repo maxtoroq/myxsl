@@ -37,12 +37,12 @@ namespace myxsl.web.configuration {
 
       public string Namespace {
          get { return (string)this[_NamespaceProperty]; }
-         internal set { this[_NamespaceProperty] = value; }
+         private set { this[_NamespaceProperty] = value; }
       }
 
       public string Type {
          get { return (string)this[_TypeProperty]; }
-         internal set { this[_TypeProperty] = value; }
+         private set { this[_TypeProperty] = value; }
       }
 
       internal Type TypeInternal {
@@ -56,6 +56,13 @@ namespace myxsl.web.configuration {
             }
             return _TypeInternal;
          }
+         private set {
+
+            if (value == null) throw new ArgumentNullException("value");
+
+            _TypeInternal = value;
+            Type = value.AssemblyQualifiedName;
+         }
       }
 
       static ExpressionBuilderElement() {
@@ -66,6 +73,17 @@ namespace myxsl.web.configuration {
          _Properties = new ConfigurationPropertyCollection { 
             _NamespaceProperty, _TypeProperty
          };
+      }
+
+      public ExpressionBuilderElement() { }
+
+      internal ExpressionBuilderElement(string @namespace, Type type) {
+
+         if (@namespace == null) throw new ArgumentNullException("namespace");
+         if (type == null) throw new ArgumentNullException("type");
+
+         this.Namespace = @namespace;
+         this.TypeInternal = type;
       }
    }
 }

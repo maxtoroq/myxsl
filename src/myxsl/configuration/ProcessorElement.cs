@@ -34,12 +34,12 @@ namespace myxsl.configuration {
 
       public string Name { 
          get { return (string)this[_NameProperty]; }
-         internal set { this[_NameProperty] = value; }
+         private set { this[_NameProperty] = value; }
       }
       
       public string Type { 
          get { return (string)this[_TypeProperty]; }
-         internal set { this[_TypeProperty] = value; }
+         private set { this[_TypeProperty] = value; }
       }
 
       internal Type TypeInternal {
@@ -53,6 +53,13 @@ namespace myxsl.configuration {
             }
             return _TypeInternal;
          }
+         private set {
+
+            if (value == null) throw new ArgumentNullException("value");
+
+            _TypeInternal = value;
+            Type = value.AssemblyQualifiedName;
+         }
       }
  
       static ProcessorElement() {
@@ -63,6 +70,17 @@ namespace myxsl.configuration {
          _Properties = new ConfigurationPropertyCollection { 
             _NameProperty, _TypeProperty
          };
+      }
+
+      public ProcessorElement() { }
+
+      internal ProcessorElement(string name, Type type) {
+
+         if (name == null) throw new ArgumentNullException("name");
+         if (type == null) throw new ArgumentNullException("type");
+
+         this.Name = name;
+         this.TypeInternal = type;
       }
    }
 }

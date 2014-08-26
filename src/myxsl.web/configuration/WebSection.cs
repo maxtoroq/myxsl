@@ -96,25 +96,19 @@ namespace myxsl.web.configuration {
          ExpressionBuilderElementCollection exprBuilders = this.Compilation.ExpressionBuilders;
 
          exprBuilders.Add(
-            new ExpressionBuilderElement {
-               Namespace = RequestExpressionBuilder.Namespace,
-               Type = typeof(RequestExpressionBuilder).AssemblyQualifiedName,
+            new ExpressionBuilderElement(RequestExpressionBuilder.Namespace, typeof(RequestExpressionBuilder)) {
                LockItem = true
             }
          );
 
          exprBuilders.Add(
-            new ExpressionBuilderElement {
-               Namespace = SessionExpressionBuilder.Namespace,
-               Type = typeof(SessionExpressionBuilder).AssemblyQualifiedName,
+            new ExpressionBuilderElement(SessionExpressionBuilder.Namespace, typeof(SessionExpressionBuilder)) {
                LockItem = true
             }
          );
 
          exprBuilders.Add(
-            new ExpressionBuilderElement {
-               Namespace = CodeExpressionBuilder.Namespace,
-               Type = typeof(CodeExpressionBuilder).AssemblyQualifiedName,
+            new ExpressionBuilderElement(CodeExpressionBuilder.Namespace, typeof(CodeExpressionBuilder)) {
                LockItem = true
             }
          );

@@ -110,9 +110,7 @@ namespace myxsl.configuration {
 
       protected override void InitializeDefault() {
 
-         var sysProc = new ProcessorElement {
-            Name = "system",
-            Type = typeof(xml.xsl.SystemXsltProcessor).AssemblyQualifiedName,
+         var sysProc = new ProcessorElement("system", typeof(xml.xsl.SystemXsltProcessor)) {
             LockItem = true
          };
 
