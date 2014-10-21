@@ -33,8 +33,9 @@ namespace myxsl.web.compilation {
 
          ExpressionBuilderElement el = WebSection.Instance.Compilation.ExpressionBuilders.Get(ns);
 
-         if (el == null)
+         if (el == null) {
             throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "There are no expression builders registered for namespace '{0}'.", ns));
+         }
 
          exprBuilder = (BindingExpressionBuilder)Activator.CreateInstance(el.TypeInternal);
 

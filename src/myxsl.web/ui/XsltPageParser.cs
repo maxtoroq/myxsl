@@ -307,8 +307,9 @@ namespace myxsl.web.ui {
 
          if (initialTempl != null) {
 
-            if (this.PageType != XsltPageType.StandardStylesheet)
+            if (this.PageType != XsltPageType.StandardStylesheet) {
                throw CreateParseException("The '{0}' attribute can only be used on standard XSLT pages.", page.initial_template);
+            }
 
             string itLocal = initialTempl;
             string itNamespace = "";
@@ -343,8 +344,9 @@ namespace myxsl.web.ui {
 
                if (initialTemplBind != null) {
 
-                  if (this.PageType != XsltPageType.StandardStylesheet)
+                  if (this.PageType != XsltPageType.StandardStylesheet) {
                      throw CreateParseException("The '{0}' attribute can only be used on standard XSLT pages.", page.bind_initial_template);
+                  }
 
                   var exprBuilderContext = new BindingExpressionContext(this, nav.Clone()) {
                      NodeName = page.bind_initial_template,
@@ -371,8 +373,9 @@ namespace myxsl.web.ui {
 
          if (processor != null) {
 
-            if (!Processors.Xslt.Exists(processor))
+            if (!Processors.Xslt.Exists(processor)) {
                throw CreateParseException("The processor '{0}' is not registered.", processor);
+            }
 
             this.ProcessorName = processor; 
          }
@@ -645,8 +648,9 @@ namespace myxsl.web.ui {
 
       protected void EnsureNonNull(object value, string procInstName, string name) {
 
-         if (value == null)
+         if (value == null) {
             throw CreateParseException("The '{0}' processing instruction is missing a '{1}' attribute.", procInstName, name);
+         }
       }
 
       internal struct page {

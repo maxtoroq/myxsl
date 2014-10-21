@@ -52,8 +52,9 @@ namespace myxsl.web.compilation {
          string path = uri.AbsolutePath;
          string nodeName = context.NodeName ?? context.BoundNode.Name;
 
-         if (!validValues.Contains(path))
+         if (!validValues.Contains(path)) {
             throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, "The value of the '{0}' attribute must be one of these values: {1}.", nodeName, String.Join(", ", validValues.ToArray())));
+         }
 
          BasePageParser pageParser = context.Parser as BasePageParser;
 

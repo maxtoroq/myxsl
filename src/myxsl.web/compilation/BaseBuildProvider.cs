@@ -234,8 +234,9 @@ namespace myxsl.web.compilation {
          string[] strArray = fileName.Split(new char[] { '.', '/', '\\' });
          int num = strArray.Length - chunksToIgnore;
 
-         if (strArray[num - 1].Trim().Length == 0)
+         if (strArray[num - 1].Trim().Length == 0) {
             throw new HttpException(String.Format(CultureInfo.InvariantCulture, "The file name '{0}' is not supported.", fileName));
+         }
 
          typeName = MakeValidTypeNameFromString(
             (this.IsFileInCodeDir) ? strArray[num - 1] 
@@ -247,8 +248,10 @@ namespace myxsl.web.compilation {
          }
 
          for (int i = 0; i < (num - 1); i++) {
-            if (strArray[i].Trim().Length == 0)
+
+            if (strArray[i].Trim().Length == 0) {
                throw new HttpException(String.Format(CultureInfo.InvariantCulture, "The file name '{0}' is not supported.", fileName));
+            }
 
             strArray[i] = MakeValidTypeNameFromString(strArray[i]);
          }
