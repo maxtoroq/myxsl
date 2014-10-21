@@ -72,7 +72,6 @@
     <Compile Include="ui\PageHandlerFactory.cs" />
     <Compile Include="ui\PageParameterInfo.cs" />
     <Compile Include="ui\ParsedValue`1.cs" />
-    <Compile Include="ui\SchematronParser.cs" />
     <Compile Include="ui\XQueryPage.cs" />
     <Compile Include="ui\XQueryPageParser.cs" />
     <Compile Include="ui\XsltPage.cs" />
