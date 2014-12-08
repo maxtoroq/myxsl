@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml;
 using System.Xml.XPath;
 using myxsl.web.ui;
 
@@ -22,17 +23,32 @@ namespace myxsl.web.compilation {
    
    public class BindingExpressionContext {
 
+      readonly IDictionary<string, string> _InScopeNamespaces;
+
       public BaseParser Parser { get; private set; }
       public XPathNavigator BoundNode { get; private set; }
+
+      public IDictionary<string, string> InScopeNamespaces {
+         get { return _InScopeNamespaces; } 
+      }
+
       public string NodeName { get; set; }
-      public string Namespace { get; set; }
 
       internal bool AffectsXsltInitiation { get; set; }
 
-      public BindingExpressionContext(BaseParser parser, XPathNavigator boundNode) {
+      public BindingExpressionContext(BaseParser parser, XPathNavigator boundNode) 
+         : this(parser, boundNode, null) { }
+
+      public BindingExpressionContext(BaseParser parser, XPathNavigator boundNode, IDictionary<string, string> inScopeNamespaces) {
          
          this.Parser = parser;
          this.BoundNode = boundNode;
+
+         if (inScopeNamespaces == null) {
+            inScopeNamespaces = boundNode.GetNamespacesInScope(XmlNamespaceScope.All);
+         }
+
+         this._InScopeNamespaces = inScopeNamespaces;
       }
    }
 }

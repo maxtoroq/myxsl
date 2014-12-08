@@ -32,15 +32,7 @@ namespace myxsl.web.ui {
 
       string _XsltVirtualPath;
       Uri _XsltPhysicalUri;
-      string[] _ExpressionBuilderNamespaces;
       List<string> visitedDocs = new List<string>();
-
-      string[] ExpressionBuilderNamespaces {
-         get {
-            return _ExpressionBuilderNamespaces
-               ?? (_ExpressionBuilderNamespaces = BindingExpressionBuilder.GetNamespaces());
-         }
-      }
 
       public string XsltVirtualPath {
          get { return _XsltVirtualPath; }
@@ -329,42 +321,28 @@ namespace myxsl.web.ui {
 
          // initial-template-binding
 
-         string[] prefixes = this.ExpressionBuilderNamespaces.Where(n => namespacesInScope.Values.Contains(n)).Select(n => namespacesInScope.Where(pair => pair.Value == n).First().Key).ToArray();
+         string initialTemplBind = GetNonEmptyAttribute(attribs, page.bind_initial_template);
 
-         if (prefixes.Length > 0) {
+         if (initialTemplBind != null) {
 
-            string[] bindNames = prefixes.Select(p => String.Concat(p, ":", page.bind_initial_template)).ToArray();
-            var bind = attribs.LastOrDefault(p => bindNames.Contains(p.Key));
+            if (this.PageType != XsltPageType.StandardStylesheet) {
+               throw CreateParseException("The '{0}' attribute can only be used on standard XSLT pages.", page.bind_initial_template);
+            }
 
-            if (bind.Key != null) {
+            var exprBuilderContext = new BindingExpressionContext(this, nav.Clone(), namespacesInScope) {
+               NodeName = page.bind_initial_template,
+               AffectsXsltInitiation = true
+            };
 
-               string name = bind.Key;
-               string ns = namespacesInScope[name.Split(':').First()];
-               string initialTemplBind = GetNonEmptyAttribute(attribs, name);
+            try {
+               this.InitialTemplateBinding = BindingExpressionBuilder.ParseExpr(initialTemplBind, exprBuilderContext);
 
-               if (initialTemplBind != null) {
+            } catch (Exception ex) {
+               throw CreateParseException(ex.Message);
+            }
 
-                  if (this.PageType != XsltPageType.StandardStylesheet) {
-                     throw CreateParseException("The '{0}' attribute can only be used on standard XSLT pages.", page.bind_initial_template);
-                  }
-
-                  var exprBuilderContext = new BindingExpressionContext(this, nav.Clone()) {
-                     NodeName = page.bind_initial_template,
-                     Namespace = ns,
-                     AffectsXsltInitiation = true
-                  };
-
-                  try {
-                     this.InitialTemplateBinding = BindingExpressionBuilder.ParseExpr(initialTemplBind, exprBuilderContext);
-
-                  } catch (Exception ex) {
-                     throw CreateParseException(ex.Message);
-                  }
-
-                  if (this.InitialTemplateBinding != null) {
-                     this.InitialTemplateBinding.LineNumber = ((IXmlLineInfo)nav).LineNumber;
-                  }
-               }
+            if (this.InitialTemplateBinding != null) {
+               this.InitialTemplateBinding.LineNumber = ((IXmlLineInfo)nav).LineNumber;
             }
          }
 
@@ -592,49 +570,46 @@ namespace myxsl.web.ui {
 
          PageParameterInfo paramInfo = null;
 
-         foreach (string ns in this.ExpressionBuilderNamespaces) {
+         if (nav.MoveToAttribute("bind", WebModule.Namespace)) {
 
-            if (nav.MoveToAttribute("bind", ns)) {
+            var exprBuilderContext = new BindingExpressionContext(this, nav.Clone());
 
-               var exprBuilderContext = new BindingExpressionContext(this, nav.Clone());
+            BindingExpressionInfo exprInfo = null;
 
-               BindingExpressionInfo exprInfo = null;
+            try {
+               exprInfo = BindingExpressionBuilder.ParseExpr(nav.Value, exprBuilderContext);
 
-               try {
-                  exprInfo = BindingExpressionBuilder.ParseExpr(nav.Value, exprBuilderContext);
-
-               } catch (Exception ex) {
-                  throw CreateParseException(ex.Message);
-               }
-
-               if (exprInfo != null) {
-                  exprInfo.LineNumber = ((IXmlLineInfo)nav).LineNumber;
-               }
-
-               nav.MoveToParent();
-
-               IDictionary<string, string> namespacesInScope = nav.GetNamespacesInScope(XmlNamespaceScope.All);
-
-               bool hasDefaultValue = !String.IsNullOrEmpty(nav.GetAttribute("select", ""));
-               string asValue = nav.GetAttribute("as", "");
-               bool required = nav.GetAttribute("required", "") == "yes";
-
-               paramInfo = PageParameterInfo.FromSequenceType(nameValue, asValue, namespacesInScope);
-
-               if (hasDefaultValue) {
-                  if (paramInfo.MinLength > 0) {
-                     paramInfo.MinLength = 0;
-                  }
-
-               } else if (required) {
-
-                  if (paramInfo.MinLength == 0) {
-                     paramInfo.MinLength = 1;
-                  }
-               }
-
-               paramInfo.Binding = exprInfo;
+            } catch (Exception ex) {
+               throw CreateParseException(ex.Message);
             }
+
+            if (exprInfo != null) {
+               exprInfo.LineNumber = ((IXmlLineInfo)nav).LineNumber;
+            }
+
+            nav.MoveToParent();
+
+            IDictionary<string, string> namespacesInScope = nav.GetNamespacesInScope(XmlNamespaceScope.All);
+
+            bool hasDefaultValue = !String.IsNullOrEmpty(nav.GetAttribute("select", ""));
+            string asValue = nav.GetAttribute("as", "");
+            bool required = nav.GetAttribute("required", "") == "yes";
+
+            paramInfo = PageParameterInfo.FromSequenceType(nameValue, asValue, namespacesInScope);
+
+            if (hasDefaultValue) {
+               if (paramInfo.MinLength > 0) {
+                  paramInfo.MinLength = 0;
+               }
+
+            } else if (required) {
+
+               if (paramInfo.MinLength == 0) {
+                  paramInfo.MinLength = 1;
+               }
+            }
+
+            paramInfo.Binding = exprInfo;
          }
 
          if (paramInfo != null) {

@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet version="2.1" exclude-result-prefixes="exsl xs fn request response code doc"
+<xsl:stylesheet version="2.1" exclude-result-prefixes="exsl xs fn web request response code doc"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:exsl="http://exslt.org/common"
    xmlns:fn="http://www.w3.org/2005/xpath-functions"
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   xmlns:web="http://myxsl.github.io/ns/web"
    xmlns:request="http://myxsl.github.io/ns/web/request"
    xmlns:response="http://myxsl.github.io/ns/web/response"
    xmlns:code="http://myxsl.github.io/ns/code"
@@ -13,7 +14,7 @@
    <xsl:import href="~/layout.xslt"/>
    <xsl:import href="~/App_Code/doc-html.xsl"/>
 
-   <xsl:param name="functionLibrary" as="document(element(library))" code:bind="FunctionLibrary.Instance" />
+   <xsl:param name="functionLibrary" as="document(element(library))" web:bind="code:FunctionLibrary.Instance" />
    <xsl:param name="documentation" select="document('~/Bin/myxsl.xml')" as="document(element(doc))"/>
 
    <xsl:param name="pathInfo" select="request:path-info()"/>

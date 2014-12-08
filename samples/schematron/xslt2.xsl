@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?page processor="saxon" accept-verbs="GET,HEAD,POST" request:bind-initial-template="http-method" ?>
+<?page processor="saxon" accept-verbs="GET,HEAD,POST" bind-initial-template="request:http-method" ?>
 
 <xsl:stylesheet version="2.0" exclude-result-prefixes="#all"
    xmlns="http://www.w3.org/1999/xhtml"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
    xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+   xmlns:web="http://myxsl.github.io/ns/web"
    xmlns:request="http://myxsl.github.io/ns/web/request"
    xmlns:response="http://myxsl.github.io/ns/web/response"
    xmlns:schematron="http://myxsl.github.io/ns/schematron">

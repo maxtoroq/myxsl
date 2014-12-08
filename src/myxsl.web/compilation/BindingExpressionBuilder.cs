@@ -27,7 +27,20 @@ namespace myxsl.web.compilation {
          if (expression == null) throw new ArgumentNullException("expression");
          if (context == null) throw new ArgumentNullException("context");
 
-         string ns = context.Namespace ?? context.BoundNode.NamespaceURI;
+         int colonIndex = expression.IndexOf(':');
+
+         if (colonIndex == -1) {
+		      throw new ArgumentException("The expression must contain a colon.", "expression");
+	      }
+
+         string prefix = expression.Substring(0, colonIndex);
+         string ns;
+
+         if (!context.InScopeNamespaces.TryGetValue(prefix, out ns)) {
+            throw new ArgumentException("The are no namespaces defined for prefix '{0}'.".FormatInvariant(prefix), "expression");
+         }
+
+         string value = expression.Substring(colonIndex + 1);
          
          BindingExpressionBuilder exprBuilder;
 
@@ -39,7 +52,7 @@ namespace myxsl.web.compilation {
 
          exprBuilder = (BindingExpressionBuilder)Activator.CreateInstance(el.TypeInternal);
 
-         BindingExpressionInfo exprInfo = exprBuilder.ParseExpression(expression, context);
+         BindingExpressionInfo exprInfo = exprBuilder.ParseExpression(value, context);
 
          if (exprInfo == null) {
             exprInfo = new BindingExpressionInfo(expression);
@@ -48,10 +61,6 @@ namespace myxsl.web.compilation {
          exprInfo.ExpressionBuilder = exprBuilder;
 
          return exprInfo;
-      }
-
-      public static string[] GetNamespaces() {
-         return WebSection.Instance.Compilation.ExpressionBuilders.Cast<ExpressionBuilderElement>().Select(e => e.Namespace).ToArray();
       }
 
       public virtual BindingExpressionInfo ParseExpression(string expression, BindingExpressionContext context) {

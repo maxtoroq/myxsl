@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<xsl:stylesheet version="1.0" exclude-result-prefixes="request" 
+<xsl:stylesheet version="1.0" exclude-result-prefixes="web request" 
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+   xmlns:web="http://myxsl.github.io/ns/web"
    xmlns:request="http://myxsl.github.io/ns/web/request">
 
-   <xsl:param name="name" request:bind="query" />
+   <xsl:param name="name" web:bind="request:query" />
 
    <xsl:output omit-xml-declaration="yes"/>
 

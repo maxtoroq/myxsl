@@ -38,6 +38,8 @@ namespace myxsl.web.compilation {
 
       public override BindingExpressionInfo ParseExpression(string expression, BindingExpressionContext context) {
 
+         // TODO: Fix error messages not to refer to web:bind but expression builder prefix/ns instead
+
          var uri = new Uri(expression, UriKind.RelativeOrAbsolute);
 
          if (!uri.IsAbsoluteUri) {

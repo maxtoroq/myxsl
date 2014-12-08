@@ -6,12 +6,13 @@
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
    xmlns:http="http://expath.org/ns/http-client"
    xmlns:exsl="http://exslt.org/common"
+   xmlns:web="http://myxsl.github.io/ns/web"
    xmlns:request="http://myxsl.github.io/ns/web/request"
-   exclude-result-prefixes="xs http exsl request">
+   exclude-result-prefixes="xs http exsl web request">
    
    <xsl:output method="xml" indent="yes"/>
 
-   <xsl:param name="override-media-type" select="'application/xml'" as="xs:string" request:bind="query"/>
+   <xsl:param name="override-media-type" select="'application/xml'" as="xs:string" web:bind="request:query"/>
 
    <xsl:variable name="request" as="element()">
       <http:request method="POST" href="{concat(request:url('SchemeAndServer'), '/schematron/xslt2.xsl')}" 

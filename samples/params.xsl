@@ -1,21 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?page language="C#" processor="saxon" accept-verbs="GET,HEAD,POST" request:bind-initial-template="http-method" validate-request="true" enable-session-state="true" ?>
+<?page language="C#" processor="saxon" accept-verbs="GET,HEAD,POST" bind-initial-template="request:http-method" validate-request="true" enable-session-state="true" ?>
 
 <xsl:stylesheet version="2.0" exclude-result-prefixes="#all"
    xmlns="http://www.w3.org/1999/xhtml"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
    xmlns:code="http://myxsl.github.io/ns/code"
+   xmlns:web="http://myxsl.github.io/ns/web"
    xmlns:request="http://myxsl.github.io/ns/web/request"
    xmlns:response="http://myxsl.github.io/ns/web/response"
    xmlns:session="http://myxsl.github.io/ns/web/session">
 
    <xsl:import href="layout.xslt"/>
 
-   <xsl:param name="tags" as="xs:string*" code:bind="Request.PathInfo.Split('/').Skip(1)" />
-   <xsl:param name="number" as="xs:integer?" request:bind="query"/>
-   <xsl:param name="session-val" session:bind="?remove=true"/>
-   <xsl:param name="user-agent" as="xs:string?" request:bind="header"/>
+   <xsl:param name="tags" as="xs:string*" web:bind="code:Request.PathInfo.Split('/').Skip(1)" />
+   <xsl:param name="number" as="xs:integer?" web:bind="request:query"/>
+   <xsl:param name="session-val" web:bind="session:?remove=true"/>
+   <xsl:param name="user-agent" as="xs:string?" web:bind="request:header"/>
 
    <xsl:variable name="examples" as="xs:string*">
       <xsl:sequence select="'/tags/xslt/xquery'"/>

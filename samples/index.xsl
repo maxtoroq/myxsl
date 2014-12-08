@@ -1,15 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <?output-cache duration="60" vary-by-param="none" ?>
 
-<xsl:stylesheet version="2.1" exclude-result-prefixes="fn code"
+<xsl:stylesheet version="2.1" exclude-result-prefixes="fn web code"
    xmlns="http://www.w3.org/1999/xhtml"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:fn="http://www.w3.org/2005/xpath-functions"
+   xmlns:web="http://myxsl.github.io/ns/web"
    xmlns:code="http://myxsl.github.io/ns/code">
 
    <xsl:import href="layout.xslt"/>
 
-   <xsl:param name="function-library" as="document(element(library))" code:bind="FunctionLibrary.Instance" />
+   <xsl:param name="function-library" as="document(element(library))" web:bind="code:FunctionLibrary.Instance" />
 
    <xsl:variable name="title" select="'Build dynamic websites with XSLT'"/>
    <xsl:variable name="title-mode" select="'append'"/>
