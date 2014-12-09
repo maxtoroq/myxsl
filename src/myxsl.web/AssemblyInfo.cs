@@ -10,7 +10,6 @@ using myxsl;
 [assembly: AssemblyDescription("myxsl.web.dll")]
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(true)]
-[assembly: AllowPartiallyTrustedCallers]
 
 [assembly: PreApplicationStartMethod(typeof(myxsl.web.PreApplicationStartCode), "Start")]
 [assembly: XPathModuleExport]

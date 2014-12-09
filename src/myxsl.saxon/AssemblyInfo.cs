@@ -8,4 +8,3 @@ using System.Security;
 [assembly: AssemblyDescription("myxsl.saxon.dll")]
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(true)]
-[assembly: AllowPartiallyTrustedCallers]

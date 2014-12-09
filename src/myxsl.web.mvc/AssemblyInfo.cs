@@ -9,5 +9,4 @@ using System.Web;
 [assembly: AssemblyDescription("myxsl.web.mvc.dll")]
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(true)]
-[assembly: AllowPartiallyTrustedCallers]
 [assembly: PreApplicationStartMethod(typeof(myxsl.web.mvc.PreApplicationStartCode), "Start")]

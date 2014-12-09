@@ -9,7 +9,6 @@ using System.Web;
 [assembly: AssemblyDescription("myxsl.dll")]
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(true)]
-[assembly: AllowPartiallyTrustedCallers]
 
 // SystemItemFactory needs this to create XmlAtomicValue instances
 [assembly: SecurityRules(SecurityRuleSet.Level1)]
