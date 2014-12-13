@@ -58,5 +58,30 @@ namespace myxsl.web {
 
          return base.ResolveUri(baseUri, relativeUri);
       }
+
+      public override object GetEntity(Uri absoluteUri, string role, Type ofObjectToReturn) {
+
+         if (applicationBaseUri != null) {
+
+            Uri diff = applicationBaseUri.MakeRelativeUri(absoluteUri);
+
+            bool uriIsInApp = !diff.IsAbsoluteUri;
+
+            if (uriIsInApp) {
+
+               string virtualPath = VirtualPathUtility.ToAbsolute("~/" + diff.OriginalString);
+
+               var vppFile = HostingEnvironment.VirtualPathProvider.GetFile(virtualPath);
+
+               if (vppFile == null) {
+                  return null;
+               }
+
+               return vppFile.Open();
+            }
+         }
+
+         return base.GetEntity(absoluteUri, role, ofObjectToReturn);
+      }
    }
 }

@@ -169,9 +169,22 @@ namespace myxsl.web.ui {
             IgnoreWhitespace = true
          };
 
-         string localPath = HostingEnvironment.MapPath(virtualPath);
+         var vppFile = this.VirtualPathProvider.GetFile(virtualPath);
 
-         using (TextReader source = File.OpenText(localPath)) {
+         if (vppFile == null) {
+            throw CreateParseException("Could not find file '{0}'.", virtualPath);
+         }
+
+         Stream source;
+
+         try {
+            source = vppFile.Open();
+         } catch (Exception ex) {
+
+            throw CreateParseException(ex.Message);
+         }
+
+         using (source) {
             return new XPathDocument(XmlReader.Create(source, readerSettings));
          }
       }

@@ -59,6 +59,12 @@ namespace myxsl.web.ui {
       public string GeneratedTypeFullName { get; set; }
       public string Language { get; set; }
 
+      // services
+
+      protected VirtualPathProvider VirtualPathProvider {
+         get { return HostingEnvironment.VirtualPathProvider; }
+      }
+
       public abstract void Parse(TextReader source);
 
       protected virtual Exception CreateParseException(string format, params object[] args) {
@@ -82,19 +88,25 @@ namespace myxsl.web.ui {
          
          if (str != null) {
 
+            VirtualPathProvider vpp = this.VirtualPathProvider;
+
             string combined;
 
             try {
-               combined = HostingEnvironment.VirtualPathProvider.CombineVirtualPaths(this.VirtualPath, str);
+               combined = vpp.CombineVirtualPaths(this.VirtualPath, str);
 
             } catch (Exception ex) {
                throw CreateParseException(ex.Message);
             }
 
-            if (checkFileExists && !HostingEnvironment.VirtualPathProvider.FileExists(combined))
+            if (checkFileExists 
+               && !vpp.FileExists(combined)) {
+
                throw CreateParseException("The file '{0}' does not exist.", str);
+            }
 
             return combined;
+
          } else {
             return null;
          }
@@ -105,11 +117,14 @@ namespace myxsl.web.ui {
          string value = GetNonEmptyNoWhitespaceAttribute(attribs, name);
 
          if (value != null) {
+            
             string[] nsArray = value.Split(new char[] { '.' });
 
             foreach (string str in nsArray) {
-               if (!CodeGenerator.IsValidLanguageIndependentIdentifier(str))
+               
+               if (!CodeGenerator.IsValidLanguageIndependentIdentifier(str)) {
                   throw CreateParseException("'{0}' is not a valid value for attribute '{1}'.", value, name);
+               }
             }
          }
 
@@ -121,6 +136,7 @@ namespace myxsl.web.ui {
          string str = GetNonEmptyAttribute(attribs, name);
 
          if (str != null) {
+
             try {
                return Enum.Parse(enumType, str, true);
             } catch (ArgumentException) {
@@ -137,13 +153,16 @@ namespace myxsl.web.ui {
          string str = GetNonEmptyAttribute(attribs, name);
 
          if (str != null) {
+
             try {
                val = Boolean.Parse(str);
             } catch {
                throw CreateParseException("The '{0}' attribute must be set to 'true' or 'false'.", name);
             }
+
             return true;
          }
+
          return false;
       }
 
@@ -151,8 +170,9 @@ namespace myxsl.web.ui {
 
          string str = GetNonEmptyAttribute(attribs, name);
 
-         if (str != null && ContainsWhiteSpace(str))
+         if (str != null && ContainsWhiteSpace(str)) {
             throw CreateParseException("The '{0}' attribute cannot contain any whitespace characters.", name);
+         }
 
          return str;
       }
@@ -162,10 +182,12 @@ namespace myxsl.web.ui {
          string val;
 
          if (attribs.TryGetValue(name, out val)) {
+            
             val = val.Trim();
 
-            if (val.Length == 0)
+            if (val.Length == 0) {
                throw CreateParseException("The '{0}' attribute cannot be an empty string.", name);
+            }
          }
 
          return val;

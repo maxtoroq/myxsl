@@ -130,10 +130,39 @@ namespace myxsl.web.compilation {
             InitExpression = new CodePrimitiveExpression(null)
          };
 
+         var icnVirtualPathVar = new CodeVariableDeclarationStatement {
+            Name = "initialContextNodeVirtualPath",
+            Type = new CodeTypeReference(typeof(String)),
+            InitExpression = new CodePrimitiveExpression(VirtualPathUtility.ToAppRelative(this.parser.AppRelativeVirtualPath))
+         };
+
+         var icnUriVar = new CodeVariableDeclarationStatement {
+            Name = "initialContextNodeUri",
+            Type = uriType,
+            InitExpression = new CodeObjectCreateExpression {
+               CreateType = uriType,
+               Parameters = { 
+                  new CodeMethodInvokeExpression {
+                     Method = new CodeMethodReferenceExpression {
+                        MethodName = "MapPath",
+                        TargetObject = new CodeTypeReferenceExpression(typeof(HostingEnvironment))
+                     },
+                     Parameters = {
+                        new CodeVariableReferenceExpression(icnVirtualPathVar.Name)
+                     }
+                  },
+                  new CodePropertyReferenceExpression {
+                     PropertyName = "Absolute",
+                     TargetObject = new CodeTypeReferenceExpression(typeof(UriKind))
+                  }
+               }
+            }
+         };
+
          statements.AddRange(new CodeStatement[] { procVar, sourceVar, virtualPathVar, sourceUriVar });
 
          if (useInitialContextNode) {
-            statements.Add(icnSourceVar);
+            statements.AddRange(new CodeStatement[] { icnSourceVar, icnVirtualPathVar, icnUriVar });
          }
 
          var optionsVar = new CodeVariableDeclarationStatement {
@@ -146,17 +175,19 @@ namespace myxsl.web.compilation {
             TryStatements = { 
                new CodeAssignStatement {
                   Left = new CodeVariableReferenceExpression(sourceVar.Name),
-                  Right = new CodeCastExpression {
-                     TargetType = new CodeTypeReference(typeof(Stream)),
-                     Expression = new CodeMethodInvokeExpression {
-                        Method = new CodeMethodReferenceExpression {
-                           MethodName = "OpenRead",
-                           TargetObject = new CodeTypeReferenceExpression(typeof(File))
-                        },
-                        Parameters = { 
-                           new CodePropertyReferenceExpression {
-                              PropertyName = "LocalPath",
-                              TargetObject = new CodeVariableReferenceExpression(sourceUriVar.Name)
+                  Right = new CodeMethodInvokeExpression {
+                     Method = new CodeMethodReferenceExpression {
+                        MethodName = "Open",
+                        TargetObject = new CodeMethodInvokeExpression {
+                           Method = new CodeMethodReferenceExpression {
+                              MethodName = "GetFile",
+                              TargetObject = new CodePropertyReferenceExpression {
+                                 PropertyName = "VirtualPathProvider",
+                                 TargetObject = new CodeTypeReferenceExpression(typeof(HostingEnvironment))
+                              }
+                           },
+                           Parameters = {
+                              new CodeVariableReferenceExpression(virtualPathVar.Name)
                            }
                         }
                      }
@@ -208,22 +239,19 @@ namespace myxsl.web.compilation {
             
             trySt.TryStatements.Add(new CodeAssignStatement {
                Left = new CodeVariableReferenceExpression(icnSourceVar.Name),
-               Right = new CodeCastExpression {
-                  TargetType = new CodeTypeReference(typeof(Stream)),
-                  Expression = new CodeMethodInvokeExpression {
-                     Method = new CodeMethodReferenceExpression {
-                        MethodName = "OpenRead",
-                        TargetObject = new CodeTypeReferenceExpression(typeof(File))
-                     },
-                     Parameters = { 
-                        new CodeMethodInvokeExpression {
-                           Method = new CodeMethodReferenceExpression {
-                              MethodName = "MapPath",
+               Right = new CodeMethodInvokeExpression {
+                  Method = new CodeMethodReferenceExpression {
+                     MethodName = "Open",
+                     TargetObject = new CodeMethodInvokeExpression {
+                        Method = new CodeMethodReferenceExpression {
+                           MethodName = "GetFile",
+                           TargetObject = new CodePropertyReferenceExpression {
+                              PropertyName = "VirtualPathProvider",
                               TargetObject = new CodeTypeReferenceExpression(typeof(HostingEnvironment))
-                           },
-                           Parameters = {
-                              new CodePrimitiveExpression(this.parser.AppRelativeVirtualPath)
                            }
+                        },
+                        Parameters = {
+                           new CodeVariableReferenceExpression(icnVirtualPathVar.Name)
                         }
                      }
                   }
@@ -246,7 +274,7 @@ namespace myxsl.web.compilation {
                      PropertyName = "BaseUri",
                      TargetObject = new CodeVariableReferenceExpression(icnOptVar.Name)
                   },
-                  Right = new CodeVariableReferenceExpression(sourceUriVar.Name)
+                  Right = new CodeVariableReferenceExpression(icnUriVar.Name)
                }
             );
 

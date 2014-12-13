@@ -112,17 +112,19 @@ namespace myxsl.web.compilation {
          var trySt = new CodeTryCatchFinallyStatement();
          trySt.TryStatements.Add(new CodeAssignStatement {
             Left = new CodeVariableReferenceExpression(sourceVar.Name),
-            Right = new CodeCastExpression {
-               TargetType = new CodeTypeReference(typeof(Stream)),
-               Expression = new CodeMethodInvokeExpression {
-                  Method = new CodeMethodReferenceExpression {
-                     MethodName = "OpenRead",
-                     TargetObject = new CodeTypeReferenceExpression(typeof(File))
-                  },
-                  Parameters = { 
-                     new CodePropertyReferenceExpression {
-                        PropertyName = "LocalPath",
-                        TargetObject = new CodeVariableReferenceExpression(sourceUriVar.Name)
+            Right = new CodeMethodInvokeExpression {
+               Method = new CodeMethodReferenceExpression {
+                  MethodName = "Open",
+                  TargetObject = new CodeMethodInvokeExpression {
+                     Method = new CodeMethodReferenceExpression {
+                        MethodName = "GetFile",
+                        TargetObject = new CodePropertyReferenceExpression {
+                           PropertyName = "VirtualPathProvider",
+                           TargetObject = new CodeTypeReferenceExpression(typeof(HostingEnvironment))
+                        }
+                     },
+                     Parameters = {
+                        new CodeVariableReferenceExpression(virtualPathVar.Name)
                      }
                   }
                }
