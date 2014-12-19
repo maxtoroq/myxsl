@@ -65,7 +65,8 @@ namespace myxsl.web {
 
             Uri diff = applicationBaseUri.MakeRelativeUri(absoluteUri);
 
-            bool uriIsInApp = !diff.IsAbsoluteUri;
+            bool uriIsInApp = !diff.IsAbsoluteUri
+               && !diff.OriginalString.StartsWith("..", StringComparison.Ordinal);
 
             if (uriIsInApp) {
 
