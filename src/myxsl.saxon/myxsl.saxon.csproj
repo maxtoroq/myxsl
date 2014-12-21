@@ -84,19 +84,19 @@
     </Compile>
     <Compile Include="extensions\w3c.xpath.math\Index.cs" />
     <Compile Include="IntegratedExtensionFunctionGenerator.cs" />
-    <Compile Include="SaxonAtomicValueWrapper.cs" />
     <Compile Include="SaxonException.cs" />
     <Compile Include="SaxonExtensions.cs" />
-    <Compile Include="SaxonMessageListener.cs" />
-    <Compile Include="SaxonNodeWrapper.cs" />
     <Compile Include="SaxonProcessor.cs" />
     <Compile Include="SaxonItemFactory.cs" />
     <Compile Include="SaxonXQueryExecutable.cs" />
     <Compile Include="SaxonXsltExecutable.cs" />
-    <Compile Include="SaxonNodeNavigator.cs" />
+    <Compile Include="TraceMessageListener.cs" />
     <Compile Include="util\BugHandler.cs" />
     <Compile Include="util\FormatInvariantExtensions.cs" />
     <Compile Include="util\StringExtensions.cs" />
+    <Compile Include="XdmAtomicValueWrapper.cs" />
+    <Compile Include="XdmNodeNavigator.cs" />
+    <Compile Include="XdmNodeWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\myxsl\myxsl.csproj">
