@@ -20,7 +20,7 @@ using Saxon.Api;
 
 namespace myxsl.saxon {
 
-   sealed class SaxonNodeNavigator : XPathNavigator {
+   sealed class XdmNodeNavigator : XPathNavigator {
 
       XdmNode currentNode;
       IEnumerator _currentSequence;
@@ -196,7 +196,7 @@ namespace myxsl.saxon {
          }
       }
 
-      public SaxonNodeNavigator(XdmNode node) {
+      public XdmNodeNavigator(XdmNode node) {
          
          if (node == null) throw new ArgumentNullException("node");
 
@@ -239,7 +239,7 @@ namespace myxsl.saxon {
       }
 
       public override XPathNavigator Clone() {
-         return new SaxonNodeNavigator(this.currentNode);
+         return new XdmNodeNavigator(this.currentNode);
       }
 
       public override string GetAttribute(string localName, string namespaceURI) {
@@ -392,7 +392,7 @@ namespace myxsl.saxon {
 
       public override bool MoveTo(XPathNavigator other) {
 
-         SaxonNodeNavigator navigator = other as SaxonNodeNavigator;
+         XdmNodeNavigator navigator = other as XdmNodeNavigator;
 
          if ((navigator != null) && navigator.currentNode.Root.Equals(this.currentNode.Root)) {
             this.currentNode = navigator.currentNode;
@@ -408,7 +408,7 @@ namespace myxsl.saxon {
 
       public override bool IsSamePosition(XPathNavigator other) {
 
-         SaxonNodeNavigator navigator = other as SaxonNodeNavigator;
+         XdmNodeNavigator navigator = other as XdmNodeNavigator;
 
          if (navigator == null) {
             return false;

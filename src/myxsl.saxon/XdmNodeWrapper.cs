@@ -20,11 +20,11 @@ using Saxon.Api;
 
 namespace myxsl.saxon {
    
-   sealed class SaxonNodeWrapper : IXPathNavigable {
+   sealed class XdmNodeWrapper : IXPathNavigable {
 
       readonly XdmNode node;
 
-      public SaxonNodeWrapper(XdmNode node) {
+      public XdmNodeWrapper(XdmNode node) {
          
          if (node == null) throw new ArgumentNullException("node");
          
@@ -32,7 +32,7 @@ namespace myxsl.saxon {
       }
 
       public XPathNavigator CreateNavigator() {
-         return new SaxonNodeNavigator(node);
+         return new XdmNodeNavigator(node);
       }
    }
 }

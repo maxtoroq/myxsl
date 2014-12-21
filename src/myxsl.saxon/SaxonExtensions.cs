@@ -32,7 +32,7 @@ namespace myxsl.saxon {
       #region XPathItem
 
       public static IXPathNavigable ToXPathNavigable(this XdmNode value) {
-         return new SaxonNodeWrapper(value);
+         return new XdmNodeWrapper(value);
       }
 
       public static XPathNavigator ToXPathNavigator(this XdmNode value) {
@@ -48,7 +48,7 @@ namespace myxsl.saxon {
       }
 
       public static XPathItem ToXPathItem(this XdmAtomicValue value) {
-         return new SaxonAtomicValueWrapper(value);
+         return new XdmAtomicValueWrapper(value);
       }
 
       public static XPathItem ToXPathItem(this XdmNode value) {
@@ -695,7 +695,7 @@ namespace myxsl.saxon {
 
          if (value == null) throw new ArgumentNullException("value");
 
-         SaxonAtomicValueWrapper wrapper = value as SaxonAtomicValueWrapper;
+         XdmAtomicValueWrapper wrapper = value as XdmAtomicValueWrapper;
 
          if (wrapper != null) {
             return wrapper.UnderlyingObject;

@@ -134,7 +134,7 @@ namespace myxsl.saxon {
             transformer.SetParameter(qname, xdmValue);
          }
 
-         transformer.MessageListener = new SaxonMessageListener();
+         transformer.MessageListener = new TraceMessageListener();
 
          try {
             transformer.Run(destination);

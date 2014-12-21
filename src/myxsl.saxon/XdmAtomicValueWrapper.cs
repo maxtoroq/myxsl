@@ -22,7 +22,7 @@ using Saxon.Api;
 
 namespace myxsl.saxon {
    
-   sealed class SaxonAtomicValueWrapper : XPathItem  {
+   sealed class XdmAtomicValueWrapper : XPathItem  {
 
       readonly XdmAtomicValue atomicValue;
 
@@ -73,7 +73,7 @@ namespace myxsl.saxon {
          }
       }
 
-      public SaxonAtomicValueWrapper(XdmAtomicValue atomicValue) {
+      public XdmAtomicValueWrapper(XdmAtomicValue atomicValue) {
 
          if (atomicValue == null) throw new ArgumentNullException("atomicValue");
 

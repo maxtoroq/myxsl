@@ -18,7 +18,7 @@ using Saxon.Api;
 
 namespace myxsl.saxon {
    
-   sealed class SaxonMessageListener : IMessageListener {
+   sealed class TraceMessageListener : IMessageListener {
 
       public void Message(XdmNode content, bool terminate, IXmlLocation location) {
 
