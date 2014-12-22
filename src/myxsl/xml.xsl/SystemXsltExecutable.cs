@@ -198,7 +198,7 @@ namespace myxsl.xml.xsl {
 
       public override IXPathNavigable Run(XsltRuntimeOptions options) {
 
-         IXPathNavigable doc = this.Processor.ItemFactory.CreateNodeEditable();
+         IXPathNavigable doc = this.Processor.ItemFactory.BuildNode();
 
          XmlWriter writer = doc.CreateNavigator().AppendChild();
          

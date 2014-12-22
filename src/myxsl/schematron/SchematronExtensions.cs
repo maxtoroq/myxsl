@@ -123,7 +123,7 @@ namespace myxsl.schematron {
          if (processor == null) throw new ArgumentNullException("processor");
          if (schemaDoc == null) throw new ArgumentNullException("schemaDoc");
 
-         IXPathNavigable stylesheetDoc = processor.ItemFactory.CreateNodeEditable();
+         IXPathNavigable stylesheetDoc = processor.ItemFactory.BuildNode();
 
          XmlWriter builder = stylesheetDoc.CreateNavigator().AppendChild();
          

@@ -46,7 +46,7 @@ namespace myxsl.schematron {
 
       public IXPathNavigable ToDocument() {
 
-         IXPathNavigable doc = this.validator.ItemFactory.CreateNodeEditable();
+         IXPathNavigable doc = this.validator.ItemFactory.BuildNode();
 
          XmlWriter writer = doc.CreateNavigator().AppendChild();
          

@@ -87,7 +87,7 @@ namespace myxsl.saxon {
 
          const string xsltNs = "http://www.w3.org/1999/XSL/Transform";
 
-         IXPathNavigable stylesheetDoc = itemFactory.CreateNodeEditable();
+         IXPathNavigable stylesheetDoc = itemFactory.BuildNode();
          XmlWriter builder = stylesheetDoc.CreateNavigator().AppendChild();
 
          builder.WriteStartElement("stylesheet", xsltNs);
@@ -199,7 +199,13 @@ namespace myxsl.saxon {
          XdmNode node;
 
          if (SaxonExtensions.TryGetXdmNode(nav, out node)) {
-            Uri baseUri = node.BaseUri;
+
+            Uri baseUri = null;
+
+            try {
+               baseUri = node.BaseUri;
+            } catch (ArgumentNullException) {
+            } catch (UriFormatException) { }
             
             try {
                return WrapExecutable(compiler.Compile(node), options, baseUri);

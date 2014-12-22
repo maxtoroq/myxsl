@@ -90,7 +90,7 @@ namespace myxsl.common {
             return CreateDocument(xmlSer);
          }
 
-         inputNode = CreateNodeEditable();
+         inputNode = BuildNode();
 
          XmlSerializer serializer = GetSerializer(value.GetType());
 
@@ -109,7 +109,7 @@ namespace myxsl.common {
             return null;
          }
 
-         IXPathNavigable doc = CreateNodeEditable();
+         IXPathNavigable doc = BuildNode();
          XmlWriter writer = doc.CreateNavigator().AppendChild();
 
          Serialize(value, writer);
@@ -236,7 +236,11 @@ namespace myxsl.common {
 
          return document;
       }
-      
+
+      public virtual IXPathNavigable BuildNode() {
+         return CreateNodeEditable();
+      }
+
       // Serialization
 
       public void Serialize(XPathItem item, Stream output) {
