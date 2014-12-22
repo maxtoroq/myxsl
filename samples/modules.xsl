@@ -14,8 +14,8 @@
    <xsl:import href="~/layout.xslt"/>
    <xsl:import href="~/App_Code/doc-html.xsl"/>
 
-   <xsl:param name="functionLibrary" as="document(element(library))" web:bind="code:FunctionLibrary.Instance" />
-   <xsl:param name="documentation" select="document('~/Bin/myxsl.xml')" as="document(element(doc))"/>
+   <xsl:param name="functionLibrary" as="document-node(element(library))" web:bind="code:FunctionLibrary.Instance" />
+   <xsl:param name="documentation" select="document('~/Bin/myxsl.xml')" as="document-node(element(doc))"/>
 
    <xsl:param name="pathInfo" select="request:path-info()"/>
    
@@ -30,7 +30,7 @@
             <xsl:copy-of select="$functionLibrary"/>
          </xsl:when>
          <xsl:otherwise>
-            <xsl:apply-imports/>
+            <xsl:call-template name="layout"/>
          </xsl:otherwise>
       </xsl:choose>
    </xsl:template>
@@ -112,7 +112,7 @@
       <h2>Function Index</h2>
 
       <ul>
-         <xsl:for-each select="fn:tokenize('abcdefghijklmnopqrstuvwxyz', '')">
+         <xsl:for-each select="fn:tokenize('a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z', ',')">
             <xsl:sort select="."/>
             <xsl:if test="string()">
                <xsl:variable name="s" select="$module/function[starts-with(substring-after(@name, ':'), current())]"/>

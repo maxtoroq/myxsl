@@ -10,7 +10,7 @@
 
    <xsl:import href="layout.xslt"/>
 
-   <xsl:param name="function-library" as="document(element(library))" web:bind="code:FunctionLibrary.Instance" />
+   <xsl:param name="function-library" as="document-node(element(library))" web:bind="code:FunctionLibrary.Instance" />
 
    <xsl:variable name="title" select="'Build dynamic websites with XSLT'"/>
    <xsl:variable name="title-mode" select="'append'"/>
