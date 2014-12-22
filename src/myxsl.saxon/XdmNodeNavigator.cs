@@ -20,19 +20,32 @@ using Saxon.Api;
 
 namespace myxsl.saxon {
 
-   sealed class XdmNodeNavigator : XPathNavigator {
+   class XdmNodeNavigator : XPathNavigator {
 
-      XdmNode currentNode;
+      readonly XmlNameTable nameTable;
+      protected XdmNode currentNode;
       IEnumerator _currentSequence;
-
-      XmlNameTable _NameTable;
 
       public override bool CanEdit {
          get { return false; }
       }
 
       public override string BaseURI {
-         get { return currentNode.BaseUri.AbsoluteUri; }
+         get {
+
+            Uri baseUri = null;
+
+            try {
+               baseUri = currentNode.BaseUri;
+            } catch (ArgumentNullException) {
+            } catch (UriFormatException) { }
+
+            if (baseUri == null) {
+               return String.Empty;
+            }
+
+            return baseUri.AbsoluteUri;
+         }
       }
 
       public override string Name {
@@ -41,7 +54,7 @@ namespace myxsl.saxon {
             string local = LocalName;
 
             if (!String.IsNullOrEmpty(prefix)) {
-               return String.Concat(prefix, ":", local);
+               return nameTable.Add(String.Concat(prefix, ":", local));
             }
 
             return local; 
@@ -51,11 +64,10 @@ namespace myxsl.saxon {
       public override string NamespaceURI {
          get {
             if (currentNode.NodeName == null) {
-               return "";
+               return nameTable.Add(String.Empty);
             }
 
-            return currentNode.NodeName.Uri 
-               ?? "";
+            return nameTable.Add(currentNode.NodeName.Uri ?? String.Empty);
          }
       }
 
@@ -64,10 +76,10 @@ namespace myxsl.saxon {
             switch (NodeType) {
                case XPathNodeType.Attribute:
                case XPathNodeType.Element:
-                  return currentNode.NodeName.Prefix ?? ""; 
+                  return nameTable.Add(currentNode.NodeName.Prefix ?? String.Empty); 
                
                default:
-                  return "";
+                  return nameTable.Add(String.Empty);
             }
          }
       }
@@ -119,11 +131,10 @@ namespace myxsl.saxon {
       public override string LocalName {
          get {
             if (currentNode.NodeName == null) {
-               return "";
+               return nameTable.Add(String.Empty);
             }
 
-            return currentNode.NodeName.LocalName 
-               ?? ""; 
+            return nameTable.Add(currentNode.NodeName.LocalName ?? String.Empty); 
          }
       }
 
@@ -144,8 +155,7 @@ namespace myxsl.saxon {
 
       public override XmlNameTable NameTable {
          get {
-            return _NameTable
-               ?? (_NameTable = new NameTable());
+            return nameTable;
          }
       }
 
@@ -201,6 +211,29 @@ namespace myxsl.saxon {
          if (node == null) throw new ArgumentNullException("node");
 
          this.currentNode = node;
+         this.nameTable = CreateNameTable();
+      }
+
+      public XdmNodeNavigator(XdmNodeNavigator other) {
+         
+         if (other == null) throw new ArgumentNullException("other");
+
+         this.currentNode = other.currentNode;
+         this.nameTable = other.nameTable;
+      }
+
+      protected XdmNodeNavigator() {
+         this.nameTable = CreateNameTable();
+      }
+
+      static XmlNameTable CreateNameTable() {
+
+         var nameTable = new NameTable();
+         nameTable.Add(String.Empty);
+         nameTable.Add("http://www.w3.org/2000/xmlns/");
+         nameTable.Add("http://www.w3.org/XML/1998/namespace");
+
+         return nameTable;
       }
 
       bool MoveTo(XdmAxis axis) {
@@ -239,7 +272,7 @@ namespace myxsl.saxon {
       }
 
       public override XPathNavigator Clone() {
-         return new XdmNodeNavigator(this.currentNode);
+         return new XdmNodeNavigator(this);
       }
 
       public override string GetAttribute(string localName, string namespaceURI) {

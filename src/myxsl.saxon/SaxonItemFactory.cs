@@ -37,6 +37,10 @@ namespace myxsl.saxon {
          this.defaultDocBuilder = CreateDocumentBuilder(new XmlParsingOptions());
       }
 
+      public override IXPathNavigable BuildNode() {
+         return new DeferredXdmNodeWrapper(this.processor.Implementation);
+      }
+
       public override IXPathNavigable CreateNodeReadOnly(Stream input, XmlParsingOptions options) {
          return CreateDocumentBuilder(options).Build(input).ToXPathNavigable();
       }

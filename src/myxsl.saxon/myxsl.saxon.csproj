@@ -37,6 +37,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IKVM.OpenJDK.Core, Version=0.46.0.1, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Saxon-HE.9.4.0.1\lib\net35\IKVM.OpenJDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.API, Version=0.46.0.1, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Saxon-HE.9.4.0.1\lib\net35\IKVM.OpenJDK.XML.API.dll</HintPath>
+    </Reference>
+    <Reference Include="saxon9he, Version=9.4.0.1, Culture=neutral, PublicKeyToken=e1fdd002d5083fe6, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Saxon-HE.9.4.0.1\lib\net35\saxon9he.dll</HintPath>
+    </Reference>
     <Reference Include="saxon9he-api, Version=9.4.0.1, Culture=neutral, PublicKeyToken=e1fdd002d5083fe6, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Saxon-HE.9.4.0.1\lib\net35\saxon9he-api.dll</HintPath>
@@ -50,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="DeferredXdmNodeWrapper.cs" />
     <Compile Include="extensions\exslt.common\Index.cs" />
     <Compile Include="extensions\exslt.common\NodeSet.cs" />
     <Compile Include="extensions\exslt.common\ObjectType.cs" />
@@ -75,6 +88,7 @@
     <Compile Include="XdmAtomicValueWrapper.cs" />
     <Compile Include="XdmNodeNavigator.cs" />
     <Compile Include="XdmNodeWrapper.cs" />
+    <Compile Include="XdmWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\myxsl\myxsl.csproj">
