@@ -85,10 +85,12 @@ namespace myxsl.schematron {
          Uri baseUri = new UriBuilder {
             Scheme = XmlEmbeddedResourceResolver.UriSchemeClires,
             Host = null,
-            Path = String.Concat(assembly.GetName().Name, "/schematron/", xsltVersion, "/")
+            Path = String.Concat(assembly.GetName().Name, "/", xsltVersion, "/")
          }.Uri;
 
-         var compileOptions = new XsltCompileOptions(baseUri);
+         var compileOptions = new XsltCompileOptions(baseUri) { 
+            XmlResolver = new XmlDynamicResolver() // use calling assembly as default
+         };
 
          string[] stages = { "iso_dsdl_include.xsl", "iso_abstract_expand.xsl", String.Concat("iso_svrl_for_", xsltVersion, ".xsl") };
 

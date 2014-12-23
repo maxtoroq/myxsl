@@ -43,7 +43,7 @@ namespace myxsl {
          this.DefaultBaseUri = defaultBaseUri;
       }
 
-      internal XmlDynamicResolver(Assembly callingAssembly) {
+      public XmlDynamicResolver(Assembly callingAssembly) {
 
          this.resolvers = new Dictionary<string, XmlResolver>();
          this.callingAssembly = callingAssembly;

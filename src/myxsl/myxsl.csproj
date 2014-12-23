@@ -53,13 +53,6 @@
     <Compile Include="common\XPathVariableInfo.cs" />
     <Compile Include="common\XsltProcessorExtensions.cs" />
     <Compile Include="io\XPathFileSystem.cs" />
-    <Compile Include="schematron\SchematronExtensions.cs" />
-    <Compile Include="schematron\SchematronInvoker.cs" />
-    <Compile Include="schematron\SchematronModule.cs" />
-    <Compile Include="schematron\SchematronResultHandler.cs" />
-    <Compile Include="schematron\SchematronRuntimeOptions.cs" />
-    <Compile Include="schematron\SchematronValidator.cs" />
-    <Compile Include="schematron\XsltSchematronValidator.cs" />
     <Compile Include="util\QueryStringUtil.cs" />
     <Compile Include="XmlRootPrefixedAttribute.cs" />
     <Compile Include="net.http\MediaTypes.cs" />
@@ -125,29 +118,6 @@
     <Compile Include="common\XPathModuleInfo.cs" />
     <Compile Include="util\XHtmlWriter.cs" />
     <Compile Include="util\XmlWrappingWriter.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="schematron\xslt1\iso_abstract_expand.xsl" />
-    <EmbeddedResource Include="schematron\xslt1\iso_dsdl_include.xsl" />
-    <EmbeddedResource Include="schematron\xslt1\iso_schematron_message.xsl" />
-    <EmbeddedResource Include="schematron\xslt1\iso_schematron_skeleton_for_xslt1.xsl" />
-    <EmbeddedResource Include="schematron\xslt1\iso_svrl_for_xslt1.xsl" />
-    <EmbeddedResource Include="schematron\xslt1\readme.txt" />
-    <EmbeddedResource Include="schematron\xslt2\iso_abstract_expand.xsl" />
-    <EmbeddedResource Include="schematron\xslt2\iso_dsdl_include.xsl" />
-    <EmbeddedResource Include="schematron\xslt2\iso_schematron_message_xslt2.xsl" />
-    <EmbeddedResource Include="schematron\xslt2\iso_schematron_skeleton_for_saxon.xsl" />
-    <EmbeddedResource Include="schematron\xslt2\iso_svrl_for_xslt2.xsl">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="schematron\xslt2\readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="schematron\xslt2\sch-messages-cs.xhtml" />
-    <EmbeddedResource Include="schematron\xslt2\sch-messages-de.xhtml" />
-    <EmbeddedResource Include="schematron\xslt2\sch-messages-en.xhtml" />
-    <EmbeddedResource Include="schematron\xslt2\sch-messages-fr.xhtml" />
-    <EmbeddedResource Include="schematron\xslt2\sch-messages-nl.xhtml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

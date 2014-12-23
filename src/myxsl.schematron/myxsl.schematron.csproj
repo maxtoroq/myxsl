@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E14E81CA-9E5E-47F1-BFE7-B01507FE082E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>myxsl.schematron</RootNamespace>
+    <AssemblyName>myxsl.schematron</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="SchematronExtensions.cs" />
+    <Compile Include="SchematronInvoker.cs" />
+    <Compile Include="SchematronModule.cs" />
+    <Compile Include="SchematronResultHandler.cs" />
+    <Compile Include="SchematronRuntimeOptions.cs" />
+    <Compile Include="SchematronValidator.cs" />
+    <Compile Include="util\FormatInvariantExtensions.cs" />
+    <Compile Include="XsltSchematronValidator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\myxsl\myxsl.csproj">
+      <Project>{8a918123-1467-469e-9c78-6d37a8f911f3}</Project>
+      <Name>myxsl</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xslt1\iso_abstract_expand.xsl" />
+    <EmbeddedResource Include="xslt1\iso_dsdl_include.xsl" />
+    <EmbeddedResource Include="xslt1\iso_schematron_message.xsl" />
+    <EmbeddedResource Include="xslt1\iso_schematron_skeleton_for_xslt1.xsl" />
+    <EmbeddedResource Include="xslt1\iso_svrl_for_xslt1.xsl" />
+    <EmbeddedResource Include="xslt1\readme.txt" />
+    <EmbeddedResource Include="xslt2\iso_abstract_expand.xsl" />
+    <EmbeddedResource Include="xslt2\iso_dsdl_include.xsl" />
+    <EmbeddedResource Include="xslt2\iso_schematron_message_xslt2.xsl" />
+    <EmbeddedResource Include="xslt2\iso_schematron_skeleton_for_saxon.xsl" />
+    <EmbeddedResource Include="xslt2\iso_svrl_for_xslt2.xsl" />
+    <EmbeddedResource Include="xslt2\readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xslt2\sch-messages-cs.xhtml" />
+    <EmbeddedResource Include="xslt2\sch-messages-de.xhtml" />
+    <EmbeddedResource Include="xslt2\sch-messages-en.xhtml" />
+    <EmbeddedResource Include="xslt2\sch-messages-fr.xhtml" />
+    <EmbeddedResource Include="xslt2\sch-messages-nl.xhtml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

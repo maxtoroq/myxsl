@@ -13,7 +13,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "samples(5)", "http://localh
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "true"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		ProjectReferences = "{8A918123-1467-469E-9C78-6D37A8F911F3}|myxsl.dll;{5F9254A6-05F1-4255-A8F5-CC4490327DB1}|myxsl.saxon.dll;{AE71E623-E962-4554-8AC1-5F2492263666}|myxsl.web.mvc.dll;{FC5EE7F5-A466-48B2-97BC-526173A8600B}|myxsl.web.dll;{2219f10f-8694-4682-ae39-42975337b10c}|myxsl.xml.xsl.dll;"
+		ProjectReferences = "{8A918123-1467-469E-9C78-6D37A8F911F3}|myxsl.dll;{5F9254A6-05F1-4255-A8F5-CC4490327DB1}|myxsl.saxon.dll;{AE71E623-E962-4554-8AC1-5F2492263666}|myxsl.web.mvc.dll;{FC5EE7F5-A466-48B2-97BC-526173A8600B}|myxsl.web.dll;{2219f10f-8694-4682-ae39-42975337b10c}|myxsl.xml.xsl.dll;{e14e81ca-9e5e-47f1-bfe7-b01507fe082e}|myxsl.schematron.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/samples"
 		Debug.AspNetCompiler.PhysicalPath = "samples\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\samples\"
@@ -34,6 +34,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myxsl.web", "src\myxsl.web\myxsl.web.csproj", "{FC5EE7F5-A466-48B2-97BC-526173A8600B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myxsl.xml.xsl", "src\myxsl.xml.xsl\myxsl.xml.xsl.csproj", "{2219F10F-8694-4682-AE39-42975337B10C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myxsl.schematron", "src\myxsl.schematron\myxsl.schematron.csproj", "{E14E81CA-9E5E-47F1-BFE7-B01507FE082E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +67,10 @@ Global
 		{2219F10F-8694-4682-AE39-42975337B10C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2219F10F-8694-4682-AE39-42975337B10C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2219F10F-8694-4682-AE39-42975337B10C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E14E81CA-9E5E-47F1-BFE7-B01507FE082E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E14E81CA-9E5E-47F1-BFE7-B01507FE082E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E14E81CA-9E5E-47F1-BFE7-B01507FE082E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E14E81CA-9E5E-47F1-BFE7-B01507FE082E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

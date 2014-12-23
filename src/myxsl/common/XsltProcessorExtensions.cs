@@ -23,7 +23,7 @@ using System.Xml;
 
 namespace myxsl.common {
    
-   static class XsltProcessorExtensions {
+   public static class XsltProcessorExtensions {
 
       static readonly ConcurrentDictionary<IXsltProcessor, decimal> versions = new ConcurrentDictionary<IXsltProcessor, decimal>();
 

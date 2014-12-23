@@ -34,7 +34,6 @@ namespace myxsl.common {
                      XPathModuleInfo[] builtInModules = { 
                         new XPathModuleInfo(typeof(security.SecurityModule)) { Predeclare = true },
                         new XPathModuleInfo(typeof(configuration.ConfigurationModule)),
-                        new XPathModuleInfo(typeof(schematron.SchematronModule)),
                         new XPathModuleInfo(typeof(net.http.XPathHttpClient)),
                         new XPathModuleInfo(typeof(net.mail.XPathSmtpClient)),
                         new XPathModuleInfo(typeof(io.XPathFileSystem)),
