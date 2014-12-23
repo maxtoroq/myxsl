@@ -42,7 +42,7 @@ namespace myxsl.xquery {
       [XPathDependency]
       public IXQueryProcessor CurrentXQueryProcessor { get; set; }
 
-      [XPathFunction("compile-from", "item()", "xs:string")]
+      [XPathFunction("compile-from", "xs:string", As = "item()")]
       public XPathItem CompileFrom(string moduleUri) {
          return CompileFrom(moduleUri, null);
       }
@@ -75,7 +75,7 @@ namespace myxsl.xquery {
       /// <para>If the compilation of <paramref name="moduleUri"/> fails an error is raised.</para>
       /// <para>The return value of this function may vary between versions, so don't take dependencies on it.</para>
       /// </remarks>
-      [XPathFunction("compile-from", "item()", "xs:string", "xs:string?")]
+      [XPathFunction("compile-from", "xs:string", "xs:string?", As = "item()")]
       public XPathItem CompileFrom(string moduleUri, string processor) { 
          
          IXQueryProcessor proc = (processor != null) ?
@@ -95,7 +95,7 @@ namespace myxsl.xquery {
             .CreateNavigator();
       }
 
-      [XPathFunction("compile-query", "item()", "xs:string")]
+      [XPathFunction("compile-query", "xs:string", As = "item()")]
       public XPathItem CompileQuery(string query) {
          return CompileQuery(query, null);
       }
@@ -129,7 +129,7 @@ namespace myxsl.xquery {
       /// <para>If the compilation of <paramref name="query"/> fails an error is raised.</para>
       /// <para>The return value of this function may vary between versions, so don't take dependencies on it.</para>
       /// </remarks>
-      [XPathFunction("compile-query", "item()", "xs:string", "xs:string?")]
+      [XPathFunction("compile-query", "xs:string", "xs:string?", As = "item()")]
       public XPathItem CompileQuery(string query, string processor) {
 
          IXQueryProcessor proc = (processor != null) ?
@@ -153,12 +153,12 @@ namespace myxsl.xquery {
             .CreateNavigator();
       }
 
-      [XPathFunction("eval", "item()*", "item()")]
+      [XPathFunction("eval", "item()", As = "item()*")]
       public IEnumerable<XPathItem> Eval(XPathItem module) {
          return Eval(module, null);
       }
 
-      [XPathFunction("eval", "item()*", "item()", "item()?")]
+      [XPathFunction("eval", "item()", "item()?", As = "item()*")]
       public IEnumerable<XPathItem> Eval(XPathItem module, XPathItem input) {
          return Eval(module, input, null);
       }
@@ -180,7 +180,7 @@ namespace myxsl.xquery {
       /// is used as the name of the variable, and its typed value is used as the value of the variable.
       /// </para>
       /// </remarks>
-      [XPathFunction("eval", "item()*", "item()", "item()?", "node()*")]
+      [XPathFunction("eval", "item()", "item()?", "node()*", As = "item()*")]
       public IEnumerable<XPathItem> Eval(XPathItem module, XPathItem input, IEnumerable<XPathNavigator> parameters) {
 
          XQueryInvoker invoker;
@@ -237,12 +237,12 @@ namespace myxsl.xquery {
          return invoker.Query(options).Result();
       }
 
-      [XPathFunction("invoke", "item()*", "xs:string")]
+      [XPathFunction("invoke", "xs:string", As = "item()*")]
       public IEnumerable<XPathItem> Invoke(string moduleUri) {
          return Invoke(moduleUri, null);
       }
 
-      [XPathFunction("invoke", "item()*", "xs:string", "item()?")]
+      [XPathFunction("invoke", "xs:string", "item()?", As = "item()*")]
       public IEnumerable<XPathItem> Invoke(string moduleUri, XPathItem input) {
          return Invoke(moduleUri, input, null);
       }
@@ -262,7 +262,7 @@ namespace myxsl.xquery {
       /// is used as the name of the variable, and its typed value is used as the value of the variable.
       /// </para>
       /// </remarks>
-      [XPathFunction("invoke", "item()*", "xs:string", "item()?", "node()*")]
+      [XPathFunction("invoke", "xs:string", "item()?", "node()*", As = "item()*")]
       public IEnumerable<XPathItem> Invoke(string moduleUri, XPathItem input, IEnumerable<XPathNavigator> parameters) {
 
          XQueryRuntimeOptions options = GetRuntimeOptions(input, parameters);

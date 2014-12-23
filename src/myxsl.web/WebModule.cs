@@ -27,22 +27,22 @@ namespace myxsl.web {
       internal const string Prefix = "web";
       internal const string Namespace = "http://myxsl.github.io/ns/web";
 
-      [XPathFunction("absolute-path", "xs:string", "xs:string")]
+      [XPathFunction("absolute-path", "xs:string", As = "xs:string")]
       public static string AbsolutePath(string appRelativePath) {
          return VirtualPathUtility.ToAbsolute(appRelativePath);
       }
 
-      [XPathFunction("app-relative-path", "xs:string", "xs:string")]
+      [XPathFunction("app-relative-path", "xs:string", As = "xs:string")]
       public static string AppRelativePath(string absolutePath) {
          return VirtualPathUtility.ToAppRelative(absolutePath);
       }
 
-      [XPathFunction("combine-path", "xs:string", "xs:string?", "xs:string")]
+      [XPathFunction("combine-path", "xs:string?", "xs:string", As = "xs:string")]
       public static string CombinePath(string basePath, string relativePath) {
          return VirtualPathUtility.Combine(basePath, relativePath);
       }
 
-      [XPathFunction("encode-url", "xs:string", "xs:string")]
+      [XPathFunction("encode-url", "xs:string", As = "xs:string")]
       public static string EncodeUrl(string str) {
          return HttpUtility.UrlEncode(str);
       }

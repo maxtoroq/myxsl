@@ -30,7 +30,7 @@ namespace myxsl.net.mail {
       [XPathDependency]
       public XPathItemFactory ItemFactory { get; set; }
 
-      [XPathFunction("send", "element()", "element(" + Prefix + ":message)", HasSideEffects = true)]
+      [XPathFunction("send", "element(" + Prefix + ":message)", As = "element()", HasSideEffects = true)]
       public IXmlSerializable Send(XPathNavigator message) {
 
          if (message == null) throw new ArgumentNullException("message");

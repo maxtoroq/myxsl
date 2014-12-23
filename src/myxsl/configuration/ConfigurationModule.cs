@@ -24,7 +24,7 @@ namespace myxsl.configuration {
    [XPathModule("config", "http://myxsl.github.io/ns/configuration")]
    public static class ConfigurationModule {
 
-      [XPathFunction("app-settings", "xs:string*", "xs:string")]
+      [XPathFunction("app-settings", "xs:string", As = "xs:string*")]
       public static string[] AppSettings(string name) {
          return ConfigurationManager.AppSettings.GetValues(name);
       }

@@ -30,7 +30,7 @@ namespace myxsl.web {
          get { return HttpContext.Current; }
       }
 
-      [XPathFunction("get", "item()?", "xs:string")]
+      [XPathFunction("get", "xs:string", As = "item()?")]
       public static object Get(string name) {
          return Context.Session[name];
       }
@@ -46,22 +46,22 @@ namespace myxsl.web {
          return val;
       }
 
-      [XPathFunction("set", "empty-sequence()", "xs:string", "item()")]
+      [XPathFunction("set", "xs:string", "item()", As = "empty-sequence()")]
       public static void Set(string name, object value) {
          Context.Session[name] = value;
       }
 
-      [XPathFunction("remove", "empty-sequence()", "xs:string")]
+      [XPathFunction("remove", "xs:string", As = "empty-sequence()")]
       public static void Remove(string name) {
          Context.Session.Remove(name);
       }
 
-      [XPathFunction("remove-all", "empty-sequence()")]
+      [XPathFunction("remove-all", As = "empty-sequence()")]
       public static void RemoveAll() {
          Context.Session.RemoveAll();
       }
 
-      [XPathFunction("timeout", "xs:integer")]
+      [XPathFunction("timeout", As = "xs:integer")]
       public static int Timeout() {
          return Context.Session.Timeout;
       }

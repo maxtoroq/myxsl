@@ -29,17 +29,17 @@ namespace myxsl.security {
          get { return Thread.CurrentPrincipal; }
       }
 
-      [XPathFunction("user-name", "xs:string")]
+      [XPathFunction("user-name", As = "xs:string")]
       public static string UserName() {
          return CurrentPrincipal.Identity.Name;
       }
 
-      [XPathFunction("user-is-authenticated", "xs:boolean")]
+      [XPathFunction("user-is-authenticated", As = "xs:boolean")]
       public static bool UserIsAuthenticated() {
          return CurrentPrincipal.Identity.IsAuthenticated;
       }
 
-      [XPathFunction("user-is-in-role", "xs:boolean", "xs:string")]
+      [XPathFunction("user-is-in-role", "xs:boolean", As = "xs:string")]
       public static bool UserIsInRole(string role) {
          return CurrentPrincipal.IsInRole(role);
       }

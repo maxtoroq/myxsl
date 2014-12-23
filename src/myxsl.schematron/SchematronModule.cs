@@ -33,17 +33,17 @@ namespace myxsl.schematron {
       [XPathDependency]
       public XmlResolver Resolver { get; set; }
 
-      [XPathFunction("report", "document-node(element(" + SvrlPrefix + ":schematron-output))", "item()", "node()")]
+      [XPathFunction("report", "item()", "node()", As = "document-node(element(" + SvrlPrefix + ":schematron-output))")]
       public XPathNavigator Report(XPathItem schema, XPathNavigator source) {
          return Report(schema, source, null);
       }
 
-      [XPathFunction("report", "document-node(element(" + SvrlPrefix + ":schematron-output))", "item()", "node()", "xs:string?")]
+      [XPathFunction("report", "item()", "node()", "xs:string?", As = "document-node(element(" + SvrlPrefix + ":schematron-output))")]
       public XPathNavigator Report(XPathItem schema, XPathNavigator source, string phase) {
          return Report(schema, source, phase, null);
       }
 
-      [XPathFunction("report", "document-node(element(" + SvrlPrefix + ":schematron-output))", "item()", "node()", "xs:string?", "node()*")]
+      [XPathFunction("report", "item()", "node()", "xs:string?", "node()*", As = "document-node(element(" + SvrlPrefix + ":schematron-output))")]
       public XPathNavigator Report(XPathItem schema, XPathNavigator source, string phase, IEnumerable<XPathNavigator> parameters) {
 
          var options = new SchematronRuntimeOptions { 

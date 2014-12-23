@@ -53,7 +53,7 @@ namespace myxsl.web {
          get { return HttpContext.Current; }
       }
 
-      [XPathFunction("application-path", "xs:string")]
+      [XPathFunction("application-path", As = "xs:string")]
       public static string ApplicationPath() {
          return VirtualPathUtility.AppendTrailingSlash(Context.Request.ApplicationPath);
       }
@@ -61,17 +61,17 @@ namespace myxsl.web {
       /// <summary>
       /// The absolute URL of the current HTTP request.
       /// </summary>
-      [XPathFunction("url", "xs:string")]
+      [XPathFunction("url", As = "xs:string")]
       public static string Url() {
          return Url(null);
       }
 
-      [XPathFunction("url", "xs:string", "xs:string?")]
+      [XPathFunction("url", "xs:string?", As = "xs:string")]
       public static string Url(string components) {
          return Url(components, null);
       }
 
-      [XPathFunction("url", "xs:string", "xs:string?", "xs:string?")]
+      [XPathFunction("url", "xs:string?", "xs:string?", As = "xs:string")]
       public static string Url(string components, string format) {
          return UriToString(Context.Request.Url, components, format);
       }
@@ -79,12 +79,12 @@ namespace myxsl.web {
       /// <summary>
       /// The pathinfo part of the current HTTP request URL.
       /// </summary>
-      [XPathFunction("path-info", "xs:string")]
+      [XPathFunction("path-info", As = "xs:string")]
       public static string PathInfo() {
          return Context.Request.PathInfo;
       }
 
-      [XPathFunction("path", "xs:string")]
+      [XPathFunction("path", As = "xs:string")]
       public static string Path() {
 
          string rawUrl = Context.Request.RawUrl;
@@ -97,12 +97,12 @@ namespace myxsl.web {
          return rawUrl;
       }
 
-      [XPathFunction("file-path", "xs:string")]
+      [XPathFunction("file-path", As = "xs:string")]
       public static string FilePath() {
          return Context.Request.FilePath;
       }
 
-      [XPathFunction("resolve-url", "xs:string", "xs:string")]
+      [XPathFunction("resolve-url", "xs:string", As = "xs:string")]
       public static string ResolveUrl(string relativeUrl) {
          return WebModule.AbsolutePath(WebModule.CombinePath(FilePath(), relativeUrl));
       }
@@ -110,17 +110,17 @@ namespace myxsl.web {
       /// <summary>
       /// The referrer URL of the current HTTP request.
       /// </summary>
-      [XPathFunction("referrer-url", "xs:string?")]
+      [XPathFunction("referrer-url", As = "xs:string?")]
       public static string ReferrerUrl() {
          return ReferrerUrl(null);
       }
 
-      [XPathFunction("referrer-url", "xs:string?", "xs:string?")]
+      [XPathFunction("referrer-url", "xs:string?", As = "xs:string?")]
       public static string ReferrerUrl(string components) {
          return ReferrerUrl(components, null);
       }
 
-      [XPathFunction("referrer-url", "xs:string?", "xs:string?", "xs:string?")]
+      [XPathFunction("referrer-url", "xs:string?", "xs:string?", As = "xs:string?")]
       public static string ReferrerUrl(string components, string format) {
 
          Uri referrerUrl = null;
@@ -137,7 +137,7 @@ namespace myxsl.web {
          return UriToString(referrerUrl, components, format);
       }
 
-      [XPathFunction("query", "xs:string")]
+      [XPathFunction("query", As = "xs:string")]
       public static string Query() {
          return Context.Request.QueryString.ToString();
       }
@@ -145,7 +145,7 @@ namespace myxsl.web {
       /// <summary>
       /// The values of the querystring parameters of the current HTTP request, that match the provided name.
       /// </summary>
-      [XPathFunction("query", "xs:string*", "xs:string?")]
+      [XPathFunction("query", "xs:string?", As = "xs:string*")]
       public static string[] Query(string name) {
          return Context.Request.QueryString.GetValues(name);
       }
@@ -153,12 +153,12 @@ namespace myxsl.web {
       /// <summary>
       /// The names of the querystring parameters of the current HTTP request.
       /// </summary>
-      [XPathFunction("query-names", "xs:string*")]
+      [XPathFunction("query-names", As = "xs:string*")]
       public static string[] QueryNames() {
          return Context.Request.QueryString.AllKeys;
       }
 
-      [XPathFunction("form", "xs:string")]
+      [XPathFunction("form", As = "xs:string")]
       public static string Form() {
          return Context.Request.Form.ToString();
       }
@@ -166,7 +166,7 @@ namespace myxsl.web {
       /// <summary>
       /// The values of the form parameters of the current HTTP request, that match the provided name.
       /// </summary>
-      [XPathFunction("form", "xs:string*", "xs:string")]
+      [XPathFunction("form", "xs:string", As = "xs:string*")]
       public static string[] Form(string name) {
          return Context.Request.Form.GetValues(name);
       }
@@ -174,7 +174,7 @@ namespace myxsl.web {
       /// <summary>
       /// The names of the form parameters of the current HTTP request.
       /// </summary>
-      [XPathFunction("form-names", "xs:string*")]
+      [XPathFunction("form-names", As = "xs:string*")]
       public static string[] FormNames() {
          return Context.Request.Form.AllKeys;
       }
@@ -182,12 +182,12 @@ namespace myxsl.web {
       /// <summary>
       /// The HTTP method the current request.
       /// </summary>
-      [XPathFunction("http-method", "xs:string")]
+      [XPathFunction("http-method", As = "xs:string")]
       public static string HttpMethod() {
          return Context.Request.HttpMethod;
       }
 
-      [XPathFunction("http-method-override", "xs:string")]
+      [XPathFunction("http-method-override", As = "xs:string")]
       public static string HttpMethodOverride() {
 
          HttpRequest request = Context.Request;
@@ -227,7 +227,7 @@ namespace myxsl.web {
       /// <summary>
       /// The value of the HTTP header of the current request, that match the provided name.
       /// </summary>
-      [XPathFunction("header", "xs:string?", "xs:string")]
+      [XPathFunction("header", "xs:string", As = "xs:string?")]
       public static string Header(string name) {
          return Context.Request.Headers.Get(name);
       }
@@ -235,22 +235,22 @@ namespace myxsl.web {
       /// <summary>
       /// The value of the Content-Type header of the current HTTP request.
       /// </summary>
-      [XPathFunction("content-type", "xs:string?")]
+      [XPathFunction("content-type", As = "xs:string?")]
       public static string ContentType() {
          return Context.Request.ContentType;
       }
 
-      [XPathFunction("content-length", "xs:integer")]
+      [XPathFunction("content-length", As = "xs:integer")]
       public static int ContentLength() {
          return Context.Request.ContentLength;
       }
 
-      [XPathFunction("is-local", "xs:boolean")]
+      [XPathFunction("is-local", As = "xs:boolean")]
       public static bool IsLocal() {
          return Context.Request.IsLocal;
       }
 
-      [XPathFunction("cookie", "xs:string?", "xs:string")]
+      [XPathFunction("cookie", "xs:string", As = "xs:string?")]
       public static string Cookie(string name) {
 
          HttpCookie cookie = Context.Request.Cookies.Get(name);
@@ -276,27 +276,27 @@ namespace myxsl.web {
          return val;
       }
 
-      [XPathFunction("user-languages", "xs:string*")]
+      [XPathFunction("user-languages", As = "xs:string*")]
       public static string[] UserLanguages() {
          return Context.Request.UserLanguages;
       }
 
-      [XPathFunction("user-host-address", "xs:string")]
+      [XPathFunction("user-host-address", As = "xs:string")]
       public static string UserHostAddress() {
          return Context.Request.UserHostAddress;
       }
 
-      [XPathFunction("user-host-name", "xs:string")]
+      [XPathFunction("user-host-name", As = "xs:string")]
       public static string UserHostName() {
          return Context.Request.UserHostName;
       }
 
-      [XPathFunction("map-path", "xs:string", "xs:string")]
+      [XPathFunction("map-path", "xs:string", As = "xs:string")]
       public static string MapPath(string virtualPath) {
          return Context.Request.MapPath(virtualPath);
       }
 
-      [XPathFunction("is-ajax-request", "xs:boolean")]
+      [XPathFunction("is-ajax-request", As = "xs:boolean")]
       public static bool IsAjaxRequest() {
 
          HttpRequest request = Context.Request;

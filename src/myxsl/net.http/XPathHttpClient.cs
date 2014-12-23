@@ -39,17 +39,17 @@ namespace myxsl.net.http {
       [XPathDependency]
       public XmlResolver Resolver { get; set; }
 
-      [XPathFunction("send-request", "item()+", "element(" + Prefix + ":request)?", HasSideEffects = true)]
+      [XPathFunction("send-request", "element(" + Prefix + ":request)?", As = "item()+", HasSideEffects = true)]
       public XPathItem[] SendRequest(XPathNavigator request) {
          return SendRequest(request, null);
       }
 
-      [XPathFunction("send-request", "item()+", "element(" + Prefix + ":request)?", "xs:string?", HasSideEffects = true)]
+      [XPathFunction("send-request", "element(" + Prefix + ":request)?", "xs:string?", As = "item()+", HasSideEffects = true)]
       public XPathItem[] SendRequest(XPathNavigator request, string href) {
          return SendRequest(request, href, null);
       }
 
-      [XPathFunction("send-request", "item()+", "element(" + Prefix + ":request)?", "xs:string?", "item()*", HasSideEffects = true)]
+      [XPathFunction("send-request", "element(" + Prefix + ":request)?", "xs:string?", "item()*", As = "item()+", HasSideEffects = true)]
       public XPathItem[] SendRequest(XPathNavigator request, string href, IEnumerable<XPathItem> bodies) {
 
          XPathItemFactory itemFactory = this.ItemFactory;

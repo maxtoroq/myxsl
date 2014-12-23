@@ -27,12 +27,12 @@ namespace myxsl.web {
          get { return HttpContext.Current; }
       }
 
-      [XPathFunction("redirect", "empty-sequence()", "xs:string")]
+      [XPathFunction("redirect", "xs:string", As = "empty-sequence()")]
       public static void Redirect(string url) {
          Context.Response.Redirect(url, endResponse: false);
       }
 
-      [XPathFunction("redirect", "empty-sequence()", "xs:string", "xs:integer")]
+      [XPathFunction("redirect", "xs:string", "xs:integer", As = "empty-sequence()")]
       public static void Redirect(string url, int statusCode) {
 
          HttpResponse response = Context.Response;
@@ -41,22 +41,22 @@ namespace myxsl.web {
          response.StatusCode = statusCode;
       }
 
-      [XPathFunction("set-header", "empty-sequence()", "xs:string", "xs:string")]
+      [XPathFunction("set-header", "xs:string", "xs:string", As = "empty-sequence()")]
       public static void SetHeader(string name, string value) {
          Context.Response.Headers.Set(name, value);
       }
 
-      [XPathFunction("set-content-type", "empty-sequence()", "xs:string")]
+      [XPathFunction("set-content-type", "xs:string", As = "empty-sequence()")]
       public static void SetContentType(string value) {
          Context.Response.ContentType = value;
       }
 
-      [XPathFunction("set-status", "empty-sequence()", "xs:integer")]
+      [XPathFunction("set-status", "xs:integer", As = "empty-sequence()")]
       public static void SetStatus(int code) {
          Context.Response.StatusCode = code;
       }
 
-      [XPathFunction("set-status", "empty-sequence()", "xs:integer", "xs:string")]
+      [XPathFunction("set-status", "xs:integer", "xs:string", As = "empty-sequence()")]
       public static void SetStatus(int code, string description) {
 
          HttpResponse response = Context.Response;
@@ -65,12 +65,12 @@ namespace myxsl.web {
          response.StatusDescription = description;
       }
 
-      [XPathFunction("set-cookie", "empty-sequence()", "xs:string", "xs:string")]
+      [XPathFunction("set-cookie", "xs:string", "xs:string", As = "empty-sequence()")]
       public static void SetCookie(string name, string value) {
          Context.Response.Cookies.Set(new HttpCookie(name, value));
       }
 
-      [XPathFunction("remove-cookie", "empty-sequence()", "xs:string")]
+      [XPathFunction("remove-cookie", "xs:string", As = "empty-sequence()")]
       public static void RemoveCookie(string name) {
          Context.Response.Cookies.Remove(name);
       }

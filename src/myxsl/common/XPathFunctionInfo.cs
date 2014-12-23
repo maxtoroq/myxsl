@@ -59,8 +59,8 @@ namespace myxsl.common {
             return _ReturnType
                ?? (_ReturnType = new XPathSequenceType(
                      Method.ReturnType,
-                     (functionAttr != null && functionAttr.ReturnSequenceType.HasValue()) ? 
-                        functionAttr.ReturnSequenceType : null,
+                     (functionAttr != null && functionAttr.As.HasValue()) ? 
+                        functionAttr.As : null,
                      Module.NamespaceBindings
                   ));
          }

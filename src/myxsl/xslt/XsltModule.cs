@@ -42,7 +42,7 @@ namespace myxsl.xslt {
       [XPathDependency]
       public IXsltProcessor CurrentXsltProcessor { get; set; }
 
-      [XPathFunction("compile", "item()", "item()")]
+      [XPathFunction("compile", "item()", As = "item()")]
       public XPathItem Compile(XPathItem stylesheet) {
          return Compile(stylesheet, null);
       }
@@ -83,7 +83,7 @@ namespace myxsl.xslt {
       /// <para>If the compilation of <paramref name="stylesheet"/> fails an error is raised.</para>
       /// <para>The return value of this function may vary between versions, so don't take dependencies on it.</para>
       /// </remarks>
-      [XPathFunction("compile", "item()", "item()", "xs:string?")]
+      [XPathFunction("compile", "item()", "xs:string?", As = "item()")]
       public XPathItem Compile(XPathItem stylesheet, string processor) {
 
          CompiledStylesheetReference reference;
@@ -130,12 +130,12 @@ namespace myxsl.xslt {
             .CreateNavigator();
       }
 
-      [XPathFunction("transform", "document-node()", "item()", "node()")]
+      [XPathFunction("transform", "item()", "node()", As = "document-node()")]
       public XPathNavigator Transform(XPathItem stylesheet, XPathNavigator input) {
          return Transform(stylesheet, input, null);
       }
 
-      [XPathFunction("transform", "document-node()", "item()", "node()", "node()*")]
+      [XPathFunction("transform", "item()", "node()", "node()*", As = "document-node()")]
       public XPathNavigator Transform(XPathItem stylesheet, XPathNavigator input, IEnumerable<XPathNavigator> parameters) {
          return Transform(stylesheet, input, parameters, null);
       }
@@ -162,7 +162,7 @@ namespace myxsl.xslt {
       /// or as a <code>xs:string</code> which is used as the local part to create a <code>xs:QName</code> in the null namespace.
       /// </para>
       /// </remarks>
-      [XPathFunction("transform", "document-node()", "item()", "node()", "node()*", "item()?")]
+      [XPathFunction("transform", "item()", "node()", "node()*", "item()?", As = "document-node()")]
       public XPathNavigator Transform(XPathItem stylesheet, XPathNavigator input, IEnumerable<XPathNavigator> parameters, XPathItem mode) {
 
          XsltRuntimeOptions options = GetRuntimeOptions(input, parameters, null, mode);
@@ -170,12 +170,12 @@ namespace myxsl.xslt {
          return ExecuteStylesheet(stylesheet, options);
       }
 
-      [XPathFunction("transform-starting-at", "document-node()", "item()", "item()")]
+      [XPathFunction("transform-starting-at", "item()", "item()", As = "document-node()")]
       public XPathNavigator TransformStartingAt(XPathItem stylesheet, XPathItem initialTemplate) {
          return TransformStartingAt(stylesheet, initialTemplate, null);
       }
 
-      [XPathFunction("transform-starting-at", "document-node()", "item()", "item()", "node()?")]
+      [XPathFunction("transform-starting-at", "item()", "item()", "node()?", As = "document-node()")]
       public XPathNavigator TransformStartingAt(XPathItem stylesheet, XPathItem initialTemplate, XPathNavigator input) {
          return TransformStartingAt(stylesheet, initialTemplate, input, null);
       }
@@ -203,7 +203,7 @@ namespace myxsl.xslt {
       /// is used as the name of the parameter, and its typed value is used as the value of the parameter.
       /// </para>
       /// </remarks>
-      [XPathFunction("transform-starting-at", "document-node()", "item()", "item()", "node()?", "node()*")]
+      [XPathFunction("transform-starting-at", "item()", "item()", "node()?", "node()*", As = "document-node()")]
       public XPathNavigator TransformStartingAt(XPathItem stylesheet, XPathItem initialTemplate, XPathNavigator input, IEnumerable<XPathNavigator> parameters) {
 
          XsltRuntimeOptions options = GetRuntimeOptions(input, parameters, initialTemplate, null);
