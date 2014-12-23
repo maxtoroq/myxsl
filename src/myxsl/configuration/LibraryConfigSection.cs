@@ -13,11 +13,8 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Text;
 using System.Xml;
-using myxsl.common;
 
 namespace myxsl.configuration {
 
@@ -110,8 +107,11 @@ namespace myxsl.configuration {
       private LibraryConfigSection() { }
 
       protected override void InitializeDefault() {
+         
+         // cannot use System.Web.Compilation.BuildManager during pre-start initialization phase
+         // therefore, not using TypeLoader.Instance
 
-         Type sysProcType = TypeLoader.Instance.GetType("myxsl.xml.xsl.SystemXsltProcessor, myxsl.xml.xsl", throwOnError: false, ignoreCase: false);
+         Type sysProcType = Type.GetType("myxsl.xml.xsl.SystemXsltProcessor, myxsl.xml.xsl", throwOnError: false, ignoreCase: false);
 
          if (sysProcType != null) {
 
