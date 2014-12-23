@@ -46,7 +46,8 @@ namespace myxsl.xml.xsl {
             GenerateInMemory = !debuggerIsAttached,
             ReferencedAssemblies = { 
                // System
-               typeof(Uri).Assembly.Location
+               typeof(Uri).Assembly.Location,
+               typeof(ExtensionObjectConvert).Assembly.Location
             }
          };
 

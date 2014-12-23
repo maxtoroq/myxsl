@@ -24,7 +24,7 @@ namespace myxsl.xml.xsl.extensions {
    
    public class XmlSchemaConstructorFunctions {
 
-      internal const string Namespace = WellKnownNamespaces.XMLSchema;
+      internal const string Namespace = "http://www.w3.org/2001/XMLSchema";
       internal const string DateFormat = "yyyy-MM-ddzzzzzz";
       internal const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ss.ssssssszzzzzz";
       internal const string TimeFormat = "HH:mm:ss.ssssssszzzzzz";

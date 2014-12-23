@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Max Toro Q.
+﻿// Copyright 2012 Max Toro Q.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,12 +14,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace myxsl {
+namespace myxsl.xml.xsl {
    
-   static class CLR {
+   static class StringExtensions {
 
-      public static readonly bool IsMono = Type.GetType("Mono.Runtime") != null;
+      public static bool HasValue(this string s) {
+         return !String.IsNullOrEmpty(s);
+      }
    }
 }

@@ -393,5 +393,9 @@ namespace myxsl.common {
          item.WriteXml(output);
          output.WriteEndElement();
       }
+
+      public static XmlWriter CreateXHtmlWriter(XmlWriter output) {
+         return new XHtmlWriter(output);
+      }
    }
 }

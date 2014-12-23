@@ -5,9 +5,10 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Web;
 
-[assembly: AssemblyTitle("myxsl.dll")]
-[assembly: AssemblyDescription("myxsl.dll")]
+[assembly: AssemblyTitle("myxsl.xml.xsl.dll")]
+[assembly: AssemblyDescription("myxsl.xml.xsl.dll")]
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(true)]
 
-[assembly: InternalsVisibleTo("myxsl.web")]
+// SystemItemFactory needs this to create XmlAtomicValue instances
+[assembly: SecurityRules(SecurityRuleSet.Level1)]

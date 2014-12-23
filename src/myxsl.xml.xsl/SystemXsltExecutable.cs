@@ -158,7 +158,7 @@ namespace myxsl.xml.xsl {
          if (this.possiblyXhtmlMethod
             || options.Serialization.Method == XPathSerializationMethods.XHtml) {
 
-            output = new XHtmlWriter(output);
+            output = XPathItemFactory.CreateXHtmlWriter(output);
          }
 
          IXPathNavigable input;

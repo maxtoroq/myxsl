@@ -21,7 +21,7 @@ using System.Xml.XPath;
 
 namespace myxsl {
 
-   sealed class XPathNavigatorEqualityComparer : IEqualityComparer<XPathNavigator> {
+   public sealed class XPathNavigatorEqualityComparer : IEqualityComparer<XPathNavigator> {
 
       public static readonly XPathNavigatorEqualityComparer Instance = new XPathNavigatorEqualityComparer();
 

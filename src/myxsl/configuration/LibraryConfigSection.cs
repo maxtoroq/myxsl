@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
 using System.Xml;
+using myxsl.common;
 
 namespace myxsl.configuration {
 
@@ -110,12 +111,17 @@ namespace myxsl.configuration {
 
       protected override void InitializeDefault() {
 
-         var sysProc = new ProcessorElement("system", typeof(xml.xsl.SystemXsltProcessor)) {
-            LockItem = true
-         };
+         Type sysProcType = TypeLoader.Instance.GetType("myxsl.xml.xsl.SystemXsltProcessor, myxsl.xml.xsl", throwOnError: false, ignoreCase: false);
 
-         this.Processors.Add(sysProc);
-         this.Xslt.DefaultProcessor = sysProc.Name;
+         if (sysProcType != null) {
+
+            var sysProc = new ProcessorElement("system", sysProcType) {
+               LockItem = true
+            };
+
+            this.Processors.Add(sysProc);
+            this.Xslt.DefaultProcessor = sysProc.Name; 
+         }
 
          ResolverElementCollection resolvers = this.Resolvers;
 

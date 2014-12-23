@@ -43,7 +43,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data.SqlXml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
@@ -62,16 +61,6 @@
     <Compile Include="schematron\SchematronValidator.cs" />
     <Compile Include="schematron\XsltSchematronValidator.cs" />
     <Compile Include="util\QueryStringUtil.cs" />
-    <Compile Include="xml.xsl\EmptyXPathNodeIterator.cs" />
-    <Compile Include="xml.xsl\ExtensionObjectConvert.cs" />
-    <Compile Include="xml.xsl\ExtensionObjectGenerator.cs" />
-    <Compile Include="xml.xsl\extensions\XmlSchemaConstructorFunctions.cs" />
-    <Compile Include="xml.xsl\extensions\XPathFunctions.cs" />
-    <Compile Include="xml.xsl\extensions\XPathMathFunctions.cs" />
-    <Compile Include="xml.xsl\SystemItemFactory.cs" />
-    <Compile Include="xml.xsl\SystemXsltException.cs" />
-    <Compile Include="xml.xsl\SystemXsltExecutable.cs" />
-    <Compile Include="xml.xsl\SystemXsltProcessor.cs" />
     <Compile Include="XmlRootPrefixedAttribute.cs" />
     <Compile Include="net.http\MediaTypes.cs" />
     <Compile Include="net.http\XPathHttpBody.cs" />
@@ -89,7 +78,7 @@
     <Compile Include="security\SecurityModule.cs" />
     <Compile Include="util\PseudoAttributeParser.cs" />
     <Compile Include="configuration\ConfigurationModule.cs" />
-    <Compile Include="util\XPathNavigatorEqualityComparer.cs" />
+    <Compile Include="XPathNavigatorEqualityComparer.cs" />
     <Compile Include="common\IXQueryProcessor.cs" />
     <Compile Include="common\IXsltProcessor.cs" />
     <Compile Include="common\ProcessorException.cs" />
@@ -135,7 +124,6 @@
     <Compile Include="configuration\ProcessorElement.cs" />
     <Compile Include="common\TypeLoader.cs" />
     <Compile Include="common\XPathModuleInfo.cs" />
-    <Compile Include="util\CLR.cs" />
     <Compile Include="util\WellKnownNamespaces.cs" />
     <Compile Include="util\XHtmlWriter.cs" />
     <Compile Include="util\XmlWrappingWriter.cs" />
