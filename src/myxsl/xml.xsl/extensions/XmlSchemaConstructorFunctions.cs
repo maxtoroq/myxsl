@@ -19,7 +19,6 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
-using System.Xml.Xsl.Runtime;
 
 namespace myxsl.xml.xsl.extensions {
    
