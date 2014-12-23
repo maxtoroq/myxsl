@@ -41,7 +41,7 @@ namespace myxsl.schematron {
          XPathNavigator doc = ToDocument().CreateNavigator();
          doc.MoveToChild(XPathNodeType.Element);
 
-         return doc.MoveToChild("failed-assert", WellKnownNamespaces.SVRL);
+         return doc.MoveToChild("failed-assert", SchematronInvoker.SvrlNamespace);
       }
 
       public IXPathNavigable ToDocument() {

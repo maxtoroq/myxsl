@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Max Toro Q.
+﻿// Copyright 2012 Max Toro Q.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,15 +14,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace myxsl {
+namespace myxsl.web {
+   
+   static class StringExtensions {
 
-   static class WellKnownNamespaces {
-      
-      public const string XHTML = "http://www.w3.org/1999/xhtml";
-      public const string XMLSchema = "http://www.w3.org/2001/XMLSchema";
-      public const string XSLT = "http://www.w3.org/1999/XSL/Transform";
-      public const string SVRL = "http://purl.oclc.org/dsdl/svrl";
+      public static bool HasValue(this string s) {
+         return !String.IsNullOrEmpty(s);
+      }
    }
 }

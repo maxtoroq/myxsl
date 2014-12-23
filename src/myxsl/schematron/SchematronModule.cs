@@ -22,7 +22,7 @@ using myxsl.common;
 
 namespace myxsl.schematron {
 
-   [XPathModule("schematron", "http://myxsl.github.io/ns/schematron", SvrlPrefix, WellKnownNamespaces.SVRL)]
+   [XPathModule("schematron", "http://myxsl.github.io/ns/schematron", SvrlPrefix, SchematronInvoker.SvrlNamespace)]
    public class SchematronModule {
 
       const string SvrlPrefix = "svrl";

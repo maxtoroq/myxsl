@@ -20,7 +20,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 
-namespace myxsl {
+namespace myxsl.web {
    
    static class PseudoAttributeParser {
 

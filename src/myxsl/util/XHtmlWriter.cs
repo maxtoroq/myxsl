@@ -81,8 +81,8 @@ namespace myxsl {
          
          bool writeFullEndTag = fullEndTag;
          XmlQualifiedName elementName = elementStack.Pop();
-         
-         if (elementName.Namespace == WellKnownNamespaces.XHTML) {
+
+         if (elementName.Namespace == "http://www.w3.org/1999/xhtml") {
             
             switch (elementName.Name.ToLowerInvariant()) {
                case "area":

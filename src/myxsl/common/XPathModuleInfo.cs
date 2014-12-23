@@ -55,7 +55,7 @@ namespace myxsl.common {
          get {
             if (_NamespaceBindings == null) {
                var bindingsTemp = new Dictionary<string, string> { 
-                  { "xs", WellKnownNamespaces.XMLSchema }
+                  { "xs", "http://www.w3.org/2001/XMLSchema" }
                };
 
                if (moduleAttr != null) {

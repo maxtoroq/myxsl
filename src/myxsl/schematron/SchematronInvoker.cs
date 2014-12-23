@@ -27,6 +27,8 @@ namespace myxsl.schematron {
 
    public class SchematronInvoker {
 
+      internal const string SvrlNamespace = "http://purl.oclc.org/dsdl/svrl";
+
       static readonly UriCacheByProcessor uriCache = new UriCacheByProcessor();
       static readonly InlineCacheByProcessor inlineCache = new InlineCacheByProcessor();
 

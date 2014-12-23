@@ -77,6 +77,10 @@
     <Compile Include="ui\XsltPage.cs" />
     <Compile Include="ui\XsltPageParser.cs" />
     <Compile Include="ui\XsltPageType.cs" />
+    <Compile Include="util\FormatInvariantExtensions.cs" />
+    <Compile Include="util\PseudoAttributeParser.cs" />
+    <Compile Include="util\StringExtensions.cs" />
+    <Compile Include="util\WellKnownNamespaces.cs" />
     <Compile Include="WebModule.cs" />
     <Compile Include="XmlVirtualPathAwareUrlResolver.cs" />
   </ItemGroup>

@@ -76,7 +76,6 @@
     <Compile Include="net.mail\XPathSmtpError.cs" />
     <Compile Include="net.mail\XPathSmtpSuccess.cs" />
     <Compile Include="security\SecurityModule.cs" />
-    <Compile Include="util\PseudoAttributeParser.cs" />
     <Compile Include="configuration\ConfigurationModule.cs" />
     <Compile Include="XPathNavigatorEqualityComparer.cs" />
     <Compile Include="common\IXQueryProcessor.cs" />
@@ -124,7 +123,6 @@
     <Compile Include="configuration\ProcessorElement.cs" />
     <Compile Include="common\TypeLoader.cs" />
     <Compile Include="common\XPathModuleInfo.cs" />
-    <Compile Include="util\WellKnownNamespaces.cs" />
     <Compile Include="util\XHtmlWriter.cs" />
     <Compile Include="util\XmlWrappingWriter.cs" />
   </ItemGroup>
