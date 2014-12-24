@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="common\TypeResolver.cs" />
+    <Compile Include="common\XPathNavigatorEqualityComparer.cs" />
     <Compile Include="common\XPathSerializationMethods.cs" />
     <Compile Include="common\XPathDependencyInfo.cs" />
     <Compile Include="common\XPathVariableInfo.cs" />
@@ -70,7 +71,6 @@
     <Compile Include="net.mail\XPathSmtpSuccess.cs" />
     <Compile Include="security\SecurityModule.cs" />
     <Compile Include="configuration\ConfigurationModule.cs" />
-    <Compile Include="XPathNavigatorEqualityComparer.cs" />
     <Compile Include="common\IXQueryProcessor.cs" />
     <Compile Include="common\IXsltProcessor.cs" />
     <Compile Include="common\ProcessorException.cs" />

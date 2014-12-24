@@ -19,7 +19,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace myxsl {
+namespace myxsl.common {
 
    public sealed class XPathNavigatorEqualityComparer : IEqualityComparer<XPathNavigator> {
 
