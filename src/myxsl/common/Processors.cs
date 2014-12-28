@@ -17,61 +17,88 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
-using myxsl.configuration;
 
 namespace myxsl.common {
    
    public static class Processors {
 
-      static readonly Dictionary<string, object> instances = new Dictionary<string, object>();
+      internal static readonly Dictionary<string, Type> types = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
+      static readonly Dictionary<string, object> instances = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
       static readonly object padlock = new object();
 
-      static Processors<object> _All;
-      static Processors<IXsltProcessor> _Xslt;
-      static Processors<IXQueryProcessor> _XQuery;
+      static readonly Processors<object> _All;
+      static readonly Processors<IXsltProcessor> _Xslt;
+      static readonly Processors<IXQueryProcessor> _XQuery;
 
       public static Processors<object> All {
-         get {
-            if (_All == null) {
-               lock (padlock) {
-                  if (_All == null) {
-                     _All = new Processors<object>(LibraryConfigSection.Instance.Processors, null);
-                  }
-               }
-            }
-            return _All;
-         }
+         get { return _All; }
       }
 
       public static Processors<IXsltProcessor> Xslt {
-         get {
-            if (_Xslt == null) {
-               lock (padlock) {
-                  if (_Xslt == null) {
-                     LibraryConfigSection config = LibraryConfigSection.Instance;
-                     _Xslt = new Processors<IXsltProcessor>(config.Processors, config.Xslt.DefaultProcessor);
-                  }
-               }
-            }
-            return _Xslt;
-         }
+         get { return _Xslt; }
       }
 
       public static Processors<IXQueryProcessor> XQuery {
-         get {
-            if (_XQuery == null) {
-               lock (padlock) {
-                  if (_XQuery == null) {
-                     LibraryConfigSection config = LibraryConfigSection.Instance;
-                     _XQuery = new Processors<IXQueryProcessor>(config.Processors, config.XQuery.DefaultProcessor);
-                  }
-               }
-            }
-            return _XQuery;
+         get { return _XQuery; }
+      }
+
+      static Processors() {
+
+         Type sysProcType = Type.GetType("myxsl.xml.xsl.SystemXsltProcessor, myxsl.xml.xsl", throwOnError: false, ignoreCase: false);
+         Type saxonProcType = Type.GetType("myxsl.saxon.SaxonProcessor, myxsl.saxon", throwOnError: false, ignoreCase: false);
+
+         if (sysProcType != null) {
+            RegisterProcessor("system", sysProcType);
+         }
+
+         if (saxonProcType != null) {
+            RegisterProcessor("saxon", saxonProcType);
+         }
+
+         _All = new Processors<object>();
+         _Xslt = new Processors<IXsltProcessor>();
+         _XQuery = new Processors<IXQueryProcessor>();
+
+         if (sysProcType != null) {
+            _Xslt.Default = "system";
+         }
+
+         if (saxonProcType != null) {
+            _Xslt.Default = "saxon";
+            _XQuery.Default = "saxon";
          }
       }
 
-      internal static object GetInstance(string name) {
+      public static void RegisterProcessor(string name, Type type) {
+
+         if (name == null) throw new ArgumentNullException("name");
+         if (type == null) throw new ArgumentNullException("type");
+
+         if (!typeof(IXsltProcessor).IsAssignableFrom(type)
+            && !typeof(IXQueryProcessor).IsAssignableFrom(type)) {
+
+            throw new ArgumentException(
+               "The processor must implement {0} or {1}."
+                  .FormatInvariant(typeof(IXsltProcessor).FullName, typeof(IXQueryProcessor).FullName)
+               , "type");
+         }
+
+         lock (padlock) {
+
+            types[name] = type;
+            instances.Remove(name);
+
+            if (_Xslt != null) {
+               _Xslt.Reset();
+            }
+
+            if (_XQuery != null) {
+               _XQuery.Reset();
+            }
+         }
+      }
+
+      internal static object GetOrCreateInstance(string name) {
 
          if (!instances.ContainsKey(name)) {
 
@@ -79,8 +106,7 @@ namespace myxsl.common {
 
                if (!instances.ContainsKey(name)) {
 
-                  ProcessorElementCollection config = LibraryConfigSection.Instance.Processors;
-                  Type type = config.Get(name).TypeInternal;
+                  Type type = types[name];
 
                   instances[name] = Expression.Lambda<Func<object>>(
                      Expression.Convert(Expression.New(type), typeof(object))
@@ -95,52 +121,68 @@ namespace myxsl.common {
 
    public sealed class Processors<TProc> where TProc : class {
 
-      readonly ReadOnlyCollection<string> names;
+      ReadOnlyCollection<string> names;
       TProc _DefaultProcessor;
-      string _DefaultProcessorName;
+      string _Default;
 
       public TProc DefaultProcessor {
          get {
+
+            if (!Default.HasValue()) {
+               throw new InvalidOperationException("Set DefaultProcessorName first.");
+            }
+
             return _DefaultProcessor
-               ?? (_DefaultProcessor = (TProc)Processors.GetInstance(DefaultProcessorName));
+               ?? (_DefaultProcessor = (TProc)Processors.GetOrCreateInstance(Default));
          }
       }
 
-      public string DefaultProcessorName {
-         get { return _DefaultProcessorName; }
+      public string Default {
+         get { return _Default; }
+         set {
+            _Default = value;
+            _DefaultProcessor = null;
+         }
       }
 
       public ReadOnlyCollection<string> Names {
-         get { return this.names; }
+         get { return names; }
+         private set {
+            names = value;
+            Default = null;
+         }
       }
 
       public int Count {
-         get { return this.names.Count; }
+         get { return Names.Count; }
       }
 
       public TProc this[string name] {
          get {
+
             if (!Exists(name)) {
                throw new ArgumentException("The processor '{0}' is not registered.".FormatInvariant(name), "name");
             }
             
-            return (TProc)Processors.GetInstance(name);
+            return (TProc)Processors.GetOrCreateInstance(name);
          }
       }
 
-      internal Processors(ProcessorElementCollection config, string @default) {
+      internal Processors() {
+         Reset();
+      }
 
-         this.names = new ReadOnlyCollection<string>(
-            (from p in config.Cast<ProcessorElement>()
-             where typeof(TProc).IsAssignableFrom(p.TypeInternal)
-             select p.Name).ToList()
-         );
+      internal void Reset() {
 
-         this._DefaultProcessorName = @default;
+         this.Names = new ReadOnlyCollection<string>(
+            Processors.types
+               .Where(p => typeof(TProc).IsAssignableFrom(p.Value))
+               .Select(p => p.Key)
+               .ToArray());
       }
 
       public bool Exists(string name) {
-         return this.Names.Contains(name);
+         return this.Names.Contains(name, Processors.types.Comparer);
       }
    }
 }

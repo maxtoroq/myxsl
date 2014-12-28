@@ -39,7 +39,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -70,7 +69,6 @@
     <Compile Include="net.mail\XPathSmtpError.cs" />
     <Compile Include="net.mail\XPathSmtpSuccess.cs" />
     <Compile Include="security\SecurityModule.cs" />
-    <Compile Include="configuration\ConfigurationModule.cs" />
     <Compile Include="common\IXQueryProcessor.cs" />
     <Compile Include="common\IXsltProcessor.cs" />
     <Compile Include="common\ProcessorException.cs" />
@@ -85,8 +83,6 @@
     <Compile Include="common\XsltCompileOptions.cs" />
     <Compile Include="common\XsltExecutable.cs" />
     <Compile Include="common\XsltRuntimeOptions.cs" />
-    <Compile Include="configuration\XQueryElement.cs" />
-    <Compile Include="configuration\XsltElement.cs" />
     <Compile Include="common\XPathFunctionInfo.cs" />
     <Compile Include="common\XPathItemKind.cs" />
     <Compile Include="common\XPathItemType.cs" />
@@ -109,11 +105,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="configuration\ResolverElementCollection.cs" />
-    <Compile Include="configuration\ResolverElement.cs" />
-    <Compile Include="configuration\LibraryConfigSection.cs" />
-    <Compile Include="configuration\ProcessorElementCollection.cs" />
-    <Compile Include="configuration\ProcessorElement.cs" />
     <Compile Include="common\TypeLoader.cs" />
     <Compile Include="common\XPathModuleInfo.cs" />
     <Compile Include="util\XHtmlWriter.cs" />

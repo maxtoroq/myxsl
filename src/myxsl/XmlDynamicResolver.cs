@@ -18,20 +18,46 @@ using System.Globalization;
 using System.Net;
 using System.Reflection;
 using System.Xml;
-using myxsl.configuration;
 
 namespace myxsl {
 
    public sealed class XmlDynamicResolver : XmlResolver {
 
-      ICredentials _Credentials;
-      readonly IDictionary<string, XmlResolver> resolvers;
+      static readonly Dictionary<string, Type> types = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
+      static readonly object padlock = new object();
+
+      readonly Dictionary<string, XmlResolver> resolvers = new Dictionary<string, XmlResolver>(StringComparer.OrdinalIgnoreCase);
       readonly Assembly callingAssembly;
+      ICredentials _Credentials;
 
       public Uri DefaultBaseUri { get; set; }
 
       public override ICredentials Credentials {
          set { _Credentials = value; }
+      }
+
+      static XmlDynamicResolver() {
+
+         RegisterResolver(Uri.UriSchemeFile, typeof(XmlUrlResolver));
+         RegisterResolver(Uri.UriSchemeHttp, typeof(XmlUrlResolver));
+         RegisterResolver(XmlEmbeddedResourceResolver.UriSchemeClires, typeof(XmlEmbeddedResourceResolver));
+      }
+
+      public static void RegisterResolver(string scheme, Type type) {
+
+         if (scheme == null) throw new ArgumentNullException("scheme");
+         if (type == null) throw new ArgumentNullException("type");
+
+         if (!typeof(XmlResolver).IsAssignableFrom(type)) {
+
+            throw new ArgumentException(
+               "The resolver must inherit from {0}.".FormatInvariant(typeof(XmlResolver).FullName)
+               , "type");
+         }
+
+         lock (padlock) {
+            types[scheme] = type;
+         }
       }
 
       public XmlDynamicResolver()
@@ -57,10 +83,14 @@ namespace myxsl {
 
          XmlResolver resolver;
 
-         if (baseUri != null && baseUri.IsAbsoluteUri && IsKnownScheme(baseUri.Scheme)) {
+         if (baseUri != null 
+            && baseUri.IsAbsoluteUri 
+            && IsKnownScheme(baseUri.Scheme)) {
+
             resolver = GetResolver(baseUri.Scheme);
 
          } else if (IsKnownScheme(Uri.UriSchemeFile)) {
+
             resolver = GetResolver(Uri.UriSchemeFile);
          
          } else {
@@ -92,7 +122,7 @@ namespace myxsl {
       bool IsKnownScheme(string scheme) {
          
          return this.resolvers.ContainsKey(scheme) 
-            || LibraryConfigSection.Instance.Resolvers.Get(scheme) != null;
+            || types.ContainsKey(scheme);
       }
 
       XmlResolver GetResolver(string scheme) {
@@ -109,7 +139,7 @@ namespace myxsl {
 
       XmlResolver CreateResolver(string scheme) {
 
-         XmlResolver resolver = (XmlResolver)Activator.CreateInstance(LibraryConfigSection.Instance.Resolvers.Get(scheme).TypeInternal);
+         XmlResolver resolver = (XmlResolver)Activator.CreateInstance(types[scheme]);
 
          if (scheme == XmlEmbeddedResourceResolver.UriSchemeClires) {
 

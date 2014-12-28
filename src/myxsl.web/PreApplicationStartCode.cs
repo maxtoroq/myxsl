@@ -13,15 +13,9 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web.Compilation;
-using System.Xml;
 using myxsl.common;
-using myxsl.configuration;
 using myxsl.web.compilation;
-using myxsl.web.configuration;
 
 namespace myxsl.web {
 
@@ -37,28 +31,11 @@ namespace myxsl.web {
 
             TypeLoader.Instance = new WebTypeLoader();
 
-            ModifyConfig(LibraryConfigSection.Instance);
+            XmlDynamicResolver.RegisterResolver(Uri.UriSchemeFile, typeof(XmlVirtualPathAwareUrlResolver));
+            XmlDynamicResolver.RegisterResolver(Uri.UriSchemeHttp, typeof(XmlVirtualPathAwareUrlResolver));
 
             BuildProvider.RegisterBuildProvider(".xsl", typeof(XsltPageBuildProvider));
             BuildProvider.RegisterBuildProvider(".xqy", typeof(XQueryPageBuildProvider));
-         }
-      }
-
-      static void ModifyConfig(LibraryConfigSection config) {
-
-         ResolverElement fileResolverConfig = config.Resolvers.Get(Uri.UriSchemeFile);
-         ResolverElement httpResolverConfig = config.Resolvers.Get(Uri.UriSchemeHttp);
-
-         if (fileResolverConfig != null
-            && fileResolverConfig.TypeInternal == typeof(XmlUrlResolver)) {
-
-            fileResolverConfig.TypeInternal = typeof(XmlVirtualPathAwareUrlResolver);
-         }
-
-         if (httpResolverConfig != null
-            && httpResolverConfig.TypeInternal == typeof(XmlUrlResolver)) {
-
-            httpResolverConfig.TypeInternal = typeof(XmlVirtualPathAwareUrlResolver);
          }
       }
    }

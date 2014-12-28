@@ -18,7 +18,6 @@ using System.Text;
 using System.Web.Configuration;
 using System.Web.UI;
 using System.IO;
-using myxsl.configuration;
 using myxsl.common;
 
 namespace myxsl.web.ui {
@@ -33,7 +32,7 @@ namespace myxsl.web.ui {
             throw CreateParseException("There are no XQuery processors registered to render this page.");
          }
 
-         this.ProcessorName = Processors.XQuery.DefaultProcessorName;
+         this.ProcessorName = Processors.XQuery.Default;
 
          if (this.ProcessorName == null) {
             throw CreateParseException("Please specify a default XQuery processor.");

@@ -4,9 +4,12 @@
 
 <script runat="server">
 
-   // You can delete this file if you are not using ASP.NET MVC
-   
    void Application_Start(object sender, EventArgs e) {
+
+      // when a reference exists to both myxsl.xml.xsl and myxsl.saxon
+      // saxon is used as default
+      myxsl.common.Processors.Xslt.Default = "system";
+      
       RegisterRoutes(RouteTable.Routes);
    }
    

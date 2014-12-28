@@ -92,7 +92,7 @@ namespace myxsl.web.ui {
             throw CreateParseException("There are no XSLT processors registered to render this page.");
          }
 
-         this.ProcessorName = Processors.Xslt.DefaultProcessorName;
+         this.ProcessorName = Processors.Xslt.Default;
          this.XsltVirtualPath = this.VirtualPath;
 
          switch (PageType) {

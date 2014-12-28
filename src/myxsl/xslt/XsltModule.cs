@@ -112,7 +112,7 @@ namespace myxsl.xslt {
             Uri stylesheetUri = StylesheetAsUri(stylesheet);
 
             if (processor == null
-               || processor == Processors.Xslt.DefaultProcessorName) {
+               || processor == Processors.Xslt.Default) {
 
                return this.ItemFactory.CreateAtomicValue(stylesheetUri.ToString(), XmlTypeCode.String);
             }

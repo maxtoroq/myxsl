@@ -18,7 +18,6 @@ using System.Linq;
 using System.Text;
 using System.Configuration;
 using myxsl.web.compilation;
-using myxsl.configuration;
 using myxsl.common;
 
 namespace myxsl.web.configuration {
