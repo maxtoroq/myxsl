@@ -54,7 +54,6 @@
       <HintPath>..\..\packages\Saxon-HE.9.4.0.1\lib\net35\saxon9he-api.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
