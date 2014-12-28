@@ -31,28 +31,24 @@ namespace myxsl.common {
                lock (padlock) {
                   if (_Modules == null) {
 
-                     XPathModuleInfo[] builtInModules = { 
-                        new XPathModuleInfo(typeof(security.SecurityModule)) { Predeclare = true },
-                        new XPathModuleInfo(typeof(configuration.ConfigurationModule)),
-                        new XPathModuleInfo(typeof(net.http.XPathHttpClient)),
-                        new XPathModuleInfo(typeof(net.mail.XPathSmtpClient)),
-                        new XPathModuleInfo(typeof(io.XPathFileSystem)),
-                        new XPathModuleInfo(typeof(xslt.XsltModule)),
-                        new XPathModuleInfo(typeof(xquery.XQueryModule))
-                     };
-
-                     IList<Assembly> assemblies = TypeLoader.Instance
+                     List<Assembly> assemblies = TypeLoader.Instance
                         .GetReferencedAssemblies()
-                        .ToArray();
+                        .ToList();
 
-                     IEnumerable<XPathModuleInfo> userModules =
+                     Assembly thisAssembly = typeof(XPathModules).Assembly;
+
+                     if (assemblies.Find(a => Object.ReferenceEquals(a, thisAssembly)) == null) {
+                        assemblies.Add(thisAssembly);
+                     }
+
+                     IEnumerable<XPathModuleInfo> exportedModules =
                         from a in assemblies
                         where a.IsDefined(typeof(XPathModuleExportAttribute), inherit: true)
                         from t in a.GetTypes()
                         where t.IsDefined(typeof(XPathModuleAttribute), inherit: true)
                         select new XPathModuleInfo(t);
 
-                     _Modules = new ReadOnlyCollection<XPathModuleInfo>(builtInModules.Concat(userModules).ToArray());
+                     _Modules = new ReadOnlyCollection<XPathModuleInfo>(exportedModules.ToArray());
                   }
                }
             }
