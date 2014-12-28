@@ -48,9 +48,6 @@
             <xsl:call-template name="html-head"/>
          </head>
          <body>
-            <xsl:if test="not(request:is-local())">
-               <script src="/Content/ga.js"></script>
-            </xsl:if>
             <div id="lo-header">
                <span id="lo-logo">
                   <span class="myxsl">myxsl</span>
