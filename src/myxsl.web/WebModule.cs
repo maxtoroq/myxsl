@@ -25,7 +25,7 @@ namespace myxsl.web {
    public static class WebModule {
 
       internal const string Prefix = "web";
-      internal const string Namespace = "http://myxsl.github.io/ns/web";
+      internal const string Namespace = XPathModuleAttribute.BuiltInModulesBaseNamespace + "web";
 
       [XPathFunction("absolute-path", "xs:string", As = "xs:string")]
       public static string AbsolutePath(string appRelativePath) {

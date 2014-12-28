@@ -22,7 +22,7 @@ using System.Web;
 
 namespace myxsl.security {
 
-   [XPathModule("security", "http://myxsl.github.io/ns/security")]
+   [XPathModule("security", XPathModuleAttribute.BuiltInModulesBaseNamespace + "security")]
    public static class SecurityModule {
 
       static IPrincipal CurrentPrincipal {

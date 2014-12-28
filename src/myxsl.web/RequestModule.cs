@@ -45,7 +45,7 @@ namespace myxsl.web {
    public static class RequestModule {
 
       internal const string Prefix = "request";
-      internal const string Namespace = "http://myxsl.github.io/ns/web/request";
+      internal const string Namespace = XPathModuleAttribute.BuiltInModulesBaseNamespace + "web/request";
 
       internal const UriFormat ReturnUriFormat = UriFormat.UriEscaped;
 

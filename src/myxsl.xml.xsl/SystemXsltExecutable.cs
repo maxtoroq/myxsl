@@ -62,15 +62,17 @@ namespace myxsl.xml.xsl {
                         typeof(extensions.XPathMathFunctions),
                         typeof(extensions.XmlSchemaConstructorFunctions)
                      }).ToArray();
-                     
-                     for (int i = 0; i < xpathNs.Length; i++) 
+
+                     for (int i = 0; i < xpathNs.Length; i++) {
                         _ExtensionObjects.Add(xpathNs[i], Tuple.Create((XPathModuleInfo)null, xpathExtObj[i]));
+                     }
 
                      XPathModuleInfo[] modules = XPathModules.Modules.ToArray();
                      Type[] modulesExtObj = ExtensionObjectGenerator.Generate(modules);
 
-                     for (int i = 0; i < modules.Length; i++)
+                     for (int i = 0; i < modules.Length; i++) {
                         _ExtensionObjects.Add(modules[i].Namespace, Tuple.Create(modules[i], modulesExtObj[i]));
+                     }
                   }
                }
             }

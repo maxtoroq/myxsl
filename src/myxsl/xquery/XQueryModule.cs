@@ -31,7 +31,7 @@ namespace myxsl.xquery {
    [XPathModule("xquery", Namespace)]
    public class XQueryModule {
 
-      const string Namespace = "http://myxsl.github.io/ns/xquery";
+      const string Namespace = XPathModuleAttribute.BuiltInModulesBaseNamespace + "xquery";
 
       [XPathDependency]
       public XPathItemFactory ItemFactory { get; set; }

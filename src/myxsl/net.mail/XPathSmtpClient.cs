@@ -24,7 +24,7 @@ namespace myxsl.net.mail {
    [XPathModule(Prefix, Namespace)]
    public sealed class XPathSmtpClient {
 
-      internal const string Namespace = "http://myxsl.github.io/ns/net/mail";
+      internal const string Namespace = XPathModuleAttribute.BuiltInModulesBaseNamespace + "net/mail";
       internal const string Prefix = "mail";
 
       [XPathDependency]

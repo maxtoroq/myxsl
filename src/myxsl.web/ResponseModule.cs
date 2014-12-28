@@ -20,7 +20,7 @@ using System.Web;
 
 namespace myxsl.web {
 
-   [XPathModule("response", "http://myxsl.github.io/ns/web/response", Predeclare = true)]
+   [XPathModule("response", XPathModuleAttribute.BuiltInModulesBaseNamespace + "web/response", Predeclare = true)]
    public static class ResponseModule {
       
       static HttpContext Context {

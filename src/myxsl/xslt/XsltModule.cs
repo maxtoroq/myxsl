@@ -31,7 +31,7 @@ namespace myxsl.xslt {
    [XPathModule("xslt", Namespace)]
    public class XsltModule {
 
-      const string Namespace = "http://myxsl.github.io/ns/xslt";
+      const string Namespace = XPathModuleAttribute.BuiltInModulesBaseNamespace + "xslt";
 
       [XPathDependency]
       public XPathItemFactory ItemFactory { get; set; }

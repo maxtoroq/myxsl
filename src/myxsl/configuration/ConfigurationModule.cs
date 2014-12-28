@@ -21,7 +21,7 @@ using System.Web;
 
 namespace myxsl.configuration {
 
-   [XPathModule("config", "http://myxsl.github.io/ns/configuration")]
+   [XPathModule("config", XPathModuleAttribute.BuiltInModulesBaseNamespace + "configuration")]
    public static class ConfigurationModule {
 
       [XPathFunction("app-settings", "xs:string", As = "xs:string*")]

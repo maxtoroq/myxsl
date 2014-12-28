@@ -22,7 +22,7 @@ namespace myxsl.web.compilation {
    
    public sealed class CodeExpressionBuilder : BindingExpressionBuilder {
 
-      internal const string Namespace = "http://myxsl.github.io/ns/code";
+      internal const string Namespace = XPathModuleAttribute.BuiltInModulesBaseNamespace + "code";
 
       public override BindingExpressionInfo ParseExpression(string expression, BindingExpressionContext context) {
          return new BindingExpressionInfo(expression);

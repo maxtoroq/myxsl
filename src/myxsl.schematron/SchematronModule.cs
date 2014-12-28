@@ -22,10 +22,8 @@ using myxsl.common;
 
 namespace myxsl.schematron {
 
-   [XPathModule("schematron", "http://myxsl.github.io/ns/schematron", SvrlPrefix, SchematronInvoker.SvrlNamespace)]
+   [XPathModule("schematron", XPathModuleAttribute.BuiltInModulesBaseNamespace + "schematron", "svrl", SchematronInvoker.SvrlNamespace)]
    public class SchematronModule {
-
-      const string SvrlPrefix = "svrl";
 
       [XPathDependency]
       public IXsltProcessor Processor { get; set; }
@@ -33,17 +31,17 @@ namespace myxsl.schematron {
       [XPathDependency]
       public XmlResolver Resolver { get; set; }
 
-      [XPathFunction("report", "item()", "node()", As = "document-node(element(" + SvrlPrefix + ":schematron-output))")]
+      [XPathFunction("report", "item()", "node()", As = "document-node(element(svrl:schematron-output))")]
       public XPathNavigator Report(XPathItem schema, XPathNavigator source) {
          return Report(schema, source, null);
       }
 
-      [XPathFunction("report", "item()", "node()", "xs:string?", As = "document-node(element(" + SvrlPrefix + ":schematron-output))")]
+      [XPathFunction("report", "item()", "node()", "xs:string?", As = "document-node(element(svrl:schematron-output))")]
       public XPathNavigator Report(XPathItem schema, XPathNavigator source, string phase) {
          return Report(schema, source, phase, null);
       }
 
-      [XPathFunction("report", "item()", "node()", "xs:string?", "node()*", As = "document-node(element(" + SvrlPrefix + ":schematron-output))")]
+      [XPathFunction("report", "item()", "node()", "xs:string?", "node()*", As = "document-node(element(svrl:schematron-output))")]
       public XPathNavigator Report(XPathItem schema, XPathNavigator source, string phase, IEnumerable<XPathNavigator> parameters) {
 
          var options = new SchematronRuntimeOptions { 

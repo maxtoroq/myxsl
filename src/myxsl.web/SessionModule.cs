@@ -24,7 +24,7 @@ namespace myxsl.web {
    public static class SessionModule {
 
       internal const string Prefix = "session";
-      internal const string Namespace = "http://myxsl.github.io/ns/web/session";
+      internal const string Namespace = XPathModuleAttribute.BuiltInModulesBaseNamespace + "web/session";
 
       static HttpContext Context {
          get { return HttpContext.Current; }
