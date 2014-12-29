@@ -1,0 +1,3 @@
+[submodule "samples/App_Code/xmlspectrum"]
+	path = samples/App_Code/xmlspectrum
+	url = https://github.com/pgfearo/xmlspectrum

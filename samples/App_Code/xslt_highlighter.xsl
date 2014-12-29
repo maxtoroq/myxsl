@@ -6,7 +6,7 @@
    xmlns:f="internal"
    xmlns:loc="com.qutoric.sketchpath.functions">
 
-   <xsl:import href="lib/xmlspectrum/xsl/xmlspectrum.xsl"/>
+   <xsl:import href="xmlspectrum/app/xsl/xmlspectrum.xsl"/>
 
    <xsl:param name="source"/>
    <xsl:param name="xslt-prefix" select="'xsl'"/>
