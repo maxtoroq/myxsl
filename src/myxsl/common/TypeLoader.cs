@@ -18,7 +18,7 @@ using System.Reflection;
 
 namespace myxsl.common {
    
-   class TypeLoader {
+   public class TypeLoader {
 
       static TypeLoader _Instance = new TypeLoader();
 
