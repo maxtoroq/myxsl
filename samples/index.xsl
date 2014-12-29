@@ -115,7 +115,7 @@
 
       <h2 id="source">Source code</h2>
       <p>
-         Visit the <a href="https://github.com/myxsl">project page</a>.
+         Visit the <a href="https://github.com/maxtoroq/myxsl">project page</a>.
       </p>
 
       <h2 id="feedback">Feedback</h2>
