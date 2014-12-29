@@ -8,7 +8,7 @@
    xmlns:fn="http://www.w3.org/2005/xpath-functions"
    xmlns:math="http://www.w3.org/2005/xpath-functions/math"
    xmlns:exsl="http://exslt.org/common"
-   xmlns:app="http://myxsl.net/"
+   xmlns:app="http://maxtoroq.github.io/myxsl/"
    xmlns="http://www.w3.org/1999/xhtml">
    
    <xsl:import href="~/layout.xslt"/>

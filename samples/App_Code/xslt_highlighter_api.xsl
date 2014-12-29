@@ -6,7 +6,7 @@
    xmlns:exsl="http://exslt.org/common"
    xmlns:saxon="http://saxon.sf.net/"
    xmlns:xslt="http://maxtoroq.github.io/myxsl/xslt"
-   xmlns:app="http://myxsl.net/">
+   xmlns:app="http://maxtoroq.github.io/myxsl/">
 
    <xsl:variable name="xslt-highlighter" select="xslt:compile('~/App_Code/xslt_highlighter.xsl', 'saxon')"/>
    

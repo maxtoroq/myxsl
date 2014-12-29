@@ -2,7 +2,7 @@
 <xsl:stylesheet version="2.0" exclude-result-prefixes="xs local"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-   xmlns:local="http://myxsl.net/doc-html"
+   xmlns:local="http://maxtoroq.github.io/myxsl/doc-html"
    xmlns="http://www.w3.org/1999/xhtml">
 
    <xsl:variable name="local:module" as="element(module)?"/>

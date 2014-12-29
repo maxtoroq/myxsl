@@ -10,7 +10,7 @@
    xmlns:math="http://www.w3.org/2005/xpath-functions/math"
    xmlns:exsl="http://exslt.org/common"
    xmlns:msxsl="urn:schemas-microsoft-com:xslt" 
-   xmlns:app="http://myxsl.net/"
+   xmlns:app="http://maxtoroq.github.io/myxsl/"
    xmlns:ext="urn:ext"
    xmlns="http://www.w3.org/1999/xhtml">
    

@@ -2,14 +2,13 @@
 <?page processor="saxon" accept-verbs="GET,HEAD,POST" bind-initial-template="request:http-method" ?>
 
 <xsl:stylesheet version="2.0" exclude-result-prefixes="#all"
-   xmlns="http://www.w3.org/1999/xhtml"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
    xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-   xmlns:web="http://maxtoroq.github.io/myxsl/ns/web"
    xmlns:request="http://maxtoroq.github.io/myxsl/web/request"
    xmlns:response="http://maxtoroq.github.io/myxsl/web/response"
-   xmlns:schematron="http://maxtoroq.github.io/myxsl/schematron">
+   xmlns:schematron="http://maxtoroq.github.io/myxsl/schematron"
+   xmlns="http://www.w3.org/1999/xhtml">
 
    <xsl:import href="~/layout.xslt"/>
 

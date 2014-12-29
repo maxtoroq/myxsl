@@ -8,7 +8,7 @@
    xmlns:request="http://maxtoroq.github.io/myxsl/web/request"
    xmlns:response="http://maxtoroq.github.io/myxsl/web/response"
    xmlns:code="http://maxtoroq.github.io/myxsl/code"
-   xmlns:doc="http://myxsl.net/doc-html"
+   xmlns:doc="http://maxtoroq.github.io/myxsl/doc-html"
    xmlns="http://www.w3.org/1999/xhtml">
 
    <xsl:import href="~/layout.xslt"/>
