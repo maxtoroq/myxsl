@@ -5,7 +5,7 @@
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
    xmlns:exsl="http://exslt.org/common"
    xmlns:html="http://www.w3.org/1999/xhtml"
-   xmlns:request="http://myxsl.github.io/ns/web/request"
+   xmlns:request="http://maxtoroq.github.io/myxsl/web/request"
    xmlns="http://www.w3.org/1999/xhtml">
 
    <xsl:variable name="title" as="xs:string?"/>

@@ -6,10 +6,10 @@
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
    xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-   xmlns:web="http://myxsl.github.io/ns/web"
-   xmlns:request="http://myxsl.github.io/ns/web/request"
-   xmlns:response="http://myxsl.github.io/ns/web/response"
-   xmlns:schematron="http://myxsl.github.io/ns/schematron">
+   xmlns:web="http://maxtoroq.github.io/myxsl/ns/web"
+   xmlns:request="http://maxtoroq.github.io/myxsl/web/request"
+   xmlns:response="http://maxtoroq.github.io/myxsl/web/response"
+   xmlns:schematron="http://maxtoroq.github.io/myxsl/schematron">
 
    <xsl:import href="~/layout.xslt"/>
 

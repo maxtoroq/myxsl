@@ -4,10 +4,10 @@
    xmlns:exsl="http://exslt.org/common"
    xmlns:fn="http://www.w3.org/2005/xpath-functions"
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-   xmlns:web="http://myxsl.github.io/ns/web"
-   xmlns:request="http://myxsl.github.io/ns/web/request"
-   xmlns:response="http://myxsl.github.io/ns/web/response"
-   xmlns:code="http://myxsl.github.io/ns/code"
+   xmlns:web="http://maxtoroq.github.io/myxsl/web"
+   xmlns:request="http://maxtoroq.github.io/myxsl/web/request"
+   xmlns:response="http://maxtoroq.github.io/myxsl/web/response"
+   xmlns:code="http://maxtoroq.github.io/myxsl/code"
    xmlns:doc="http://myxsl.net/doc-html"
    xmlns="http://www.w3.org/1999/xhtml">
 
@@ -155,7 +155,7 @@
                </xsl:if>
             </ul>
          </xsl:when>
-         <xsl:when test="$module/@namespace = 'http://myxsl.github.io/ns/schematron'">
+         <xsl:when test="$module/@namespace = 'http://maxtoroq.github.io/myxsl/schematron'">
             <h2>See also</h2>
             <ul>
                <li>

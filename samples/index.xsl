@@ -5,8 +5,8 @@
    xmlns="http://www.w3.org/1999/xhtml"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:fn="http://www.w3.org/2005/xpath-functions"
-   xmlns:web="http://myxsl.github.io/ns/web"
-   xmlns:code="http://myxsl.github.io/ns/code">
+   xmlns:web="http://maxtoroq.github.io/myxsl/web"
+   xmlns:code="http://maxtoroq.github.io/myxsl/code">
 
    <xsl:import href="layout.xslt"/>
 
@@ -120,7 +120,7 @@
 
       <h2 id="feedback">Feedback</h2>
       <p>
-         Visit the <a href="https://github.com/myxsl/myxsl/issues">project forums</a> for feedback, support and discussion.
+         Visit the <a href="https://github.com/maxtoroq/myxsl/issues">project forums</a> for feedback, support and discussion.
       </p>
 
       <h2>Resources</h2>

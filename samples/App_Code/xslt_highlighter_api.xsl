@@ -5,7 +5,7 @@
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
    xmlns:exsl="http://exslt.org/common"
    xmlns:saxon="http://saxon.sf.net/"
-   xmlns:xslt="http://myxsl.github.io/ns/xslt"
+   xmlns:xslt="http://maxtoroq.github.io/myxsl/xslt"
    xmlns:app="http://myxsl.net/">
 
    <xsl:variable name="xslt-highlighter" select="xslt:compile('~/App_Code/xslt_highlighter.xsl', 'saxon')"/>

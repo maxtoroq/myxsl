@@ -6,8 +6,8 @@
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
    xmlns:http="http://expath.org/ns/http-client"
    xmlns:exsl="http://exslt.org/common"
-   xmlns:web="http://myxsl.github.io/ns/web"
-   xmlns:request="http://myxsl.github.io/ns/web/request"
+   xmlns:web="http://maxtoroq.github.io/myxsl/web"
+   xmlns:request="http://maxtoroq.github.io/myxsl/web/request"
    exclude-result-prefixes="xs http exsl web request">
    
    <xsl:output method="xml" indent="yes"/>

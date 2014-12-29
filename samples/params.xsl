@@ -5,11 +5,11 @@
    xmlns="http://www.w3.org/1999/xhtml"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-   xmlns:code="http://myxsl.github.io/ns/code"
-   xmlns:web="http://myxsl.github.io/ns/web"
-   xmlns:request="http://myxsl.github.io/ns/web/request"
-   xmlns:response="http://myxsl.github.io/ns/web/response"
-   xmlns:session="http://myxsl.github.io/ns/web/session">
+   xmlns:code="http://maxtoroq.github.io/myxsl/code"
+   xmlns:web="http://maxtoroq.github.io/myxsl/web"
+   xmlns:request="http://maxtoroq.github.io/myxsl/web/request"
+   xmlns:response="http://maxtoroq.github.io/myxsl/web/response"
+   xmlns:session="http://maxtoroq.github.io/myxsl/web/session">
 
    <xsl:import href="layout.xslt"/>
 

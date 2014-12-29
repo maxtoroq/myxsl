@@ -24,7 +24,7 @@ namespace myxsl {
    public sealed class XPathModuleAttribute : Attribute {
 
       [EditorBrowsable(EditorBrowsableState.Never)]
-      public const string BuiltInModulesBaseNamespace = "http://myxsl.github.io/ns/";
+      public const string BuiltInModulesBaseNamespace = "http://maxtoroq.github.io/myxsl/";
 
       readonly string[] namespaceBindings;
 

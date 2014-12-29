@@ -5,7 +5,7 @@
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:http="http://expath.org/ns/http-client"
    xmlns:exsl="http://exslt.org/common"
-   xmlns:request="http://myxsl.github.io/ns/web/request"
+   xmlns:request="http://maxtoroq.github.io/myxsl/web/request"
    exclude-result-prefixes="http exsl request">
    
    <xsl:output method="xml" indent="yes"/>

@@ -2,8 +2,8 @@
 
 <xsl:stylesheet version="1.0" exclude-result-prefixes="web request" 
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-   xmlns:web="http://myxsl.github.io/ns/web"
-   xmlns:request="http://myxsl.github.io/ns/web/request">
+   xmlns:web="http://maxtoroq.github.io/myxsl/web"
+   xmlns:request="http://maxtoroq.github.io/myxsl/web/request">
 
    <xsl:param name="name" web:bind="request:query" />
 
