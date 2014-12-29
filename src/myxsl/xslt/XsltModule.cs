@@ -66,8 +66,7 @@ namespace myxsl.xslt {
       /// If ommited, the processor used depends on the <paramref name="stylesheet"/> parameter. If <paramref name="stylesheet"/>
       /// is a <code>node()</code>, and the current executing program is an XSLT processor, then the same processor of the
       /// current executing program is used to compile the <paramref name="stylesheet"/>. In all other cases,
-      /// the default XSLT processor, specified in (App|Web).config by the <code>myxsl/xslt/@defaultProcessor</code> attribute,
-      /// is used.
+      /// the default XSLT processor is used.
       /// </para>
       /// <para>
       /// <strong>It is not necessary to call this function to execute an XSLT stylesheet</strong>, you can call the

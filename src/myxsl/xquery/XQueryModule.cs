@@ -60,8 +60,7 @@ namespace myxsl.xquery {
       /// </para>
       /// <para>
       /// The <paramref name="processor"/> parameter identifies the XQuery processor to use for the compilation.
-      /// If ommited, the processor used is the default XQuery processor, specified in (App|Web).config by 
-      /// the <code>myxsl/xquery/@defaultProcessor</code> attribute.
+      /// If ommited, the processor used is the default XQuery processor.
       /// </para>
       /// <para>
       /// <strong>It is not necessary to call this function to execute an XQuery module</strong>, you can call the
@@ -113,8 +112,7 @@ namespace myxsl.xquery {
       /// </para>
       /// <para>
       /// The <paramref name="processor"/> parameter identifies the XQuery processor to use for the compilation.
-      /// If ommited, the processor used is the default XQuery processor, specified in (App|Web).config by 
-      /// the <code>myxsl/xquery/@defaultProcessor</code> attribute.
+      /// If ommited, the processor used is the default XQuery processor.
       /// </para>
       /// <para>
       /// <strong>It is not necessary to call this function to execute an XQuery module</strong>, you can call the
