@@ -3,7 +3,7 @@
 
 v0.3.1
 ------
-- Fixed [#4](https://github.com/myxsl/myxsl/issues/4): Incorrect node conversion of IXmlSerializable types
+- Fixed [#4](https://github.com/maxtoroq/myxsl/issues/4): Incorrect node conversion of IXmlSerializable types
 - XPathItemFactory.Serialize(IXmlSerializable, XmlWriter)
 - XmlRootPrefixed attribute
 
