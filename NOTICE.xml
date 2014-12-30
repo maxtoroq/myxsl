@@ -175,8 +175,8 @@
       <notice>
          <work>Saxon-HE</work>
          <website>http://saxon.sf.net/</website>
-         <copyright>Saxonica 2011</copyright>
-         <license name="MPL 1.0" src="packages/Saxon-HE.9.4.0.1/notices/LICENSE.txt"/>
+         <copyright>Saxonica 2013</copyright>
+         <license name="MPL 2.0" src="packages/Saxon-HE.9.5.0.2/notices/LICENSE.txt"/>
       </notice>
    </foreign-work>
 </notice>
