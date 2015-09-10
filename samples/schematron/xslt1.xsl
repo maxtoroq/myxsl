@@ -139,7 +139,7 @@
          an XML document built using values from the form below.
       </p>
       <p>
-         The schema can be provided <a href="/redir_src.xqy?{request:file-path()}#L42" target="_blank">inline</a> or as a URI.
+         The schema can be provided inline or as a URI.
       </p>
       <p>
          Using Rick Jelliffe's implementation of <a href="http://www.schematron.com">ISO Schematron</a>, the

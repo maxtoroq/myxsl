@@ -1,6 +1,0 @@
-﻿User-agent: *
-Disallow: /trace.axd
-Disallow: /redir_src.xqy
-Disallow: /expath/http-client/post_basic.xsl
-Disallow: /expath/http-client/post_multipart.xsl
-Disallow: /expath/http-client/post_src.xsl

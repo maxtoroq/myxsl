@@ -12,44 +12,16 @@
 
    <xsl:param name="function-library" as="document-node(element(library))" web:bind="code:FunctionLibrary.Instance" />
 
-   <xsl:variable name="title" select="'Build dynamic websites with XSLT'"/>
+   <xsl:variable name="title" select="''"/>
    <xsl:variable name="title-mode" select="'append'"/>
    
    <xsl:template name="content">
-      
-      <h1>Build dynamic websites with XSLT</h1>
-      <p>
-         <strong>myxsl</strong> is an open-source extension to the
-         <a href="http://www.asp.net/">ASP.NET</a> framework that allows programmers to
-         build dynamic websites using <a href="http://www.w3.org/Style/XSL/">XSLT</a> and
-         other XML standards, such as <a href="http://www.w3.org/XML/Query/">XQuery</a>
-         and <a href="http://www.schematron.com/">Schematron</a>.
-      </p>
-      <p>
-         <strong>myxsl</strong> provides dynamic compilation using
-         <a href="http://msdn.microsoft.com/en-us/library/system.web.compilation.buildprovider.aspx">build providers</a>
-         that generate optimized code for your web pages.
-      </p>
-      <h2>
-         Supported Processors
-      </h2>
-      <ul id="xslt-proc">
-         <li>
-            <a href="http://msdn.microsoft.com/en-us/library/system.xml.xsl.xslcompiledtransform.aspx">.NET Framework</a>
-         </li>
-         <li>
-            <a href="http://saxon.sourceforge.net/">Saxon</a>
-         </li>
-      </ul>
-      <div style="clear: both;"></div>
-      <p>
-         A provider design enables for other processors to plug-in.
-      </p>
 
+      <p>Visit the <a href="http://maxtoroq.github.io/myxsl/">project site</a> for the most recent information.</p>
+      
       <h2>Features</h2>
       <p>
          This project is still on alpha stage. Some features are more stable than others.
-         So far, the only released feature is the <a href="/mvc">view engines</a> for ASP.NET MVC.
       </p>
       <ul>
          <li>
@@ -110,31 +82,6 @@
                   </li>
                </xsl:for-each>
             </ul>
-         </li>
-      </ul>
-
-      <h2 id="source">Source code</h2>
-      <p>
-         Visit the <a href="https://github.com/maxtoroq/myxsl">project page</a>.
-      </p>
-
-      <h2 id="feedback">Feedback</h2>
-      <p>
-         Visit the <a href="https://github.com/maxtoroq/myxsl/issues">project forums</a> for feedback, support and discussion.
-      </p>
-
-      <h2>Resources</h2>
-      <ul>
-         <li>
-            <a href="http://maxtoroq.github.io/2013/07/razor-vs-xslt.html">Razor vs. XSLT</a>
-         </li>
-         <li>
-            <a href="http://www.onenaught.com/posts/8/xslt-in-server-side-web-frameworks">Why Use XSLT in Server Side Web Frameworks For Output Generation?</a>
-         </li>
-         <li>
-            <a href="http://www.w3.org/2007/11/schema-for-xslt20.xsd">Schema for XSLT 2.0</a>:
-            Get XSLT 2.0 intellisense on Visual Studio (be sure to remove the <code>@schemaLocation</code> attribute on
-            <code>&lt;xsd:import></code> declarations).
          </li>
       </ul>
    

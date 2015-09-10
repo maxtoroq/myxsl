@@ -17,13 +17,13 @@
       <h2>Examples</h2>
       <ul id="examples">
          <li>
-            <a href="/expath/http-client/post_basic.xsl">POST Basic</a> (<a href="/redir_src.xqy?/expath/http-client/post_basic.xsl" target="_blank">View Source</a>)
+            <a href="/expath/http-client/post_basic.xsl">POST Basic</a>
          </li>
          <li>
-            <a href="/expath/http-client/post_src.xsl">POST using @src</a> (<a href="/redir_src.xqy?/expath/http-client/post_src.xsl" target="_blank">View Source</a>)
+            <a href="/expath/http-client/post_src.xsl">POST using @src</a>
          </li>
          <li>
-            <a href="/expath/http-client/post_multipart.xsl">POST Multipart</a> (<a href="/redir_src.xqy?/expath/http-client/post_multipart.xsl" target="_blank">View Source</a>)
+            <a href="/expath/http-client/post_multipart.xsl">POST Multipart</a>
          </li>
       </ul>
 

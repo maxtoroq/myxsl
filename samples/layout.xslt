@@ -61,9 +61,6 @@
                <h3>About this page</h3>
                <ul>
                   <li>
-                     <a href="/redir_src.xqy" target="_blank">Source code</a>
-                  </li>
-                  <li>
                      <span>Processor: </span>
                      <span class="xsl-vendor">
                         <xsl:choose>

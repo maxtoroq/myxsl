@@ -33,9 +33,9 @@ p, ul { line-height: 130%; }
 h1, h2, h3, h4, h5, h6 { font-family: Calibri, Sans-Serif; color: #333; }
 ul { list-style-type: square; }
 
-a:link { color: #23778F; }
-a:visited { color: #23778F; }
-a:hover { color: #23778F; background-color: #c9dfe5; } 
+a:link { color: #08975c; }
+a:visited { color: #08975c; }
+a:hover { color: #08975c; background-color: #d1ede8; } 
 
 a[href^="http:"] {
 	padding-right: 13px;
@@ -62,7 +62,7 @@ form .error { color: Red; }
 #lo-header {  }
 #lo-logo { font-size: 250%; font-weight: bold; font-family: Calibri, Sans-Serif; }
 
-#lo-logo .myxsl { color: #2b91af; }
+#lo-logo .myxsl { color: #22af75; }
 #lo-logo .ab { color: Blue; }
 
 #lo-content { width: 70%; padding-right: 20px; border-right: solid 1px #dadada; }
